@@ -1,0 +1,202 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{latexsym, amsmath, amsthm, amssymb}
+
+\newcommand{\mc}[1]{{\mathcal{#1}}}
+\newcommand{\Rep}{\operatorname{Rep}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Eq}{\operatorname{Eq}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{theorem}[lemma]{Theorem}
+
+\title{Notes of the Fell topology}
+\author{Matt Daws}
+\date{Last knowing modified 16 March 2019}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We provide an overview of the Fell topology on the representation space of a
+$C^*$-algebra.  We then, in more detail, study this topology as applied to
+correspondences of von Neumann algebras.
+\end{abstract}
+
+\section{Introduction}
+
+Fell introduced the eponymously named topology in \cite{fell1}, and further
+refined the definitions and properties in \cite{fell2}.  Fix a $C^*$-algebra
+$A$.  Given a Hilbert space $H$, let $\Rep(A,H)$ be the collection of all
+non-zero $*$-homomorphisms $A\rightarrow\mc B(H)$.  For $\pi\in\Rep(A,H)$ the
+\emph{essential space} of $\pi$ is $H^\pi$, the closed linear span of
+$\{\pi(a)\xi : a\in A, \xi\in H\}$.  If $H^\pi = H$ then we say that $\pi$
+is \emph{non-degenerate}; otherwise $\pi$ is \emph{degenerate}, which we
+explicitly allow.  Finally, $\pi$ is \emph{irreducible} if $\pi$ restricted
+to $H^\pi$ is irreducible in the usual sense.
+
+We say that $\pi,\pi'\in\Rep(A,H)$ are \emph{equivalent} if there is a unitary
+from $H^\pi$ to $H^{\pi'}$ intertwining the representations.  In this case we
+write $\pi \sim \pi'$. We say that
+$\pi,\pi'$ are \emph{unitarily equivalent} if there is a unitary $U$ on $H$
+with $\pi'(a) U = U \pi(a)$ for each $a\in A$.  We write $\pi\cong\pi'$ in
+this case.
+
+\begin{lemma}
+$\pi\cong\pi'$ if and only if $\pi\sim\pi'$ and $(H^\pi)^\perp$ and 
+$(H^{\pi'})^\perp$ have the same dimension.
+\end{lemma}
+\begin{proof}
+Let $U$ intertwine $\pi$ and $\pi'$.
+As $U\pi(a)\xi = \pi'(a)U\xi$ it follows that $U(H^\pi) \subseteq H^{\pi'}$.
+As $U^*$ intertwines $\pi'$ and $\pi$, also $U^*(H^{\pi'}) \subseteq H^\pi$.
+It follows that $U$ restricts to a unitary between $H^\pi$ and $H^{\pi'}$.
+Hence $U$ also restricts to a unitary between $(H^\pi)^\perp$ and 
+$(H^{\pi'})^\perp$.
+
+Conversely, if $U$ is a unitary between $H^\pi$ and $H^{\pi'}$, and
+$(H^\pi)^\perp$ and $(H^{\pi'})^\perp$ have the same dimension, then
+we can extend $U$ to a unitary on all of $H$.
+\end{proof}
+
+Let $\rho:A\rightarrow\mc B(K)$ be a (possible degenerate) representation.
+If $\dim K \leq \dim H$, then by choosing an isometric embedding of $K$ into
+$H$, we may regard $\rho$ as a member of $\Rep(A,H)$, say $\pi$.  While $\rho$ depends on the embedding, the equivalence class of $\pi$, with respect to
+$\sim$, depends only on $\pi$.
+
+\section{The Fell topology}
+
+We define a topology on $\Rep(A,H)$ by taking a sub-basic set about $\pi$
+to be sets of the form
+\[ M_{a,\xi,\eta,\epsilon}(\pi) =
+\big\{ \pi'\in\Rep(A,H) : |(\eta|(\pi(a)-\pi'(a))\xi)|<\epsilon \big\} \]
+where $a\in A$, $\xi,\eta\in H$ and $\epsilon>0$.  Note that here and elsewhere
+our inner products are linear on the right.
+Equivalently, a net $(\pi_i)$ in $\Rep(A,H)$ converges to $\pi$ when
+$(\eta|\pi_i(a)\xi) \rightarrow (\eta|\pi(a)\xi)$ for each $a\in A$ and 
+$\xi,\eta\in H$.
+
+This is a simpler definition than in \cite{fell1}, but the equivalence
+is shown in \cite[?TODO?]{fell2}.  This topology is $T_0$ (given
+$\pi\not=\pi'$ there is an open set containing exactly one of these
+representations) but is not $T_1$ (so points need not be closed).  However,
+if we consider the subspace of non-degenerate representations, with the
+subspace topology, then the subspace is Hausdorff.
+
+For $S \subseteq \Rep(A,H)$ define
+\begin{align*}
+S^e &= \{ \pi'\in\Rep(A,H) : \pi\sim\pi' \text{ for some } \pi\in S \}, \\
+S^u &= \{ \pi'\in\Rep(A,H) : \pi\cong\pi' \text{ for some } \pi\in S \}.
+\end{align*}
+Then $S \subseteq S^u \subseteq S^e$.  Write $\Cl(S)$ for the closure of
+$S$ in $\Rep(A,H)$ for our topology.
+
+\begin{proposition}
+Given $S\subseteq\Rep(A,H)$ we have that:
+\begin{enumerate}
+\item $(\Cl S)^e \subseteq \Cl S^u$;
+\item $(\Cl S)^e \subseteq \Cl S^e$ and $(\Cl S)^u \subseteq \Cl S^u$;
+\item $\Cl S^e = \Cl S^u$;
+\item Let $S' \subseteq S$ with $S'$ being open in the subspace topology
+of $S$.  If $S=S^u$ then ${S'}^u$ is open in the subspace topology of $S$;
+if $S=S^e$ then ${S'}^e$ is open in the subspace topology of $S'$;
+\item If $S$ is open, then $S^e$ and $S^u$ are open;
+\item If $S = S^u$ then $(\Cl S)^u = (\Cl S)^e = \Cl S$.
+\end{enumerate}
+\end{proposition}
+
+We work with the equivalence relation $\sim$.  For $\pi\in\Rep(A,H)$ let
+$\Eq\pi$ the equivalence class of $\pi$.  For $S\subseteq\Rep(A,H)$ let
+$\Eq S$ be the collection $\{\Eq\pi : \pi \in S\}$.  Finally let $\Eq\Rep(A,H)$
+be the space of equivalence classes; we give this the quotient topology, so
+that $U\subseteq \Eq\Rep(A,H)$ is open when $\{\pi\in\Rep(A,H):\Eq\pi\in U\}$
+is open in $\Rep(A,H)$.
+
+Now consider $S\subseteq \Rep(A,H)$.  There are two ways to give $\Eq S$ a
+topology: either the subspace topology from $\Eq\Rep(A,H)$, or given $S$ the
+subspace topology from $\Rep(A,H)$, and then use the surjection $S\rightarrow
+\Eq S$ to give $\Eq S$ a topology.  In general these are different.
+
+\begin{proposition}
+Let $S=S^u$.  Then the two topologies on $\Eq S$ coincide.
+\end{proposition}
+
+
+\subsection{Spectrum of a $C^*$-algebra}
+
+Let $\hat A$ be the set of irreducible representations of $A$.  We give
+$\hat A$ the Hull-Kernel topology; equivalently, this can be described using
+the notion of weak containment.  Here we follow \cite[Chapter~3.4]{dix}.
+Recall that $f\in A^*$ is a \emph{positive form associated} to a representation
+$\pi:A\rightarrow\mc B(K)$ when there is $\xi\in K$ with
+$f(a) = (\xi|\pi(a)\xi)$ for $a\in A$.  Similarly we have the notion of
+a state associated to $\pi$.
+
+\begin{proposition}\label{prop:wkcon}
+Let $\pi$ be a representation of $A$, and let $S$ be a set of representations.
+The following are equivalent, and define what is means for $\pi$ to be
+\emph{weakly contained} in $S$:
+\begin{enumerate}
+\item\label{prop:wkcon:one}
+$\bigcap_{\rho\in S} \ker\rho \subseteq \ker\pi$;
+\item\label{prop:wkcon:two}
+Every positive form on $A$ associated to $\pi$ is the weak$^*$-limit
+of linear combinations of positive forms associated with $S$;
+\item\label{prop:wkcon:three}
+Every state on $A$ associated to $\pi$ is the weak$^*$-limit
+of states which are sums of positive forms associated with $S$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+That (\ref{prop:wkcon:three})$\implies$(\ref{prop:wkcon:two}) is clear.
+If (\ref{prop:wkcon:two}) holds then if $\rho(a)=0$ for all $\rho\in S$,
+then any positive form associated to $S$ will annihilate $a^*a$.
+Thus every positive form associated to $\pi$ annihilates $a^*a$, so
+$\pi(a)=0$, showing (\ref{prop:wkcon:one}).
+
+The final implication is harder.
+\end{proof}
+
+In the following notice that we need not take sums, unlike in the previous
+proposition.
+
+\begin{theorem}
+Let $\pi\in\hat A$ and let $S\subseteq\hat A$.  The following are equivalent:
+\begin{enumerate}
+\item $\pi$ is in the closure of $S$, with respect to the Hull-Kernel
+topology;
+\item $\pi$ is weakly contained in $S$;
+\item at least one non-zero positive form associated with $\pi$ is the
+weak$^*$-limit of positive forms associated with $S$;
+\item every state associated with $\pi$ is the weak$^*$-limit of states
+associated with $S$.
+\end{enumerate}
+\end{theorem}
+
+Let $S\subseteq\Rep(A,H)$ be the collection of irreducible representations.
+Then $\Eq S \subseteq \Eq\Rep(A,H)$ can be identified
+with the subset of $\hat A$ consisting of irreducible representations
+$\rho:A\rightarrow\mc B(K)$ with $\dim K\leq\dim H$.  Using this, give
+$\Eq S$ the subspace topology coming from the Hull-Kernel topology on $\hat A$.
+Alternatively, we note that clearly $S = S^u$, and so as above there is a
+uniquely defined quotient topology on $\Eq S$ coming from the topology
+on $\Rep(A,H)$.
+
+\begin{theorem}
+The Hull-Kernel, and quotient, topologies on $S$ coincide.
+\end{theorem}
+
+
+\begin{thebibliography}{99}
+
+\bibitem{dix} J. Dixmier, {\it $C\sp*$-algebras}, translated from the French by Francis Jellett, North-Holland Publishing Co., Amsterdam, 1977. MR0458185
+
+\bibitem{fell1} J. M. G. Fell, $C\sp{\ast} $-algebras with smooth dual, Illinois J. Math. {\bf 4} (1960), 221--230. MR0124754
+
+\end{thebibliography}
+
+
+\end{document}
