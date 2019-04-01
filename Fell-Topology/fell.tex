@@ -7,14 +7,22 @@
 \newcommand{\Rep}{\operatorname{Rep}}
 \newcommand{\Cl}{\operatorname{Cl}}
 \newcommand{\Eq}{\operatorname{Eq}}
+\newcommand{\Sp}{\operatorname{Sp}}
+\newcommand{\op}{{\operatorname{op}}}
+\newcommand{\bin}{{\operatorname{bin}}}
+\newcommand{\Corr}{{\operatorname{Corr}}}
 
 \newtheorem{lemma}{Lemma}
 \newtheorem{proposition}[lemma]{Proposition}
 \newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{definition}[lemma]{Definition}
+
 
 \title{Notes of the Fell topology}
 \author{Matt Daws}
 \date{Last knowing modified 16 March 2019}
+
+% 2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
 \begin{document}
 
@@ -66,6 +74,24 @@ Let $\rho:A\rightarrow\mc B(K)$ be a (possible degenerate) representation.
 If $\dim K \leq \dim H$, then by choosing an isometric embedding of $K$ into
 $H$, we may regard $\rho$ as a member of $\Rep(A,H)$, say $\pi$.  While $\rho$ depends on the embedding, the equivalence class of $\pi$, with respect to
 $\sim$, depends only on $\pi$.
+Further, notice that if $\rho:A\rightarrow\mc B(K)$ is irreducible (in the
+usual sense) then any $\pi\in\Rep(A,H)$ which we associate with $\rho$ is
+irreducible.
+
+If $\rho_i:A\rightarrow\mc B(K_i)$ for $i=1,2$ are representations,
+associated to $\pi_i\in\Rep(A,H)$, then notice that $\rho_1$ and $\rho_2$
+are unitarily equivalent (in the usual sense) if and only if $\pi_1\sim\pi_2$.
+Let us record these observations in a formal way.
+
+\begin{proposition}
+Let $R_0$ be the equivalence classes, for unitary equivalence, of
+representations of $A$ on Hilbert spaces $K$ of dimension $\leq\dim H$.
+There is a bijection between $R_0$ and the $\sim$ equivalence classes of
+$\Rep(A,H)$.
+\end{proposition}
+
+In particular, this bijection is used without comment in \cite[Section~2]{fell2}.
+
 
 \section{The Fell topology}
 
@@ -77,10 +103,12 @@ where $a\in A$, $\xi,\eta\in H$ and $\epsilon>0$.  Note that here and elsewhere
 our inner products are linear on the right.
 Equivalently, a net $(\pi_i)$ in $\Rep(A,H)$ converges to $\pi$ when
 $(\eta|\pi_i(a)\xi) \rightarrow (\eta|\pi(a)\xi)$ for each $a\in A$ and 
-$\xi,\eta\in H$.
+$\xi,\eta\in H$.  Finally, we note that this is also equivalent to
+\[ \|\pi_i(a)\xi - \pi(a)\xi\| \rightarrow 0 \qquad (a\in A,\xi\in H). \]
+To see this, expand out the square of the norm using the inner product.
 
 This is a simpler definition than in \cite{fell1}, but the equivalence
-is shown in \cite[?TODO?]{fell2}.  This topology is $T_0$ (given
+is shown in \cite[page~239]{fell2}.  This topology is $T_0$ (given
 $\pi\not=\pi'$ there is an open set containing exactly one of these
 representations) but is not $T_1$ (so points need not be closed).  However,
 if we consider the subspace of non-degenerate representations, with the
@@ -116,19 +144,23 @@ that $U\subseteq \Eq\Rep(A,H)$ is open when $\{\pi\in\Rep(A,H):\Eq\pi\in U\}$
 is open in $\Rep(A,H)$.
 
 Now consider $S\subseteq \Rep(A,H)$.  There are two ways to give $\Eq S$ a
-topology: either the subspace topology from $\Eq\Rep(A,H)$, or given $S$ the
+topology: either the subspace topology from $\Eq\Rep(A,H)$, or give $S$ the
 subspace topology from $\Rep(A,H)$, and then use the surjection $S\rightarrow
 \Eq S$ to give $\Eq S$ a topology.  In general these are different.
 
-\begin{proposition}
+\begin{proposition}\label{prop:uni_equiv_im_unique}
 Let $S=S^u$.  Then the two topologies on $\Eq S$ coincide.
 \end{proposition}
+
+For example, if $S$ is the collection of $\pi$ with $\dim H^\pi \leq \kappa$
+for some cardinal $\kappa$, then $S=S^u$, for if $\pi\cong\rho$ then clearly
+$H^\rho$ has the same dimension as $H^\pi$.
 
 
 \subsection{Spectrum of a $C^*$-algebra}
 
 Let $\hat A$ be the set of irreducible representations of $A$.  We give
-$\hat A$ the Hull-Kernel topology; equivalently, this can be described using
+$\hat A$ the Hull-Kernel topology.  This can be equivalently described using
 the notion of weak containment.  Here we follow \cite[Chapter~3.4]{dix}.
 Recall that $f\in A^*$ is a \emph{positive form associated} to a representation
 $\pi:A\rightarrow\mc B(K)$ when there is $\xi\in K$ with
@@ -160,10 +192,15 @@ $\pi(a)=0$, showing (\ref{prop:wkcon:one}).
 The final implication is harder.
 \end{proof}
 
-In the following notice that we need not take sums, unlike in the previous
+We write $\pi \prec S$ in this case.  If $S=\{\rho\}$ is a singleton, then we
+write $\pi\prec\rho$.  By condition (\ref{prop:wkcon:one}) we see that if
+$\pi\prec\rho$ and $\rho\prec\sigma$ then $\ker\sigma \subseteq \ker\rho
+\subseteq\ker\pi$ and so $\pi\prec\sigma$.
+
+In the following, notice that we need not take sums, unlike in the previous
 proposition.
 
-\begin{theorem}
+\begin{theorem}\label{thm:wk-con-irrep}
 Let $\pi\in\hat A$ and let $S\subseteq\hat A$.  The following are equivalent:
 \begin{enumerate}
 \item $\pi$ is in the closure of $S$, with respect to the Hull-Kernel
@@ -181,7 +218,8 @@ Then $\Eq S \subseteq \Eq\Rep(A,H)$ can be identified
 with the subset of $\hat A$ consisting of irreducible representations
 $\rho:A\rightarrow\mc B(K)$ with $\dim K\leq\dim H$.  Using this, give
 $\Eq S$ the subspace topology coming from the Hull-Kernel topology on $\hat A$.
-Alternatively, we note that clearly $S = S^u$, and so as above there is a
+Alternatively, we note that clearly $S = S^u$, and so
+Proposition~\ref{prop:uni_equiv_im_unique} tells us that there is a
 uniquely defined quotient topology on $\Eq S$ coming from the topology
 on $\Rep(A,H)$.
 
@@ -189,12 +227,364 @@ on $\Rep(A,H)$.
 The Hull-Kernel, and quotient, topologies on $S$ coincide.
 \end{theorem}
 
+There is a useful link between the quotient topology and weak containment which
+works for any representation (not necessarily irreducible).
+
+\begin{theorem}\label{thm:top_wk_con}
+Let $\pi\in\Rep(A,H)$ and let $T\subseteq\Rep(A,H)$.  Then $\pi \prec T$ if
+and only if $\Eq\pi$ is in the closure of $\Eq T_0$ in the quotient topology,
+where $T_0$ is the set of finite direct sums of members of $T$.
+\end{theorem}
+
+Another useful reference is \cite[Appendix~F]{bhv}.  While this reference only
+considers group representations, it is relatively easy to translate results
+back to $C^*$-algebras.  In particular, \cite[Definition~F.2.1]{bhv} defines
+\emph{Fell's Topology} as follows.  Let $\mc R$ be the unitary equivalence
+classes of representations of $A$, on a Hilbert space
+of cardinality less than some fixed cardinal.  A basic open set $W$ about
+$\pi\in\mc R$ is of the form $W = W(\pi,(\varphi_i)_{i=1}^n,Q,\epsilon)$,
+where $\epsilon>0, Q\subseteq A$ is finite, and the $\varphi_i$ are each
+positive forms associated to $\pi$.  There $\rho\in W$ exactly when for each
+$\varphi_i$ there is $\psi$, a sum of positive forms associated to $\rho$,
+with $|\varphi_i(a) - \psi(a)|<\epsilon$ for each $a\in Q$.
+
+In the following, as usual, we identify $\mc R$ and $\Eq\Rep(A,H)$.
+
+\begin{proposition}\label{prop:fells_is_quotient}
+Let $\pi\in\mc R$ and let $(\pi_i)$ be a net in $\mc R$.
+The following are equivalent:
+\begin{enumerate}
+\item\label{prop:fells_is_quotient:one}
+$\pi_i \rightarrow \pi$ for Fell's topology on $\mc R$;
+\item\label{prop:fells_is_quotient:two}
+for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, we have that
+$\pi\prec \bigoplus_j \pi_{i(j)}$;
+\item\label{prop:fells_is_quotient:three}
+for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, and letting $T_0$ be the collection
+of finite direct sums of $\{\pi_j\}$, we have that $\pi\prec T_0$;
+\item\label{prop:fells_is_quotient:four}
+for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, we have that
+$\pi$ is in the closure of $\{\pi_j\}$ for Fell's topology on $\mc R$;
+\item\label{prop:fells_is_quotient:six}
+for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, and letting $T_0$ be as before,
+we have that $\Eq\pi$ is in the closure of $\Eq T_0$, for the quotient topology.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+That (\ref{prop:fells_is_quotient:one}) and (\ref{prop:fells_is_quotient:two})
+are equivalent follows from the definition of Fell's topology on $\mc R$,
+see \cite[Proposition~F.2.2]{bhv}.  That (\ref{prop:fells_is_quotient:one})
+and (\ref{prop:fells_is_quotient:four}) are equivalent is a standard fact from
+point-set toplogy, see Appendix~\ref{app:one}.
+That (\ref{prop:fells_is_quotient:two}) and (\ref{prop:fells_is_quotient:three})
+are equivalent follows from the definition of weak containment (we can
+approximate a positive form associated with an infinite direct sum of
+representations by a form associated with a finite direct sum).
+That (\ref{prop:fells_is_quotient:three}) and (\ref{prop:fells_is_quotient:six})
+are equivalent follows immediately from Theorem~\ref{thm:top_wk_con}.
+\end{proof}
+
+Hence it seems to me that Fell's topology, and the quotient topology on
+$\Eq\Rep(A,H)$, do not agree (except on irreducibles).
+
+
+\subsection{The inner hull kernel topology}
+
+Let $X$ be any topological space, and let $C(X)$ be the family of closed subsets
+of $X$.  We define a topology on $C(X)$ by taking as basic open sets
+\[ U(A_1,\cdots,A_n) = \{ E\in C(X) : E \cap A_i\not=\emptyset \ (1 \leq i
+\leq n) \}, \]
+where $n\geq 1$ and each $A_i$ is open and non-empty in $X$.  This is the
+\emph{inner topology} on $C(X)$.
+
+For our $C^*$-algebra $A$, as before we consider $\Eq\Rep(A,H)$ to be (bijective
+with) the collection of all unitary equivalence classes of non-degenerate
+representations of $A$ on a Hilbert space of dimension $\leq\dim H$.  For
+$\rho\in\Rep(A,H)$ the \emph{spectrum}, $\Sp(\rho)$, is the collection of those
+$\pi\in\hat A$ with $\pi$ weakly contained in $\rho$.  Here we consider $\rho$
+as a non-degenerate representation of $A$ on $H^\rho$.  Clearly $\Sp(\rho)$ does 
+indeed only depend upon the equivalence class $\Eq\rho$.
+
+\begin{lemma}
+$\Sp(\rho)$ is closed in $\hat A$.
+\end{lemma}
+\begin{proof}
+For any $\sigma\in\Sp(\rho)$, by definition, $\sigma\prec\rho$, so by
+Proposition~\ref{prop:wkcon}, $\ker\rho \subseteq\ker\sigma$.  It follows
+that if $X = \bigcap_{\sigma\in\Sp(\rho)} \ker \sigma$, then $\ker\rho \subseteq
+X$.  Now let $\pi\in\hat A$ with $\pi\prec\Sp(\rho)$.  Then $X\subseteq\ker\pi$
+so $\ker\rho \subseteq\ker\pi$ so $\pi\prec\rho$ so $\pi\in\Sp(\rho)$.  We have
+shown that $\pi\prec\Sp(\rho) \implies \pi\in\Sp(\rho)$.  By 
+Theorem~\ref{thm:wk-con-irrep}, we conclude that $\Sp(\rho)$ is closed.
+\end{proof}
+
+\begin{lemma}\label{lem:supp_in_dual_A}
+For $\pi\in\hat A$, we have that $\Sp(\pi)$ equals the closure of $\{\pi\}$
+in $\hat A$.
+\end{lemma}
+\begin{proof}
+Follows directly from Theorem~\ref{thm:wk-con-irrep}.
+\end{proof}
+
+We define a closure operation on $\Eq\Rep(A,H)$ as follows.  For $S\subseteq
+\Eq\Rep(A,H)$ define $\rho\in\overline{S}$ exactly when $\Sp(\rho)$ is in the
+closure of $\{\Sp(\pi) : \pi\in S\}$ in $C(\hat A)$.  This defines the
+\emph{inner hull-kernel topology} on $\Eq\Rep(A,H)$.  That the Kuratowski
+closure axioms hold follows easily because they must hold for the closure
+operation in $C(\hat A)$.
+
+If $\pi,\rho\in\Rep(A,H)$ with $\pi\prec\rho$ and $\rho\prec\pi$ (that is,
+$\pi$ and $\rho$ are \emph{weakly equivalent}) then clearly $\Sp(\pi)=\Sp(\rho)$.
+It follows that the inner hull-kernel topology will not distinguish $\Eq\pi$
+and $\Eq\rho$.  In particular, it does not distinguish $\pi$ from a multiple
+of $\pi$.
+
+This definition seems terribly complicated to me, and Fell makes no further
+discussion.  There is an alternative presentation in \cite[Chapter~5]{kan},
+and in particular a very different definition in the form of
+\cite[Definition~5.5]{kan}.  We now show that these definitions actually agree.
+
+\begin{proposition}
+The inner hull-kernel topology on $\Eq\Rep(A,H)$ has as basic open
+sets collections of the form
+\[ \{\Eq\pi\in\Eq\Rep(A,H) : \Sp(\pi) \cap A_i\not=\emptyset \} \]
+where $A_1,\cdots,A_n\subseteq \hat A$ are open and non-empty.
+\end{proposition}
+\begin{proof}
+Let us abstract the definition of the closure operation of $\Eq\Rep(A,H)$.
+Let $Y$ be a set, $X$ a topological space, and $\theta:Y\rightarrow X$ a map.
+Define a closure operation on $Y$ as follows: for $S\subseteq Y$ define
+$t\in\overline{S}$ exactly when $\theta(t) \in \overline{\theta(S)}$.
+This gives the inner hull-kernel topology when we let $Y=\Eq\Rep(A,H), 
+X=C(\hat A)$ and let $\theta$ be the map $\Eq\pi \mapsto \Sp(\pi)$.
+
+Let $\tau=\{\theta^{-1}(U) : U\subseteq X \text{ is open}\}$ which is a
+topology on $Y$ (in fact the coarsest topology making $\theta$ continuous).
+For $S\subseteq Y$ we have that $t\in\overline{S}$ when, for any open $U\subseteq 
+X$ with $\theta(t)\in U$, we have that $\theta(S)\cap U\not=\emptyset$.
+Equivalently, for any $V\in\tau$ with $t\in V$, we have that $S\cap V\not=
+\emptyset$.  However, this is just the closure operation given by the topology
+$\tau$.
+
+Applied to $\Eq\Rep(A,H)$, we just pull back the topology on $C(\hat A)$
+using $\Sp$.  But pulling back the basic open sets in $C(\hat A)$ gives exactly
+the sets in the statement of the proposition.
+\end{proof}
+
+Restrict the inner hull-kernel topology to the irreducibles in $\Eq\Rep(A,H)$.
+By Lemma~\ref{lem:supp_in_dual_A}, the basic open sets are of the form
+$\{\Eq\pi : \overline{\{\pi\}} \cap A_i\not=\emptyset \}$ for non-empty, open
+$A_i$.  But $\overline{\{\pi\}} \cap A_i\not=\emptyset$ exactly when $\pi\in A_i$,
+and so we just recover the (subspace) topology of $\hat A$.  Thus, restricted
+to the irreducibles, the inner hull-kernel topology agrees with the hull-kernel
+topology on $\hat A$.
+
+We can describe the inner hull-kernel topology using positive forms.
+Notice that if $f\in A^*$ is a positive form associated with $\pi\in\Rep(A,H)$,
+then if $\pi\sim\rho$, also $f$ is associated to $\rho$.  Thus we may speak of
+$f$ being associated with an equivalence class $\Eq\pi$.
+
+For $\pi\Eq\Rep(A,H)$, we describe some sets containing $\pi$.  Let $\epsilon>0$,
+let $(f_i)_{i=1}^n$ be positive forms associated to $\pi$, and let $(a_i)_{i=1}^m
+\subseteq A$.  Define $U$ to be the collection of $\rho\in\Eq\Rep(A,H)$ such that
+there are $(g_i)_{i=1}^n$, positive forms associated to $\rho$, so that
+\begin{align*}
+    | f_i(a_j) - g_i(a_j) | <\epsilon \qquad (1\leq i\leq n, 1\leq j\leq m), \\
+    \big| \|f_i\| - \|g_i\| \big| < \epsilon \qquad (1\leq i\leq n).
+\end{align*}
+
+\begin{theorem}
+Such $U$ forms a basis of open\footnote{Fell does not say ``open'' in \cite{fell2}
+but I think such $U$ are open} neighbourhoods of $\pi$ for the inner hull-kernel
+topology.
+\end{theorem}
+
+Every open inner hull-kernel topology set is also open in the quotient topology
+on $\Eq\Rep(A,H)$, but the converse is not true.  Indeed, the inner hull-kernel
+topology cannot distinguish between a representation $\pi$ and multiples of
+$\pi$, while of course the quotient topology can.
+
+\begin{proposition}
+Let $S$ be the set of $\pi\in\Rep(A,H)$ such that $pi$ is equivalent to a
+countably-infinite multiple of $pi$.  Then the inner hull-kernel topology
+and the quotient topology agree on $\Eq S$.
+\end{proposition}
+
+We now turn attention to the presentation of the inner hull-kernel topology
+given in \cite[Chapter~5]{kan}.  This is in many ways easier to follow
+than Fell's original presentation; however, we must be a little careful as
+here we fix $H$ of sufficiently large size: the cardinality of $\dim(H)$ should
+be greater than or equal to the cardinality of $A$.  It is not clear to me
+how much this assumption is really used.
+
+\begin{proposition}
+Let $\pi\in\Rep(A,H)$ and $T\subseteq\Rep(A,H)$, and consider the following
+conditions:
+\begin{enumerate}
+\item\label{prop:wk_con_ihk:one} $\pi$ is weakly contained in $T$;
+\item\label{prop:wk_con_ihk:two} $\Sp(\pi)$ is contained in the closure of
+$\bigcup\{\Sp(\tau) : \tau\in T\}$ in $\hat A$;
+\item\label{prop:wk_con_ihk:three} $\Eq\pi$ belongs to the inner hull-kernel
+topology of $\Eq T$ in $\Eq\Rep(A,H)$.
+\end{enumerate}
+Then (\ref{prop:wk_con_ihk:three}) $\Rightarrow $(\ref{prop:wk_con_ihk:two})
+$\Leftrightarrow$ (\ref{prop:wk_con_ihk:one}), and if $\pi$ is irreducible,
+then also (\ref{prop:wk_con_ihk:two}) $\Rightarrow$
+(\ref{prop:wk_con_ihk:three}).
+\end{proposition}
+
+We can apply this abstract work to the $C^*$-algebra $C^*(G)$; one can
+describe the topology in terms of the group alone.  Of note is the result
+that the operation of taking the tensor product is jointly continuous for
+the inner hull-kernel topology.
+
+
+\section{Correspondences}
+
+We now apply the above to the study of correspondences of von Neumann algebras.
+There is a nice summary of results in \cite[page~316]{ad1}.  There is more
+discussion in \cite[Section~1.12]{ad2}, which references the original \cite{cj}.
+[\footnote{More brief lit review here?}]
+
+A \emph{correspondence} between von Neumann algebras $M$ and $N$ is a Hilbert
+space $H$ with commuting normal representations of $M$ and $N^\op$.  Here we
+work with $N^\op$ so as to regard $N$ as a \emph{right} action of $N$ on $H$.
+We hence write $x\xi y$ for $x\in M, y\in N, \xi\in H$.
+We can linearise this bilinear definition by using the \emph{binormal}
+tensor product, as defined in \cite{el}.  This gives a $C^*$-algebra norm on
+the algebraic tensor product $M\odot N^\op$, leading to the completion
+$M\otimes_{\bin}N^\op$.  Of interest is \cite[Theorem~4.1]{el} which shows
+that $M$ is semidiscrete if and only if $M\otimes_\bin N^\op = M\otimes_{\min}
+N^\op$ for all $N$, where $M\otimes_{\min} N^\op$ is the $C^*$-algebraic
+spatial tensor product.
+
+Write $\Corr(M,N)$ for the collection of all correspondences $H$ from $M$ to
+$N$, where the dimension of $H$ does not exceed some fixed cardinal.
+The definition from \cite{cj} and \cite[Section~1.12]{ad2} is that a basic
+open neighbourhood of $H_0\in\Corr(M,N)$ is of the form
+\[ U=U(H_0; \epsilon,E,F,S) =
+\big\{ H : \exists (k_i)_{i=1}^n\subseteq H, \ 
+|(k_i|xk_jy) - (h_i|xh_jy)|<\epsilon \ 
+(x\in E, y\in F, 1\leq i,j\leq n)
+\big\}. \]
+Here $E\subseteq M, F\subseteq N$ are finite subsets, $\epsilon>0$, and
+$S=(h_i)_{i=1}^n \subseteq H_0$.
+
+It is stated without justification that this is the Fell topology on
+$M\otimes_\bin N^\op$.  It seems to me that there is some work here!
+
+Alternatively, we can think of correspondences as self-dual Hilbert 
+$C^*$-bimodules, see \cite{ad1, ad2}.  That is, self-dual Hilbert $C^*$-modules
+$X$ over $N$ (so $X$ is a right module over $N$, and $X$ has an $N$-valued
+inner product) together with a normal $*$-homomorphism from $M$ to the
+adjointable operators on $X$, turning $X$ into a left $M$-module.
+
+The associated topology on bimodules is as follows (following
+\cite[Section~1.12]{ad2}).  Write $C(M,N)$ for the $M$-$N$-bimodules.  A basic
+open neighbourhood of $X_0\in C(M,N)$ is of the form
+\[ V=V(X_0; \mc V, E,S) = \big\{
+X : \exists(\eta_i)_{i=1}^n\subseteq X, \ 
+(\eta_i|x\eta_j) - (\xi_i|x\xi_j) \in\mc V \ 
+(1\leq i,j\leq n, x\in E)
+\big\}. \]
+Here $\mc V$ is weak$^*$-open neighbourhood of $0$ in $N$, $E\subseteq M$ is
+finite, and $(\xi_i)_{i=1}^n \subseteq X_0$.
+
+
+\subsection{Equivalence with the Fell topology}
+
+We first translate the above topology on correspondences into a statement about
+representations.  Let $H$ be a Hilbert space of dimension our fixed cardinal,
+let $A = M \otimes_{\bin} N^\op$, and consider $\Rep(A,H)$.  Given a
+correspondence $K$ from $M$ to $N$, we can equivalently view $K$ as a
+representation $\rho : A\rightarrow\mc B(K)$.  As $\dim K\leq \dim H$ by our
+standing assumption, there is an isometry $v:K\rightarrow H$.  Set $\pi(a)
+= v\rho(a)v^*$ for $a\in A$, so that $\pi\in\Rep(A,H)$ with $H^\pi = v(K)$.
+If $\pi\cong\sigma$ then composing the unitary implementing this equivalence
+with $v$, we see that $\sigma$, restricted to $H^\sigma$, is unitarily
+equivalent to $\rho$.  A similar remark replies in the case when $\pi\sim\sigma$.
+Thus $\Eq\pi$ depends only on $\rho$, and not the choice of $v$.
+
+The topology on $\Corr(M,N)$, viewed as representations of $A$, has as basic
+open sets about $\pi_0$ sets of the form
+\[ U' = U'(\pi_0; \epsilon, E, S)
+= \big\{ \pi : \exists (k_i)_{i=1}^n\subseteq H, \ 
+|(k_i|\pi(a)k_j) - (h_i|\pi_0(a)h_j)|<\epsilon \ 
+(a\in E, 1\leq i,j\leq n)
+\big\}. \]
+Here $E\subseteq M\odot N^\op$ is finite, $\epsilon>0$, and
+$S=(h_i)_{i=1}^n \subseteq H_0$.  A tedious but routine argument shows that if
+we allow $S\subseteq A$ finite, then we obtain the same topology.
+
+
+
+
+
+\appendix
+\section{Point-set topology}\label{app:one}
+
+\begin{definition}
+A \emph{directed set} is a set $I$ with a relation $\leq$ such that:
+$i\leq j$ and $j\leq k$ implies $i\leq k$; if $i\leq j$ and $j\leq i$ then
+$i=j$; for any $i,j\in I$ there is $k\in I$ with $i\leq k$ and $j\leq k$.
+
+A \emph{net} in a set $X$ is a function $I\rightarrow X$ from some directed
+set $I$.  We typically write $(x_i)_{i\in I}$ for a net.
+
+A \emph{subnet} of a net $(x_i)_{i\in I}$ is a function $J\rightarrow I$,
+with $J$ a directed set, written as $j\mapsto i(j)$, and the subnet denoted
+by $(x_{i(j)})_{j\in J}$, with: $j_1\leq j_2$ implies that $i(j_1)\leq i(j_2)$,
+and for each $i'\in I$ there is $j\in J$ with $i'\leq i(j)$.
+\end{definition}
+
+We recall that in a topological space $X$ we say that a net $(x_i)$ converges
+to $x$ if for each open set $x\in U$ there is $i_0$ so that $i\leq i_0$ implies
+that $x_i\in U$.
+
+\begin{proposition}
+If a net $(x_i)$ converges to $x$ then any subnet $(x_{i(j)})_{j\in J}$
+also converges to $x$.
+\end{proposition}
+\begin{proof}
+Exercise.
+\end{proof}
+
+\begin{proposition}
+A net $(x_i)$ converges to $x$ if and only if, for any subnet
+$(x_{i(j)})_{j\in J}$, the closure of $\{ x_{i(j)} : j\in J \}$ contains $x$.
+\end{proposition}
+\begin{proof}
+``only if'' follows from the previous proposition.  We show the contrapositive
+of ``if'', so suppose that $(x_i)$ does not converge to $x$.  So there is an
+open set $x\in U$ so that for each $i_0\in I$ there is $i\geq i_0$ with $x_i
+\not\in U$.  Let $J = \{ i\in I : x_i\not\in U \}$, and give $J$ the relative
+ordering from $I$.  Given $i,j\in J$ there is $k_0\in I$ with $k_0\geq i,
+k_0\geq j$.  By assumption, there is $k\in A$ with $k\geq k_0$, so that $k\geq i,
+k\geq j$.  Thus $J$ is a directed set, and furthermore, the inclusion
+$J\rightarrow I$ defines a subnet.  As $U \cap \{ x_j : j\in J \}$ is empty,
+the closure of $\{ x_j : j\in J \}$ is disjoint from $x$, as required.
+\end{proof}
+
 
 \begin{thebibliography}{99}
 
+\bibitem{ad1} C. Anantharaman-Delaroche, Amenable correspondences and approximation properties for von Neumann algebras, Pacific J. Math. {\bf 171} (1995), no.~2, 309--341. MR1372231
+
+\bibitem{ad2} C. Anantharaman-Delaroche, On relative amenability for von Neumann algebras, Compositio Math. {\bf 74} (1990), no.~3, 333--352. MR1055700
+
+\bibitem{bhv} Bekka et al. Prop (T) book TODO.
+
+\bibitem{cj} A. Connes\ and\ V. Jones, Property $T$ for von Neumann algebras, Bull. London Math. Soc. {\bf 17} (1985), no.~1, 57--62. MR0766450
+
 \bibitem{dix} J. Dixmier, {\it $C\sp*$-algebras}, translated from the French by Francis Jellett, North-Holland Publishing Co., Amsterdam, 1977. MR0458185
 
+\bibitem{el} E. G. Effros\ and\ E. C. Lance, Tensor products of operator algebras, Adv. Math. {\bf 25} (1977), no.~1, 1--34. MR0448092
+
 \bibitem{fell1} J. M. G. Fell, $C\sp{\ast} $-algebras with smooth dual, Illinois J. Math. {\bf 4} (1960), 221--230. MR0124754
+
+\bibitem{fell2} J. M. G. Fell, Weak containment and induced representations of groups, Canad. J. Math. {\bf 14} (1962), 237--268. MR0150241
+
+\bibitem{kan} E. Kaniuth\ and\ K. F. Taylor, {\it Induced representations of locally compact groups}, Cambridge Tracts in Mathematics, 197, Cambridge University Press, Cambridge, 2013. MR3012851
 
 \end{thebibliography}
 
