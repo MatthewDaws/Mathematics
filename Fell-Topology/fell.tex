@@ -90,7 +90,8 @@ There is a bijection between $R_0$ and the $\sim$ equivalence classes of
 $\Rep(A,H)$.
 \end{proposition}
 
-In particular, this bijection is used without comment in \cite[Section~2]{fell2}.
+In particular, this bijection is used without comment in
+\cite[Section~2]{fell2}.
 
 
 \section{The Fell topology}
@@ -99,16 +100,19 @@ We define a topology on $\Rep(A,H)$ by taking a sub-basic set about $\pi$
 to be sets of the form
 \[ M_{a,\xi,\eta,\epsilon}(\pi) =
 \big\{ \pi'\in\Rep(A,H) : |(\eta|(\pi(a)-\pi'(a))\xi)|<\epsilon \big\} \]
-where $a\in A$, $\xi,\eta\in H$ and $\epsilon>0$.  Note that here and elsewhere
-our inner products are linear on the right.
+where $a\in A$, $\xi,\eta\in H^\pi$ and $\epsilon>0$, or of the form
+\[ P_{\xi,\epsilon}(T) = \{ \pi'\in\Rep(A,H) : \|P^{\pi'}\xi - \xi\|
+< \epsilon \} \]
+where $\xi\in H^\pi, \epsilon>0$, where $P^{\pi'}$ is the orthogonal
+projection of $H$ onto $H^{\pi'}$.  Note that here
+and elsewhere our inner products are linear on the right.
 Equivalently, a net $(\pi_i)$ in $\Rep(A,H)$ converges to $\pi$ when
-$(\eta|\pi_i(a)\xi) \rightarrow (\eta|\pi(a)\xi)$ for each $a\in A$ and 
-$\xi,\eta\in H$.  Finally, we note that this is also equivalent to
-\[ \|\pi_i(a)\xi - \pi(a)\xi\| \rightarrow 0 \qquad (a\in A,\xi\in H). \]
-To see this, expand out the square of the norm using the inner product.
+\[ \|\pi_i(a)\xi - \pi(a)\xi\| \rightarrow 0 \qquad (a\in A,\xi\in H^\pi). \]
+The equivalence between these definitions is shown in \cite[page~239]{fell2}.
+Further, by expanding norms in terms of inner products, it follows that
+the $M_{a,\xi,\eta,\epsilon}$ sets alone will be sub-basic.
 
-This is a simpler definition than in \cite{fell1}, but the equivalence
-is shown in \cite[page~239]{fell2}.  This topology is $T_0$ (given
+This topology is $T_0$ (given
 $\pi\not=\pi'$ there is an open set containing exactly one of these
 representations) but is not $T_1$ (so points need not be closed).  However,
 if we consider the subspace of non-degenerate representations, with the
@@ -406,8 +410,8 @@ topology cannot distinguish between a representation $\pi$ and multiples of
 $\pi$, while of course the quotient topology can.
 
 \begin{proposition}
-Let $S$ be the set of $\pi\in\Rep(A,H)$ such that $pi$ is equivalent to a
-countably-infinite multiple of $pi$.  Then the inner hull-kernel topology
+Let $S$ be the set of $\pi\in\Rep(A,H)$ such that $\pi$ is equivalent to a
+countably-infinite multiple of $\pi$.  Then the inner hull-kernel topology
 and the quotient topology agree on $\Eq S$.
 \end{proposition}
 
@@ -426,7 +430,7 @@ conditions:
 \item\label{prop:wk_con_ihk:two} $\Sp(\pi)$ is contained in the closure of
 $\bigcup\{\Sp(\tau) : \tau\in T\}$ in $\hat A$;
 \item\label{prop:wk_con_ihk:three} $\Eq\pi$ belongs to the inner hull-kernel
-topology of $\Eq T$ in $\Eq\Rep(A,H)$.
+topology closure of $\Eq T$ in $\Eq\Rep(A,H)$.
 \end{enumerate}
 Then (\ref{prop:wk_con_ihk:three}) $\Rightarrow $(\ref{prop:wk_con_ihk:two})
 $\Leftrightarrow$ (\ref{prop:wk_con_ihk:one}), and if $\pi$ is irreducible,
@@ -460,7 +464,14 @@ N^\op$ for all $N$, where $M\otimes_{\min} N^\op$ is the $C^*$-algebraic
 spatial tensor product.
 
 Write $\Corr(M,N)$ for the collection of all correspondences $H$ from $M$ to
-$N$, where the dimension of $H$ does not exceed some fixed cardinal.
+$N$.  Then $\Corr(M,N)$ bijects with the representations of $A = 
+M\otimes_\bin N^\op$, say $\pi:A\rightarrow\mc B(H)$ such that the restriction
+of $\pi$ to $M$ and $N^\op$ are normal (that is, $\pi$ is separately normal).
+Let $S\subseteq\Rep(A,H)$ be the binormal representation.  It is easy to see
+that $S = S^e = S^u$, and so the quotient topology on $\Eq S$ is well-defined.
+
+Now restrict $\Corr(M,N)$ to be the correspondences whose Hilbert space
+dimension does not exceed some fixed cardinal.
 The definition from \cite{cj} and \cite[Section~1.12]{ad2} is that a basic
 open neighbourhood of $H_0\in\Corr(M,N)$ is of the form
 \[ U=U(H_0; \epsilon,E,F,S) =
@@ -481,7 +492,9 @@ inner product) together with a normal $*$-homomorphism from $M$ to the
 adjointable operators on $X$, turning $X$ into a left $M$-module.
 
 The associated topology on bimodules is as follows (following
-\cite[Section~1.12]{ad2}).  Write $C(M,N)$ for the $M$-$N$-bimodules.  A basic
+\cite[Section~1.12]{ad2} although we note that the proof presented in \cite{ad2}
+assumes that $N$ and $M$ are $\sigma$-finite).  Write $C(M,N)$ for the
+$M$-$N$-bimodules.  A basic
 open neighbourhood of $X_0\in C(M,N)$ is of the form
 \[ V=V(X_0; \mc V, E,S) = \big\{
 X : \exists(\eta_i)_{i=1}^n\subseteq X, \ 
@@ -514,10 +527,14 @@ open sets about $\pi_0$ sets of the form
 (a\in E, 1\leq i,j\leq n)
 \big\}. \]
 Here $E\subseteq M\odot N^\op$ is finite, $\epsilon>0$, and
-$S=(h_i)_{i=1}^n \subseteq H_0$.  A tedious but routine argument shows that if
+$S=(h_i)_{i=1}^n \subseteq H_0$.  A tedious but routine argument
+(compare to Section~\ref{app:app_to_fell}) shows that if
 we allow $S\subseteq A$ finite, then we obtain the same topology.
+Notice also that these sets satisfy the conditions of 
+Theorem~\ref{thm:when_have_basis_nhoods} and so do indeed define a unique
+topology.
 
-
+[\footnote{To be finished.}]
 
 
 
@@ -588,7 +605,7 @@ and if $U\subseteq X$ is open and contains $x$,
 there is $A\in \mc U_x$ with $A\subseteq U$.
 \end{enumerate}
 
-\begin{theorem}
+\begin{theorem}\label{thm:when_have_basis_nhoods}
 Let $X$ be a set and $(\mc U_x)_{x\in X}$ satisfy (\ref{defn:bon:one}).
 There is a topology on $X$ with (\ref{defn:bon:two}) holding if and only if:
 \begin{enumerate}\setcounter{enumi}{2}
@@ -641,7 +658,7 @@ $\mc V_x$ and still generate the same topology (for example, the $\tau_1$
 generated will clearly be the same).
 
 
-\subsubsection{Application to the Fell topology}
+\subsubsection{Application to the Fell topology}\label{app:app_to_fell}
 
 We defined the topology on $\Rep(A,H)$ by specifying as sub-basic sets
 $\{ \pi'\in\Rep(A,H) : |(\eta|(\pi(a)-\pi'(a))\xi)|<\epsilon \}$.  That is,
