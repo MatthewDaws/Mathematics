@@ -16,11 +16,12 @@
 \newtheorem{proposition}[lemma]{Proposition}
 \newtheorem{theorem}[lemma]{Theorem}
 \newtheorem{definition}[lemma]{Definition}
+\newtheorem{corollary}[lemma]{Corollary}
 
 
 \title{Notes of the Fell topology}
 \author{Matt Daws}
-\date{Last knowing modified 1 April 2019}
+\date{Last knowing modified 31 May 2019}
 
 % 2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
@@ -83,7 +84,7 @@ associated to $\pi_i\in\Rep(A,H)$, then notice that $\rho_1$ and $\rho_2$
 are unitarily equivalent (in the usual sense) if and only if $\pi_1\sim\pi_2$.
 Let us record these observations in a formal way.
 
-\begin{proposition}
+\begin{proposition}\label{prop:eq_classes}
 Let $R_0$ be the equivalence classes, for unitary equivalence, of
 representations of $A$ on Hilbert spaces $K$ of dimension $\leq\dim H$.
 There is a bijection between $R_0$ and the $\sim$ equivalence classes of
@@ -147,6 +148,13 @@ $\Eq S$ be the collection $\{\Eq\pi : \pi \in S\}$.  Finally let $\Eq\Rep(A,H)$
 be the space of equivalence classes; we give this the quotient topology, so
 that $U\subseteq \Eq\Rep(A,H)$ is open when $\{\pi\in\Rep(A,H):\Eq\pi\in U\}$
 is open in $\Rep(A,H)$.
+
+\begin{definition}\label{defn:quot_top}
+The \emph{quotient topology} on $\Eq\Rep(A,H)$ is the topology just described.
+By Proposition~\ref{prop:eq_classes}, this topology is also defined on the
+unitary equivalence classes of representations on Hilbert spaces of dimension no
+greater than $\dim H$.
+\end{definition}
 
 Now consider $S\subseteq \Rep(A,H)$.  There are two ways to give $\Eq S$ a
 topology: either the subspace topology from $\Eq\Rep(A,H)$, or give $S$ the
@@ -241,59 +249,9 @@ and only if $\Eq\pi$ is in the closure of $\Eq T_0$ in the quotient topology,
 where $T_0$ is the set of finite direct sums of members of $T$.
 \end{theorem}
 
-Another useful reference is \cite[Appendix~F]{bhv}.  While this reference only
-considers group representations, it is relatively easy to translate results
-back to $C^*$-algebras.  In particular, \cite[Definition~F.2.1]{bhv} defines
-\emph{Fell's Topology} as follows.  Let $\mc R$ be the unitary equivalence
-classes of representations of $A$, on a Hilbert space
-of cardinality less than some fixed cardinal.  A basic open set $W$ about
-$\pi\in\mc R$ is of the form $W = W(\pi,(\varphi_i)_{i=1}^n,Q,\epsilon)$,
-where $\epsilon>0, Q\subseteq A$ is finite, and the $\varphi_i$ are each
-positive forms associated to $\pi$.  There $\rho\in W$ exactly when for each
-$\varphi_i$ there is $\psi$, a sum of positive forms associated to $\rho$,
-with $|\varphi_i(a) - \psi(a)|<\epsilon$ for each $a\in Q$.
-
-In the following, as usual, we identify $\mc R$ and $\Eq\Rep(A,H)$.
-
-\begin{proposition}\label{prop:fells_is_quotient}
-Let $\pi\in\mc R$ and let $(\pi_i)$ be a net in $\mc R$.
-The following are equivalent:
-\begin{enumerate}
-\item\label{prop:fells_is_quotient:one}
-$\pi_i \rightarrow \pi$ for Fell's topology on $\mc R$;
-\item\label{prop:fells_is_quotient:two}
-for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, we have that
-$\pi\prec \bigoplus_j \pi_{i(j)}$;
-\item\label{prop:fells_is_quotient:three}
-for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, and letting $T_0$ be the collection
-of finite direct sums of $\{\pi_j\}$, we have that $\pi\prec T_0$;
-\item\label{prop:fells_is_quotient:four}
-for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, we have that
-$\pi$ is in the closure of $\{\pi_j\}$ for Fell's topology on $\mc R$;
-\item\label{prop:fells_is_quotient:six}
-for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, and letting $T_0$ be as before,
-we have that $\Eq\pi$ is in the closure of $\Eq T_0$, for the quotient topology.
-\end{enumerate}
-\end{proposition}
-\begin{proof}
-That (\ref{prop:fells_is_quotient:one}) and (\ref{prop:fells_is_quotient:two})
-are equivalent follows from the definition of Fell's topology on $\mc R$,
-see \cite[Proposition~F.2.2]{bhv}.  That (\ref{prop:fells_is_quotient:one})
-and (\ref{prop:fells_is_quotient:four}) are equivalent is a standard fact from
-point-set toplogy, see Appendix~\ref{app:one}.
-That (\ref{prop:fells_is_quotient:two}) and (\ref{prop:fells_is_quotient:three})
-are equivalent follows from the definition of weak containment (we can
-approximate a positive form associated with an infinite direct sum of
-representations by a form associated with a finite direct sum).
-That (\ref{prop:fells_is_quotient:three}) and (\ref{prop:fells_is_quotient:six})
-are equivalent follows immediately from Theorem~\ref{thm:top_wk_con}.
-\end{proof}
-
-Hence it seems to me that Fell's topology, and the quotient topology on
-$\Eq\Rep(A,H)$, do not agree (except on irreducibles).
 
 
-\subsection{The inner hull kernel topology}
+\subsection{The inner hull kernel topology}\label{sec:innertop}
 
 Let $X$ be any topological space, and let $C(X)$ be the family of closed subsets
 of $X$.  We define a topology on $C(X)$ by taking as basic open sets
@@ -323,6 +281,16 @@ shown that $\pi\prec\Sp(\rho) \implies \pi\in\Sp(\rho)$.  By
 Theorem~\ref{thm:wk-con-irrep}, we conclude that $\Sp(\rho)$ is closed.
 \end{proof}
 
+In fact, more is true:
+
+\begin{theorem}[{\cite[Theorem~1.6]{fell4}}]\label{thm:spec_closure}
+$Sp(\rho)$ is the unique closed subset of $\hat A$ weakly equivalent to $\rho$.
+\end{theorem}
+\begin{proof}[Sketch]
+That $\Sp(\rho) \prec \rho$ is easy to see; that $\rho \prec \Sp(\rho)$ requires
+considering extreme points of states (in order to obtain members of $\hat A$).
+\end{proof}
+
 \begin{lemma}\label{lem:supp_in_dual_A}
 For $\pi\in\hat A$, we have that $\Sp(\pi)$ equals the closure of $\{\pi\}$
 in $\hat A$.
@@ -349,7 +317,7 @@ discussion.  There is an alternative presentation in \cite[Chapter~5]{kan},
 and in particular a very different definition in the form of
 \cite[Definition~5.5]{kan}.  We now show that these definitions actually agree.
 
-\begin{proposition}
+\begin{proposition}\label{prop:inner_hk_top}
 The inner hull-kernel topology on $\Eq\Rep(A,H)$ has as basic open
 sets collections of the form
 \[ \{\Eq\pi\in\Eq\Rep(A,H) : \Sp(\pi) \cap A_i\not=\emptyset \} \]
@@ -389,16 +357,18 @@ Notice that if $f\in A^*$ is a positive form associated with $\pi\in\Rep(A,H)$,
 then if $\pi\sim\rho$, also $f$ is associated to $\rho$.  Thus we may speak of
 $f$ being associated with an equivalence class $\Eq\pi$.
 
-For $\pi\Eq\Rep(A,H)$, we describe some sets containing $\pi$.  Let $\epsilon>0$,
+For $\pi\in\Eq\Rep(A,H)$, we describe some sets containing $\pi$.  Let $\epsilon>0$,
 let $(f_i)_{i=1}^n$ be positive forms associated to $\pi$, and let $(a_i)_{i=1}^m
 \subseteq A$.  Define $U$ to be the collection of $\rho\in\Eq\Rep(A,H)$ such that
-there are $(g_i)_{i=1}^n$, positive forms associated to $\rho$, so that
+there are $(g_i)_{i=1}^n$, each a \emph{sum} of positive forms associated to $\rho$,
+with
 \begin{align*}
     | f_i(a_j) - g_i(a_j) | <\epsilon \qquad (1\leq i\leq n, 1\leq j\leq m), \\
     \big| \|f_i\| - \|g_i\| \big| < \epsilon \qquad (1\leq i\leq n).
 \end{align*}
 
-\begin{theorem}
+\begin{theorem}[{\cite[Theorem~2.1]{fell2}, \cite[Theorem~5.9]{kan}}]
+\label{thm:ihkt_pos_fns}
 Such $U$ forms a basis of open\footnote{Fell does not say ``open'' in \cite{fell2}
 but I think such $U$ are open} neighbourhoods of $\pi$ for the inner hull-kernel
 topology.
@@ -409,7 +379,7 @@ on $\Eq\Rep(A,H)$, but the converse is not true.  Indeed, the inner hull-kernel
 topology cannot distinguish between a representation $\pi$ and multiples of
 $\pi$, while of course the quotient topology can.
 
-\begin{proposition}
+\begin{proposition}[{\cite[Lemma~2.4]{fell2}}]
 Let $S$ be the set of $\pi\in\Rep(A,H)$ such that $\pi$ is equivalent to a
 countably-infinite multiple of $\pi$.  Then the inner hull-kernel topology
 and the quotient topology agree on $\Eq S$.
@@ -422,7 +392,7 @@ here we fix $H$ of sufficiently large size: the cardinality of $\dim(H)$ should
 be greater than or equal to the cardinality of $A$.  It is not clear to me
 how much this assumption is really used.
 
-\begin{proposition}
+\begin{proposition}[{\cite[Proposition~5.11]{kan}}]
 Let $\pi\in\Rep(A,H)$ and $T\subseteq\Rep(A,H)$, and consider the following
 conditions:
 \begin{enumerate}
@@ -442,6 +412,88 @@ We can apply this abstract work to the $C^*$-algebra $C^*(G)$; one can
 describe the topology in terms of the group alone.  Of note is the result
 that the operation of taking the tensor product is jointly continuous for
 the inner hull-kernel topology.
+
+We now consider \cite{fell3}.  This is mostly a paper about the representation
+theory of groups, but there is a useful summary of results about inner
+hull-kernel topology.
+
+\begin{theorem}\label{thm:ihkt_char}
+Consider the inner hull-kernel topology on $\Eq\Rep(A,H)$, and by an abuse of
+notation, pull this back to a topology on $\Rep(A,H)$.  Then:
+\begin{enumerate}
+\item{\cite[Proposition~1.2]{fell3}}\label{thm:ihkt_char:one}
+A net $(\pi_i)$ in $\Rep(A,H)$ converges
+to $\pi$ if and only if, for every subnet $(\pi_{i(j)})$, we have that
+$\pi \prec \{ \pi_{i(j)} \}$.
+\item{\cite[Proposition~1.3]{fell3}}\label{thm:ihkt_char:two}
+If $\pi_i\rightarrow\pi$ and
+$\rho\prec\pi$, then also $\pi_i\rightarrow\rho$.
+\item{\cite[Proposition~1.4]{fell3}}\label{thm:ihkt_char:three}
+We have that $\pi_i\rightarrow\pi$ if and
+only if, for each $a\in A$, we have $\|\pi(a)\| \leq \liminf_i \|\pi_i(a)\|$.
+\end{enumerate}
+\end{theorem}
+
+\cite{fell3} offers no proofs.  However, \cite[Lemma~5.7]{kan} proves
+(\ref{thm:ihkt_char:one}) and (\ref{thm:ihkt_char:two}) (notice that once we
+know (\ref{thm:ihkt_char:one}), then (\ref{thm:ihkt_char:two}) follows easily.)
+See Appendix~\ref{app:iht_proofs}.
+
+Another useful reference is \cite[Appendix~F]{bhv}.  While this reference only
+considers group representations, it is relatively easy to translate results
+back to $C^*$-algebras.  In particular, \cite[Definition~F.2.1]{bhv} defines
+\emph{Fell's Topology} as follows.  Let $\mc R$ be the unitary equivalence
+classes of representations of $A$, on a Hilbert space
+of cardinality less than some fixed cardinal.  A basic open set $W$ about
+$\pi\in\mc R$ is of the form $W = W(\pi,(\varphi_i)_{i=1}^n,Q,\epsilon)$,
+where $\epsilon>0, Q\subseteq A$ is finite, and the $\varphi_i$ are each
+positive forms associated to $\pi$.  There $\rho\in W$ exactly when for each
+$\varphi_i$ there is $\psi$, a sum of positive forms associated to $\rho$,
+with $|\varphi_i(a) - \psi(a)|<\epsilon$ for each $a\in Q$.  This is very close
+to the basic open sets considered above in Theorem~\ref{thm:ihkt_pos_fns}
+but without the 2nd condition: this might be an artifact of me incorrectly
+translating from the group to the $C^*$-algebra case.\footnote{If $A$ is unital
+then one of our test elements $a_j$ could be the unit, which immediately implies
+the 2nd condition.}
+
+In the following, as usual, we identify $\mc R$ and $\Eq\Rep(A,H)$ for a
+sufficiently large $H$.
+
+\begin{proposition}\label{prop:fells_is_quotient}
+Let $\pi\in\mc R$ and let $(\pi_i)$ be a net in $\mc R$.
+The following are equivalent:
+\begin{enumerate}
+\item\label{prop:fells_is_quotient:one}
+$\pi_i \rightarrow \pi$ for Fell's topology on $\mc R$;
+\item\label{prop:fells_is_quotient:two}
+for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, we have that
+$\pi\prec \bigoplus_j \pi_{i(j)}$;
+\item\label{prop:fells_is_quotient:three}
+for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, and letting $T_0$ be the collection
+of finite direct sums of $\{\pi_j\}$, we have that $\pi\prec T_0$;
+\item\label{prop:fells_is_quotient:four}
+for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, we have that
+$\pi$ is in the closure of $\{\pi_{i(j)}\}$ for Fell's topology on $\mc R$;
+\item\label{prop:fells_is_quotient:six}
+for any subnet $(\pi_{i(j)})$ of $(\pi_i)$, and letting $T_0$ be as before,
+we have that $\Eq\pi$ is in the closure of $\Eq T_0$, for the quotient topology.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+That (\ref{prop:fells_is_quotient:one}) and (\ref{prop:fells_is_quotient:two})
+are equivalent follows from the definition of Fell's topology on $\mc R$,
+see \cite[Proposition~F.2.2]{bhv}.  That (\ref{prop:fells_is_quotient:one})
+and (\ref{prop:fells_is_quotient:four}) are equivalent is a standard fact from
+point-set toplogy, see Appendix~\ref{app:one}.
+That (\ref{prop:fells_is_quotient:two}) and (\ref{prop:fells_is_quotient:three})
+are equivalent follows from the definition of weak containment (we can
+approximate a positive form associated with an infinite direct sum of
+representations by a form associated with a finite direct sum).
+That (\ref{prop:fells_is_quotient:three}) and (\ref{prop:fells_is_quotient:six})
+are equivalent follows immediately from Theorem~\ref{thm:top_wk_con}.
+\end{proof}
+
+
 
 
 \section{Correspondences}
@@ -529,12 +581,47 @@ open sets about $\pi_0$ sets of the form
 Here $E\subseteq M\odot N^\op$ is finite, $\epsilon>0$, and
 $S=(h_i)_{i=1}^n \subseteq H_0$.  A tedious but routine argument
 (compare to Section~\ref{app:app_to_fell}) shows that if
-we allow $S\subseteq A$ finite, then we obtain the same topology.
+we allow $E\subseteq A$ finite, then we obtain the same topology.
 Notice also that these sets satisfy the conditions of 
 Theorem~\ref{thm:when_have_basis_nhoods} and so do indeed define a unique
 topology.
 
 [\footnote{To be finished.}]
+
+
+
+
+\section{A potted bibliography}
+
+In this section\footnote{Very much a work in progress} we look at examples of
+the use of the ``Fell Topology'' in the literature, and see which of the
+competing definitions are really used.
+
+We start by noting that the ``Fell Topology'' is often used for what we call the
+``inner topology'' (or close variants) in Section~\ref{sec:innertop}, that is,
+purely a topological space notion.  We shall not explore instances of this.
+Below, we shall use ``fell topology'' without capitalisation in the generic
+sense, before referring to a section above to clarify which definition is
+actually used.
+
+\begin{itemize}
+\item The ``quotient topology'', Definition~\ref{defn:quot_top}, was defined by
+Fell in \cite{fell1}, and also studied in \cite{fell2}.
+Theorem~\ref{thm:top_wk_con} gives a link between weak containment and the
+quotient topology.
+\item The ``inner hull-kernel topology'', Proposition~\ref{prop:inner_hk_top},
+was defined by Fell in \cite{fell1}.  A quick summary (and useful extra results)
+are given in \cite{fell3}.  See Theorem~\ref{thm:ihkt_char}.
+\item The book \cite[Appendix~F]{bhv} also considers what turns out to be the
+inner hull-kernel topology, for groups.
+\item The book \cite{cely} considers the fell topology in Section~2.5.6.
+This source references \cite{fell2}, but really the summary in \cite{fell3} is
+meant, that is, the results of Theorem~\ref{thm:ihkt_char}.  So this is the
+inner hull-kernel topology.
+\end{itemize}
+
+
+
 
 
 
@@ -752,6 +839,118 @@ where $v$ is meant to be an isometry depending on $\pi'$, and $\epsilon>0$
 and $E\subseteq H,F\subseteq A$ are finite.
 
 
+\section{More about the inner hull-kernel topology}\label{app:iht_proofs}
+
+In this section, we provide some proofs of results from Section~\ref{sec:innertop}.
+Compare also to \cite{bhv, kan}.
+
+The key starting point is Theorem~\ref{thm:spec_closure} which says that for any
+representation $\pi$, the spectrum $\Sp(\pi)$ is weakly equivalent to $\pi$.
+This provide a key link with $\pi$, weak containment, and $\hat A$.
+
+From now on, for notational convenience, we shall pull the inner hull-kernel
+topology back from $\Eq\Rep(A,H)$ to $\Rep(A,H)$.
+Proposition~\ref{prop:inner_hk_top} tells us that a subbasic open set about
+$\pi$ is $\{\rho : \Sp(\rho)\cap U \not=\emptyset \}$ where $U\subseteq\hat A$
+is open and intersects $\Sp(\pi)$.
+
+\begin{lemma}
+Let $(\pi_i)$ be a net in $\Rep(A,H)$.  Then $\pi_i\rightarrow\pi$ if and only
+if, for each open $U\subseteq\hat A$ which contains some $\phi\in\Sp(\pi)$,
+there is $i_0$ such that for $i\geq i_0$ there is $\phi_i\in\Sp(\pi_i)$ with
+$\phi_i\in U$.
+\end{lemma}
+\begin{proof}
+As $(\pi_i)$ is indexed by a directed set, we have that $\pi_i\rightarrow\pi$
+if and only if, for any subbasic open set $V$ containing $\pi$, there is $i_0$
+so that $i\geq i_0\implies \pi_i\in V$.  We may take $V$ to be $\{\rho:
+\exists \phi\in\Sp(\rho), \ \phi\in U \}$ where $U\subseteq\hat A$ is open, and
+there is $\phi\in\Sp(\pi)$ with $\phi\in U$.  The claim now follows.
+\end{proof}
+
+By Theorem~\ref{thm:spec_closure}, as $\pi \prec \Sp(\pi) \prec \pi$, given
+$S\subseteq\Rep(A,H)$, set $S_0 = \{ \phi\in\hat A : \phi\in\Sp(\rho)
+\text{ for some } \rho\in S \}$, and then we see that $\pi\prec S$ if and only
+if $\phi\prec S_0$ for any $\phi\in\Sp(\pi)$.  Thus we have reduced the question
+of $\pi\prec S$ to a question inside $\hat A$, where weak containment is
+equivalent to closure, Theorem~\ref{thm:wk-con-irrep}.
+
+\begin{proposition}
+Let $\pi_i\rightarrow\pi$.  Then $\pi\prec \{\pi_i\}$.
+\end{proposition}
+\begin{proof}
+Given the above discussion, we need to show that if $\phi\in\Sp(\pi)$ then
+and $S_0 = \bigcup \Sp(\pi_i)$, then $\phi\prec S_0$, that is, $\phi \in
+\overline{S_0}$.  Towards a contradiction, suppose this is not so, so there
+is an open set $U\subseteq\hat A$ with $\phi\in U$ but
+$U\cap\Sp(\pi_i)=\emptyset$ for each $i$.  However, this contradicts
+$\pi_i\rightarrow\pi$ by the above lemma, as required.
+\end{proof}
+
+\begin{proposition}
+Suppose that $\pi\prec \{\pi_{i(j)}\}$ for each subset of $(\pi_i)$.
+Then $\pi_i\rightarrow\pi$.
+\end{proposition}
+\begin{proof}
+Towards a contradiction, suppose not, so by the lemma, there is
+$\phi\in\Sp(\pi)$ and an open $U\subseteq\hat A$ with $\phi\in U$, such that
+we can extract a subnet $(\pi_{i(j)})$ with $\Sp(\pi_{i(j)}) \cap U=\emptyset$
+for each $j$.  With $S_0 = \bigcup \Sp(\pi_i)$, we see that
+$S_0\cap U=\emptyset$ and so $\phi\not\in\overline{S_0}$, equivalently,
+$\phi\not\prec S_0$.  Thus $\pi\not\prec\{\pi_{i(j)}\}$ giving the required
+contradiction.
+\end{proof}
+
+Thus we have shown Theorem~\ref{thm:ihkt_char}(\ref{thm:ihkt_char:one}).
+Then Theorem~\ref{thm:ihkt_char}(\ref{thm:ihkt_char:two}) follows easily.
+To show Theorem~\ref{thm:ihkt_char}(\ref{thm:ihkt_char:three}) we will use:
+
+\begin{proposition}[{\cite[Lemma~2.1]{fell4}}]
+For $S\subseteq\hat A$ and $\phi\in\hat A$, we have that $\phi\in\overline S$
+if and only if, for each $a\in A$, we have that $\|\phi(a)\| \leq
+\sup\{\|\rho(a)\|:\rho\in S\}$.
+\end{proposition}
+
+Again, we need to relate this result in $\hat A$ to a result about general
+representations.  For $\pi\in\Rep(A,H)$, by Theorem~\ref{thm:spec_closure}
+again, we have that $\pi \prec \Sp(\pi) \prec \pi$, equivalently, $K=\ker(\pi)$
+where $K = \bigcap\{\ker\phi : \phi\in\Sp(\pi) \}$.  Now, $K$ is equal to the
+kernel of representation
+\[ \theta:A\rightarrow\mc B\Big( \oplus_{\phi\in\Sp(\pi)} H_\phi \Big); \quad
+a \mapsto \big( \phi(a) \big)_{\phi\in\Sp(\pi)}. \]
+By properties of $C^*$-algebras, we know that $A/K$ is isometric to
+$\theta(A)$, and similarly for $A/\ker(\pi)$ and $\pi(A)$.  That is,
+\[ \|\pi(a)\| = \|a + \ker(\pi)\|_{A/\ker(\pi)}
+= \|a+K\|_{A/K} = \sup_{\rho\in\Sp(\pi)} \|\rho(a)\| \qquad(a\in A). \]
+
+\begin{lemma}
+For $\pi\in\Rep(A,H)$ and $S\subseteq\Rep(A,H)$, we have that $\pi\prec S$ if
+and only if, $\|\pi(a)\| \leq \sup_{\rho\in S} \|\rho(a)\|$ for each $a\in A$.
+\end{lemma}
+\begin{proof}
+Set $S_0 = \bigcup\{ \Sp(\rho) : \rho\in S \}$
+We know that $\pi\prec S$ if and only if $\phi\prec S_0$ for each
+$\phi\in\Sp(\pi)$, equivalently, $\phi\in\overline{S_0}$ for each
+$\phi\in\Sp(\pi)$.  From the above proposition, this is equivalent to
+$\|\phi(a)\| \leq \sup\{ \|\rho(a)\| : \rho\in S_0 \}$, for each $a\in A$.
+From the above discussion, this is equivalent to
+$\|\phi(a)\| \leq \sup\{ \|\rho(a)\| : \rho\in S \}$, for each $a$,
+which in turn is equivalent to the stated claim.
+\end{proof}
+
+\begin{proposition}
+For a net $(\pi_i)$, we have that $\pi\prec\{\pi_{i(j)}\}$ for any subnet,
+if and only if $\|\pi(a)\|\leq\liminf_i \|\pi_i(a)\|$ for each $a\in A$.
+\end{proposition}
+\begin{proof}
+This follows from the above lemma, as for a net of real numbers $(t_i)$, we have
+that $t\leq\sup_j t_{i(j)}$ for all subnets if and only if $t\leq\liminf_i t_i$.
+\end{proof}
+
+\begin{corollary}
+We have that $\pi_i\rightarrow \pi$ if and only if $\|\pi(a)\| \leq
+\liminf_i \|\pi_i(a)\|$ for $a\in A$.
+\end{corollary}
 
 
 \begin{thebibliography}{99}
@@ -764,13 +963,19 @@ and $E\subseteq H,F\subseteq A$ are finite.
 
 \bibitem{cj} A. Connes\ and\ V. Jones, Property $T$ for von Neumann algebras, Bull. London Math. Soc. {\bf 17} (1985), no.~1, 57--62. MR0766450
 
+\bibitem{cely} J. Cuntz\ et al., {\it $K$-theory for group $C^*$-algebras and semigroup $C^*$-algebras}, Oberwolfach Seminars, 47, Birkh\"{a}user/Springer, Cham, 2017. MR3618901
+
 \bibitem{dix} J. Dixmier, {\it $C\sp*$-algebras}, translated from the French by Francis Jellett, North-Holland Publishing Co., Amsterdam, 1977. MR0458185
 
 \bibitem{el} E. G. Effros\ and\ E. C. Lance, Tensor products of operator algebras, Adv. Math. {\bf 25} (1977), no.~1, 1--34. MR0448092
 
 \bibitem{fell1} J. M. G. Fell, $C\sp{\ast} $-algebras with smooth dual, Illinois J. Math. {\bf 4} (1960), 221--230. MR0124754
 
+\bibitem{fell4} J. M. G. Fell, The dual spaces of $C\sp{\ast} $-algebras, Trans. Amer. Math. Soc. {\bf 94} (1960), 365--403. MR0146681
+
 \bibitem{fell2} J. M. G. Fell, Weak containment and induced representations of groups, Canad. J. Math. {\bf 14} (1962), 237--268. MR0150241
+
+\bibitem{fell3} J. M. G. Fell, Weak containment and induced representations of groups. II, Trans. Amer. Math. Soc. {\bf 110} (1964), 424--447. MR0159898
 
 \bibitem{kan} E. Kaniuth\ and\ K. F. Taylor, {\it Induced representations of locally compact groups}, Cambridge Tracts in Mathematics, 197, Cambridge University Press, Cambridge, 2013. MR3012851
 
