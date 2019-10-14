@@ -1,0 +1,415 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amsthm,amssymb,latexsym}
+\usepackage[all]{xy}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\ip}[2]{\langle{#1},{#2}\rangle}
+\newcommand{\osip}[2]{\langle\langle{#1},{#2}\rangle\rangle}
+\newcommand{\proten}{\widehat\otimes}
+\newcommand{\id}{\operatorname{id}}
+
+\begin{document}
+
+\title{Direct sums of Operator spaces}
+\author{Matthew Daws}
+\date{Last knowing updated October 2019}
+
+\maketitle
+
+\begin{abstract}
+We give a short, self-contained account of the $\oplus_1$ and $\oplus_\infty$ norms of
+operator spaces, and the duality between them.
+\end{abstract}
+
+
+\section{Introduction}
+
+An \emph{operator space} is a Banach space $E$ together with a norms on each matrix
+space $M_n(E)$, for $n=1,2,\cdots$, which satisfy Ruan's axioms.  Alternatively, $E$ comes
+with an embedding into $\mc B(H)$, the bounded operators on a Hilbert space, where
+$M_n(E)$ inherits the norm from $M_n(\mc B(H)) = \mc B(H^n)$.  We refer the reader to
+\cite{er, pis, pau} for further details.
+
+Given a family of operators spaces $(E_i)_{i\in I}$ there is an obvious way to form an
+analogue of the Banach space $\ell^\infty$-direct-sum, namely $E = \oplus_{i\in I}^\infty
+E_i$ which consists of all families $(x_i)_{i\in I}$ where $x_i\in E_i$ for each $i$,
+and $\sup_i \|x_i\| < \infty$.  The matrix norms are defined as follows.  We identify
+$M_n(E)$ with $\oplus_{i\in I}^\infty M_n(E_i)$ as vector spaces in the obvious way, and
+then define
+\[ \|x\|_n = \sup_{i\in I} \| x_i \|_n \qquad (x = (x_i) \in 
+\oplus_{i\in I}^\infty M_n(E_i)). \]
+Verifying Ruan's axioms is routine, and so we have an operator space structure on
+$\oplus_{i\in I}^\infty E_i$.
+
+We can similarly define the Banach space $\oplus_{i\in I}^1 E_i$ consisting of all
+sequences $x = (x_i)$ with $\|x\| = \sum_i \|x_i\|<\infty$.  It is standard (copy
+the proof that the dual of $\ell^1$ is $\ell^\infty$) that the dual space of
+$\oplus_{i\in I}^1 E_i$ is $\oplus_{i\in I}^\infty E_i^*$ with the dual-pairing element
+wise.  Furthermore, if $I$ is finite, then the dual space of
+$\oplus_{i\in I}^\infty E_i$ is $\oplus_{i\in I}^1 E_i^*$.  Finally, for arbitrary $I$,
+the natural map from $\oplus_{i\in I}^1 E_i$ into the dual of
+$\oplus_{i\in I}^\infty E_i^*$ is isometric.
+
+Motivated by this, we \emph{define} the operator space structure on
+$\oplus_{i\in I}^1 E_i$ to be that given by the embedding into the dual of
+$\oplus_{i\in I}^\infty E_i^*$.  This note will be concerned with other characterisations
+of this operator space structure.
+
+
+\subsection{In the literature}
+
+The book by Effros and Ruan only considers the $\infty$-sum, see \cite[page~38]{er}.
+Pisier's book treats both sums in \cite[Section~2.6]{pis}, and defines the $1$-sum
+via the ``universal property'' discussed below.  That the duality results
+hold is stated without proof.  To the best of our knowledge, \cite{pau} does not consider
+the direct sum (which is not surprising, as it is not, as such, a book about operator
+spaces).  The $\infty$-sum is considered in \cite[Section~1.2.17]{blm} and the $1$-sum in
+\cite[Section~1.4.13]{blm} using our ``duality'' definition.
+
+To the best of our knowledge, the $1$-sum was first introduced in \cite[Section~3]{b}.
+Here $\oplus_{i\in I}^1 E_i$ is again defined by the injection into the dual of
+$\oplus_{i\in I}^\infty E_i^*$.  Again, that the duality results hold are stated without
+proof.  
+
+
+
+\section{The $\infty$-sum}
+
+As above, we identify $M_n(\oplus_{i\in I}^\infty E_i)$ with $\oplus_{i\in I}^\infty M_n(E_i)$,
+and so induce an operator space structure on $\oplus_{i\in I}^\infty E_i$.
+For each $i\in I$ define $\iota_i:E_i\rightarrow 
+\oplus_{i\in I}^\infty E_i$ and $P_i:\oplus_{i\in I}^\infty E_i \rightarrow E_i$ to be
+the natural injection and quotient maps.  It is easy to see that $\iota_i$ is a
+complete isometry, and $P_i$ is a complete quotient map.
+
+We can alternatively characterise $\oplus^\infty$ by the following universal property.
+Let $(E_i)$ be a family of operator spaces, and let $F$ be an operator space.
+Given a family $(T_i)$ of complete contractions $T_i:F\rightarrow E_i$, there is a
+complete contraction $T:F\rightarrow \oplus_{i\in I}^\infty E_i$ given by $T(x) = (T_i(x))$.
+Indeed, $\oplus^\infty$ does satisfy this property, as for $x\in M_n(F)$ we have
+\[ \|(T)_n(x)\| = \sup_i \|(T_i)_n(x)\| \leq \sup_i \|T_i\|_{cb} \|x\| \leq \|x\|, \]
+and so $T$ is a complete contraction.
+
+Let us be more precise about this: we mean that there exists an operator space $E$ and
+complete contractions $\pi_i:E\rightarrow E_i$ such that if $F$ is any operator space,
+and $T_i:F\rightarrow E_i$ a family of complete contractions, then there is a unique
+complete contraction $T:F\rightarrow E$ with $\pi_i\circ T = T_i$ for each $i$.  That is,
+$(E,\pi_i)$ is a \emph{product} in the category of operator spaces, see Section~\ref{sec:cat}
+below.  As shown below, $E$ is necessarily unique if it exists, and furthermore, we have
+maps $\kappa_i:E_i\rightarrow E$ with $\pi_i\circ\kappa_j = \delta_{i,j}$.
+
+Consider $F = \oplus_{i\in I}^\infty E_i$ and the complete contractions $T_i:F\rightarrow E_i$
+being $T_i = P_i$.  Then there is a complete contraction $T:F\rightarrow E$ with $\pi_i\circ T
+= P_i$.  Given $x = (x_i) \in M_n(F) = \oplus_{i\in I}^\infty M_n(E_i)$ and $\epsilon>0$
+there is $j\in I$ with $\|x_j\|_{M_n(E_j)} > \|x\| - \epsilon$.  Thus
+\[ x_j = \pi_j(T(x)) \implies \|x\| - \epsilon < \|x_j\| \leq \|T(x)\| \leq \|x\|. \]
+As $\epsilon>0$ was arbitrary, we conclude that $T$ is a complete isometry.  By uniqueness
+of $E$, we must have that $T$ is a completely isometric isomorphism.
+
+
+
+
+\section{Equivalence of definitions}
+
+Consider the following two operator space structures on $\oplus_{i\in I}^1 E_i$:
+\begin{itemize}
+\item The ``dual structure'' given by the embedding into $\oplus_{i\in I}^\infty E_i^*$;
+\item The ``universal property structure'' is that for any operator space $F$ and any
+family $(T_i)$ of complete contractions $T_i:E_i\rightarrow F$, then the operator
+$\oplus T_i : \oplus_{i\in I}^1 E_i\rightarrow F; (x_i) \mapsto \sum_i T_i(x_i)$ exists,
+and is a complete contraction.
+\end{itemize}
+
+Notice that as a \emph{Banach space}, it is immediately clear that the dual structure gives
+the usual Banach space structure on $\oplus_{i\in I}^1 E_i$.  Further, working just with
+Banach spaces, it is clear that the usual norm on $\oplus_{i\in I}^1 E_i$ does satisfy the
+given universal property.  Consider now applying the universal property to the family of
+maps $(\iota_i)$ where $\iota_i: E_i \rightarrow \oplus_{j\in I}^1 E_j$.
+This shows that the universal property, for Banach spaces, determines the
+usual norm on $\oplus_{i\in I}^1 E_i$.
+
+Thus, if the universal property structure exists, then as a Banach space it is just
+the Banach space direct sum $\oplus_{i\in I}^1 E_i$.  For example, $M_n(\oplus_{i\in I}^1 E_i)$
+can be identified, as a vector space, with $\oplus_{i\in I}^1 M_n(E_i)$.
+
+\begin{proposition}
+There exists an operator space structure on $\oplus_{i\in I}^1 E_i$ which satisfies the
+universal property.  Indeed, given a sufficiently large Hilbert space $H$, the collection
+$\mc C$ of families of complete contractions $T_i:E_i\rightarrow\mc B(H)$ is a set, and
+given $u = (u_i) \in M_n(\oplus_{i\in I}^1 E_i) \cong \oplus_{i\in I}^i M_n(E_i)$
+we define $\|u\|_n$ to be the supremum over $\mc C$ of $\|\sum_i (T_i)_n(u_i)\|$,
+this norm computed in $M_n(\mc B(H))$.
+\end{proposition}
+\begin{proof}
+Let $J$ be a set so that each $E_i$ contains a dense subset of cardinality at most $|J|$,
+say $E_i'\subseteq E_i$.
+Let $F$ be an operator space, and let $(T_i)$ be a family of complete contractions
+$T_i:E_i\rightarrow F$.  Let $F_0$ be the collection
+\[ \Big\{ \sum_{i\in I'} T_i(x_i) : x_i\in E_i', I'\subseteq I\text{ is finite} \Big\}. \]
+Let $F_1$ be the rational-linear span of $F_0$, so $F_1$ is dense in the closed linear
+span of $F_0$ which equals the closure of $\{ \sum_i T_i(x_i) : (x_i)\in \oplus_{i\in I}^1 E_i\}$.  Thus, we may replace $F$ by the closure of $F_1$, and we lose no information.
+Thus, in the definition of the universal property
+structure, we can limit $F$ to having a dense subset of cardinality of at most $|I\times J|$. 
+If we set $H = \ell^2(I\times J)$ then we can completely isometrically embed such $F$ into
+$\mc B(H)$.  In conclusion, it suffices to consider families of complete contractions mapping
+into $\mc B(H)$ for this fixed $H$.
+
+The family $\mc C$ is a set.  Given $(T_i)\in\mc C$ and $u=(u_i)\in M_n(\oplus_{i\in I}^1 E_i)$
+we have that $\sum_i \|(T_i)_n(u_i)\| \leq \sum_i \|u_i\| < \infty$ and so $\|u\|_n$ is
+well-defined.  Given the argument above, it is now clear that given any operator space $F$
+and any family of complete contractions $(S_i)$ with $S_i:E_i\rightarrow F$, then for any
+$u=(u_i)\in M_n(\oplus_{i\in I}^1 E_i)$ we have that $\| \sum_i S_i(u_i) \|$ computed in
+$M_n(F)$, is $\leq \|u\|_n$.  Thus $\oplus S_i$ is a complete contraction, as required.
+\end{proof}
+
+Having established that the universal property structure exists, we now want to show that
+this equals to dual structure.  Given $\mu = (\mu_i) \in M_n(\oplus_{i\in I}^\infty E_i^*)$
+each $\mu_i \in M_n(E_i^*) = \mc{CB}(E_i, M_n)$; let $T_i:E_i\rightarrow M_n$ be the
+induced map.  If $\|\mu\|\leq 1$ then $\|\mu_i\|_n\leq 1$ and so $T_i$ is a complete
+contraction, for each $i$.  Given $x = (x_i) \in M_m(\oplus_{i\in I}^\infty E_i)$ the dual
+pairing is
+\[ \osip{\mu}{x} = \sum_i \osip{\mu_i}{x_i} \in M_{mn}
+= \sum_i (T_i)_n(x_i) = (\oplus_i T_i)_n(x). \]
+From this calculation, it follows that the identity on $\oplus_{i\in I}^i E_i$ gives a
+complete contraction from the universal property structure to the dual structure.
+
+Conversely, given an operator space $F$ and $x\in M_n(F)$, we know that
+\[ \|x\|_n = \sup\big\{ \|\osip{\mu}{x}\| : \mu\in M_m(F^*), \|\mu\|_m\leq 1,
+m\in\mathbb N\big\}. \]
+(This is equivalent to $F\rightarrow F^{**}$ being a complete contraction.  Further,
+by Smith's lemma, we can just fix $m=n$, see the discussion in \cite[Section~3.2]{er}.)
+For $\mu\in M_m(F^*) = \mc{CB}(F,M_m)$ a complete contraction, and given $T_i:E_i\rightarrow
+F$ a complete contraction, also $S_i = \mu\circ T_i:E_i\rightarrow M_m$ is a complete
+contraction.  Given $x=(x_i)\in M_n(\oplus_{i\in I}^1 E_i)$ we hence see that
+\begin{align*}
+& \sup\big\{ \|\sum_i (T_i)_n(x)\| : (T_i) \text{ complete contractions to }F\big\}\\
+&= \sup\big\{ \|\osip{\mu}{\sum_i (T_i)_n(x)}\| : (T_i) \text{ complete contractions},
+\|\mu\|\leq 1 \big\} \\
+&\leq \sup\big\{ \|(S_i)_n(x)\| : (T_i) \text{ complete contractions to }M_m \big\}.
+\end{align*}
+However, this final supremum is just the dual structure norm.  In conclusion, we have
+hence shown that the universal property structure and the dual structure agree.
+
+The universal property structure is useful for proving existence of certain maps, but as
+we have seen, the dual structure is easier to work with if one wishes to compute the
+norm of an element.
+
+
+
+\section{Duality results}
+
+We now turn our attention of the duals of the $1$-sum and $\infty$-sum.  The first proof
+is routine, but we find that the second claim is non-trivial to show.
+
+\begin{proposition}
+The dual of $\oplus_{i\in I}^1 E_i$ is $\oplus_{i\in I}^\infty E_i^*$ for the natural duality.
+\end{proposition}
+\begin{proof}
+For Banach spaces, this is true, and so we need only show that the operator space structure
+on $(\oplus_{i\in I}^1 E_i)^*$ is $\oplus_{i\in I}^\infty E_i^*$.  By the definition of
+the (dual) operator space structure on $\oplus_{i\in I}^1 E_i$ we have that
+\[ \Big\| \sum_i \osip{\mu_i}{x_i} \Big\|_{M_{nm}}
+\leq \|(\mu_i)\|_n \|(x_i)\|_m \qquad \big((\mu_i)\in M_n(\oplus_{i\in I}^\infty E_i^*),
+(x_i)\in M_m(\oplus_{i\in I}^1 E_i\big)). \]
+Denote by $\|\cdot\|_n^*$ the norm on $M_n(\oplus_{i\in I}^\infty E_i^*)$ induced by
+identifying this with $(\oplus_{i\in I}^1 E_i)^*$.  Thus $\|\mu\|_n^* \leq \|\mu\|_n$.
+
+Conversely, given $\mu=(\mu_i) \in M_n(\oplus_{i\in I}^\infty E_i^*)$ fix $i$ and $\epsilon>0$,
+so as $M_n(E_i^*) = \mc{CB}(E_i,M_n)$, there is $x\in M_m(E_i)$ with $\|x\|_m\leq 1$ and
+$\|\osip{\mu_i}{x}\|\geq \|\mu_i\|-\epsilon$.  Then
+\[ \|\osip{\mu}{(\iota_i)_m(x)}\| = \|\osip{\mu_i}{x}\|
+\geq \|\mu_i\|-\epsilon, \]
+so as $\|(\iota_i)_m(x)\|\leq 1$, it follows that $\|\mu\|_n^* \geq \|\mu_i\|-\epsilon$.
+As $\epsilon,i$ were arbitrary, it follows that $\|\mu\|_n^* \geq \sup_i \|\mu_i\|
+= \|\mu\|$.
+
+Hence the norms on $M_n(\oplus_{i\in I}^\infty E_i^*)$ agree, as required.
+\end{proof}
+
+\begin{proposition}
+The natural embedding of $\oplus_{i\in I}^1 E_i^*$ into the dual of $\oplus_{i\in I}^\infty
+E_i$ is a complete isometry.
+\end{proposition}
+\begin{proof}
+By definition, the natural pairing gives rise to a complete isometry from
+$\oplus_{i\in I}^1 E_i^*$ to the dual of $\oplus_{i\in I}^\infty E_i^{**}$.  That is,
+given $\mu=(\mu_i)\in M_n(\oplus_{i\in I}^1 E_i^*)$ and $\epsilon>0$ there is
+$x=(x_i)\in M_m(\oplus_{i\in I}^\infty E_i^{**})$ with $\|\osip{x}{\mu}\|\geq
+\|\mu\|-\epsilon$ and $\|x\|\leq 1$.
+Now, $\osip{x}{\mu} = \sum_i \osip{x_i}{\mu_i}$.
+
+For an operator space $E$ we have that $M_m(E^{**}) = M_m(E)^{**}$ as a Banach space (see
+\cite[Proposition~7.1.6]{er}, compare \cite[Lemma~4.1.1]{er}).  Following \cite[Section~4.1]{er}
+let $T_m(E^*)$ be $M_m(E^*)$ together with the norm induced by the pairing between $M_m(E^*)$
+and $M_m(E)$ given by
+\[ \ip{\mu}{x} = \sum_{j,k=1}^n \ip{\mu_{jk}}{x_{jk}} \in\mathbb C
+\qquad \big( x\in M_m(E), \mu\in T_m(E^*) \big). \]
+Then $M_m(E)^* = T_m(E^*)$ and $T_m(E^*)^* = M_m(E^{**})$.
+
+Given $\lambda\in E^*$ and $j_0,k_0$ define $\mu_{jk} = \lambda$ if $j=j_0, k=k_0$,
+and $0$ otherwise.  Then $\mu\in T_m(E^*)$ and $\ip{\mu}{x} = \ip{\lambda}{x_{j_0, k_0}}$.
+In this way, given $\phi\in M_n(E^*)$, there is a finite-dimensional subspace
+$X\subseteq T_m(E^*)$ depending on $\phi$, such that if $\phi\in M_m(E^{**})$ and
+$x\in M_m(E)$ satisfy
+\[ \ip{\Phi}{\mu} = \ip{\mu}{x} \qquad (\mu\in X), \]
+then $\osip{\Phi}{\phi} = \osip{\phi}{x}$.
+
+For each $i\in I$ choose $X_i$ using $\mu_i\in M_n(e_i)$.
+By Goldstein's Theorem, we can find $y_i \in M_m(E_i)$ with $\|y_i\| < \|x_i\|+\epsilon
+\leq 1+\epsilon$ and with $\ip{x_i}{\mu} = \ip{\mu}{y_i}$ for $\mu\in X_i$.
+It follows that $\osip{x_i}{\mu_i} = \osip{\mu_i}{y_i}$.  Then $y=(y_i) \in
+M_m(\oplus_{i\in I}^\infty E_i)$ with $\|y\|\leq 1+\epsilon$ and
+\[ \osip{\mu}{y} = \sum_i \osip{\mu_i}{y_i} = \sum_i \osip{x_i}{\mu_i}
+= \osip{x}{\mu}. \]
+As $\epsilon>0$ was arbitrary, it follows that $\oplus_{i\in I}^\infty E_i$ norms
+$\oplus_{i\in I}^1 E_i^*$, as required.
+\end{proof}
+
+\begin{corollary}
+If $I$ is finite, then the dual of $\oplus_{i\in I}^\infty E_i$ is $\oplus_{i\in I}^1
+E_i^*$.
+\end{corollary}
+\begin{proof}
+The underlying Banach spaces agree, and so do the operator space structures by the
+above result.
+\end{proof}
+
+
+\section{For operators}
+
+\begin{proposition}\label{prop:one}
+For any family $(E_i)$ of operator spaces, and an operator space $F$, we have that:
+\begin{enumerate}
+\item\label{prop:one:1}
+$\mc{CB}(\oplus_{i\in I}^1 E_i, F) = \oplus_{i\in I}^\infty\mc{CB}(E_i,F)$;
+\item\label{prop:one:2}
+$\mc{CB}(F, \oplus_{i\in I}^\infty E_i) = \oplus_{i\in I}^\infty \mc{CB}(F,E_i)$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+By the universal property, if $(T_i)$ is a bounded family in $\oplus_{i\in I}^\infty
+\mc{CB}(E_i,F)$ then $T = \oplus_i T_i \in \mc{CB}(\oplus_{i\in I}^1 E_i, F)$.
+Conversely, given $T\in \mc{CB}(\oplus_{i\in I}^1 E_i, F)$ let $T_i = T \circ \iota_i
+\in\mc{CB}(E_i,F)$ so $\|T_i\|_{cb} \leq \|T\|_{cb}$ and $T = \oplus_i T_i$.  Thus,
+at the level of Banach spaces, we have the required equality.
+
+By definition, we have that
+\begin{gather*}
+M_n\big( \mc{CB}(\oplus_{i\in I}^1 E_i, F) \big)
+= \mc{CB}(\oplus_{i\in I}^1 E_i, M_n(F)), \\
+M_n\Big( \oplus_{i\in I}^\infty\mc{CB}(E_i,F) \Big)
+= \oplus_{i\in I}^\infty M_n\big(\mc{CB}(E_i,F)\big)
+= \oplus_{i\in I}^\infty\mc{CB}(E_i,M_n(F)).
+\end{gather*}
+Thus also the $n$th matrix levels agree, and we have shown (\ref{prop:one:1}).
+
+For (\ref{prop:one:2}) given $(T_i) \in \oplus_{i\in I}^\infty \mc{CB}(F,E_i)$ we
+can define $T:F\rightarrow \oplus_{i\in I}^\infty E_i$ by $T(x) = (T_i(x))$.  Then,
+for $x\in M_n(F)$, we have from $M_n(\oplus_{i\in I}^\infty E_i)
+= \oplus_{i\in I}^\infty M_n(E_i)$ that
+\[ \|(T)_n(x)\| = \sup_{i\in I} \| (T_i)_n(x) \|
+\leq \|x\| \sup_{i\in I} \|T_i\|_{cb}. \]
+Thus $T\in \mc{CB}(F, \oplus_{i\in I}^\infty E_i)$.  Conversely, given
+$T\in \mc{CB}(F, \oplus_{i\in I}^\infty E_i)$ define $T_i = P_i\circ T \in
+\mc{CB}(F,E_i)$ so that $\|T_i\|_{cb}\leq \|T\|_{cb}$ for each $i$.  We have hence
+established that $\mc{CB}(F, \oplus_{i\in I}^\infty E_i) =
+\oplus_{i\in I}^\infty \mc{CB}(F,E_i)$ as Banach spaces.  Again, that the operator spaces
+structures are also equal follows from
+\begin{gather*}
+M_n\big( \mc{CB}(F, \oplus_{i\in I}^\infty E_i) \big)
+= \mc{CB}(F, \oplus_{i\in I}^\infty M_n(E_i)), \\
+M_n\big( \oplus_{i\in I}^\infty \mc{CB}(F,E_i) \big)
+= \oplus_{i\in I}^\infty M_n(\mc{CB}(F,E_i))
+= \oplus_{i\in I}^\infty \mc{CB}(F,M_n(E_i)).
+\end{gather*}
+\end{proof}
+
+By the usual duality between $\mc{CB}$ and the operator space projective tensor product
+$\proten$, \cite[Chapter~7]{er}, we have the following.
+
+\begin{corollary}
+For any family $(E_i)$ of operator spaces, and an operator space $F$, we have that:
+\begin{enumerate}
+\item $(\oplus_{i\in I}^1 E_i) \proten F \cong \oplus_{i\in I}^1 (E_i\proten F)$;
+\item $F \proten (\oplus_{i\in I}^1 E_i) \cong \oplus_{i\in I}^1 (F\proten E_i)$.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+We have that $((\oplus_{i\in I}^1 E_i) \proten F)^* \cong \mc{CB}(\oplus_{i\in I}^1 E_i, F^*)$
+and $(\oplus_{i\in I}^1 E_i\proten F)^* \cong \oplus_{i\in I}^\infty \mc{CB}(E_i,F^*)$,
+the isomorphisms respecting our other identifications.
+
+The second claim follows by commutativity of the projective tensor product, or from
+observing that $(F \proten (\oplus_{i\in I}^1 E_i))^* = \mc{CB}(F, \oplus_{i\in I}^\infty
+E_i^*)$ while $(\oplus_{i\in I}^1 (F\proten E_i))^* \cong \oplus_{i\in I}^\infty
+\mc{CB}(F,E_i^*)$.
+\end{proof}
+
+
+\section{Category theory aspects}\label{sec:cat}
+
+We shall consider the category of operator spaces and complete contractions.
+Given $(E_i)$ a family of operator spaces, the category theoretic \emph{product} is an
+operator space $E$ and morphisms $\pi_i:E\rightarrow E_i$ such that, for any $F$ and morphisms
+$T_i:F\rightarrow E_i$ there is a unique $T:F\rightarrow E$ with $\pi_i\circ T = T_i$ for
+each $i$.  As a diagram, we have
+\[ \xymatrix{ F \ar[r]^-{T_i} \ar@{-->}[rd]_-{\exists!\, T} & E_i \\
+& E \ar[u]_-{\pi_i} } \]
+
+If a product exists, it is unique.  Let us remind ourselves why this is true.  Let
+$(E',\pi'_i)$ be another product.  Consider the universal property of $E$ applied to the
+maps $\pi'_i:E'\rightarrow E_i$ which yields a map $\phi$; and similarly consider the universal
+property of $E'$ applied to the maps $\pi_i:E\rightarrow E_i$ which yields a map $\phi'$.
+Finally, consider the universal property of $E$ applied to the map $\pi_i:E\rightarrow E_i$,
+which of course has the diagram as shown on the right.
+\[ \xymatrix{ E' \ar[r]^-{\pi_i'} \ar@{-->}[rd]_-{\exists!\, \phi} & E_i \\
+& E \ar[u]_-{\pi_i} }
+\qquad\qquad
+\xymatrix{ E \ar[r]^-{\pi_i} \ar@{-->}[rd]_-{\exists!\, \phi'} & E_i \\
+& E' \ar[u]_-{\pi'_i} }
+\qquad\qquad
+\xymatrix{ E \ar[r]^-{\pi_i} \ar@{-->}[rd]_-{\id} & E_i \\
+& E \ar[u]_-{\pi_i} } \]
+Consider now $\phi \circ \phi'$ which has the diagram
+\[ \xymatrix{ E \ar[r]^-{\phi'} \ar[rd]_-{\pi_i} &
+E' \ar[r]^-{\phi} \ar[d]^-{\pi_i'} & E \ar[ld]^-{\pi_i} \\
+& E_i } \]
+By uniqueness, we must hence have that $\phi\circ\phi' = \id$.  Similarly
+$\phi'\circ\phi = \id$.  Hence $\phi$ (and $\phi'$) is a completely isometric isomorphism.
+
+We showed above that $\oplus_{i\in I}^\infty E_i$ is a concrete realisation of the product.
+
+The \emph{coproduct} is the same concept, with the ``arrows reversed''.  It follows from
+discussion above that $\oplus_{i\in I}^1 E_i$ is a concrete realisation of the coproduct.
+
+With this in mind, Proposition~\ref{prop:one} would follows from abstract category
+theoretic considerations.
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem{b} D. P. Blecher, The standard dual of an operator space, Pacific J. Math. {\bf 153} (1992), no.~1, 15--30. MR1145913
+
+\bibitem{blm} D. P. Blecher\ and\ C. Le Merdy, {\it Operator algebras and their modules---an operator space approach}, London Mathematical Society Monographs. New Series, 30, The Clarendon Press, Oxford University Press, Oxford, 2004. MR2111973
+
+\bibitem{er} E. G. Effros\ and\ Z.-J. Ruan, {\it Operator spaces}, London Mathematical Society Monographs. New Series, 23, The Clarendon Press, Oxford University Press, New York, 2000. MR1793753
+
+\bibitem{pis} G. Pisier, {\it Introduction to operator space theory}, London Mathematical Society Lecture Note Series, 294, Cambridge University Press, Cambridge, 2003. MR2006539
+
+\bibitem{pau} V. I. Paulsen, {\it Completely bounded maps and dilations}, Pitman Research Notes in Mathematics Series, 146, Longman Scientific \& Technical, Harlow, 1986. MR0868472
+
+\end{thebibliography}
+
+\end{document}
