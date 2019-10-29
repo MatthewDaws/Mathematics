@@ -1,0 +1,327 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+%\usepackage{stackrel}
+\usepackage[all]{xy}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{examples}[theorem]{Examples}
+
+%\theoremstyle{remark}
+\newtheorem{remarkx}[theorem]{Remark}
+\newtheorem{remarksx}[theorem]{Remarks}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+
+\newcommand{\mc}{\mathcal}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\ip}[2]{\langle{#1},{#2}\rangle}
+\newcommand{\cnt}{\widetilde}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\bs}{\backslash}
+\newcommand{\op}{{\operatorname{op}}}
+
+\begin{document}
+\title{Notes on quasi-invariant measures}
+\author{Matthew Daws}
+\maketitle
+
+\begin{abstract}
+We give a summary of quasi-invariant measures on (left) coset spaces of locally compact
+groups.  We carefully show how to translate these results to right coset spaces.
+\end{abstract}
+
+\section{Introduction}
+
+Let $G$ be a locally compact (for me, always Hausdorff) group.
+We write elements of $G$ as $s,t$ etc.  Recall that the left
+Haar measure is a Radon measure $\mu$ on $G$ which is left invariant: $\lambda(sE) = \lambda(E)$
+for Borel $E$ and $s\in G$.  We write the resulting integral as
+\[ \int_G f(s) \ d\lambda(s) = \int_G d(s) \ ds, \]
+that is, suppress $\lambda$ if context allows.  The left Haar measure is unique up to a scalar.
+
+For each $s\in G$ the measure $E\mapsto \lambda(Es)$ is left-invariant and so there is a scalar
+$\nabla(s)\in (0,\infty)$ with $\lambda(Es) = \nabla(s) \lambda(E)$.  This function is continuous,
+and is the \emph{modular function}.
+
+We fix a right Haar measure on $G$ by defining $\rho(E) = \lambda(E^{-1})$ where of course
+$E^{-1} = \{s^{-1}:s\in E\}$.  Then $d\rho(s) = \nabla(s^{-1}) d\lambda(s)$, that is,
+\[ \int_G f(s) \nabla(s^{-1}) \ d\lambda(s) = \int_G f(s) \ d\rho(s), \]
+for, say, continuous compactly supported $f$.  We also have that
+\[ \int_G f(s^{-1}) \ ds = \int_G f(s) \nabla(s^{-1}) \ ds, \qquad
+\int_G f(s) \ d\rho(s) = \int_G f(s) \nabla(s) \ d\rho(s). \]
+
+Some additional properties of the Haar measure are:
+\begin{itemize}
+\item $\lambda(U)>0$ for any non-empty open subset $U$;
+\item $\lambda(K)<\infty$ for any compact $K$.
+\end{itemize}
+
+
+Here we have followed \cite{fol}; see also \cite{hr}.
+We remark that different sources can use slightly different conventions.
+
+
+
+
+\section{Quasi-invariant measures}
+
+Here I am following \cite{fol}; for further details and bibliographical comments see this book.
+In this section, fix a locally compact group $G$ and a closed subgroup $H$.  Then the left
+coset space $G/H$, with the quotient topology, is locally compact.  Let $q:G\rightarrow G/H$
+be the quotient map.  Define $P:C_{00}(G)\rightarrow C_{00}(G/H)$ a map between the spaces of
+compactly supported continuous functions, by
+\[ (Pf)(sH) = \int_H f(su) \ du. \]
+This is well-defined as $du$ is left-invariant on $H$.  Given $f\in C_{00}(G/H)$ the map
+$f\circ q$ is continuous and $P((f\circ q) g) = f P(g)$.
+
+\begin{proposition}
+$P$ maps $C_{00}(G)$ into $C_{00}(G/H)$.  Indeed, for $g\in C_{00}(G/H)$ there is
+$f\in C_{00}(G)$ with $Pf = g$ and $q(\supp f) = \supp g$.  If $g\geq 0$ we can choose
+$f\geq 0$.
+\end{proposition}
+
+We are interested in when $G/H$ carries a left invariant measure.
+
+\begin{theorem}
+There is a left $G$-invariant Radon measure $\mu$ on $G/H$ if and only if $\nabla_H$ is the
+restriction of $\nabla_G$ to $H$.  If so, $\mu$ is unique up to a scalar, and we can choose
+$\mu$ so that
+\[ \int_G f(s) \ ds = \int_{G/H} Pf \ d\mu = \int_{G/H} \int_H f(su) \ du \ d\mu(sH) \]
+for $f\in C_{00}(G)$.
+\end{theorem}
+
+We remark that if $H$ is normal, then this holds and $\mu$ is the Haar measure on the group
+$G/H$.  The relation is known as Weil's formula.
+
+In general, we say that a Radon measure $\mu$ on $G/H$ is \emph{quasi-invariant} if,
+defining $\mu_s(E) = \mu(sE)$ for $s\in G$, the measures $\mu_s$ are all equivalent
+(that is, mutually absolutely continuous).  In fact, we work with the stronger condition
+that $\mu$ is \emph{strongly quasi-invariant} if there is a continuous function
+$\lambda : G \times (G/H) \rightarrow (0,\infty)$ such that $d\mu_s(u) = \lambda(s,u) d\mu(u)$.
+
+\begin{definition}
+A \emph{rho-function} for the pair $(G,H)$ is a continuous function $\rho:G\rightarrow
+(0,\infty)$ such that
+\[ \rho(su) = \frac{\nabla_H(u)}{\nabla_G(u)} \rho(s) \qquad (s\in G, u\in H). \]
+\end{definition}
+
+\begin{proposition}
+For any locally compact group $G$ and closed subgroup $H$, there is a rho-function for
+$(G,H)$.
+\end{proposition}
+
+\begin{theorem}\label{thm:1}
+Given any rho-function $\rho$ for the pair $(G,H)$, there is a strongly quasi-invariant measure
+$\mu$ on $G/H$ with
+\[ \int_{G/H} Pf \ d\mu = \int_G f(s) \rho(s) \ ds \qquad (f\in C_{00}(G)), \]
+and with
+\[ \frac{d\mu_s}{d\mu}(tH) = \frac{\rho(st)}{\rho(t)} \qquad (s,t\in G). \]
+\end{theorem}
+
+We remark that a quasi-invariant measure $\mu$ on $G/H$ satisfies that $\mu(U)>0$ for any
+non-empty open $U$.
+
+\begin{theorem}
+Every strongly quasi-invariant measure on $G/H$ arises from a rho-function as above, and all
+such measures are strongly equivalent.
+\end{theorem}
+
+An immediate corollary is that all strongly quasi-invariant measures on $G/H$ have the same
+null sets.  In fact, this is true for all quasi-invariant measures.
+For the following, recall that a subset $F$ is \emph{locally Borel} if $E\cap F$ is Borel
+whenever $F$ is Borel with $\mu(F)<\infty$, and a locally Borel set $E$ is \emph{locally null}
+if $\mu(E\cap F)=0$ whenever $F$ is Borel with $\mu(F)<\infty$.
+
+\begin{proposition}
+All strongly quasi-invariant measures on $G/H$ have the same locally null sets.
+\end{proposition}
+
+\begin{theorem}
+A set $E\subseteq G/H$ is locally null (with respect to any quasi-invariant measure on $G/H$)
+if and only if $q^{-1}(E)\subseteq G$ is locally null (with respect to the Haar measure on $G$).
+\end{theorem}
+
+There is also a useful summary in \cite[Appendix~B]{bhv}.
+
+
+\section{For right coset spaces}
+
+In this section, we provide some formulas for quasi-invariant measures on $H \bs G$
+the right coset space.  Let $G^\op$ be the group $G$ with the same inverse, but the reversed
+product.  We write $s^\op = s^o$ for $s\in G$ considered as an element of $G^\op$, so that
+$s^o t^o = (ts)^o$ and $(s^o)^{-1} = (s^{-1})^o$.  The left Haar measure on $G^\op$, say
+$\lambda_{G^\op}$, is just the right Haar measure on $G$, and so
+\[ \int_{G^\op} f^o(t) \ dt =
+\int_{G^\op} f^o(s^o) \ d\lambda_{G^\op}(s^o) =
+\int_G f(s) \nabla(s^{-1}) \ d\lambda_G(s)
+= \int_G f(s^{-1}) \ ds.  \]
+for $f\in C_{00}(G)$, say, where $f^o(s^o) = f(s)$ so $f^o\in C_{00}(G^\op)$.
+It follows that $G\rightarrow G^\op, s\mapsto (s^{-1})^o$ is a group isomorphism which
+preserves the measure.
+
+\begin{lemma}
+The modular function on $G^\op$ is $\nabla_{G^\op}(s^o) = \nabla_G(s^{-1})$.
+\end{lemma}
+\begin{proof}
+For a Borel $E\subseteq G$ let $E^o = \{s^o: s\in E\}$ a Borel subset of $G^\op$.  For
+$s^o\in G^\op$ we have that $\nabla_{G^\op}(s^o) \lambda_{G^\op}(E^o) =
+\lambda_{G^\op}(E^o s^o)$.  Let $f$ be the Borel function on $G$ with $f^o = 
+\chi_{E^o s^o}$ so $f(t)=1$ if and only if $t^o \in E^o s^o$, equivalently
+$t \in sE$, so $f = \chi_{sE}$.  Thus
+\[ \nabla_{G^\op}(s^o) \lambda_{G^\op}(E^o) = \int_{G^\op} \chi_{E^os^o}
+= \int_G \chi_{sE}(t) \nabla_G(t^{-1}) \ dt
+= \int_G \chi_E(t) \nabla_G((st)^{-1}) \ dt, \]
+by left-invariance.  This in turn equals
+\[ \nabla_G(s^{-1}) \int_G \chi_E(t) \nabla_G(t^{-1}) \ dt
+= \nabla_G(s^{-1}) \int_{G^\op} \chi_{E^o}. \]
+Hence $\nabla_{G^\op}(s^o) = \nabla_G(s^{-1})$.
+\end{proof}
+
+Given a closed subgroup $H$ of $G$, notice that $H^\op$ is identified with $\{s^o:s\in H \}$,
+a closed subgroup of $G^\op$.
+
+\begin{lemma}
+A function $\rho':G^\op\rightarrow(0,\infty)$ is a rho-function for $(G^\op, H^\op)$ if
+and only if $\rho(s) = \rho'((s^{-1})^o)$ defines a rho-function for $(G,H)$.
+\end{lemma}
+\begin{proof}
+Let $s\in G, u\in H$.  We calculate that $\rho(su) = \rho'((s^{-1})^o (u^{-1})^o)$
+while
+\[ \frac{\nabla_H(u)}{\nabla_G(s)} \rho(s)
+= \frac{\nabla_H(u)}{\nabla_G(s)} \rho'((s^{-1})^o). \]
+So $\rho$ is a rho-function on $G$ if and only if
+\[ \rho'(s^o u^o) = \frac{\nabla_H(u^{-1})}{\nabla_G(s^{-1})} \rho'(s^o)
+= \frac{\nabla_{H^\op}(u^o)}{\nabla_{G^\op}(s^o)} \rho'(s^o)
+\qquad (s^o\in G^\op, u^o\in H^\op), \]
+that is, $\rho'$ is a rho-function for $(G^\op,H^\op)$.
+\end{proof}
+
+The map $G\rightarrow G^\op; s \mapsto s^o$ is an anti-isomorphism of groups which maps
+$H$ to $H^\op$.  Furthermore, a right coset $Hs$ is mapped to $\{ (us)^o : u\in H \}
+= \{ s^o v : v\in H^\op \} = s^o H^\op$ a left coset.  Thus this map drops to a well-defined
+map $H \bs G \rightarrow G^\op / H^\op; Hs \mapsto s^o H^\op$.  This map is a homeomorphism
+by the definition of the quotient topology.
+
+Let $\mu^\op$ be a strongly quasi-invariant measure on $G^\op / H^\op$ with respect to a
+rho-function $\rho'$ for $(G^\op, H^\op)$.  Let $\rho$ be the associated rho-function for
+$(G,H)$.  Thus
+\begin{equation} \int_{G^\op / H^\op} P^\op f^o \ d\mu^\op
+= \int_{G^\op} f^o(s^o) \rho'(s^o) \ ds^o \qquad (f\in C_{00}(G)). \label{eq:1}
+\end{equation}
+Now, $P^\op f^o \in C_{00}(G^\op/H^\op)$ is
+\begin{equation} (P^\op f^o)(s^oH^\op) = \int_{H^\op} f^o(s^ot^o) \ dt^o
+= \int_{H^\op} f^o((ts)^o) \ dt^o
+= \int_H f(t^{-1}s) \ dt. \label{eq:2}
+\end{equation}
+%So relation (\ref{eq:1}) becomes
+%\[ \int_{G^\op/H^\op} \int_H f(t^{-1}s) \ dt \ d\mu^\op(s^oH^\op)
+%= \int_G f(s^{-1}) \rho(s) \ ds. \]
+
+Define a measure $\mu$ on $H\bs G$ by $\mu(E) = \mu^\op(E^o)$.
+Given a Borel $E\subseteq H\bs G$ let $E^o\subseteq G^\op/H^\op$ be the image (so
+$Hs\in E$ if and only if $s^o H^\op \in E^o$).
+Extend this notation to $F\in C_{00}(H\bs G)$, so that $F(Hs) = F^o(s^o H^\op)$.  
+Consider now $\mu^\op_{s^o}$ which satisfies
+$\mu^\op_{s^o}(E^o) = \mu^\op(s^oE^o) = \mu^\op((Es)^o) = \mu(Es)$.
+We have by Theorem~\ref{thm:1},
+\begin{align*}
+\mu(Es) &= \mu^\op_{s^o}(E^o) = \int_{G^\op/H^\op} \chi_{E^o} \ d\mu^\op_{s^o}
+= \int_{G^\op/H^\op} \chi_{E^o} \frac{d\mu^\op_{s^o}}{d\mu^\op} \ d\mu^\op \\
+&= \int_{G^\op/H^\op} \chi_{E^o}(t^oH^\op) \frac{\rho'(s^ot^o)}{\rho'(t^o)} \ d\mu^\op(t^oH^\op).
+\end{align*}
+We remark that by the defining relation to be a rho-function, $\rho'(s^ot^o) / \rho'(t^o)$
+depends only on the coset $t^oH^\op$, so defines $F^o(t^oH^\op)$.  Then
+\[ F(Ht) = \frac{\rho'(s^ot^o)}{\rho'(t^o)} = \frac{\rho(s^{-1}t^{-1})}{\rho(t^{-1})} \]
+also depends only on $Ht$.  In conclusion,
+\[ \mu(Es) = \int_{H\bs G} \chi_E(Ht) \frac{\rho(s^{-1}t^{-1})}{\rho(t^{-1})} \ d\mu(Ht). \]
+If we define ${}_s\mu(E) = \mu(Es)$ then 
+\begin{equation}
+\frac{d{{}_s\mu}}{d\mu}(Ht) = \frac{\rho(s^{-1}t^{-1})}{\rho(t^{-1})}
+\label{eq:4}
+\end{equation}
+
+Given $f\in C_{00}(G)$ define $P'f \in C_{00}(H\bs G)$ by integrating over the right
+Haar measure of $H$, that is,
+\[ (P'f)(Hs) = \int_H f(ts) \ d\rho_H(t), \]
+where $\rho_H$ is the right Haar measure on $H$.  Then, from (\ref{eq:2}),
+\begin{equation} (P'f)^o(s^o H^\op) = (P'f)(Hs) = \int_H f(ts) \ d\rho_H(t)
+= \int_H f(t^{-1}s) \ dt = (P^\op f^o)(s^oH^\op). \label{eq:3}
+\end{equation}
+It now follows from (\ref{eq:1}) that
+\begin{align}
+\int_{H\bs G} P'f \ d\mu = \int_{G^\op} f^o(s^o) \rho'(s^o) \ ds^o
+= \int_G f(s^{-1}) \rho(s) \ ds
+= \int_G f(s) \rho(s^{-1}) \ d\rho_G(s), \label{eq:5}
+\end{align}
+where $\rho_G$ is the right Haar measure on $G$.
+
+In summary, we have shown the following.
+
+\begin{theorem}
+Given a rho-function $\rho$ for the pair $(G,H)$ there is strongly quasi-invariant
+measure $\mu$ on $H\bs G$ with
+\[ \int_{H\bs G} \int_H f(ts) \ d\rho_H(t) \ d\mu(Hs)
+= \int_G f(s) \rho(s^{-1}) \ d\rho_G(s), \]
+and with
+\[ \frac{d{{}_s\mu}}{d\mu}(Ht) = \frac{\rho(s^{-1}t^{-1})}{\rho(t^{-1})}. \]
+\end{theorem}
+
+It perhaps makes sense to make a new definition.
+
+\begin{definition}
+A \emph{right rho-function} for the pair $(G,H)$ is a continuous function $\rho:G\rightarrow
+(0,\infty)$ such that
+\[ \rho(us) = \frac{\nabla_G(u)}{\nabla_H(u)} \rho(s)
+\qquad (s\in G, u\in H). \]
+\end{definition}
+
+This definition is designed so that $\rho$ is a right rho-function if and only if $s\mapsto
+\rho(s^{-1})$ is a rho-function.  We hence immediately have
+
+\begin{theorem}
+Given a right rho-function $\rho$ for the pair $(G,H)$ there is strongly quasi-invariant
+measure $\mu$ on $H\bs G$ with
+\[ \int_{H\bs G} \int_H f(ts) \ d\rho_H(t) \ d\mu(Hs)
+= \int_G f(s) \rho(s) \ d\rho_G(s). \]
+Further, if ${}_s\mu(E) = \mu(Es)$ for $E\subseteq H\bs G$, then
+\[ \frac{d{{}_s\mu}}{d\mu}(Ht) = \frac{\rho(ts)}{\rho(t)}. \]
+\end{theorem}
+
+Furthermore, we have that
+
+\begin{proposition}
+$E\subseteq H\bs G$ is locally null if and only if $q^{-1}(E)$ is locally null in $G$.
+\end{proposition}
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem[BHV]{bhv} B. Bekka, P. de la Harpe\ and\ A. Valette, {\it Kazhdan's property (T)}, New Mathematical Monographs, 11, Cambridge University Press, Cambridge, 2008. MR2415834
+
+\bibitem[Fol]{fol} G. B. Folland, {\it A course in abstract harmonic analysis}, second edition, Textbooks in Mathematics, CRC Press, Boca Raton, FL, 2016. MR3444405
+
+\bibitem[HR]{hr} E. Hewitt\ and\ K. A. Ross, {\it Abstract harmonic analysis. Vol. I}, second edition, Grundlehren der Mathematischen Wissenschaften, 115, Springer-Verlag, Berlin, 1979. MR0551496
+
+\end{thebibliography}
+
+
+
+\end{document}
