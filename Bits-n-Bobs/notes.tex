@@ -1,0 +1,163 @@
+\documentclass[twoside,a4paper,12pt]{article}
+
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{amsmath,amssymb,latexsym,amsthm,url}
+\usepackage{showkeys}
+\usepackage[active]{srcltx}
+\usepackage[all]{xy}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{remark}[proposition]{Remark}
+\newtheorem{remarks}[proposition]{Remarks}
+%\newtheorem{question}[proposition]{Question}
+%\newtheorem{problem}[proposition]{Problem}
+
+\newcommand{\ip}[2]{\langle #1,#2 \rangle}
+\newcommand{\mc}{\mathcal}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\G}{{\mathbb G}}
+\newcommand{\vnten}{\overline\otimes}
+\newcommand{\mor}{\operatorname{Mor}}
+\newcommand{\tr}{\operatorname{Tr}}
+\newcommand{\re}{\operatorname{Re}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\op}{{\operatorname{op}}}
+\newcommand{\aff}{\operatorname{Aff}}
+
+\begin{document}
+
+\title{Smaller notes}
+\author{Matthew Daws}
+\maketitle
+
+\tableofcontents
+
+
+
+\section{Unions of cosets}
+
+This is a careful write-up of my question \cite{q1} at math\emph{overflow} together with the
+answer \cite{a1}.  The question is:
+
+\begin{quote}
+Let $G$ be a locally compact group, and let $K,L$ be cosets of $G$ (not assumed open or closed)
+which each have empty interior.  Does also $K\cup L$ have empty interior?
+\end{quote}
+
+The answer is ``no''.  The counter-example comes from considering $G = (\mathbb Z/2\mathbb Z
+)^{\mathbb N}$ the infinite product of the cyclic group of order 2.  We shall write $0,1$ for the
+elements of $\mathbb Z/2\mathbb Z$, so $1+1=0$.  We give $G$ the product topology, so $G$ is compact
+and Hausdorff.  We shall write elements of $G$ as infinite sequences $x = (x_n)$ in
+$\mathbb Z/2\mathbb Z$.  Notice that $G$ is compact, abelian, and every $x\in G$ satisfies
+that $x+x=0$.
+
+The topology has a base of ``cylinder'' sets, given as follows.  Let $n\in\mathbb N$ and $y=(y_1,
+y_2,\cdots,y_n)$ a finite sequence in $\mathbb Z/2\mathbb Z$.  Define
+\[ \mathcal O_{n,y} = \big\{ x=(x_k)\in G : x_i = y_i \ (i\leq n) \big\}. \]
+These sets form a base for the topology on $G$.  Notice that the intersection of two such sets
+is of the same form (or is empty).
+
+Furthermore, notice that for $s,t\in\mathbb Z/2\mathbb Z$ either $s=t$ or $s=t+1$.  Then
+\begin{align*} G \setminus \mathcal O_{n,y}
+&= \big\{ x : \exists\, 1\leq i\leq n, x_i\not=y_i \big\}
+= \bigcup_{i=1}^n \big\{ x : x_i\not=y_i \big\} \\
+&= \bigcup_{i=1}^n \big\{ x : x_i=y_i+1 \big\}
+\end{align*}
+which is the union of (many) basic open sets.  Thus $\mathcal O_{n,y}$ is also closed.
+
+Finally, notice that $\mathcal O_{n,y}$ is a subgroup exactly when $y_i=0$ for $i\leq n$, and so
+every $\mathcal O_{n,y}$ is a coset in $G$.
+
+\begin{lemma}\label{lem:1}
+$G$ has countably many open subgroups.
+\end{lemma}
+\begin{proof}
+Consider a basic open set $\mc O_{n,y}$.  Given $x,z\in \mc O_{n,y}$, as $x$ and $z$ agree in the
+first $n$ coordinates, we see that $(x+z)_k = 0$ for $k\leq n$.  It follows that $\mc O_{n,y}
++ \mc O_{n,y} = \mc O_{n,0}$ an open subgroup.
+
+Now let $H$ be an arbitrary open subgroup, so we can write $H$ as some union of basic open sets.
+Let $n$ be minimal with $\mc O_{n,y}\subseteq H$ for some $y$.  Thus $\mc O_{n,0}\subseteq H$
+as $H$ is a subgroup.  Any open basic open set $\mc O_{m,z}\subseteq H$ must have $n\leq m$,
+and so we see that $\mc O_{m,z} + \mc O_{n,0} = \mc O_{n,z} \subseteq H$.
+
+As $H$ is the union of basic open sets, we conclude that there are finitely many $x_1,\cdots, x_k$
+with $H = \bigcup_{i=1}^k \mc O_{n,x_i}$.  Let $y_i \in (\mathbb Z / 2\mathbb Z)^n$ be the
+projection of $x_i$ onto the first $n$ coordinates.  As $H$ is a subgroup, it follows that
+$\{y_i : 1\leq i \leq k\}$ is a subgroup of $(\mathbb Z / 2\mathbb Z)^n$, say $K$.  Furthermore,
+$H$ is exactly the collection of all $x\in G$ such that the projection of $x$ onto the first
+$n$ coordinates is in $K$.
+
+It follows that open subgroups of $H$ can be described by $n\in\mathbb N$ and a subgroup $K$ of
+$(\mathbb Z / 2\mathbb Z)^n$.  There are only countably many such choices.
+\end{proof}
+
+\begin{corollary}
+There are countably many closed subgroups of $G$ of index $2$.
+\end{corollary}
+\begin{proof}
+Let $H\leq G$ be a closed subgroup of index $2$.  Then $G\setminus H$ is a coset of $H$ and so
+is closed, and so $H$ is open.  The result follows.
+\end{proof}
+
+We now consider arbitrary subgroups of $G$.  It is instructive to consider the bijection between
+$G$ and $\mc P(\mathbb N)$ the power set of $\mathbb N$, given by $x=(x_n)$ mapping to the set
+$A\subseteq \mathbb N$ where $n\in A$ if and only if $x_n=0$.  If $x,y\in G$ biject with $A,B$,
+respectively, then $x+y$ bijects with $C$ where $n\in C$ if and only if $x_n+y_n=0$, that is,
+$x_n=y_n=0$ or $x_n=y_n=1$, that is, $n\in A\cap B$ or $n\in \mathbb N \setminus (A\cup B)$.
+Thus $C = (A\cap B) \cup (\mathbb N \setminus (A\cup B)) = \mathbb N \setminus (A \triangle B)$.
+
+We recall the notion of a \emph{filter} on $\mathbb N$.  This is a subset $\mc F\subseteq
+\mc P(\mathbb N)$ with $\emptyset\not\in\mc F$, with, if $A\in\mc F$ and $A\subseteq B$ then also
+$B\in\mc F$, and with $A,B\in\mc F\implies A\cap B\in\mc F$.  An \emph{ultrafilter} $\mc U$
+is a maximal filter; alternatively, $\mc U$ is a filter with the property that if
+$A\in\mc P(\mathbb N)$ then either $A\in\mc U$ or $\mathbb N\setminus A\in\mc U$.
+
+\begin{lemma}
+There are $2^{\mf{c}}$ subgroups of index $2$ in $G$.
+\end{lemma}
+\begin{proof}
+Let $\mc U$ be an ultrafilter, and let $H\subseteq G$ be the associated subset.  Given $A,B\in\mc U$
+consider $C=\mathbb N \setminus (A\triangle B)$.  Then $A\cap B \subseteq C$ and so $C\in\mc U$.
+It follows that $H$ is a subgroup of $G$.  Furthermore, given $A\not\in\mc U$ we know that
+$\mathbb N\setminus A\in\mc U$.  Thus if $x\not\in H$ then $1+x\in H$, and as $\emptyset\not\in
+\mc U$ also $1\not\in H$.  Thus $H$ is proper, and $G$ is the union of $H$ and $1+H$, so $H$ has
+index $2$.
+
+It is well-known (see for example \cite{a2}) that there are $2^c$ ultrafilters on $\mathbb N$,
+and so there are (at least) $2^\mf{c}$ subgroups of index $2$ in $G$.  As $G$ bijects with
+$\mc P(\mathbb N)$ we have $|G| = 2^{\aleph_0} = \mf{c}$ and so $|\mc P(G)| = 2^{\mf{c}}$.
+Thus there are at most $2^{\mf{c}}$ subgroups of any index.
+\end{proof}
+
+There hence exists a subgroup $H$ of index $2$ which is not closed.  (In fact this follows more
+directly from the existence of non-principle ultrafilters, and the proof of Lemma~\ref{lem:1}.)
+Thus $H$ is not open, and so cannot contain any non-empty open set (if $\emptyset\not=
+U\subseteq H$ is open then using the group operations we can cover $H$ by translates of $U$ which
+shows that $H$ is open, contradiction).  As $G\setminus H$ is a coset of $H$ it follows that
+$G\setminus H$ cannot contain any non-empty open set.  Thus $H$ is dense in $G$.  We have also
+now answered our original question, as both $H$ and its coset have empty interior, and yet their
+union is all of $G$.
+
+\begin{thebibliography}{aa}
+
+\bibitem{q1} Matthew Daws, Empty interior of union of cosets?, 
+   \url{https://mathoverflow.net/q/351764}
+
+\bibitem{a1} YCor (\url{https://mathoverflow.net/users/14094/ycor}), Empty interior of union of cosets?,
+   \url{https://mathoverflow.net/q/351846}
+
+\bibitem{a2} Brian M. Scott (\url{https://math.stackexchange.com/users/12042/brian-m-scott}), The set of ultrafilters on an infinite set is uncountable, \url{https://math.stackexchange.com/q/83540}
+
+\end{thebibliography}
+
+
+\end{document}
