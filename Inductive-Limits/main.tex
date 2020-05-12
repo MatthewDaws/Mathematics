@@ -1,0 +1,347 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{latexsym, amsmath, amsthm, amssymb}
+\usepackage[all]{xy}
+
+% Drafing
+%\usepackage{showkeys, backref}
+
+\newcommand{\mc}[1]{{\mathcal{#1}}}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\Rep}{\operatorname{Rep}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Eq}{\operatorname{Eq}}
+\newcommand{\Sp}{\operatorname{Sp}}
+\newcommand{\op}{{\operatorname{op}}}
+\newcommand{\bin}{{\operatorname{bin}}}
+\newcommand{\asy}{{\operatorname{asy}}}
+\newcommand{\indlim}{\varinjlim}
+
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{corollary}[lemma]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{example}[lemma]{Example}
+
+
+\title{Inductive limits of Banach algebras}
+\author{Matt Daws}
+\date{Last knowing modified 12 April 2020}
+
+% 234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We provide an overview of inductive limits of Banach algebras, correcting a few misleading
+statements in the literature.
+
+This is a very early version.
+\end{abstract}
+
+\section{Introduction}
+
+The inductive (or direct) limit of Banach algebras have not been widely studied, perhaps reflecting
+a lack of applications in the literature.  Inductive limits are widely studied for locally convex
+spaces -- often when the space appearing in the inductive system are Banach spaces, but the limit is
+not in general a Banach space, for example, \cite[Chapter~IV, Section~5]{conway}.  They have also
+been a useful tool in the theory of $C^*$-algebras, see references below.  For Banach algebras,
+there are a number of misleading statements in standard textbooks, which we wish to correct.  We do
+not pretend to make a literature review, instead giving such references as we are aware of.
+
+Let $C$ be a general category, let $I$ be a directed set (often $\mathbb N$ with the usual
+ordering), for each $i\in I$ let $A_i$ be an object in $C$, and for $i\leq j$ let $\varphi_{j,i}:
+A_i\rightarrow A_j$ be morphism.  We require that for $i\leq j\leq k$ that $\varphi_{k,j} \circ
+\varphi_{j,i} = \varphi_{k,i}$.  We warn the reader that some authors write $\varphi_{i,j}$
+instead.  This is an \emph{inductive system}, written as $((A_i), (\varphi_{j,i}))$ or sometimes
+just $(A_i)$, the latter being an abuse of notation, as the ``connecting morphisms'' $\varphi_{j,i}$
+are vitally important.
+
+The \emph{inductive limit} of the system, if it exists, is an object $A$ and morphisms $\phi_i:
+A_i\rightarrow A$ such that:
+\begin{itemize}
+\item For each $i\leq j$ the following diagram commutes:
+\[ \xymatrix{ A_i \ar[rr]^-{\varphi_{j,i}} \ar[rd]_{\phi_i} && A_j \ar[ld]^{\phi_j} \\
+& A
+} \]
+\item If $B$ is an object and we have morphisms $\psi_i:A_i\rightarrow B$ with, as above,
+$\psi_i = \psi_j \circ \varphi_{j,i}$ for all $i\leq j$, then there is a unique morphism
+$\phi:A\rightarrow B$ making the following diagram commutes:
+\[ \xymatrix{ & A_i \ar[ld]_{\phi_i} \ar[rd]^{\psi_i} \\
+A \ar[rr]_{\phi} && B
+} \]
+\end{itemize}
+A standard argument, using the ``unique'' clause, shows that if the limit exists, it is unique.
+We write $\indlim A_i$ for the inductive limit (again, with an abuse of notation, as we have
+suppressed the connecting morphisms.
+
+This presentation follows \cite[Section~6.2]{rll}.  In category theory, the construction can be
+much extended to the notion of a \emph{colimit}, see \cite[Chapter~5]{leinster} for example.  For
+a combined category theory and functional analytic take, see \cite{cas}.
+A very readable introduction, which ultimately focuses on $C^*$-algebras, is \cite[Appendix~L]{wo}.
+For $C^*$-algebras, see also \cite[Section~II.8.2]{blenc}.
+
+
+\section{Banach algebras}
+
+If the read has encountered Banach spaces in a category theory setting before, they will know that
+there are two main choices for which morphisms to consider:
+\begin{itemize}
+\item all bounded linear maps.  From an analytic perspective, this seems natural, but the resulting
+category is somewhat difficult to manage;
+\item just contractive linear maps.  This might seem slightly artificial, but it leads to a somewhat
+better behaved category.
+\end{itemize}
+
+We shall choose the first, more general choice for morphisms.  In this setting, the inductive limit
+does not always exist, but we study when it does.
+
+Having now set the scene using this language of categories, we will now perform a u-turn and present
+the standard construction, which unfortunately does not have a simple interpretation in terms of
+category theory.  Below we return to the more general setting.  We follow
+\cite[Definition~1.3.4]{palmer} and \cite[Section~3.3]{blackadar}, both of which make slightly
+misleading claims which we note below.  We are not aware of any other standard textbooks covering
+this material.\footnote{But we have not even tried to make a literature review.}
+
+For the remainder of this section, $((A_i), (\varphi_{j,i}))$ shall be an inductive system of Banach
+algebras.  Thus each $A_i$ is a Banach algebra (to be sure, this means that $A_i$ has a contractive
+product) and each $\varphi_{j,i}$ is a bounded algebra homomorphism.  Essentially identical
+arguments will give analogous results for Banach space, Banach modules over Banach algebras, and so
+forth.
+
+Suppose further that for each $i\in I$
+\[ \limsup_{j\geq i} \|\varphi_{j,i}\| = \lim_{j\geq i} \sup_{k\geq j} \|\varphi_{k,i}\|
+=
+\inf_{j\geq i} \sup_{k\geq j} \|\varphi_{k,i}\| \]
+is finite.  Then we say that our system is a \emph{normed inductive system} of Banach algebras.
+[\footnote{Notice the mistake here?}]
+
+Given a normed inductive system, the classical construction of $\indlim A_i$ is as follows.
+Consider the disjoint union of the $A_i$ with the equivalence relation that, for $a_i\in A_i,
+a_j\in A_j$, we have $a_i \sim a_j$ if and only if there is $k\geq i, k\geq j$ with
+$\varphi_{k,i}(a_i) = \varphi_{k,j}(a_j)$.  A slightly tedious check shows that the quotient becomes
+a vector space.  Given an equivalence class $[a]$ with representative $a\in A_i$, it is easy to see
+that $\limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ defines a seminorm which is submultiplicative.
+The quotient by the null ideal of this seminorm gives a normed algebra, and the completion is
+$\indlim A_i$.  We define $\phi_i:A_i \rightarrow \indlim A_i$ by setting $\phi_i(a)$ to
+be the equivalence class of $a$.
+
+An alternative construction is the following.  Let $\ell^\infty(A_i)$ be the Banach algebra of all
+bounded families $(a_i)$, where $a_i\in A_i$ for each $i$, with pointwise operations.
+Let $c_0(A_i)$ be the collection of families $(a_i)\in \ell^\infty(A)$ such that, for each
+$\epsilon>0$, there is $i_0\in I$ so that $\|a_i\|<\epsilon$ for $i\geq i_0$.  Then $c_0(A_i)$
+is a closed ideal in $\ell^\infty(A_i)$.  Denote by $\mf A$ the quotient algebra
+$\ell^\infty(A_i) / c_0(A_i)$.  We shall abuse notation, and write $(a_i)\in\ell^\infty(A_i)$
+for the equivalence class of $\mf A$ which it defines.
+
+Given $i\in I$, by assumption, there is $j\geq i$ so that
+$K = \sup_{k\geq j} \|\varphi_{k,i}\| < \infty$.  Then, for $a\in A_i$, we define
+\[ a_k = \begin{cases} \varphi_{k,i}(a) & : k\geq j, \\ 0 & : \text{otherwise}. \end{cases} \]
+Thus $\|a_k\| \leq K\|a\|$ for each $k$, and so $(a_k) \in \mf A$.  Suppose we chose $j'\in I$
+instead, also with $\sup_{k\geq j} \|\varphi_{k,i}\| < \infty$, and form $(a_k')$ using $j'$.
+There is $k_0\in I$ with $k_0 \geq j$ and $k_0 \geq j'$, so for $k\geq k_0$ we have that
+$a_k = a_k'$, and so $(a_k) = (a_k')$ in $\mf A$.  It follows that we have a well-defined map
+$\phi_i:A_i\rightarrow\mf A$ which is a homomorphism, and is seen to satisfy that $\|\phi_i\| \leq
+\limsup_{j\geq i} \|\varphi_{j,i}\|$.  We introduce the notation that $\phi_i(a) =
+( \varphi_{k,i}(a) )_{k\geq j}$ where $j\geq i$ is any suitable choice.
+
+Given $j\geq i$ there is $k\geq j$ so that both $\sup_{l\geq k} \|\varphi_{l,i}\|<\infty$ and
+$\sup_{l\geq k} \|\varphi_{l,j}\|<\infty$.  For $a\in A_i$, it follows that $\phi_i(a) =
+( \varphi_{l,i}(a) )_{l\geq k}$ and that $\phi_j(\varphi_{j,i}(a)) =
+( \varphi_{l,j}(\varphi_{j,i}(a)) )_{l\geq k} = 
+( \varphi_{l,i}(a) )_{l\geq k}$.  Hence $\phi_i = \phi_j \circ \varphi_{j,i}$.
+Set $\indlim A_i$ to be the closure of $\{\phi_i(a) : i\in I, a\in A_i \}$.  For $i\leq j$, as
+$\phi_i = \phi_j \circ \varphi_{j,i}$, it follows that $\phi_i(A_i) \subseteq \phi_j(A_j)$.
+Thus $\indlim A_i$ is the closure of an increasing union of algebras, and hence is a Banach algebra.
+
+Here is an alternative description of a dense subalgebra of $\indlim A_i$.
+Define $\mf A_0$ to be the equivalence classes in $\mf A$ with representatives $(a_i)$ such that,
+for some $i_0$, we have that $\varphi_{k,j}(a_j) = a_k$ for $i_0 \leq j \leq k$.  We claim that
+$\mf A_0$ is equal to the union of the images of the $\phi_i$, and hence is dense in
+$\indlim A_i$.  If $a\in A_i$ and $j\geq i$ is suitable, then $\phi_i(a) = ( \varphi_{k,i}(a)
+)_{k\geq j}$, and so with $i_0=j$, if $i_0 \leq k \leq l$ then $\varphi_{l,k}( \varphi_{k,i}(a) )
+= \varphi_{l,i}(a)$ and so $\phi_i(a)\in \mf A_0$.  Conversely, given $(a_i)$ with $i_0$ such that
+$\varphi_{k,j}(a_j) = a_k$ for $i_0 \leq j \leq k$, let $a = a_{i_0} \in A_{i_0}$, so that
+$\varphi_{k,i_0}(a) = a_k$ for $k\geq i_0$, and hence $(a_i) = \phi_{i_0}(a)$ in $\mf A$.
+
+Let us compare this construction with the ``classical construction'' sketched above.  Clearly we
+define the same equivalence relation on the disjoint union of the $A_i$.  Given $a\in A_i$ we have
+that $\|\phi_i(a)\| = \|(\varphi_{k,i}(a))_{k\geq j}\|_{\mf A}$ for a suitable $j\geq i$, and by
+the definition of $\mf A$, this is equal to $\limsup_{k\geq j} \|\varphi_{k,i}(a)\|$ which is
+equal to $\limsup_{k\geq i} \|\varphi_{k,i}(a)\|$.  Thus our construction agrees with the
+classical one.
+
+We now turn to verifying the universal property.  In fact, this is not considered in
+\cite{blackadar}, while we believe that \cite{palmer} is wrong to say that the universal property
+always holds.    Suppose that $B$ is a Banach algebra with bounded homomorphisms $\psi_i:A_i
+\rightarrow B$ such that $\psi_i = \psi_j \circ \varphi_{j,i}$ for each $i\leq j$.  For $a\in A_i$
+we must define $\phi(\phi_i(a)) = \psi_i(a)$, which motivates the following definition.  Given
+$(a_i) \in \mf A_0$ with $\varphi_{k,j}(a_j) = a_k$ for $i_0 \leq j\leq k$, define
+$\phi((a_i)) = \psi_j(a_j)$ for any $j\geq i_0$.  This is well-defined, for $\psi_j(a_j) =
+\psi_j(\varphi_{j,i_0}(a_{i_0})) = \psi_{i_0}(a_{i_0})$, and so the definition does not depend on
+$j$, and hence also does not depend on the choice of $i_0$.  To ensure that $\phi$ is bounded,
+there must exist a constant $K$ with
+\[ \|\psi_i(a)\| \leq K \|\phi_i(a)\| = K \limsup_{j\geq i} \|\varphi_{j,i}(a)\|
+\qquad (i\in I, a\in A_i). \]
+When such a $K$ exists, $\phi$ extends by continuity to $\indlim A_i$.
+
+We summarise the construction as follows.
+
+\begin{theorem}
+Let $(A_i)_{i\in I}$ be a family of Banach algebras indexed by a direct set $I$.  For each
+$i\leq j$ suppose there is a bounded homomorphism $\varphi_{j,i}:A_i\rightarrow A_j$ with
+$\varphi_{k,j} \circ \varphi_{j,i} = \varphi_{k,i}$ for $i\leq j\leq k$, and such that
+$\limsup_{j\geq i} \|\varphi_{j,i}\| < \infty$ for each $i\in I$.  
+
+There exists a Banach algebra $A=\indlim A_i$ and bounded homomorphisms $\phi_i:A_i\rightarrow
+A$ with $\|\phi_i(a)\| = \limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $a\in A_i$, and such that
+$\phi_j \circ \varphi_{j,i} = \phi_i$ for $i\leq j$,
+and with the property that if $B$ is a Banach algebra and
+$\psi_i:A_i\rightarrow B$ are homomorphisms with $\psi_j \circ \varphi_{j,i} = \psi_i$ for
+$i\leq j$, and
+$\|\psi_i(a)\| \leq \limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $i\in I, a\in A_i$, then there is
+a unique contractive homomorphism $\phi:A\rightarrow B$ with $\phi\circ\phi_i = \psi_i$.
+\end{theorem}
+
+In the statement of the theorem, we could weaken the norm condition on $\phi_i$ to
+$\|\phi_i(a)\| \leq \limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $a\in A_i$.  Then the universal
+property would imply that actually we must have equality.  A standard diagram chase shows that all
+such $A$ satisfying the conclusions of the theorem are isometrically isomorphic.
+
+It is too much to expect that the ``universal property'' holds without norm control, as the next
+example shows.
+
+\begin{example}\label{ex:one}
+Let $A$ be a Banach algebra, and let our directed set be $\mathbb N$ with the usual ordering.
+Let $A_n = A$ for each $n\in\mathbb N$, and define $\varphi_{n+1,n}$ to be $1/2$ of the identity,
+which we denote by $\varphi_{n+1,n} = \frac12$.  Then $\varphi_{n+k,n} = 2^{-k}$ for $k\geq 1$.
+This defines a normed inductive system of Banach algebras, as for each $n$ we have that
+$\limsup_{m\geq n} \|\varphi_{m,n}\| = \limsup_{k\geq 1} 2^{-k} = 0$.  Indeed, it is now easy to
+check that $\indlim A_n = \{0\}$.
+
+Now set $B=A$ and define $\psi_n = 2^{n-1}$ as a map $A_n\rightarrow B$.  For $n\leq m$, we see that
+$\psi_m \circ \varphi_{m,n} = 2^{m-1} 2^{n-m} = \psi_n$.  So while $(B, (\psi_n))$ is a system,
+there can be no map $\phi:\indlim A_n\rightarrow B$ with $\phi\circ\phi_n = \psi_n$.  Thus, without
+some norm condition on the family $(\psi_n)$, we cannot hope to factor through $\indlim A_n$.
+\end{example}
+
+
+
+\subsection{Weaker conditions}
+
+Rather than requiring that $\limsup_{j\geq i} \|\varphi_{j,i}\| < \infty$ for each $i$, we could
+instead ask that $\limsup_{j\geq i} \|\varphi_{j,i}(a)\| < \infty$ for each $i$ and $a\in A_i$.
+It is immediate that the construction above still works, leading to $\indlim A_i$ as a closed
+subalgebra of $\ell^\infty(A_i) / c_0(A_i)$.  The same universal property will hold.  We state a
+more general theorem.
+
+\begin{theorem}
+Let $(A_i)_{i\in I}$ be a family of Banach algebras indexed by a direct set $I$.  For each
+$i\leq j$ suppose there is a bounded homomorphism $\varphi_{j,i}:A_i\rightarrow A_j$ with
+$\varphi_{k,j} \circ \varphi_{j,i} = \varphi_{k,i}$ for $i\leq j\leq k$, and such that
+$\limsup_{j\geq i} \|\varphi_{j,i}(a)\| < \infty$ for each $i\in I$ and $a\in A_i$.
+
+There exists a Banach algebra $A=\indlim A_i$ and bounded homomorphisms $\phi_i:A_i\rightarrow
+A$ with $\|\phi_i(a)\| \leq \limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $a\in A_i$, and such that
+$\phi_j \circ \varphi_{j,i} = \phi_i$ for $i\leq j$,
+and with the property that if $B$ is a Banach algebra and
+$\psi_i:A_i\rightarrow B$ are homomorphisms with $\psi_j \circ \varphi_{j,i} = \psi_i$ for
+$i\leq j$, and
+$\|\psi_i(a)\| \leq \limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $i\in I, a\in A_i$, then there is
+a unique contractive homomorphism $\phi:A\rightarrow B$ with $\phi\circ\phi_i = \psi_i$.
+\end{theorem}
+
+It is stated in \cite{blackadar, palmer} that this condition implies that  $\limsup_{j\geq i}
+\|\varphi_{j,i}\| < \infty$ for each $i$, by the Uniform Boundedness Principle.  When $I=\mathbb N$
+with the usual ordering, this is correct, as here $\limsup_{j\geq i} \|\varphi_{j,i}\| < \infty$
+is equivalent to $\sup_{j\geq i} \|\varphi_{j,i}\| < \infty$, and similarly for the case of
+$\varphi_{j,i}(a)$.  For more general directed sets $I$ this is no longer true, as the following
+counter-example shows.
+
+\begin{example}
+The following studies an inductive system of Banach spaces, but these can be turned into Banach
+algebras by equipping each space with the zero product.  Let $I$ be the collection of pairs
+$(F,n)$ where $F\subseteq\ell^1$ is finite, and $n\in\mathbb N$, turned into a directed set for the
+partial order $(F,n) \leq (F',n')$ where $F\subseteq F'$ and $n\leq n'$.  Let $0\in I$ be an extra
+element with $0\leq i$ for all $i\in I$.  For each $i\in I$ set $A_i = \ell^1$.
+
+Let $\ell^1$ have standard unit vector basis $(e_t)$.  For $a,n\in\mathbb N$ define $T_{a,n}:
+\ell^1\rightarrow\ell^1$ by $T_{a,n}(e_a) = n e_a$ and $T_{a,n}(e_t) = e_t$ for $t\not=a$, extending
+$T_{a,n}$ to $\ell^1$ by linearity and continuity.  Then $\|T_{a,n}\| = n$.
+
+For $i=(F,n)\in I$ define $\varphi_{i,0} = T_{a,n}$ where $a$ satisfies that
+\[ \sum_{t\in\mathbb N} |x_t| + (n-1)|x_a| < \|x\|+n^{-1} \qquad (x=(x_n) \in F). \]
+As $F\subseteq \ell^1$ is finite, such a $a$ does exist.  Indeed, the inequality is equivalent to
+$(n-1)|x_a| < n^{-1}$, that is, $|x_a| < 1/(n(n-1))$, for each $x\in F$.
+Then $\|\varphi_{i,0}(x)\| = \|T_{a,n}(x)\| < \|x\|+n^{-1}$ for any $x\in F$. 
+
+For each $i\in I$ define $\varphi_{i,i}$ to be the identity.  To obtain a system, we require that
+for $k\geq j\not=0$ that
+\[ \varphi_{k,j} = \varphi_{k,0} \circ \varphi_{j,0}^{-1}. \]
+Notice that $\varphi_{j,0}^{-1}$ does exist, and is a contraction.  With this definition, we do
+have an inductive system.
+
+Finally, for $x\in\ell^1$ and $i\in I$, set $y=\varphi_{i,0}^{-1}(x)$.  There is some $j=(F,n)\in I$
+with $y\in F$ and $j\geq i$.  Then, for $k\geq j$,
+\[ \|\varphi_{k,i}(x)\| = \|\varphi_{k,0}(y)\| < \|y\|+n^{-1} \leq \|x\| + n^{-1}. \]
+Thus $\limsup_{k\geq i} \|\varphi_{k,i}(x)\| \leq \limsup_{k\geq j} \|\varphi_{k,i}(x)\|
+< \|x\| + n^{-1}$, and so the ``weaker'' condition holds.
+
+However, given $i\in I$, choose $i\leq j$ with $j=(F,n)\in I$.  Let $k=(F',m)$ for some $m\geq n$
+and $F'\supseteq F$, so that $k\geq j$.  Then $\varphi_{i,0} = T_{a,p}$ for some $a,p\in\mathbb N$.
+By choosing $F'$ finite but sufficiently large, we can ensure that $\varphi_{k,0} = T_{b,m}$ where
+$b$ cannot equal $a$.  Then
+\[ \varphi_{k,i}(e_b) = \varphi_{k,0}( \varphi_{i,0}^{-1}(e_b) )
+= T_{b,m}( T_{a,p}^{-1}(e_b) )
+= T_{b,m}(e_b)
+= m e_b, \]
+and so $\|\varphi_{k,i}\|\geq m$.  Thus $\limsup_{j\geq i} \|\varphi_{j,i}\| =\infty$, and
+so we do not have a normed inductive system.
+\end{example}
+
+
+
+
+\section{From a categorical perspective}
+
+Let us start by returning to Example~\ref{ex:one}, where $A_n=A$ for each $n\in\mathbb N$ and
+$\varphi_{n+1,n} = \frac12$.  Then $\indlim A_n = \{0\}$, but we noticed that we could define $B=A$
+and $\psi_n = 2^{n-1}:A_n\rightarrow B$, and then $(B,(\psi_n))$ is a ???.  Indeed, $B$ also
+satisfies the universal property.  For, if $C$ is a Banach algebra, and $(\phi_n)$ a sequence of
+bounded homomorphisms $\phi_n:A_n\rightarrow C$ with $\phi_{n+1} \circ \varphi_{n+1,n} = \phi_n$ for
+each $n$, then we must have that $\phi_n = 2^{n-1} \phi_1$ for each $n$.  We can then define $\phi:
+B\rightarrow C$ by $\phi = \phi_1$ (recalling that $B=A=A_n$).  Then $\phi\circ\psi_n = 2^{n-1}\phi_1
+= \phi_n$, and so we have factored the ??? $(B,(\psi_n))$.
+
+
+
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem{blackadar} B. Blackadar, {\it $K$-theory for operator algebras}, second edition, Mathematical Sciences Research Institute Publications, 5, Cambridge University Press, Cambridge, 1998. MR1656031
+
+\bibitem{blenc} B. Blackadar, {\it Operator algebras}, Encyclopaedia of Mathematical Sciences, 122, Springer-Verlag, Berlin, 2006. MR2188261
+
+\bibitem{cas} J. M. F. Castillo, The hitchhiker guide to categorical Banach space theory. Part I, Extracta Math. {\bf 25} (2010), no.~2, 103--149. MR2814472
+
+\bibitem{conway} J. B. Conway, {\it A course in functional analysis}, second edition, Graduate Texts in Mathematics, 96, Springer-Verlag, New York, 1990. MR1070713
+
+\bibitem{leinster} T. Leinster, {\it Basic category theory}, Cambridge Studies in Advanced Mathematics, 143, Cambridge University Press, Cambridge, 2014. MR3307165
+
+\bibitem{palmer} T. W. Palmer, {\it Banach algebras and the general theory of $^*$-algebras. Vol. I}, Encyclopedia of Mathematics and its Applications, 49, Cambridge University Press, Cambridge, 1994. MR1270014
+
+\bibitem{rll} M. R\o rdam, F. Larsen\ and\ N. Laustsen, {\it An introduction to $K$-theory for $C^*$-algebras}, London Mathematical Society Student Texts, 49, Cambridge University Press, Cambridge, 2000. MR1783408
+
+\bibitem{wo} N. E. Wegge-Olsen, {\it $K$-theory and $C^*$-algebras}, Oxford Science Publications, The Clarendon Press, Oxford University Press, New York, 1993. MR1222415
+
+\end{thebibliography}
+
+
+\end{document}
