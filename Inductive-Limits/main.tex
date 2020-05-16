@@ -4,8 +4,8 @@
 \usepackage{latexsym, amsmath, amsthm, amssymb}
 \usepackage[all]{xy}
 
-% Drafing
-%\usepackage{showkeys, backref}
+% Drafting
+\usepackage{showkeys, backref}
 
 \newcommand{\mc}[1]{{\mathcal{#1}}}
 \newcommand{\mf}{\mathfrak}
@@ -17,6 +17,7 @@
 \newcommand{\bin}{{\operatorname{bin}}}
 \newcommand{\asy}{{\operatorname{asy}}}
 \newcommand{\indlim}{\varinjlim}
+\newcommand{\ba}{\textsf{BA}}
 
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{proposition}[lemma]{Proposition}
@@ -29,7 +30,7 @@
 
 \title{Inductive limits of Banach algebras}
 \author{Matt Daws}
-\date{Last knowing modified 12 April 2020}
+\date{Last knowingly modified 16 April 2020}
 
 % 234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 
@@ -41,7 +42,7 @@
 We provide an overview of inductive limits of Banach algebras, correcting a few misleading
 statements in the literature.
 
-This is a very early version.
+This is a work in progress.
 \end{abstract}
 
 \section{Introduction}
@@ -69,16 +70,17 @@ A_i\rightarrow A$ such that:
 \[ \xymatrix{ A_i \ar[rr]^-{\varphi_{j,i}} \ar[rd]_{\phi_i} && A_j \ar[ld]^{\phi_j} \\
 & A
 } \]
-\item If $B$ is an object and we have morphisms $\psi_i:A_i\rightarrow B$ with, as above,
-$\psi_i = \psi_j \circ \varphi_{j,i}$ for all $i\leq j$, then there is a unique morphism
+\item Let $B$ is an object and suppose we have morphisms $\psi_i:A_i\rightarrow B$ with, as above,
+$\psi_i = \psi_j \circ \varphi_{j,i}$ for all $i\leq j$.  We call $(B,(\psi_i))$ a \emph{coherent
+system}.  Then there is a unique morphism
 $\phi:A\rightarrow B$ making the following diagram commutes:
 \[ \xymatrix{ & A_i \ar[ld]_{\phi_i} \ar[rd]^{\psi_i} \\
 A \ar[rr]_{\phi} && B
 } \]
 \end{itemize}
-A standard argument, using the ``unique'' clause, shows that if the limit exists, it is unique.
-We write $\indlim A_i$ for the inductive limit (again, with an abuse of notation, as we have
-suppressed the connecting morphisms.
+A standard argument, using the ``unique'' clause, shows that if the limit exists, it is unique,
+up to isomorphism in the category.  We write $\indlim A_i$ for the inductive limit (again, with an
+abuse of notation, as we have suppressed the connecting morphisms).
 
 This presentation follows \cite[Section~6.2]{rll}.  In category theory, the construction can be
 much extended to the notion of a \emph{colimit}, see \cite[Chapter~5]{leinster} for example.  For
@@ -87,19 +89,8 @@ A very readable introduction, which ultimately focuses on $C^*$-algebras, is \ci
 For $C^*$-algebras, see also \cite[Section~II.8.2]{blenc}.
 
 
+
 \section{Banach algebras}
-
-If the read has encountered Banach spaces in a category theory setting before, they will know that
-there are two main choices for which morphisms to consider:
-\begin{itemize}
-\item all bounded linear maps.  From an analytic perspective, this seems natural, but the resulting
-category is somewhat difficult to manage;
-\item just contractive linear maps.  This might seem slightly artificial, but it leads to a somewhat
-better behaved category.
-\end{itemize}
-
-We shall choose the first, more general choice for morphisms.  In this setting, the inductive limit
-does not always exist, but we study when it does.
 
 Having now set the scene using this language of categories, we will now perform a u-turn and present
 the standard construction, which unfortunately does not have a simple interpretation in terms of
@@ -114,12 +105,13 @@ product) and each $\varphi_{j,i}$ is a bounded algebra homomorphism.  Essentiall
 arguments will give analogous results for Banach space, Banach modules over Banach algebras, and so
 forth.
 
-Suppose further that for each $i\in I$
+\begin{definition}\label{defn:1}
+Suppose that for each $i\in I$
 \[ \limsup_{j\geq i} \|\varphi_{j,i}\| = \lim_{j\geq i} \sup_{k\geq j} \|\varphi_{k,i}\|
 =
 \inf_{j\geq i} \sup_{k\geq j} \|\varphi_{k,i}\| \]
 is finite.  Then we say that our system is a \emph{normed inductive system} of Banach algebras.
-[\footnote{Notice the mistake here?}]
+\end{definition}
 
 Given a normed inductive system, the classical construction of $\indlim A_i$ is as follows.
 Consider the disjoint union of the $A_i$ with the equivalence relation that, for $a_i\in A_i,
@@ -192,7 +184,7 @@ When such a $K$ exists, $\phi$ extends by continuity to $\indlim A_i$.
 
 We summarise the construction as follows.
 
-\begin{theorem}
+\begin{theorem}\label{thm:1}
 Let $(A_i)_{i\in I}$ be a family of Banach algebras indexed by a direct set $I$.  For each
 $i\leq j$ suppose there is a bounded homomorphism $\varphi_{j,i}:A_i\rightarrow A_j$ with
 $\varphi_{k,j} \circ \varphi_{j,i} = \varphi_{k,i}$ for $i\leq j\leq k$, and such that
@@ -210,8 +202,13 @@ a unique contractive homomorphism $\phi:A\rightarrow B$ with $\phi\circ\phi_i = 
 
 In the statement of the theorem, we could weaken the norm condition on $\phi_i$ to
 $\|\phi_i(a)\| \leq \limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $a\in A_i$.  Then the universal
-property would imply that actually we must have equality.  A standard diagram chase shows that all
-such $A$ satisfying the conclusions of the theorem are isometrically isomorphic.
+property would imply that actually we must have equality.  There is a certain appeal to stating the
+condition in this weaker way, as it would make the conditions on $A$ and $B$ become similar: see
+Theorem~\ref{thm:2} below for a variant where the conditions become fully symmetric.
+
+A standard diagram chase shows that all such $A$ satisfying the conclusions of the theorem are
+isometrically isomorphic.  Furthermore, the ``uniqueness' clause in the existence of $\phi$ can be
+used to show that the union of the images of the $A_i$ must be dense in $A$.
 
 It is too much to expect that the ``universal property'' holds without norm control, as the next
 example shows.
@@ -236,25 +233,42 @@ some norm condition on the family $(\psi_n)$, we cannot hope to factor through $
 
 Rather than requiring that $\limsup_{j\geq i} \|\varphi_{j,i}\| < \infty$ for each $i$, we could
 instead ask that $\limsup_{j\geq i} \|\varphi_{j,i}(a)\| < \infty$ for each $i$ and $a\in A_i$.
-It is immediate that the construction above still works, leading to $\indlim A_i$ as a closed
-subalgebra of $\ell^\infty(A_i) / c_0(A_i)$.  The same universal property will hold.  We state a
-more general theorem.
+Let us follow through the above construction.  Given $i\in I$ and
+$a\in A_i$, there is $j\geq i$ so that $K=\sup_{k\geq j} \|\varphi_{j,i}(a)\| < \infty$.  Then
+again define
+\[ a_k = \begin{cases} \varphi_{k,i}(a) &: k\geq j, \\ 0 &:\text{otherwise}. \end{cases} \]
+Thus $\|a_k\| \leq K$ for each all $k$ and so $(a_k)\in\mf A$.  Again, the equivalence class which
+$(a_k)$ defines is independent of the choice of $j$.  Hence we obtain a well-defined homomorphism
+$\phi_i:A_i\rightarrow\mf A$, with
+\[ \|\phi_i(a)\| = \limsup_{j\geq i} \|\varphi_{j,i}(a)\| \qquad (a\in A_i). \]
+However, there seems to be no reason why $\phi_i$ need be bounded, in general, and
+Example~\ref{ex:2} below shows that $\phi_i$ can indeed fail to be bounded.
 
-\begin{theorem}
+To obtain a bounded $\phi_i$ we need to impose the condition that for each $i$ there is $K_i$ with
+$\limsup_{j\geq i} \|\varphi_{j,i}(a)\| \leq K_i\|a\|$ for each $a\in A_i$.  Then $\|\phi_i\| \leq
+K_i$.  Given this, the remainder of the previous construction still works, and we may again define
+$\indlim A_i$ as a closed subalgebra of $\ell^\infty(A_i) / c_0(A_i)$.  The same universal property
+will hold.  We state this as a theorem.
+
+\begin{theorem}\label{thm:2}
 Let $(A_i)_{i\in I}$ be a family of Banach algebras indexed by a direct set $I$.  For each
 $i\leq j$ suppose there is a bounded homomorphism $\varphi_{j,i}:A_i\rightarrow A_j$ with
-$\varphi_{k,j} \circ \varphi_{j,i} = \varphi_{k,i}$ for $i\leq j\leq k$, and such that
-$\limsup_{j\geq i} \|\varphi_{j,i}(a)\| < \infty$ for each $i\in I$ and $a\in A_i$.
+$\varphi_{k,j} \circ \varphi_{j,i} = \varphi_{k,i}$ for $i\leq j\leq k$.  Suppose further that for
+each $i\in I$ there is $K_i$ with $\limsup_{j\geq i} \|\varphi_{j,i}(a)\| \leq K_i \|a\|$ for each
+$a\in A_i$.
 
 There exists a Banach algebra $A=\indlim A_i$ and bounded homomorphisms $\phi_i:A_i\rightarrow
 A$ with $\|\phi_i(a)\| \leq \limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $a\in A_i$, and such that
 $\phi_j \circ \varphi_{j,i} = \phi_i$ for $i\leq j$,
 and with the property that if $B$ is a Banach algebra and
-$\psi_i:A_i\rightarrow B$ are homomorphisms with $\psi_j \circ \varphi_{j,i} = \psi_i$ for
+$\psi_i:A_i\rightarrow B$ are bounded homomorphisms with $\psi_j \circ \varphi_{j,i} = \psi_i$ for
 $i\leq j$, and
 $\|\psi_i(a)\| \leq \limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $i\in I, a\in A_i$, then there is
 a unique contractive homomorphism $\phi:A\rightarrow B$ with $\phi\circ\phi_i = \psi_i$.
 \end{theorem}
+
+Again, the universal property implies that we actually have equality: $\|\phi_i(a)\| =
+\limsup_{j\geq i} \|\varphi_{j,i}(a)\|$ for $a\in A_i$ and $i\in I$.
 
 It is stated in \cite{blackadar, palmer} that this condition implies that  $\limsup_{j\geq i}
 \|\varphi_{j,i}\| < \infty$ for each $i$, by the Uniform Boundedness Principle.  When $I=\mathbb N$
@@ -263,7 +277,7 @@ is equivalent to $\sup_{j\geq i} \|\varphi_{j,i}\| < \infty$, and similarly for 
 $\varphi_{j,i}(a)$.  For more general directed sets $I$ this is no longer true, as the following
 counter-example shows.
 
-\begin{example}
+\begin{example}\label{ex:1}
 The following studies an inductive system of Banach spaces, but these can be turned into Banach
 algebras by equipping each space with the zero product.  Let $I$ be the collection of pairs
 $(F,n)$ where $F\subseteq\ell^1$ is finite, and $n\in\mathbb N$, turned into a directed set for the
@@ -278,7 +292,9 @@ For $i=(F,n)\in I$ define $\varphi_{i,0} = T_{a,n}$ where $a$ satisfies that
 \[ \sum_{t\in\mathbb N} |x_t| + (n-1)|x_a| < \|x\|+n^{-1} \qquad (x=(x_n) \in F). \]
 As $F\subseteq \ell^1$ is finite, such a $a$ does exist.  Indeed, the inequality is equivalent to
 $(n-1)|x_a| < n^{-1}$, that is, $|x_a| < 1/(n(n-1))$, for each $x\in F$.
-Then $\|\varphi_{i,0}(x)\| = \|T_{a,n}(x)\| < \|x\|+n^{-1}$ for any $x\in F$. 
+Then $\|\varphi_{i,0}(x)\| = \|T_{a,n}(x)\| < \|x\|+n^{-1}$ for any $x\in F$.   Due to the
+definition of the partial order, if $j\geq i$ then also $\|\varphi_{j,0}(x)\| < \|x\|+n^{-1}$ for
+any $x\in F$.
 
 For each $i\in I$ define $\varphi_{i,i}$ to be the identity.  To obtain a system, we require that
 for $k\geq j\not=0$ that
@@ -304,21 +320,158 @@ and so $\|\varphi_{k,i}\|\geq m$.  Thus $\limsup_{j\geq i} \|\varphi_{j,i}\| =\i
 so we do not have a normed inductive system.
 \end{example}
 
+We now present a further counter-example (again, we work just with Banach spaces, algebras been
+obtained for the zero product) to show that it is possible to have that
+$\limsup_{j\geq i} \|\varphi_{j,i}(a)\| < \infty$ for each $i$ and $a\in A_i$, while 
+there is no constant $K_i$ with $\limsup_{j\geq i} \|\varphi_{j,i}(a)\| \leq K_i\|a\|$ for
+$a\in A_i$.  Again, we would think that such an example would be impossible because of the
+Principle of Uniform Boundedness, but using $\limsup$ and not $\sup$ changes things.
+
+\begin{example}\label{ex:2}
+Let $E$ be some infinite-dimensional Banach space, and pick an everywhere defined but unbounded
+functional $\phi:E\rightarrow\mathbb{C}$.  We can find $\phi$ using the axiom of choice to pick a
+Hamel basis for $E$, for example.  Let $I$ be the collection of finite-dimensional subspaces of $E$
+partially ordered by inclusion.  Let $0\in I$ be another element with $0\leq F$ for each $F\in I$.
+
+Given $F\in I$, so that $F$ is a finite-dimensional subspace of $E$, the functional $\phi$
+restricted to $F$ is bounded, and so admits a Hahn-Banach extension to $E$, say $\mu_F\in E^*$.
+Pick $x_F\in F$ with $\mu_F(x_F)=0$ and $\|x_F\|=1$ (here we need to suppose that $F$ has dimension
+at least 2).  Let $T_F:E\rightarrow E$ be the operator defined by $T_F(x) = x - \mu_F(x) x_F$ for
+$x\in E$.  Then $T_F$ is bounded, with inverse $T_F^{-1}(x) = x + \mu_F(x)x_F$.  Indeed,
+\begin{align*}
+T_F( x + \mu_F(x)x_F ) &= x + \mu_F(x)x_F - \mu_F(x)x_F - \mu_F(x)\mu_F(x_F) x_F = x, \\
+T_F^{-1}( x - \mu_F(x) x_F ) &= x - \mu_F(x) x_F + \mu_F(x)x_F - \mu_F(x) \mu_F(x_F)x_F = x
+\end{align*}
+
+For $F\in I$ let $E_F=E$.
+Define $\varphi_{F,0} = T_F$ and as before, given $0\not=F \leq G$ define $\varphi_{G,F}
+= T_G T_F^{-1}$, and finally define $\varphi_{F,F}$ to be the identity.  Then
+$((E_F),(\varphi_{G,F}))$ is an inductive system.
+
+Fix $F\in I$ and $x\in E$.  For $G\geq F$,
+\[ \varphi_{G,F}(x) = T_G( T_F^{-1}(x) ) = T_G( x + \mu_F(x)x_F )
+= x + \mu_F(x)x_F - \mu_G(x)x_G - \mu_F(x)\mu_G(x_F)x_G. \]
+As $F\leq G$ we see that $x_F\in G$ and so $\mu_G(x_F) = \phi(x_F) = \mu_F(x_F) = 0$.
+If $G$ is sufficiently large so that $x\in G$ then $\mu_G(x) = \phi(x)$, and so
+\[ \varphi_{G,F}(x) = x + \mu_F(x)x_F - \phi(x)x_G. \]
+Thus
+\[ \|\varphi_{G,F}(x)\| \leq \|x + \mu_F(x)x_F\| + |\phi(x)|, \qquad
+\|\varphi_{G,F}(x)\| \geq |\phi(x)| - \|x + \mu_F(x)x_F\|. \]
+Hence
+\[ |\phi(x)| - \|x + \mu_F(x)x_F\| \leq
+\limsup_{G\geq F} \|\varphi_{G,F}(x)\| \leq
+\|x + \mu_F(x)x_F\| + |\phi(x)|. \]
+In particular, $\limsup_{G\geq F} \|\varphi_{G,F}(x)\| < \infty$ for each $x\in E_F$.
+However, we also see that there is no constant $K$ so that $\limsup_{G\geq F} \|\varphi_{G,F}(x)\|
+\leq K \|x\|$ for every $x\in E_F$, because $\phi$ is unbounded.
+\end{example}
+
 
 
 
 \section{From a categorical perspective}
 
-Let us start by returning to Example~\ref{ex:one}, where $A_n=A$ for each $n\in\mathbb N$ and
-$\varphi_{n+1,n} = \frac12$.  Then $\indlim A_n = \{0\}$, but we noticed that we could define $B=A$
-and $\psi_n = 2^{n-1}:A_n\rightarrow B$, and then $(B,(\psi_n))$ is a ???.  Indeed, $B$ also
-satisfies the universal property.  For, if $C$ is a Banach algebra, and $(\phi_n)$ a sequence of
-bounded homomorphisms $\phi_n:A_n\rightarrow C$ with $\phi_{n+1} \circ \varphi_{n+1,n} = \phi_n$ for
-each $n$, then we must have that $\phi_n = 2^{n-1} \phi_1$ for each $n$.  We can then define $\phi:
-B\rightarrow C$ by $\phi = \phi_1$ (recalling that $B=A=A_n$).  Then $\phi\circ\psi_n = 2^{n-1}\phi_1
-= \phi_n$, and so we have factored the ??? $(B,(\psi_n))$.
+If the reader has encountered Banach spaces in a category theory setting before, they will know that
+there are two main choices for which morphisms to consider:
+\begin{itemize}
+\item all bounded linear maps.  From an analytic perspective, this seems natural, but the resulting
+category is somewhat difficult to manage;
+\item just contractive linear maps.  This might seem slightly artificial, but it leads to a somewhat
+better behaved category.
+\end{itemize}
+
+Let $\ba_1$ be the category of Banach algebras with contractive homomorphisms.  Given an inductive
+system $((A_i), (\varphi_{j,i}))$ in $\ba_1$, it is immediate that this is a normed inductive
+system, in the sense of Definition~\ref{defn:1}.  By Theorem~\ref{thm:1} we can form
+$\indlim A_i$.  Now let $(B,(\psi_i))$ be any coherent system.
+As each $\psi_j$ is a contraction, for $i\in I$ and $a\in A_i$, we have that
+\[ \|\psi_i(a)\| = \|\psi_j(\varphi_{j,i}(a))\|
+\leq \|\varphi_{j,i}(a)\| \]
+for any $j\geq i$, and so $\|\psi_i(a)\| \leq \limsup_{j\geq i}\|\varphi_{j,i}(a)\|$.
+Thus $(B,(\psi_i))$ satisfies the conditions in Theorem~\ref{thm:1}, and so we conclude that
+$\indlim A_i$ is the inductive limit in $\ba_1$.  Recall that isomorphisms in $\ba_1$ are
+\emph{isometric} isomorphisms.
+
+We consider now $\ba$, the category of Banach algebra and bounded homomorphisms.  The situation here
+seems much more complicated.
+
+\begin{example}
+We return to
+Example~\ref{ex:one}, where $A_n=A$ for each $n\in\mathbb N$ and $\varphi_{n+1,n} = \frac12$.
+Then $\indlim A_n = \{0\}$, but we noticed that we could define $B=A$ and $\psi_n =
+2^{n-1}:A_n\rightarrow B$, and then $(B,(\psi_n))$ is a coherent system, but of course there is
+no suitable homomorphism $\indlim A_n \rightarrow B$.  Hence $\indlim A_n$ is not an inductive
+limit in $\ba$.
+
+However, $B$ actually satisfies the universal property.  Indeed, let $(C,(\phi_n))$ be a coherent
+system.  Then $\phi_1 = \phi_n \circ \varphi_{n,1} = 2^{1-n} \phi_n$ and so
+$\phi_n = 2^{n-1} \phi_1$ for each $n$.  We can then define $\phi: B\rightarrow C$ by
+$\phi = \phi_1$ (recalling that $B=A=A_n$).  Then $\phi\circ\psi_n = 2^{n-1}\phi_1
+= \phi_n$, and so we have factored through the coherent system $(B,(\psi_n))$.  We conclude that
+$B$ is the inductive limit in $\ba$.
+\end{example}
+
+\begin{example}
+Consider the construction in Example~\ref{ex:1}.  We shall show that $\indlim A_i$ is the inductive
+limit in $\ba$.
+
+We first compute $\indlim A_i$, in the sense of Theorem~\ref{thm:2}.  We can take $K_i=1$ for each
+$i$.  Furthermore, for $i\in I$, let $x\in\ell^1$ and set $y = \varphi_{i,0}^{-1}(x)$.  We showed
+that there is $j\geq i$ so that for $k\geq j$ we have $\varphi_{k,i}(x) = \varphi_{k,0}(y)$ has
+norm close to $\|y\| \leq \|x\|$.  Then $\phi_i(a) = (\varphi_{k,i}(x)) = (\varphi_{k,0}(y)) \in
+\mf A$.  The construction of $\varphi_{k,0}$ shows that in fact $\| \varphi_{k,0}(y)-y\|$ is
+arbitrarily small for large $k$.  Thus $\phi_i(a) = (y) = (\varphi_{i,0}^{-1}(a)) \in\mf A$.
+We conclude that $\indlim A_i$ is isomorphic to $\ell^1$, and $\phi_i$ is identified with
+$\varphi_{i,0}^{-1}$.
+
+Let $(B,(\psi_i))$ be a coherent system.  Then $\psi_0 = \psi_i\circ\varphi_{i,0}$ and so
+$\psi_i = \psi_0\circ\varphi_{i,0}^{-1}$.  We may hence define $\phi:\indlim A_i = \ell^1
+\rightarrow B$ by $\phi = \psi_0$.  Then $\phi \circ \phi_i = \psi_0 \circ \varphi_{i,0}^{-1} =
+\psi_i$.  Thus we have factored our system, and we conclude that $\indlim A_i$ is the inductive
+limit in $\ba$.
+\end{example}
+
+\begin{example}
+Now consider the construction in Example~\ref{ex:2}.  Let $(B,(\psi_F))$ be a coherent system.
+Then $\psi_0 = \psi_F \circ \varphi_{F,0} = \psi_F \circ T_F$ so that $\psi_F = \psi_0 \circ
+T_F^{-1}$.  Given $x\in F$ we have that $T_F^{-1}(x) = x + \phi(x)x_F$ and so $\psi_F(x)
+= \psi_0(x) + \phi(x) \psi_0(x_F)$.  Thus
+\[ \|\psi_F\| \|x\| \geq \|\psi_F(x)\| \geq |\phi(x)|\|\psi_0(x_F)\| - \|\psi_0(x)\|
+\geq |\phi(x)|\|\psi_0(x_F)\| - \|\psi_0\| \|x\|. \]
+As $\phi$ is unbounded, this inequality can only hold when $\psi_0(x_F)=0$.
+We hence conclude that $\psi_0(x_F)=0$ for all $F\not=0$, and that hence $\psi_F = \psi_0$ for
+each $F$.
+
+Let $E_0$ be the closed linear span of $\{ x_F : F\in I, F\not=0 \}$, and let $q:E\rightarrow E/E_0$
+be the quotient map.  Let $\phi_F = q: E_F=E \rightarrow E/E_0$.  For $F\leq G$ and $x\in E$
+\begin{align*}
+\phi_G \circ \varphi_{G,F}(x) &= q \circ T_G \circ T_F^{-1}(x)
+= q(T_G(x + \mu_F(x) x_F)) \\
+&= q( x - \mu_G(x)x_G + \mu_F(x) x_F - \mu_F(x)\mu_G(x_F) x_G)
+= q(x) = \phi_F(x).
+\end{align*}
+Thus $(E/E_0,(\phi_F))$ is a coherent system.
+
+Furthermore, $\psi_0 = \psi_F$ must factor through $q$ as $\psi_0$ sends $E_0$ to $\{0\}$.
+Hence any coherent system factors, and we conclude that $(E/E_0,(\phi_F))$ is the inductive limit
+in $\ba$.
+\end{example}
+
+Hence in all these examples, we find that the inductive limit exists, but that it may or may not
+agree with $\indlim A_i$, and that $\indlim A_i$ may or may not even exist.
+\begin{itemize}
+\item Can we characterise those inductive systems in $\ba$ which have an inductive limit in $\ba$?
+\item What relation does $\indlim A_i$ have to category theoretical constructions?
+\end{itemize}
 
 
+
+\subsection{More on category theory}
+
+\begin{itemize}
+\item If we carry out the categorical construction for Algebras, or for Topological Spaces, what
+do we get???
+\end{itemize}
 
 
 
