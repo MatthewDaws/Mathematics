@@ -1,0 +1,304 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=2cm]{geometry}
+%\usepackage{xypic}
+%\usepackage[left,inline]{showlabels}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{url}
+%\usepackage{latexsym}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{remark}[proposition]{Remark}
+
+\newcommand{\mc}{\mathcal}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\ip}[2]{\langle{#1},{#2}\rangle}
+\newcommand{\G}{\mathbb G}
+\newcommand{\vnten}{\overline\otimes}
+\newcommand{\proten}{\widehat\otimes}
+\newcommand{\aone}{\Box}
+\newcommand{\atwo}{\Diamond}
+
+\begin{document}
+
+\title{Elementary Kaplansky Density}
+\author{Matthew Daws}
+\maketitle
+
+\section{Introduction}
+
+We give an ``elementary'' proof of the Kaplansky Density theorem, using Arens
+products and standard basic results about C$^*$-algebras.\footnote{Of course,
+these could well be considered non-trivial!}  The form of the Kaplansky Density
+Theorem we are aiming for is the following:
+
+\begin{theorem}
+Let $H$ be a Hilbert space, and endow $\mc B(H)$ with the weak$^*$-topology coming
+from regarding $\mc B(H)$ as the dual space of the trace-class operators $\mc B_*(H)$.
+Let $M\subseteq\mc B(H)$ be a von Neumann algebra, by which we mean a self-adjoint,
+unital, weak$^*$-closed subalgebra of $\mc B(H)$, and let $A\subseteq M$ be a
+C$^*$-algebra which generates $M$, by which we mean that the weak$^*$-closure of $A$
+is all of $M$.
+
+Then the unit ball of $A$ is weak$^*$-dense in the unit ball of $M$.
+\end{theorem}
+
+We state this for the weak$^*$-topology (or ``$\sigma$-weak'' topology), but, for 
+example, if $K$ denotes the $\sigma$-strong$^*$-closure of the unit ball of $A$,
+then $K$ is weak$^*$-closed, by \cite[Chapter~II, Theorem~2.6]{tak1}, and so also
+equals the closed unit ball of $M$.
+
+In the next section we give a careful proof, without much motivation.  We then make
+some comments on the proof in the following section, and in the final section make
+some closing remarks, and very brief bibliographic comments.
+
+
+
+\section{The proof}
+
+We work with the Arens products $\aone$ and $\atwo$.  Let $E$ be any \emph{reflexive}
+Banach space, and consider the projective tensor product $E\proten E^*$.  The dual
+space can be identified with $\mc B(E,E^{**}) = \mc B(E)$ in the usual way:
+\[ \ip{T}{x\otimes\mu} = \ip{\mu}{T(x)} \qquad (T\in\mc B(E), x\in E, \mu\in E^*). \]
+
+Now let $A$ be a Banach algebra, and let $\pi:A\rightarrow\mc B(E)$ be a contractive
+homomorphism.  Consider $\kappa = \kappa_{E\proten E^*} : E\proten E^* \rightarrow
+(E\proten E^*)^{**} = \mc B(E)^*$ the canonical map from a Banach space to its bidual.
+Let $\alpha = \pi^* \circ \kappa : E\proten E^* \rightarrow A^*$, and hence
+$\alpha^* = \kappa^* \circ \pi^{**} : A^{**} \rightarrow\mc B(E)$.  To be explicit,
+\[ \ip{\mu}{\alpha^*(\Phi)(x)} = \ip{\Phi}{\alpha(x\otimes\mu)}
+\qquad (\Phi\in A^{**}, x\in E, \mu\in E^*), \]
+and
+\[ \ip{\alpha(x\otimes\mu)}{a} = \ip{\mu}{\pi(a)(x)}
+\qquad (a\in A, x\in E, \mu\in E^*). \]
+
+\begin{proposition}\label{prop:two}
+For either Arens product, $\alpha^*:A^{**} \rightarrow\mc B(E)$ is a homomorphism
+which extends $\pi$, in the sense that $\pi = \alpha^* \circ \kappa_A$.
+\end{proposition}
+\begin{proof}
+This is nothing but a long calculation.  Firstly, consider the module action of
+$A$ on the image of $\alpha$ in $A^*$.  For $a,b\in A, x\in E, \mu\in E^*$ we have
+\begin{align*}
+\ip{a\cdot\alpha(x\otimes\mu)}{b} = \ip{\pi(ba)}{x\otimes\mu}
+= \ip{\mu}{\pi(b)\pi(a)(x)} = \ip{\alpha(\pi(a)\otimes\mu)}{b}, \\
+\ip{\alpha(x\otimes\mu)\cdot a}{b} = \ip{\pi(ab)}{x\otimes\mu}
+= \ip{\mu}{\pi(a)\pi(b)(x)} = \ip{\alpha(\otimes\pi(a)^*(\mu))}{b}.
+\end{align*}
+Now compute the action of $A^{**}$ on the image of $\alpha$ in $A^*$.
+For $\Phi\in A^{**}, a\in A,x\in E,\mu\in E^*$, we have
+\begin{align*}
+\ip{\Phi\cdot\alpha(x\otimes\mu)}{a} &= \ip{\Phi}{\alpha(x\otimes\pi(a)^*(\mu))}
+= \ip{\pi(a)^*(\mu)}{\alpha^*(\Phi)(x)} \\
+&= \ip{\mu}{\pi(a) \alpha^*(\Phi)(x)}
+= \ip{\alpha(\alpha^*(\Phi)(x)\otimes\mu)}{a}, \\
+\ip{\alpha(x\otimes\mu)\cdot\Phi}{a} &= \ip{\Phi}{\alpha(\pi(a)(x)\otimes\mu)}
+= \ip{\mu}{\alpha^*(\Phi) \pi(a)(x)} \\
+&= \ip{\alpha^*(\Phi)^*(\mu)}{\pi(a)(x)}
+= \ip{\alpha(x\otimes\alpha^*(\Phi)^*(\mu))}{a}.
+\end{align*}
+Thus, for $\Phi,\Psi\in A^{**},x\in E,\mu\in E^*$ we have
+\begin{align*}
+\ip{\mu}{\alpha^*(\Phi\aone\Psi)(x)} &=
+  \ip{\Phi\aone\Psi}{\alpha(x\otimes\mu)} =
+  \ip{\Phi}{\Psi\cdot\alpha(x\otimes\mu)} \\
+  &= \ip{\Phi}{\alpha(\alpha^*(\Psi)(x)\otimes\mu)}
+  = \ip{\mu}{\alpha^*(\Phi)\alpha^*(\Psi)(x)}, \\
+\ip{\mu}{\alpha^*(\Phi\atwo\Psi)(x)} &=
+  \ip{\Phi\atwo\Psi}{\alpha(x\otimes\mu)} =
+  \ip{\Psi}{\alpha(x\otimes\mu)\cdot\Phi}
+  = \ip{\Psi}{\alpha(x\otimes\alpha^*(\Phi)^*(\mu))} \\
+  &= \ip{\alpha^*(\Phi)^*(\mu)}{\alpha^*(\Psi)(x)}
+  = \ip{\mu}{\alpha^*(\Phi)\alpha^*(\Psi)(x)}.
+\end{align*}
+Thus $\alpha^*$ is a homomorphism for both $\aone$ and $\atwo$.  That $\alpha^*\circ
+\kappa_A = \pi$ is immediate.
+\end{proof}
+
+Now suppose that $A$ has a continuous involution $a\mapsto a^*$.  As $(\cdot)^*$ is
+anti-linear, the standard way to form the ``adjoint'' is to define
+\[ \ip{\mu^*}{a} = \overline{\ip{\mu}{a^*}} \qquad (\mu\in A^*, a\in A). \]
+This ensures that for each $\mu\in A^*$, we have that $\mu^*$ is linear (so that
+$\mu^*\in A^*$) and that the map $\mu\mapsto\mu^*$ itself is anti-linear.  Perform
+the same operation again to define an involution on $A^{**}$, which is easily seen
+to extend the original involution on $A$.
+
+\begin{proposition}\label{prop:three}
+The involution thus defined on $A^{**}$ satisfies the relation that for
+$\Phi,\Psi\in A^{**}$ we have $(\Phi\aone\Psi)^* = \Psi^* \atwo \Phi^*$
+(and so also $(\Phi\atwo\Psi)^* = \Phi^* \aone \Psi^*$).
+\end{proposition}
+\begin{proof}
+We again perform some calculations.  For $a,b\in A, \mu\in A^*$ we have that
+\begin{align*}
+\ip{\mu^*\cdot a}{b} = \ip{\mu^*}{ab} = \overline{\ip{\mu}{b^* a^*}}
+= \overline{\ip{a^*\cdot\mu}{b^*}} = \ip{(a^*\cdot\mu)^*}{b}
+\end{align*}
+Thus, for $a\in A, \mu\in A^*, \Phi\in A^{**}$,
+\begin{align*}
+\ip{\Phi\cdot\mu^*}{a} = \ip{\Phi}{\mu^*\cdot a} = \ip{\Phi}{(a^*\cdot\mu)^*}
+= \overline{\ip{\Phi^*}{a^*\cdot\mu}} = \overline{\ip{\mu\cdot\Phi^*}{a^*}}
+= \ip{(\mu\cdot\Phi^*)^*}{a}
+\end{align*}
+Thus finally, for $\mu\in A^*$ and $\Phi,\Psi\in A^{**}$,
+\begin{align*}
+\ip{(\Phi\aone\Psi)^*}{\mu} &= \overline{\ip{\Phi\aone\Psi}{\mu^*}}
+= \overline{\ip{\Phi}{\Psi\cdot\mu^*}} = \overline{\ip{\Phi}{(\mu\cdot\Psi^*)^*}}
+= \ip{\Phi^*}{\mu\cdot\Psi^*} = \ip{\Psi^* \atwo \Phi^*}{\mu},
+\end{align*}
+as claimed.
+\end{proof}
+
+Now let $H$ be a Hilbert space, and let $A\subseteq\mc B(H)$ be our C$^*$-algebra.
+Form the universal representation $\pi:A\rightarrow\mc B(K)$.  That is, $K$ is the
+direct sum of the GNS spaces for each state on $A$.  We shall use the Jordan
+Decomposition of functionals, see for example \cite[Chapter~III, Proposition~2.1]{tak1}.
+We note that the proof is ``elementary'' in the sense of using nothing beyond
+\cite[Chapter~I]{tak1}.  The particular claim we need is this:
+
+\begin{proposition}\label{prop:one}
+For each $\mu\in A^*$ there is a state on $A$ with GNS space $(H_0,\pi_0)$, and
+$\xi,\eta\in H_0$ such that $\ip{\mu}{a} = ( \pi_0(a)\xi | \eta )$ for each $a \in A$.
+\end{proposition}
+
+This implies immediately that $\alpha:K\proten K^* \rightarrow A^*$ is a surjection.
+Hence $\alpha^*$ is an injection, and so Proposition~\ref{prop:two} implies that
+$\aone = \atwo$ on $A^{**}$ (that is, a C$^*$-algebra is \emph{Arens regular}).
+We can hence speak of ``the'' product on $A^{**}$, and so Proposition~\ref{prop:three}
+shows that $A^{**}$ has an isometric involution defined on it.
+
+\begin{proposition}
+The map $\alpha^*:A^{**}\rightarrow\mc B(K)$ is a $*$-homomorphism.
+\end{proposition}
+\begin{proof}
+As usual, we identify $K^*$ with the conjugate space to $K$ using the inner-product
+$(\cdot|\cdot)$ on $K$.  For $\xi\in K$ let $\overline{K}\in K^*$ be the functional
+thus induced.  For $a\in A, \xi,\eta\in K$ we hence have that
+\begin{align*}
+\ip{\alpha(\xi\otimes\overline\eta)^*}{a}
+= \overline{ (\pi(a^*)\xi |\eta) }
+= \overline{ (\pi(a)^*\xi |\eta) }
+= \overline{ (\xi |\pi(a)\eta) }
+= (\pi(a)\eta|\xi)
+= \ip{\alpha(\eta\otimes\overline\xi)}{a}.
+\end{align*}
+Thus, for $\Phi\in A^{**}, \xi,\eta\in K$, we have that
+\begin{align*}
+(\alpha^*(\Phi^*)\xi|\eta) &= \ip{\Phi^*}{\alpha(\xi\otimes\overline\eta)}
+= \overline{ \ip{\Phi}{\alpha(\xi\otimes\overline\eta)^*} }
+= \overline{ \ip{\Phi}{\alpha(\eta\otimes\overline\xi)} }
+= \overline{ (\alpha^*(\Phi)\eta|\xi) } \\
+&= (\xi|\alpha^*(\Phi)\eta)
+= (\alpha^*(\Phi)^*\xi|\eta).
+\end{align*}
+Hence $\alpha^*$ is a $*$-map, as required.
+\end{proof}
+
+Finally, we observe that Proposition~\ref{prop:one} implies a little more.
+As $\alpha$ is surjective, $\alpha^*$ is bounded below, and not just injective.
+Thus $\alpha^*(A^{**}) \subseteq \mc B(K)$ is a closed self-adjoint subalgebra,
+in particular, a C$^*$-algebra.  Hence (see \cite[Chapter~1, Section~5]{tak1})
+$\alpha^*$ is an isometry.  In conclusion, we have by elementary means shown that
+$A^{**}$ is a C$^*$-algebra.
+
+We now turn to the Kaplansky Density Theorem itself.  Let $M\subseteq\mc B(H)$
+be a von Neumann algebra, and let $A\subseteq M$ be a C$^*$-algebra whose
+weak$^*$-closure
+is all of $M$.  Let $\pi:A\rightarrow\mc B(H)$ be the inclusion, and define $\alpha$
+and $\alpha^*$ from $\pi$.  So $\alpha^*:A^{**}\rightarrow\mc B(H)$ is a
+weak$^*$-continuous $*$-homomorphism.
+
+Let $M_* = \mc B_*(H) / {}^\perp M$ be the predual of $M$.  That $A$ is weak$^*$-dense
+in $M$ is equivalent to ${}^\perp A = {}^\perp M \subseteq \mc B_*(H)$.  It is
+easy to see that if $\omega \in {}^\perp A$ then $\alpha(\omega)=0$, and so, the
+map $\alpha$ drops to give an injective map $M_* \rightarrow A^*$.  We may hence
+regard $\alpha^*$ as a weak$^*$-continuous $*$-homomorphism $A^{**} \rightarrow M$.
+Let $I = \ker\alpha^* \subseteq A^{**}$, a weak$^*$-closed self-adjoint ideal in
+$A^{**}$.  Then $\alpha^*$ drops to give an injective $*$-homomorphism
+$A^{**} / I \rightarrow M$.  Thus this map is an isometry.  However, this implies
+that $\alpha:M_* \rightarrow A^*$ is an isometry, and so $\alpha^*:A^{**}
+\rightarrow M$ is a metric surjection.
+
+By Hahn-Banach, the unit ball of $A$ is weak$^*$-dense in the unit ball of $A^{**}$,
+and hence the unit ball of $A$ is weak$^*$-dense in the unit ball of $M$.
+
+
+\subsection{Further remarks}
+
+We can in fact give an elementary proof of Proposition~\ref{prop:one}.
+Let $A\subseteq\mc B(H)$ be a C$^*$-algebra.  Consider the Hilbert space
+$\ell^2(H)$, and let $\pi : \mc B(H) \rightarrow \mc B(\ell^2(H))$ be the
+obvious $*$-representation.  Then, for each $\omega\in\mc B_*(H)$ there are
+$\xi,\eta\in\ell^2(H)$ with $\|\omega\| = \|\xi\|\|\eta\|$ and
+\[ \ip{x}{\omega} = (\pi(x)\xi|\eta) \qquad (x\in\mc B(H)). \]
+By the Hahn-Banach theorem, we know that the unit ball of $\mc B_*(H)$ is weak$^*$-dense
+in the unit ball of $\mc B_*(H)^{**} = \mc B(H)^*$; this is commonly called Goldstine's
+theorem.  Thus there is an ultra-filter $\mc U$ such that $(\mc B_*(H))_{\mc U}
+\rightarrow \mc B(H)^*$ is a metric surjection.  Let $K = (\ell^2(H))_{\mc U}$ and
+let $\Pi:\mc B(H) \rightarrow\mc B(K)$ be the obvious $*$-representation.  Thus,
+for $\mu \in \mc B(H)^*$, there is $(\omega_i) \in (\mc B_*(H))_{\mc U}$ with
+$\ip{\mu}{x} = \lim_{i\rightarrow\mc U} \ip{x}{\omega_i}$ for $x\in\mc B(H)$, and
+with $\|\tau_i\| = \|\mu\|$ for each $i$.  For each $i$, there are $\xi_i,\eta_i
+\in \ell^2(H)$ with $\ip{x}{\tau_i} = (\pi(x)(\xi_i)|\eta_i)$, and with
+$\|\xi_i\| \|\eta_i\| = \|\tau_i\|$.  Thus, with $\xi = (\xi_i), \eta = (\eta_i)\in K$,
+then $\|\xi\| \|\eta\| = \|\mu\|$ and
+\[ \ip{\mu}{x} = (\Pi(x)\xi|\eta) \qquad (x\in\mc B(H)). \]
+
+Now let $\mu\in A^*$, and take a Hahn-Banach extension to $\mc B(H)^*$,
+so we can find $\xi,\eta\in K$ with $\|\mu\| = \|\xi\| \|\eta\|$ and
+\[ \ip{\mu}{x} = (\Pi(x)\xi|\eta) \qquad (x\in A). \]
+This is already enough for our application.  But if we wish to complete the
+proof of Proposition~\ref{prop:one}, observe that we may suppose that $\|\xi\|=1$
+and $\|\eta\|=\|\mu\|$, and so $(\Pi(\cdot)\xi|\xi)$ defines
+a state $\lambda$ on $A$.  If $(K_0,\pi_0,\xi_0)$ is the GNS construction for
+$\lambda$ then the map $\pi_0(x)\xi_0 \mapsto \ip{\mu}{x}$ is bounded, as
+\[ |\ip{\mu}{x}| = |(\Pi(x)\xi|\eta)| \leq \|\Pi(x)\xi\| \|\eta\|
+= \ip{\lambda}{x^*x}^{1/2} \|\mu\|
+= \|\pi_0(x)\xi_0\| \|\mu\| \qquad (x\in A). \]
+Thus there is $\eta_0\in K_0$ with $\|\eta_0\|=\|\mu\|$ and $(\pi_0(x)\xi_0|\eta_0)
+= \ip{\mu}{x}$ for $x\in A$, as required.
+
+
+
+\section{An informal discussion}
+
+The proof is simple, and occurs in two steps:
+
+\begin{itemize}
+\item Show that $A^{**}$ with the Arens products forms a W$^*$-algebra.
+\item Then argue that if $A\rightarrow M$ is an inclusion then $A^{**}\rightarrow
+M$ will be onto, hence a metric surjection, hence allowing Hahn-Banach to do the
+heavily lifting to show Kaplansky Density.
+\end{itemize}
+
+The only real difficulty is in checking carefully that it is possible to give
+$A^{**}$ a W$^*$-algebra structure in a non-circular way.  For example, the development
+of the universal enveloping algebra in \cite[Chapter~III, Section~2]{tak1} uses
+Kaplansky density.
+
+As far as I know from the literature, it is usual to use Kaplansky Density, at some point,
+when considering Arens products and $C^*$-algebras.  Indeed, after we wrote this note
+we found that Ozawa had suggested this sort of argument in a MathOverflow, \cite{oz},
+but wondered if such an argument could be made non-circular (so, ``yes'').  Of course,
+it remains quite possible such an argument has been observed before.
+
+
+
+
+\begin{thebibliography}{aa}
+
+\bibitem{oz} N. Ozawa (\url{https://mathoverflow.net/users/7591/narutaka-ozawa}), Ultraweak closure inside a closed ball, URL (version: 2012-07-17): \url{https://mathoverflow.net/q/102411}
+
+\bibitem{tak1} M. Takesaki, {\it Theory of operator algebras. I}, reprint of the first (1979) edition, Encyclopaedia of Mathematical Sciences, 124, Springer-Verlag, Berlin, 2002. MR1873025
+
+\end{thebibliography}
+
+
+\end{document}
