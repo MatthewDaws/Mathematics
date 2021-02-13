@@ -1,0 +1,219 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage[all]{xypic}
+%\usepackage[left,inline]{showlabels}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{url}
+%\usepackage{latexsym}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{remark}[proposition]{Remark}
+
+\newcommand{\mc}{\mathcal}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\ip}[2]{\langle{#1},{#2}\rangle}
+\newcommand{\G}{\mathbb G}
+\newcommand{\vnten}{\overline\otimes}
+\newcommand{\proten}{\widehat\otimes}
+\newcommand{\aone}{\Box}
+\newcommand{\atwo}{\Diamond}
+\newcommand{\lin}{\operatorname{lin}}
+
+\begin{document}
+
+\title{Failure of Kaplansky Density}
+\author{Matthew Daws}
+\maketitle
+
+\section{Introduction}
+
+We give some examples to show how (analogues of) the Kaplansky Density theorem fails,
+and make some remarks about the Krein--Smulian Theorem.
+
+The Kaplansky Density Theorem is the following.
+
+\begin{theorem}
+Let $H$ be a Hilbert space, and endow $\mc B(H)$ with the weak$^*$-topology coming
+from regarding $\mc B(H)$ as the dual space of the trace-class operators $\mc B_*(H)$.
+Let $M\subseteq\mc B(H)$ be a von Neumann algebra, by which we mean a self-adjoint,
+unital, weak$^*$-closed subalgebra of $\mc B(H)$, and let $A\subseteq M$ be a
+C$^*$-algebra which generates $M$, by which we mean that the weak$^*$-closure of $A$
+is all of $M$.
+
+Then the unit ball of $A$ is weak$^*$-dense in the unit ball of $M$.
+\end{theorem}
+
+We seek counter examples in the setting of dual Banach algebras.
+
+\begin{definition}
+Let $A$ be a Banach algebra, and suppose there is a Banach space $E$ and a bounded linear
+isomorphism $A\rightarrow E^*$, which we use the induce a weak$^*$-topology on $A$.  We say
+that $A$ is a \emph{dual Banach algebra} when the algebra product on $A$ is separately
+weak$^*$-continuous.
+\end{definition}
+
+If $\theta:A\rightarrow E^*$ is the isomorphism, then the composition
+\[ \xymatrix{ E \ar@{^{(}->}[r]^{\kappa_E} & E^{**} \ar[r]^{\theta^*} & A^* } \]
+is bounded below.  Letting $F\subseteq A^*$ be the image, the product on $A^*$ is separately
+weak$^*$-continuous if and only if $F$ is an $A$-submodule of $A^*$.
+
+Thus, we are interested in cases when $A$ is a dual Banach algebra with weak$^*$-dense subalgebra
+$B\subseteq A$, but such that the unit ball of $B$ is not weak$^*$-dense in the unit ball of $A$.
+As we are not necessarily interested only in the ``isometric'' setting (for example, we do not
+assume $\theta$ is an isometric isomorphism) it is also interesting to seek cases when no ball
+(of finite radius) of $B$ has weak$^*$-closure containing the unit ball of $A$.
+
+A final remark is that we can always give a Banach space the zero product, to turn it into a Banach
+algebra, we may first seek examples working with Banach spaces.  Later we make remarks on more
+``natural'' algebra examples.
+
+
+\section{Counter-examples}
+
+The following construction is from \cite{oz}, but we work with $\ell^1$ instead of $\ell^\infty$,
+for variety, and to give a separable example.  This construction must be folklore, but we do not
+know, for example, a textbook reference.
+
+Consider $\ell^1$, a generic element of which we denote as $a = (a_n)_{n\geq 1}$, so $\|a\| =
+\sum_{n=1}^\infty |a_n| < \infty$.  We give $\ell^1$ the predual $c_0$ in the usual way.  Pick
+$r>0$ and let
+\[ X = X_r = \big\{ a=(a_n)\in\ell^1 : r a_1 = \sum_{n=2}^\infty a_n \big\}. \]
+Then $X$ is a closed subspace.
+We claim that $X$ is weak$^*$-dense in $\ell^1$, which (by Hahn-Banach) is equivalent to showing
+that if $x=(x_n)\in c_0$ with $\ip{a}{x}=0$ for each $a\in X$, then $x=0$.  Fix such an $x$, and
+firstly choose $N>1$ and set $a=(a_n)$ with $a_1=1, a_N=r$ and $a_n=0$ otherwise.  Then $a\in X$
+and
+\[ 0 = \ip{a}{x} = x_1 + rx_N. \]
+Letting $N\rightarrow\infty$ shows that $x_1=0$, because $x\in c_0$.  However, we then see that
+$rX_N=0$ for any $N>1$, and so $x=0$, as required.
+
+Now let $(a_\alpha)$ be a net in $X$ converging weak$^*$ to $e_1\in\ell^1$.  Thus $a^{(\alpha)}_1
+\rightarrow 1$ and so
+\[ \liminf_\alpha \|a_\alpha\| = \liminf_\alpha |a^{(\alpha)}_1| + \sum_{n\geq 2} |a^{(\alpha)}_n|
+\geq \liminf_\alpha |a^{(\alpha)}_1| + r |a^{(\alpha)}_1| = 1+r. \]
+In particular, the unit ball of $X$ is not weak$^*$-dense in the unit ball of $\ell^1$.
+
+Now let $E$ be the $\ell^1$-direct sum of infinitely many copies of $\ell^1$ (so $E$ is itself
+isometrically isomorphic to $\ell^1$), which has predual the $c_0$-direct sum of $c_0$.  Now let
+$X$ be the direct sum of the subspaces $X_n$ for $n\in\mathbb N$.  $X$ is weak$^*$-dense in $E$,
+as if $x=(x_n)\in\bigoplus_n c_0$ is annihilated by $X$, then each $x_n=0$ in $c_0$, as $X_n$ is
+weak$^*$-dense in $\ell^1$.
+
+Let $e^{(n)}_1$ be the first unit vector basis in the $n$th copy of $\ell^1$.  Let $(k_n)$ be a
+rapidly increasing sequence of integers.  Set
+\[ a = \sum_n 2^{-n} e^{(k_n)}_1, \]
+so $\|a\|=1$.  Let $(a_\alpha)$ be a net in $X$ converging weak$^*$ to $a$.  For each $\alpha$,
+let $a_\alpha = a^{(\alpha)}_n \in E = \bigoplus_n \ell^1$, and let $a^{(\alpha)}_n
+= (a^{(\alpha,n)}_m) \in \ell^1$.  Thus
+\[ \lim_\alpha a^{(\alpha,k_n)}_1 \rightarrow 2^{-n}. \]
+For any $M$ there exists $\alpha_0$ so that, if $\alpha\geq \alpha_0$, then
+\[ |a^{(\alpha,k_n)}_1| > 2^{-n}(1-M^{-1}) \qquad (1 \leq n \leq M). \]
+Thus
+\[ \|a^{(\alpha)}_{k_n}\| \geq |a^{(\alpha,k_n)}_1|(1+k_n) > 2^{-n}(1-M^{-1})(1+k_n)
+\qquad (1 \leq n \leq M), \]
+and so
+\[ \|a_\alpha\| > \sum_{n=1}^M 2^{-n}(1-M^{-1})(1+k_n). \]
+It follows that
+\[ \liminf_\alpha \|a_\alpha\| \geq \sum_{n=1}^M 2^{-n}k_n, \]
+for any $M$.  By choosing $k_n$ suitably, this shows that $(a_\alpha)$ cannot be bounded.
+
+We have hence constructed a (separable) Banach space $E$ which is isometrically a dual space,
+and found a subspace $X$ of $E$ which is weak$^*$-dense, but such that there is a unit vector
+$x_0\in E$ such that no bounded net in $X$ converges weak$^*$ to $x_0$.
+
+
+\subsection{A more abstract construction}
+
+Let $F$ be any Banach space which is not reflexive, and let $E=F^*$.  Fix $x_0\in F$ a unit vector,
+regard $F$ as a closed subspace of $F^{**}$ as usual, and pick $M\in F^{***}=E^{**}$ a unit vector
+which annihilates $F$.  For $r>0$ choose $F\in F^{**} = E^*$ a unit vector with $|\ip{M}{F}|
+> 1/2$, and define
+\[ X = X_r = \{ \mu\in E : r \ip{\mu}{x_0} = \ip{F}{\mu} \}. \]
+
+We claim that $X$ is weak$^*$-dense in $E$.  A quick way to see this is the following.  Notice that
+if we define
+\[ Y = \lin\{ F-r\kappa_F(x_0) \} = \mathbb C (F-r\kappa_F(x_0)) \subseteq F^{**}, \]
+then ${}^\perp Y = X$ and so $X^\perp = Y$ as $Y$ is weak$^*$-closed in $F^{**}$.
+In particular,
+\[ \{0\} = Y \cap \kappa_F(F) = X^\perp \cap \kappa_F(F) = \kappa_F\big( {}^\perp X \big). \]
+It follows that ${}^\perp X = \{0\}$ and so $X$ is weak$^*$-dense in $E=F^*$.
+
+By Hahn-Banach, pick a unit vector $\mu_0\in E$ with $\ip{\mu_0}{x_0}=1$.
+Now let $(\mu_\alpha)$ be a net in $X$ converging weak$^*$ to $\mu_0$, so
+\[ r = \lim_\alpha r \ip{\mu_\alpha}{x_0} = \lim_\alpha \ip{F}{\mu_\alpha}. \]
+We conclude that $\liminf_\alpha \|\mu_\alpha\| \geq r$, because $\|F\|=1$.
+
+Thus, arguing as before, $\ell^1(E)$ admits a weak$^*$-dense subspace $X$ such that there is
+$\mu\in \ell^1(E)$ which is not the weak$^*$-limit of any bounded net in $X$.  I have
+been unable to decide if this construction is possible in $E$ itself.
+
+
+
+\section{For algebras}
+
+Taking the Banach space example from the previous section and giving the zero product yields a
+Banach algebra example.
+
+A much more sophisticated argument is given by Dowson in \cite{dowson} constructs a normal operator
+$T$ on a separable Hilbert space $H$ such that if $A$ denotes the algebra generated by $T$ inside
+$\mc B(H)$, then $T^*$ is in the weak$^*$-closure of $A$, but there is no bounded net in $A$
+converging weak$^*$ to $T^*$.  Thus, the weak$^*$-closure of $A$ is a von Neumann algebra $M$,
+but there is no Kaplansky Density type result for $A$.
+
+
+
+
+
+\section{The Krein--Smulian Theorem}
+
+The following can be found in, for example, \cite[Chapter~5, Section~12]{conway}.
+
+\begin{theorem}[The Krein--Smulian Theorem]
+Let $E$ be a Banach space and let $X\subseteq E^*$ be convex.  If $X\cap\{\mu\in E^*:\|\mu\|\leq r\}$
+is weak$^*$-closed for each $r> 0$, then $X$ is weak$^*$-closed.
+\end{theorem}
+
+After the proof of the theorem, Conway warns the reader thus:
+
+\begin{quote}
+There is a misinterpretation of the Krein--Smulian Theorem that the reader should be warned about.
+If $X$ is a weak-star closed convex balanced subset of the unit ball of $E^*$, let $M = \bigcup
+\{ rX:r>0\}$.  It is easy to see that $M$ is a linear manifold, but it does not follow that $M$
+is weak-star closed.
+\end{quote}
+
+We believe that a possible way to reach this erroneous conclusion is as follows.  Denote by
+$E^*_{[r]}$ the closed ball $\{\mu\in E^* : \|\mu\|\leq r\}$.  To apply Krein--Smulian, we would
+need to show that $M \cap E^*_{[r]}$ were weak$^*$-closed.  It is tempting to think that
+$M \cap E^*_{[r]} = rX$, but of course this need not hold.
+
+Let $E$ be the example from before, so there is $\mu_0\in E^*$ a unit vector,
+and $Y\subseteq E$ a weak$^*$-dense subspace, such that no bounded net in $Y$ converges weak$^*$ to
+$\mu_0$.  Let $X$ be the weak$^*$-closure of $Y \cap E^*_{[1]}$, and form $M$ as above.  Towards
+a contradiction, suppose that $M$ is weak$^*$-closed.  Clearly $X\subseteq M$ and so $M = E^*$.
+Thus $\mu_0\in M$ and so there is some $r>0$ with $\mu_0 \in rX$, but as $rX$ is the weak$^*$-closure
+of $Y \cap E^*_{[r]}$ we obtain a bounded net in $Y$ converging weak$^*$ to $\mu_0$, contradiction.
+
+
+
+\begin{thebibliography}{aa}
+
+\bibitem{conway} J. B. Conway, {\it A course in functional analysis}, second edition, Graduate Texts in Mathematics, 96, Springer-Verlag, New York, 1990. MR1070713
+
+\bibitem{dowson} H. R. Dowson, On an unstarred operator algebra, J. London Math. Soc. (2) {\bf 5} (1972), 489--492. MR0315467
+
+\bibitem{oz} N. Ozawa (\url{https://mathoverflow.net/users/7591/narutaka-ozawa}), Ultraweak closure inside a closed ball, URL (version: 2012-07-17): \url{https://mathoverflow.net/q/102411}
+
+
+\end{thebibliography}
+
+
+\end{document}
