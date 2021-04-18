@@ -1,0 +1,417 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[all]{xy}
+\usepackage{url, wrapfig}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{question}[proposition]{Question}
+\theoremstyle{definition}
+\newtheorem{remark}[proposition]{Remark}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\renewcommand{\mod}{\textsf{Mod-}}
+\newcommand{\mend}{\operatorname{End}}
+\renewcommand{\hom}{\operatorname{Hom}}
+\newcommand{\unkn}{\underline{\ \ }}
+\newcommand{\ann}{\operatorname{Ann}}
+
+\begin{document}
+
+\title{Commentary on ``$K_0$ of purely infinite simple regular rings''}
+\author{Matt Daws}
+\maketitle
+
+\begin{abstract}
+We give the details for some of the results from the start of \cite{agp}.
+\end{abstract}
+
+We assume throughout that $R$ is a (unital) ring.  We write $\mod R$ for the category of right
+$R$-modules, and for $M,N\in\mod R$ we write $\hom_R(M,N)$ for the morphisms: the right $R$-module
+homomorphisms.  We write $\mend_R(M)$ for $\hom_R(M,M)$.
+
+For us, a ring is \emph{simple} exactly when it has no proper two-sided ideals.  We warn the reader
+that this is not completely standard terminology, compare \cite[Chapter~XVII, Section~5]{lang} for example.
+
+\section{Idempotents}
+
+\begin{definition}
+Let $R$ be a ring, and let $e,f\in R$ be idempotents.  Then $e,f$ are (Murray-von Neumann) \emph{equivalent}
+if there are $x\in eRf, y\in fRe$ with $e=xy, f=yx$.  In this case, we write $e\sim f$.
+\end{definition}
+
+Suppose we merely have $x,y\in R$ with $e=xy, f=yx$.  As $e^2=e$ we have $xy = xyxy = xfy = xf^2y$ and so
+$xy = e = e^3 = exye = exf fye$.  Similarly we can show that $yx = fye exf$, and so it is no loss of
+generality to suppose that $x\in eRf$ and $y\in fRe$ as in the definition.
+
+When $e$ is an idempotent, $eR$ is a complemented (right) submodule of $R$.
+
+\begin{lemma}\label{lem:1}
+For idempotents $e,f\in R$ we have that $e\sim f$ if and only if $eR \cong fR$ in $\mod R$.
+\end{lemma}
+\begin{proof}
+If $e\sim f$ with $e=xy, f=yx$ as in the definition, then define $\theta:eR \rightarrow fR$ by $\theta(a) = ya$.  This is defined, as if
+$a\in eR$ then $ea=a$ so $ya = y(xy)a = fya \in fR$.  Clearly $\theta\in\hom_R(eR,fR)$.  Similarly, there
+is $\phi\in\hom_R(eR,fR)$ given by $\phi(b)=xb$.  Then $\theta\phi(b) = yxb = fb = b$ for $b\in fR$, and
+$\phi\theta(a) = xya = ea = a$ for $a\in eR$.  Hence $eR \cong fR$ in $\mod R$.
+
+Conversely, let $e,f$ be idempotents, and let $\theta\in\hom_R(eR,fR)$ be an isomorphism.  Let $y=\theta(e)$
+and $x=\theta^{-1}(f)$.  For $a\in eR$ as $a=ea$ we have $\theta(a) = \theta(ea) = \theta(e)a = ya$; similarly
+for $b\in fR$ we have $\theta^{-1}(b) = xb$.  Thus, for $a\in eR$ we have $a = \theta^{-1}(\theta(a))
+= xya$ and for $b\in fR$ we have $b = yxb$.  In particular, $e=xye$ and $f=yxf$.  As $y\in fR$ and $x\in eR$ we have $fy=y, ex=x$.  Set $a = fye = ye$ and set $b = exf = xf$.  Then $ab = yexf = yxf = f$ and $ba = xfye = xye = e$ and so $e\sim f$.
+\end{proof}
+
+\begin{definition}
+Two idempotents $e,f$ are \emph{orthogonal} when $ef=fe=0$, written $e \perp f$.
+\end{definition}
+
+If $e \perp f$ then $(e+f)^2=e+f$ so $e+f$ is an idempotent. Conversely, if $2x=0$ implies $x=0$ in $R$,
+then if $(e+f)^2 = e+f$ then $ef+fe = 0$.  Then $0 = e0 = ef + efe$ and $0 = 0e = efe + fe$ so $ef = fe$
+and so $ef = fe = 0$.  We need this condition, for with $R = \mathbb Z / 2\mathbb Z \oplus \mathbb Z / 2\mathbb Z$
+and $e=(1,1), f=(0,1)$ we have that $ef = fe = f\not=0$ but $e+f = (1,0)$ which is an idempotent.
+
+When $e\perp f$, it is easy to see that $(e+f)R \cong eR \oplus fR$.
+
+\begin{lemma}[{\cite[Lemma~1.1]{agp}}]\label{lem:4}
+Let $e\in R$ be an idempotent, and suppose there are right ideals $(A_i)_{i=1}^n$ in $R$ with
+$eR = A_1 \oplus \cdots \oplus A_n$.  Then there exist pairwise orthogonal idempotents $e_i\in R$ with
+$e=\sum_i e_i$ and $A_i=e_iR$ for each $i$.
+\end{lemma}
+\begin{proof}
+Consider $S = \mend_R(eR)$ which acts on the left of $eR$.  That $eR = A_1 \oplus \cdots \oplus A_n$ is
+a decomposition of right $R$-modules means that the projection onto $A_i$ gives an idempotent $f_i$ in $S$.
+Thus the $f_i$ are pairwise orthogonal, sum to the identity, and $f_i(eR) = A_i$ for each $i$.
+
+Define $\theta:S\rightarrow eRe$ by $\theta(f) = f(e)$.  For $f\in\mend_R(eR)$ we have $f(e) = f(e^2) = f(e)e$
+and so $f(e)\in eRe$ and $\theta$ is defined.  Furthermore, for $x\in R$ we have $f(ex) = f(e)x$ while for any
+$eye\in eRe$ we have that $x \mapsto eyex$ defines a member of $\mend_R(eR)$.  Thus $\theta$ is an isomorphism,
+and setting $e_i = \theta(f_i)$ gives the required conclusion.
+\end{proof}
+
+\begin{definition}
+An idempotent $e\in R$ is \emph{infinite} if there are orthogonal idempotents $f,g\in R$ with $e=f+g$ and
+$e\sim f$ with $g\not=0$.
+\end{definition}
+
+By the Lemma, $e$ is infinite if and only if $eR$ is isomorphic to a proper direct summand of itself.
+In this case, we say that $eR$ is \emph{directly infinite}.
+
+\begin{lemma}\label{lem:5}
+Let $R$ be a ring and let $e$ be an infinite idempotent.  If $e\sim f$ then also $f$ is infinite.
+\end{lemma}
+\begin{proof}
+As $e$ is infinite there are orthogonal idempotents $a,b$ with $e=a+b$ and $e\sim a$.
+As a useful aside, we claim that $ea=ae=ea$ and $eb=be=b$.  Indeed, $a+b = e = e^2 = e(a+b) = (a+b)e$.
+Multiply by $a$ on either side to get $a = a(a+b)e = ae$ and $a = e(a+b)a = ea$.  The same argument works for $b$.
+
+There are $u\in eRa, v\in aRe$ with $uv = e, vu = a$.  As $e\sim f$ there are $x\in eRf$ and $y\in fRe$
+with $xy = e$ and $yx = f$.  Set $c = yax$ and $d = ybx$.  Then $c^2 = yaxyax = yaeax = yax = c$, and similarly
+$d^2=d$, and $cd = yaxybx = yaebx = yabx = 0$, and similarly $dc=0$.  Then $c+d = y(a+b)x = yex = yx = f$ so
+$f$ is the sum of the orthogonal idempotents $c,d$.
+
+Observe now that $(yux)(yvx) = yuevx = yuaeavx = yuavx = yuvx = yex = yx = f$ and $(yvx)(yux) = yveux = yvux
+= yax = c$ so $f\sim c$, showing that $f$ is infinite.
+\end{proof}
+
+\begin{lemma}\label{lem:3}
+Let $P\in\mod R$ and suppose that $P\cong Q\oplus A$ with $Q$ being directly infinite.  Then also $P$
+is directly infinite.
+\end{lemma}
+\begin{proof}
+That $Q$ is directly infinite means that $Q\cong Q\oplus B$ for some $0 \not= B\in\mod R$. Then
+\[ P \cong    Q\oplus A \cong    Q\cong B\oplus A \cong    P \oplus B, \]
+and so $P$ is directly infinite.
+\end{proof}
+
+\begin{definition}
+A ring $R$ is \emph{purely infinite} if every nonzero right ideal of $R$ contains an infinite idempotent.
+\end{definition}
+
+
+
+\section{Some ring theory}
+
+Given a set $I$ write $R^I$ for the direct sum of $I$-many copies of $R$.  One construction of this
+is to consider all functions $f:I\rightarrow R$ which have $f(i)\not=0$ for only finitely many $i$, and endow
+with point-wise operations.  Similarly define $M^I$ for $M\in\mod R$.
+
+Recall that $F\in\mod R$ is \emph{free} if $P$ is isomorphic to $R^I$ for some $I$.  A module $P\in\mod R$ is
+\emph{projective} if given any $N,M\in\mod R$, any $g\in\hom_R(P,M)$ and any surjective $f\in\hom_R(N,M)$,
+there is some $h\in\hom_R(P,N)$ with $fh=g$:
+\[ \xymatrix{ &  N \ar@{->>}[d]^f \\
+P \ar@{..>}[ru]^{\exists\, h} \ar[r]^g &
+M } \]
+
+The following is standard:
+
+\begin{lemma}
+For $P\in\mod R$ the following are equivalent:
+\begin{enumerate}
+\item $P$ is projective;
+\item $P$ is the direct summand of a free module.  That is, there is a free module $F$ and $Q\in\mod R$ with
+$F \cong P\oplus Q$;
+\item The functor $\hom_R(P,\unkn)$, from $\mod R$ to the category of Abelian groups, is exact.
+\end{enumerate}
+\end{lemma}
+
+We shall say that $X\in\mod R$ \emph{generates} $\mod R$, or is a \emph{generator}, if, whenever we have $M,N\in\mod R$ and $f,g\in\hom_R(M,N)$ with $f \alpha = g \alpha$ for all $\alpha\in\hom_R(X,M)$, then $f=g$.  This is the usual Category Theory
+notion of a ``generator'' or \emph{separator}, though we warn the reader that this is not completely settled,
+compare \cite{qy1}.
+
+As $\mod R$ is Abelian, it suffices to take $g=0$ in the definition.  To be more prosaic, if given $h\in\hom_R(M,N)$ there exists $\alpha\in\hom_R(X,M)$ with $h\alpha\not=0$ then for $f,g\in\hom_R(M,N)$ set $h=f-g$, find a suitable $\alpha$, and then note that $h\alpha\not=0$ exactly when $f\alpha \not= g\alpha$.
+
+For the following, compare the definition of ``generator'' given in \cite[Chapter~XVII, Section~7]{lang}.
+
+\begin{lemma}\label{lem:2}
+$X\in\mod R$ is a generator if and only if for each $M\in\mod R$ there is some index set $I$ and a surjective
+$f\in\hom_R(X^I,M)$.  If $M$ is finitely generated, we may choose $I$ to be finite.
+\end{lemma}
+\begin{proof}
+If $X$ is a generator, then let $N\subseteq M$ be sum of $\alpha(X)$ as $\alpha$ varies through $\hom_R(X,M)$.
+Notice that $N$ can be obtained as the image of some morphism $X^I\rightarrow M$ for some index set $I$.
+If $N\not=M$ then $M/N$ is non-zero, and so the quotient map $h:M\rightarrow M/N$ is non-zero.  Thus there is
+$\alpha\in\hom_R(X,M)$ with $h\alpha \not = 0$.  However, this means that $\alpha(X)$ is not a subset of $N$,
+contradiction.
+
+Suppose now that $M$ is finitely generated, with generators $m_1,\cdots,m_n$.  We have already shown that
+for each $i$ there is are $\alpha_1,\cdots,\alpha_j \in \hom_R(X,M)$ and $x_1,\cdots,x_j\in X$ with
+$m_i = \sum_k \alpha_k(x_k)$.  Thus for $a\in R$ we have that $m_i a = \sum_k \alpha_k(x_k a)$.  It follows
+that we can find a finite $I$ and $\alpha:X^I\rightarrow M$ surjective.
+
+Conversely, if every module is a homomorphic image of $X^I$ for some $I$, then let $h\in\hom_R(M,N)$ be non-zero.
+Select $I$ and $\alpha\in \hom_R(X^I,M)$ a surjection.  Such an $\alpha$ is given by a family $(\alpha_i)_{i\in I}$
+in $\hom_R(X,M)$ in the obvious way.  If $h\alpha_i=0$ for all $i$, then also $h\alpha=0$ which contradicts $\alpha$ being surjective and $h\not=0$.  Thus for some $i$ with have $h\alpha_i\not=0$, as required to show that $X$ is a generator.
+\end{proof}
+
+The following is inspired by \cite{qy1}.
+
+\begin{lemma}
+Let $X\in\mod R$ be projective.  Then
+$X\in\mod R$ is a generator if and only if for each non-zero $M\in\mod R$ we have that $\hom_R(X,M)\not=0$.
+\end{lemma}
+\begin{proof}
+The ``only if'' case follows immediately from the lemma above (and holds for any $X$).  With $X$ assumed
+projective, suppose that $\hom_R(X,M)\not=0$ for all $M\not=0$.  We first give a category-theoretic proof.
+Let $h\in\hom_R(M,N)$ be non-zero.  The following sequence is exact
+\[ 0 \rightarrow \ker(h) \rightarrow M \rightarrow M/\ker(h) \rightarrow 0, \]
+and so as $X$ is projective, the following sequence is also exact
+\[ 0 \rightarrow \hom_R(X,\ker(h)) \rightarrow \hom_R(X,M) \rightarrow \hom_R(X,M/\ker(h))
+\rightarrow 0. \]
+As $h\not=0$ we have that $\ker(h)\not= M$ and so $\hom_R(X,M/\ker(h)) \not =0$ by hypothesis.
+By exactness, there is some $\alpha\in \hom_R(X,M)$ which does not map to $0$ in $\hom_R(X,M/\ker(h))$,
+that is, with $h\alpha\not=0$.  This is exactly what we needed to prove to show that $X$ is a generator.
+
+Let us now give a more direct proof.  Let $h\in\hom_R(M,N)$ be non-zero, and again consider $M/\ker(h)$ which is non-zero as $h$ is non-zero, so by assumption, there is $\beta:X\rightarrow M/\ker(h)$ non-zero.  As
+$X$ is projective, there is $\alpha$ making the diagram commute.
+\[ \xymatrix{ &  M \ar@{->>}[d] \\
+X \ar@{..>}[ru]^{\exists\, \alpha} \ar[r]_-\beta &
+M/\ker(h) } \]
+If $h\alpha=0$ then $\alpha(X)\subseteq\ker(h)$, which implies that $\beta=0$ which is not so.  Thus
+$h\alpha\not=0$, as required to show that $X$ is a generator.
+\end{proof}
+
+For $n\geq 1$ consider $R^n$ as a right $R$-module.  If $R^n = X\oplus Y$ for some submodules $X,Y$ then
+there is an idempotent $e\in \hom_R(R^n)$ with $X = e(R^n)$.  Furthermore, $\hom_R(R^n)$ may be identified
+with $M_n(R)$ \emph{acting on the left} of $R^n$.
+
+Given $M\in\mod R$ let $\ann(M) = \{ x\in R : mx=0 \ (m\in M) \}$.  For $x\in\ann(M)$ and $y,z\in R$ we
+have that $myxz = (my)x(z) = 0z = 0$ for all $m\in M$, so $yxz\in\ann(M)$.  Thus $\ann(M)$ is an ideal in $R$.
+If $I \trianglelefteq R$ is an ideal, then let $M = R/I$ as a right module.  Then $x\in\ann(M)$ exactly
+when $(y+I)x = 0$ for all $y\in R$, that is, $Rx \subseteq I$, that is, $x\in I$.  So $\ann(R/I) = I$ and
+hence all ideals of $R$ arise in this way.
+
+Finally, we need one small part of the Morita equivalence between $R$ and $M_n(R)$, which is the claim
+that every $M_n(R)$ module is of the form $M^n$ (thought of as row vectors, with $M_n(R)$ acting on the
+right by matrix multiplication) for some $M\in \mod R$.  This claim can be proved directly if one wishes.
+
+\begin{proposition}
+Let $e\in M_n(R)$ be an idempotent, and set $P = e R^n$ considered as a right $R$-module.  $P$ is
+a generator if and only if $e$ is not contained in any proper two-sided ideal of $M_n(R)$.
+\end{proposition}
+\begin{proof}
+For $M\in\mod R$ non-zero, we wish to show that $\hom_R(P,M)\not=0$.  Let $R^n$ have basis $(e_i)_{i=1}^n$
+so every $x\in R^n$ can be written as $x = \sum_{i=1}^n e_i x_i$ for some $x_i\in R$.
+We identify
+\[ \hom_R(R^n,M) \cong \hom_R(R,M) \oplus \cdots \oplus \hom_R(R,M) \cong M^n, \]
+so $f\in \hom_R(R^n,M)$ is identified with $(\xi_i)\in M^n$ when $f(x) = \sum \xi_i x_i$ for $x\in R^n$.
+
+Similarly, given $f\in \hom_R(P,M)$ we can set $\xi_i = f(e e_i)$ as $P=eR^n$.  We now identify which
+families $(\xi_i)$ can occur; perhaps there is an easy way to see this, but I will resort to calculation.
+Let $e$ have matrix $(x_{ij})$ so $ee_i = \sum_j e_{ji} e_j \in R^n$.  Given some $(\xi_i)\in M^n$ the map
+$ex \mapsto \sum \xi_i x_i$ is well-defined exactly when $ex=0 \implies \sum_i \xi_i x_i=0$.  If we consider
+$\xi = (\xi_i)$ as a row vector, and $x=(x_i)$ as a column vector, we may write $\xi x = 0$.  That $ex=0$ is
+equivalent to $(1-e)x=x$.  So our condition is that for all $y$, with $x = (1-e)y$, we need that
+$0 = \xi x = \xi(1-e)y = \xi y - \xi e y$, where now $e\in M_n(R)$ acts on the right of the row vector $\xi$.
+That is, $\xi y =\xi e y$ for all $y$, so $\xi = \xi e$.
+
+Thus $P$ is a generator if and only if for every $M$ there is $\xi\in M^n$ with $\xi e = \xi$; equivalently,
+$M^n e \not= 0$.  Notice that we have turned $M^n$ into a right $M_n(R)$ module in the obvious way, and so
+our condition is equivalent to $e\not\in\ann(M^n) \trianglelefteq M_n(R)$.  As any ideal in $M_n(R)$ arises 
+as $ann(M^n)$ for some $M$, the result follows.
+\end{proof}
+
+Let $e_{ij}\in M_n(R)$ be the matrix with $1$ in the $(i,j)$th place.  The diagonal embedding $R\rightarrow M_n(R)$ 
+is a ring homomorphism which turns $M_n(R)$ into a left $R$-module, with the action of $x\in R$ just left 
+multiplication on every matrix element.  Thus a general $x\in M_n(R)$ can be written uniquely as
+\[ x = \sum_{i,j=1}^n x_{ij} e_{ij} \]
+for some $(x_{ij})$ in $R$.
+
+Let $I\trianglelefteq M_n(R)$ be some non-zero ideal.  As $1 = \sum_i e_{ii}$ there is $x\in I$ and some
+$i$ with $e_{ii} x \not = 0$.  Similarly, we can then find $j$ with $e_{ii} x e_{jj} \not = 0$.  So there is
+$y\in R$ with $y e_{ij} \in I$.  By multiplying by suitable $e_{kl}$ on the left and right, we see that
+$y e_{ij} \in I$ for all $i,j$.  Let $J\subseteq R$ be the collection of such $y$.  Clearly $J$ is an ideal,
+and so $M_n(J) \subseteq I$.  However, our argument shows that if $x = (x_{ij}) \in I$ then each $x_{ij} \in J$.
+Thus $I = M_n(J)$.  If $J \trianglelefteq R$ is an ideal, then $M_n(J)$ is an ideal, and so we have completely
+classified the ideals of $M_n(R)$.
+
+We can finally prove the following; the argument leading here is inspired by \cite{qy2}.
+
+\begin{proposition}\label{prop:1}
+Let $R$ be a simple ring.  Any finitely-generated projective module $P\in\mod R$ is a generator for $\mod R$.
+\end{proposition}
+\begin{proof}
+As $P$ is finitely-generated there is a surjective morphism $R^n \rightarrow P$ for some $n$, and as $P$ is
+projective, there is $P'\in\mod R$ with $R^n \cong P \oplus P'$.  Let $e\in M_n(R)$ be the resulting idempotent
+with $eR^n \cong P$.  By the previous proposition, $eR^n$ is a generator if and only $e$ is not contained in
+a proper ideal of $M_n(R)$.  As $R$ is simple, the preceding discussion shows that $M_n(R)$ is simple, and
+so the result follows.
+\end{proof}
+
+
+\section{Purely infinite rings}
+
+We continue to follow \cite{agp}.
+
+\begin{proposition}[{\cite[Lemma~1.4]{agp}}]\label{prop:2}
+Let $R$ be a simple ring, and let $P$ and $Q$ be finitely generated projective modules in $\mod R$.
+If $P$ is directly infinite, then there is a non-zero $A\in\mod R$ with $P \cong Q \oplus A$.
+\end{proposition}
+\begin{proof}
+As $P$ is directly infinite there is $0\not=B\in\mod R$ with $P \cong P \oplus B$.  Thus also $P \cong
+P \oplus B \cong P\oplus B\oplus B$; by induction, $P\cong P\oplus B^n$ for any $n\geq 1$.  As $B$ is
+the direct summand of a projective, it is itself projective.  There is some $m$ and a surjective morphism
+$R^m \rightarrow P \cong P\oplus B$, and so also there is a surjective morphism $R^m\rightarrow B$, so
+$B$ is finitely generated.  By Proposition~\ref{prop:1}, $B$ is a generator, and so Lemma~\ref{lem:2}
+gives $n\geq 1$ and a surjection $B^n \rightarrow Q$.  As $Q$ is projective there is a splitting and we
+can find $C\in\mod R$ with $B^n \cong Q \oplus C$.  Thus
+\[ P \cong P \oplus B^n \cong P \oplus Q \oplus C \cong Q \oplus (P\oplus C), \]
+and $P\oplus C\not=0$ as $P\not=0$.
+\end{proof}
+
+\begin{proposition}[{\cite[Proposition~1.5]{agp}}]\label{prop:3}
+Let $R$ be a purely infinite, simple ring.  All non-zero finitely generated projective right $R$-modules
+are directly infinite; equivalently, all non-zero idempotents in $M_n(R)$ are infinite.
+
+If $P,Q$ are non-zero finitely generated projective right $R$-modules, there is $A\in\mod R$ with
+$P\cong Q\oplus A$.
+\end{proposition}
+\begin{proof}
+As $R$ is purely infinite, there is some infinite idempotent $e\in R$.  Set $P = eR$ so $P$ is a finitely
+generated, projective, directly infinite right $R$-module.  Let $Q$ be a non-zero finitely generated projective right $R$-module, so by Proposition~\ref{prop:2}, there is $A\in\mod R$ with $P\cong Q\oplus A$.  As $P=eR$
+we may identify $Q$ with a non-zero right ideal $I$ in $R$.  Thus $I$ contains an infinite
+idempotent $f$, and so $fR \subseteq I$ is a directly infinite right $R$-module which is a direct summand
+of $Q$.  The claim now follows from Lemma~\ref{lem:3}.
+
+The equivalence with all non-zero idempotents in $M_n(R)$ being infinite follows as if $e\in M_n(R)$ is
+an idempotent, then $eR^n$ is a finitely generated projective right $R$-module, and so directly infinite,
+which is equivalent to $e$ being infinite.  The converse is similar.
+
+The final claim is immediate from Proposition~\ref{prop:2}.
+\end{proof}
+
+We now come to our main theorem.
+
+\begin{theorem}\label{thm:1}
+Let $R$ be a simple ring.  Then $R$ is purely infinite if and only if:
+\begin{enumerate}
+\item $R$ is not a division ring; and
+\item for every $0\not=a\in R$ there are $b,c\in R$ with $bac=1$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Assume $R$ is purely infinite.  Then $R$ contains an infinite idempotent, and so $R$ is not a division ring.
+Given $0\not=a\in R$, the non-zero right ideal $aR$ contains an infinite idempotent $e$.  By the final claim of
+Proposition~\ref{prop:3} there is $A\in\mod R$ with $eR \cong R \oplus A$.  By Lemma~\ref{lem:4} we can find
+orthogonal idempotents $f,g$ with $e=f+g$ and with $fR \cong R$, that is, $f\sim 1$, by Lemma~\ref{lem:1}.
+Thus there are $x\in fR, y\in Rf$ with $xy=f, yx=1$.  As $f\in eR$ (compare the proof of Lemma~\ref{lem:5})
+and as $e\in aR$, we have $f\in aR$ so $f=ar$ for some $r\in R$.  Hence 
+\[ 1 = yxyx = yfx = (y)a(rx), \]
+as required.
+
+Conversely, suppose the two conditions hold.  Let $I$ be a non-zero right ideal in $R$.
+Either $I\not=R$ in which case set $J=I$, or, as $R$ is not a division ring, there is a proper
+right ideal $J$ in $R$.
+[\footnote{This seems to be well-known.  Such an ideal exists, for if not, we would have that
+$xR=R$ for all $x\in R$, and so for each $x$ there is $y$ with $xy=1$.  If $e\in R$ is an idempotent
+then there is $z$ with $ez=1$, so $1 = ez = eez = e1 = e$.  As $xy=1$ we have that $yx$ is an idempotent,
+so $yx=1$.  Thus $R$ is a division ring, contradiction.}]
+Let $a\in J$ be non-zero, so there are $b,c\in R$ with $bac=1$.  Then $e=acb$ is an idempotent in $aR\subseteq J$,
+so $e\not=1$ and $e\in I$.
+As $(eac)(be) = e$ and $(be)(eac) = 1$ we have that $e\sim 1$.  Thus $1$ is infinite, but then
+as $e$ is equivalent to $1$, also $e$ is infinite, by Lemma~\ref{lem:5}.  Hence $R$ is purely infinite.
+\end{proof}
+
+
+\begin{thebibliography}{99}
+
+\bibitem{agp} P. Ara, K. R. Goodearl\ and\ E. Pardo, $K_0$ of purely infinite simple regular rings, $K$-Theory {\bf 26} (2002), no.~1, 69--100. MR1918211
+
+\bibitem{lang} S. Lang, {\it Algebra}, revised third edition, Graduate Texts in Mathematics, 211, Springer-Verlag, New York, 2002. MR1878556
+
+\bibitem{qy1} Q. Yuan, Generators, blog post available at \url{https://qchu.wordpress.com/2015/05/17/generators/}
+
+\bibitem{qy2} Q. Yuan, When do projective modules give generators?, URL (version: 2020-10-28): \url{https://math.stackexchange.com/q/3884117}
+
+\end{thebibliography}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%% Mortia Equivalence stuff
+
+For $n\geq 1$ consider $R^n$ as a right $R$-module.  If $R^n = X\oplus Y$ for some submodules $X,Y$ then
+there is an idempotent $e\in \hom_R(R^n)$ with $X = e(R^n)$.  Now, $\hom_R(R^n)$ may be identified
+with $M_n(R)$ \emph{acting on the left} of $R^n$, and this gives us motivation to study $R^n$ as a left
+module of $M_n(R)$.
+There is a Morita equivalence between $R$ and $M_n(R)$; let us sketch elements of this.  Given $M$ a left $R$-module, naturally $M^n$ is a left $M_n(R)$ module considering $M^n$ as column vectors, with $M_n(R)$ acting on the left by multiplication.
+
+Let $e_{ij}\in M_n(R)$ be the matrix with $1$ in the $(i,j)$th place.  The diagonal embedding $R\rightarrow M_n(R)$ 
+is a ring homomorphism which turns $M_n(R)$ into a left $R$-module, with the action of $x\in R$ just left 
+multiplication on every matrix element.  Thus a general $x\in M_n(R)$ can be written uniquely as
+\[ x = \sum_{i,j=1}^n x_{ij} e_{ij} \]
+for some $(x_{ij})$ in $R$.  Notice that $e_{11} \sim e_{ii}$ as $e_{11} = e_{1i} e_{i1}$ and $e_{ii} = e_{i1}
+e_{1i}$.  Let $N\in\mod M_n(R)$.  As in Lemma~\ref{lem:1}, we find that $e_{11} N \sim e_{ii} N$ for the mutual
+inverses $\theta:e_{11} N \rightarrow e_{ii} N; x \mapsto e_{i1} x$ and 
+$\phi:e_{ii}N \rightarrow e_{11}N; x \mapsto e_{1i} x$.  
+
+Let $N\in\mod M_n(R)$, and set $X = e_{11} N$ considered as an $R$-module, by restriction of the action.
+As $1 = \sum_{i=1}^n e_{ii}$ in $M_n(R)$, we see that $N\cong \sum_{i=1}^n e_{ii} N$, and so
+the above discussion shows that
+\[ \Phi:N\rightarrow X^n; \quad \xi \mapsto \big( e_{1i} e_{ii} \xi \big)_{i=1}^n
+= \big( e_{1i} \xi \big)_{i=1}^n, \]
+is an isomorphism on $R$-modules.  We claim that $\Phi$ is also an $M_n(R)$-homomorphism.  Given
+$x = \sum x_{ij} e_{ij} \in M_n(R)$, we have that
+\[ \Phi(x\xi) = \Big( e_{1i} \sum_{j,k} x_{jk} e_{jk} \xi \Big)_{i=1}^n
+= \Big( \sum_k x_{ik} e_{1k} \xi \Big)_{i=1}^n
+= x \Phi(\xi), \]
+given what the action of $M_n(R)$ on $R^n$ is.  Hence every $M_n(R)$ module arises as $X^n$ for some $X\in\mod R$.
+
+Similar arguments establish that every $M_n(R)$-module homomorphism $M^n\rightarrow N^n$ arises from a (unique) $R$-module homomorphism $M\rightarrow N$ which acts coordinate-wise on $M^n$.  Thus we have an equivalence of categories.  Exactly the same argument works for right modules.\footnote{We actually use the right module
+version in the end.  But had typed this out for right modules, then re-worked it for left modules, and now
+cannot be bothered to type out again ``on the right''.}
