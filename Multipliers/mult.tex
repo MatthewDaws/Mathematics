@@ -1,0 +1,441 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[all]{xy}
+\usepackage{url}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{question}[proposition]{Question}
+\theoremstyle{definition}
+\newtheorem{remark}[proposition]{Remark}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+
+\begin{document}
+
+\title{Multipliers}
+\author{Matthew Daws}
+\maketitle
+
+\tableofcontents
+
+\section{Small results}
+
+
+\subsection{Ideals in the multipliers}\label{sec:ideals_in_mults}
+
+Let $A$ be an \emph{idempotent} algebra, meaning that $\lin\{ ab : a,b\in A \} = A$ (in the topological setting,
+we may take the closure, and appeal to continuity in the argument below).
+We also suppose that the product on $A$ is non-degenerate.
+In particular, these conditions hold for any Banach algebra with a bounded approximate identity,
+so in particular, for $C^*$-algebras.  
+
+Suppose that $B$ is an ideal in $M(A)$ which contains $A$, so $A\subseteq B \unlhd M(A)$.
+We claim that then $M(B) = M(A)$.  As $B$ is an ideal in $M(A)$, any $x\in M(A)$ induces a multiplier
+of $B$ by left/right multiplication, and as $A\subseteq B$, this map $M(A)\rightarrow M(B)$ is
+injective.  Our claim is that this map is a bijection.
+
+As $B\subseteq M(A)$, clearly $A$ is an ideal in $B$.  As $A$ is idempotent, it follows that
+$A = \lin \{ ab : a\in A, b\in B\} = \lin \{ ba : a\in A, b\in B \}$.  Thus, for $x\in M(B)$, we see that
+\[ (ab)x = a(bx) \in A, \quad x(ba) = (xb)a \in A \qquad (a\in A, b\in B), \]
+and so $Ax \subseteq A$ and $xA\subseteq A$.  Hence $x$ induces $y\in M(A)$.  Then
+\[ (yb)a = y(ba) = x(ba) = (xb)a \qquad (a\in A, b\in B), \]
+as $ba\in A$, so $yb = xb$ by non-degeneracy.  Hence $x\in M(B)$ is given by $y$.
+
+
+
+\section{Automorphisms of $M(A)$}\label{sec:auts}
+
+We present a careful account of the MathOverflow question \cite{qs} and the counter-example \cite{ds}.
+The question asked is the following:
+
+\begin{quote}
+Let $A$ be a (non-unital) $C^*$-algebra with multiplier algebra $M(A)$.  Let $\phi:M(A)\rightarrow M(A)$
+be a $*$-automorphism.  Is it true that $\phi$ is automatically strictly continuous (on bounded subsets)?
+\end{quote}
+
+As the question notes, this is true for some algebras by direct computation, e.g. when $A=\mc K(H)$ the
+compact operators on a Hilbert space.  By \cite[Proposition~1.1]{w1}, when $A$ is separable, we know that
+we can characterise $A$ inside $M(A)$ as
+\[ A = \{ x\in M(A) : x M(A) \text{ is separable} \}. \]
+Then, given $\phi$ an automorphism of $M(A)$, if $a\in A$ then $aM(A)$ is separable, and so also
+$\phi(a) M(A) = \phi(a M(A))$ is separable, so that $\phi(a)\in A$.  The same argument applies to
+$\phi^{-1}$ showing that $\phi$ restricts to an automorphism of $A$.
+
+Recall now, \cite[Chapter~2]{lance}, that the strict extension of $\phi$ from $A$ to $M(A)$,
+say $\overline\phi$, satisfies
+that $\overline\phi(x) \phi(a) b = \phi(xa) b$ for $x\in M(A), a,b\in A$.  As $\phi$ is an automorphism,
+this is equivalent to $\overline\phi(x) \phi(a) = \phi(xa)$ for $x\in M(A), a\in A$.  For $x\in M(A),
+a\in A$, as $\phi$ is a homomorphism, $\phi(x) \phi(a) = \phi(xa)$.  Thus $\overline\phi(x)\phi(a)
+= \phi(x)\phi(a)$, so as $\phi$ is an automorphism of $A$, this shows that $\overline\phi(x)b=\phi(x)b$
+for all $b$, so $\overline\phi(x) = \phi(x)$.  In particular, $\phi$ is necessarily strictly continuous.
+Let us record this small argument.
+
+\begin{lemma}\label{lem:from_A_to_strict}
+Let $\phi$ be an automorphism of $M(A)$ such that $\phi$ restricts to an automorphism of $A$.  Then
+$\phi$ is equal to the strict extension of $\phi$ restricted to $A$, and so $\phi$ is strictly continuous.
+\end{lemma}
+
+\medskip
+{\small
+Notice that we have dropped the condition ``on bounded sets''.  \cite[Proposition~2.5]{lance} is only
+stated with respect to strict continuity on the unit ball, but this holds more generally:
+
+\begin{proposition}\label{prop:lance_gen}
+Let $A,B$ be $C^*$-algebras and let $E$ be a Hilbert $B$-module.  For a $*$-homomorphism $\phi:A
+\rightarrow\mc L(E)$, the following are equivalent:
+\begin{enumerate}
+\item\label{prop:lance_gen:one}
+  $\phi$ is nondegenerate, meaning that $\lin\{ \phi(a)\xi : a\in A, \xi\in E \}$ is dense in $E$;
+\item\label{prop:lance_gen:two}
+  $\phi$ is the restriction to $A$ of a unital $*$-homomorphism $\psi:M(A)\rightarrow\mc L(E)$ which is
+  strictly continuous;
+\item\label{prop:lance_gen:three}
+  for some (any) approximate unit $(e_i)$ of $A$, we have that $\phi(e_i)\rightarrow 1$ strictly in
+  $\mc L(E)$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+We turn $E$ into a left $A$-module for the module action
+$a\cdot\xi = \phi(a)\xi$.  As $A$ has a bounded approximate identity, the Cohen--Hewitt factorisation
+theorem (for example, \cite[Appendix~A]{mnw}) shows that $\{ \phi(a)\xi : a\in A, \xi\in E \}$ is
+equal to its own closed linear span.  Suppose that (\ref{prop:lance_gen:one}) holds, so each $\xi\in E$
+is equal to $\phi(a)\eta$ for some $a\in A, \eta\in E$.  Let $\overline\phi$ be the canonical extension
+of $\phi$.  Let $x_i\rightarrow x$ strictly in $M(A)$.  With $\xi=\phi(a)\eta$, we have that
+$x_i a \rightarrow xa$ in norm, so
+\[ \| \overline\phi(x_i)\xi - \overline\phi(x)\xi\| = \| (\overline\phi(x_i)-\overline\phi(x))\phi(a)\eta\|
+= \| \phi(x_ia - xa)\eta\| \rightarrow 0. \]
+As also $(x_i^*-x^*)a\rightarrow 0$ in $A$, we also have that $\overline\phi(x_i)^*\xi
+\rightarrow \overline\phi(x)^*\xi$, as $\overline\phi$ is a $*$-homomorphism.
+Thus $\overline\phi(x_i) \rightarrow \overline\phi(x)$ strictly.  By definition, $\overline\phi(1) \eta
+= \overline\phi(1) \phi(a)\eta = \phi(1a)\eta = \xi$ so $\overline\phi(1) = 1$.  So (\ref{prop:lance_gen:two})
+holds.
+
+If (\ref{prop:lance_gen:two}) holds, then as $e_i\rightarrow 1$ strictly in $M(A)$, it follows that $\phi(e_i)
+= \psi(e_i)\rightarrow \psi(1)=1$ strictly in $\mc L(E)$, showing (\ref{prop:lance_gen:three}).
+
+If (\ref{prop:lance_gen:three}) holds, then $\psi(e_i)\xi \rightarrow \xi$ in norm in $E$, for each $\xi\in E$.
+Thus certainly (\ref{prop:lance_gen:one}) holds.
+\end{proof}
+
+Recall that if $E=B$ then $\mc L(E) \cong M(B)$ and the associated strict topologies agree.  The subtlety
+here occurs if we set $C=\mc K(E)$ so that $M(C) \cong \mc L(E)$, but then the strict topologies on $M(C)$
+and $\mc L(E)$ only agree on bounded sets, compare \cite[Chapter~8]{lance}.
+}
+\medskip
+
+We finish by characterising strict continuity in terms of the original algebra, giving a converse
+to the above lemma.
+
+\begin{lemma}
+Let $\phi:A\rightarrow M(B)$ and $\psi:B\rightarrow M(A)$ be non-degenerate $*$-homomorphisms with
+strict extensions $\overline\phi$ and $\overline\psi$.  If these $*$-homomorphisms between $M(A)$ and
+$M(B)$ are mutual inverses, then $\phi(A)\subseteq B$ and $\psi(B)\subseteq A$, and $\psi=\phi^{-1}$.
+\end{lemma}
+\begin{proof}
+Let $a=\psi(b)a_1$ for some $b\in B, a_1\in A$, so that $\phi(a) = \overline\phi(a)
+= \overline\phi(\psi(b)) \phi(a_1) = b \phi(a_1) \in B$.  As $\phi$ is non-degenerate, the linear span
+of such $a$ are dense in $A$, and so we have shown that $\phi(A) \subseteq B$.  Similarly
+$\psi(B)\subseteq A$.  For $a\in A$, we see that $\psi(\phi(a)) = \overline\psi(\overline\phi(a)) = a$
+and similarly $\phi\psi=\id$ so $\psi=\phi^{-1}$.
+\end{proof}
+
+\begin{corollary}
+Let $\theta$ be an automorphism of $M(A)$ which is strictly continuous, with strictly
+continuous inverse.  Then $\theta$ restricts to an automorphism of $A$.
+\end{corollary}
+\begin{proof}
+Set $\phi$ to be the restriction of $\theta$ to $A$, so by Proposition~\ref{prop:lance_gen}, $\phi$
+is non-degenerate.  Let $\psi$ be the restriction of $\theta^{-1}$ to $A$, which is non-degenerate.
+By strict density of $A$ in $M(A)$, we have that $\theta = \overline\phi$ and $\theta^{-1} = \overline\psi$.
+The previous lemma shows that $\phi(A)\subseteq A, \psi(A)\subseteq A$ and $\psi = \phi^{-1}$, that is,
+$\theta$ restricts to an automorphism of $A$.
+\end{proof}
+
+\begin{corollary}
+Let $\theta$ be an automorphism of $M(A)$.  Then $\theta$ and $\theta^{-1}$ are strictly continuous
+if and only if $\theta$ restricts to an automorphism of $A$.
+\end{corollary}
+\begin{proof}
+Combine Lemma~\ref{lem:from_A_to_strict}, applied to both $\theta$ and $\theta^{-1}$,
+and the previous corollary.
+\end{proof}
+
+Finally, if we only care about $\theta$ being strictly continuous, we have the following.
+
+\begin{proposition}\label{prop:contained_in_A_strictly_cts}
+Let $\theta$ be an automorphism of $M(A)$.  If $\theta(A) \supseteq A$ then
+$\theta$ is strictly continuous.
+\end{proposition}
+\begin{proof}
+Let $\phi:A\rightarrow M(A)$ be the restriction of $\theta$, so
+$\phi(A) \supseteq A$, and hence $\lin \phi(A)A \supseteq \lin AA = A$ showing that $\phi$ is
+non-degenerate.  Let $\overline\phi$ be the strict extension of $\phi$, so as we argued before,
+\[ \overline\phi(x) \phi(a) b = \phi(xa) b = \theta(xa) b = \theta(x) \theta(a) b
+= \theta(x) \phi(a) b \qquad (a,b\in A, x\in M(A)). \]
+By non-degeneracy, this shows that $\overline\phi(x) = \theta(x)$ for all $x$, so in particular,
+$\theta$ is strictly continuous.
+\end{proof}
+
+Of course, if both $A\subseteq \theta(A)$ and $A\subseteq\theta^{-1}(A)$, then $A = \theta(A)$
+and $\theta$ restricts to an automorphism of $A$.
+
+
+
+\subsection{Stone-Cech compactifications}
+
+The counter-example \cite{ds} uses Stone-Cech compactifications of discrete spaces.  We now develop this
+theory essentially from scratch, as it is a fun exercise to do so.
+
+Let $I$ be some set.  A \emph{filter} $\mc F$ on $I$ is a collection of subsets of $I$ such that:
+\begin{enumerate}
+\item $\emptyset\not\in\mc F$;
+\item $A,B\in\mc F \implies A\cap B\in\mc F$;
+\item $A\in\mc F$ and $B\subseteq I$ with $A\subseteq B$ implies $B\in\mc F$.
+\end{enumerate}
+Given $i\in I$ the set $\hat i = \{ A\subseteq I : i\in A \}$ is a filter.
+Filters are naturally ordered by inclusion.  A maximal filter for this ordering is an \emph{ultrafilter}.
+Each $\hat i$ is an ultrafilter, the \emph{principle ultrafilter at $i$}.
+
+\begin{lemma}[The ultrafilter lemma]
+A filter $\mc U$ on $I$ is an ultrafilter if and only if, for each $A\subseteq I$, either $A\in\mc U$
+or $I\setminus A\in \mc U$.
+\end{lemma}
+\begin{proof}
+If the condition holds, and yet $\mc U$ is not maximal, let $\mc F$ be a filter strictly containing $\mc U$.
+Hence there is $A\in \mc F \setminus\mc U$.  By the condition, necessarily $I\setminus A\in\mc U$, so
+also $I\setminus A\in\mc F$, so $A \cap (I\setminus A) = \emptyset \in \mc F$, contradiction.
+
+Conversely, let $\mc U$ be an ultrafilter, and fix $A\subseteq I$.  Suppose that $A\cap B\not=\emptyset$
+for all $B\in\mc U$.  Then set
+\[ \mc F = \{ C : \exists B\in\mc U, A \cap B \subseteq C \}. \]
+By the assumption, $\emptyset\not\in \mc F$, and the remaining axioms for $\mc F$ to be a filter are
+easily checked.  If $B\in\mc U$ then $A\cap B \subseteq B$ so $B\in\mc F$, so $\mc U\subseteq\mc F$, so
+$\mc U=\mc F$ by maximality of $\mc U$.  In particular, given any $B\in\mc U$, we have that $A\cap B
+\subseteq A$, so $A\in\mc F=\mc U$.  Thus, given $A\subseteq I$, either $A\in\mc U$, or otherwise, it
+must be that $A\cap B=\emptyset$ for some $B\in\mc U$, in which case $B \subseteq I\setminus A$ so
+$I\setminus A\in\mc U$.
+\end{proof}
+
+Let $\beta I$ be the collection of all ultrafilters on $I$.  For $A\subseteq I$ define
+\[ \mc O_A = \{ \mc U\in\beta I : A\in\mc U \} \subseteq \beta I. \]
+Then clearly $\bigcup_A \mc O_A = \beta I$.  As $A,B\in\mc U$ if and only if $A\cap B\in\mc U$, it follows
+that $\mc O_A \cap \mc O_B = \mc O_{A\cap B}$.  Thus these sets are closed under finite intersections
+and cover $\beta I$, and hence form a basis for a topology on $\beta I$.  We call each set $\mc O_A$ a
+\emph{basic open set}.  By the ultrafilter lemma, $\beta I \setminus \mc O_A = \mc O_{I\setminus A}$
+and so each basic open set is also closed.  Also
+\begin{align*}
+\mc O_A \cup \mc O_B &= \beta I\setminus(\beta I\setminus(\mc O_A \cup \mc O_B))
+= \beta I\setminus( \mc O_{I\setminus A} \cap \mc O_{I\setminus B} )
+= \beta I\setminus( \mc O_{(I\setminus A) \cap (I\setminus B)} ) \\
+&= \beta I\setminus( \mc O_{I \setminus (A\cup B)} )
+= \mc O_{A\cup B}.
+\end{align*}
+
+We identify $I\subseteq\beta I$ be identifying $i\in I$ with the principle ultrafilter $\hat i$.
+
+\begin{lemma}
+$I$ is dense in $\beta I$.
+\end{lemma}
+\begin{proof}
+If not, there is a non-empty open set disjoint from $I$.  This set must contain some $\mc O_A$ for
+a non-empty $A$, but then for each $i\in A$ we have that $\hat i\in\mc O_A$, contradiction.
+\end{proof}
+
+A topological space $X$ is \emph{compact} if any open cover of $X$ has a finite subcover.
+
+\begin{proposition}
+$\beta I$ is compact
+\end{proposition}
+\begin{proof}
+Let $(U_j)_{j\in J}$ be an open cover of $\beta I$.  Each $U_j$ is a union of basic open sets, and so
+we obtain some open cover of the form $(\mc O_{A_i})_{i\in I}$.  It hence suffices (and is necessary)
+to show that this open cover has a finite subcover.  Towards a contradiction, suppose not, so for
+each $\{i_1,\cdots,i_n\}\subseteq I$ we have
+\[ \emptyset \not= \beta I \setminus ( \mc O_{A_{i_1}} \cup \cdots \cup \mc O_{A_{i_n}} )
+= \mc O_{I\setminus A_{i_1}} \cap\cdots\cap \mc O_{I\setminus A_{i_n}}
+= \mc O_{(I\setminus A_{i_1}) \cap\cdots\cap (I\setminus A_{i_n})}. \]
+Thus, if we set $B_i = I\setminus A_i$ for each $i$, then any intersection of finitely many of the $B_i$
+is non-empty.  Set
+\[ \mc F = \{ A\subseteq I : A \supseteq B_{i_1} \cap\cdots\cap B_{i_n}
+\text{ for some } (i_j)_{j=1}^n \subseteq I \}. \]
+Then $\mc F$ does not contain the empty set, and is then easily verified to be a filter on $I$.  Use Zorn's
+Lemma to refine $\mc F$ to an ultrafilter $\mc U$.  For each $i\in I$, clearly $B_i\in\mc F$ so
+$B_i\in\mc U$ so $\mc U \in \mc O_{B_i}$ so $\mc U \not\in \mc O_{A_i}$.  This contradicts $(\mc O_{A_i})$
+being an open cover.
+\end{proof}
+
+We now show that $\beta I$ satisfies the universal property to be the Stone--Cech compactification of
+the discrete space $I$.  Firstly we recall some topology.  Let $X$ be a topological space, and let $\mc U$
+be an ultrafilter on $X$.  We say that $\mc U$ \emph{converges} to $x\in X$, written $x=\lim \mc U$, when
+for each open set $U$ with $x\in U$, we have that $U\in\mc U$.
+
+\begin{lemma}
+Let $X$ be a compact Hausdorff space.  Then every ultrafilter on $X$ converges to a unique point.
+\end{lemma}
+\begin{proof}
+Let $x,y$ be limits of some ultrafilter $\mc U$.  If $x\not=y$ then as $X$ is Hausdorff there are
+disjoint open $U,V$, with $x\in U$ and $y\in V$.  Then clearly it is impossible for both $U\in\mc U$
+and $V\in\mc U$; we conclude that limits are unique, if they exist.
+
+Let $\mc U$ be an ultrafilter on $X$ and towards a contradiction, suppose that $\mc U$ does not converge.
+This means that for each $x\in X$ there is an open set $U_x$ with $x\in U_x$ and $U_x\not\in \mc U$.
+By the ultrafilter lemma, the closed set $C_x = X\setminus U_x$ is in $\mc U$.  It follows that for any
+finite subset $\{x_1,\cdots,x_n\}\subseteq X$ we have that $C_{x_1} \cap\cdots\cap C_{x_n} \in\mc U$
+and so this intersection is non-zero.  Equivalently, $U_{x_1} \cup\cdots\cup U_{x_n} \not= X$.
+However, $(U_x)_{x\in X}$ is obviously an open cover of $X$, so as $X$ is compact, there is some
+finite subcover, contradiction.
+\end{proof}
+
+\begin{theorem}
+Let $X$ be a compact Hausdorff space, and let $f:I\rightarrow X$ be a function. There is a unique
+continuous function $\beta f:\beta I\rightarrow X$ making the following diagram commute
+\[ \xymatrix{ I \ar[r]^f \ar[rd] & X \\
+& \beta I \ar[u]_{\exists\,!\ \beta f} } \]
+where $I\rightarrow\beta I$ is the canonical inclusion.
+\end{theorem}
+\begin{proof}
+As $I$ is dense in $\beta I$, any continuous extension of $f$ is unique.  We show existence.
+For $\mc U\in\beta I$ define
+\[ f_*(\mc U) = \{ A\subseteq X : f^{-1}(A) \in \mc U \}. \]
+As inverse images commute with set-theoretic operations, it is easy to see that $f_*(\mc U)$ is a
+filter on $X$.  As $f^{-1}(X\setminus A) = I \setminus f^{-1}(A)$, the ultrafilter lemma shows that
+$F_*(\mc U)$ is an ultrafilter.  Set $\beta f(\mc U) = \lim f_*(\mc U)$.
+
+Given $i\in I$ we see that $f^{-1}(A)\in\hat i$ if and only if $i\in f^{-1}(A)$, that is, $f(i)\in A$.
+Hence $f_*(\hat i) = \widehat{f(i)}$, and it is easy to verify that $\lim \hat x = x$ for any $x\in X$.
+Thus $\beta f$ extends $f$ in the sense that $\beta f(\hat i) = f(i)$.
+
+To show that $\beta f$ is continuous, let $U\subseteq X$ be open.
+Let $x\in U$.  As $X$ is compact Hausdorff, it is \emph{normal}, and so there are disjoint open sets $V,W$
+with $x\in V$ and $X\setminus U \subseteq W$, that is, $U \supseteq X\setminus W$.  Set $A_x = A = f^{-1}(V)$.
+We claim that if $\mc U\in\mc O_A$ then $\beta f(\mc U) = \lim f_*(\mc U) \not\in W$.  Indeed, if not, then
+$x = \lim f_*(\mc U) \in W$, so by definition of the limit, $f^{-1}(W) \in \mc U$.  As also $A\in\mc U$,
+we see that $f^{-1}(W) \cap A \in \mc U$, in particular this intersection is non-empty, so there is $a\in A$
+with $f(a)\in W$.  As $A=f^{-1}(V)$, we have $f(a)\in V$ which contradicts $V,W$ being disjoint.
+
+This shows that $\beta f(\mc U) \in U$, and thus $\mc O_{A_x} \subseteq (\beta f)^{-1}(U)$.  Given now
+some $\mc U \in (\beta f)^{-1}(U)$, so that $x = \beta f(\mc U) = \lim f_*(\mc U)\in U$.  Select $V$ as
+above for $x$, so $x\in V$, and hence by the definition of the limit, $V\in f_*(\mc U)$, so $A_x = f^{-1}(V)
+\in \mc U$.  Thus $(\beta f)^{-1}(U) \subseteq \bigcup_{x\in U} \mc O_{A_x}$, but this is contained in
+$(\beta f)^{-1}(U)$, and hence we have equality, showing in particular that $(\beta f)^{-1}(U)$ is open.
+Hence $\beta f$ is continuous.
+\end{proof}
+
+We shall be interested in case when $X = \beta J$ for some set $J$, and the map $f:I\rightarrow \beta J$
+is actually given by $f_0:I\rightarrow J$, composed with the inclusion $J\rightarrow\beta J$.
+
+\begin{lemma}\label{lem:beta_map_from_set}
+Let $f_0:I\rightarrow J$ induce $f:I\rightarrow\beta J$.  For $\mc U\in\beta I$, define
+$f_{0,*}(\mc U) = \{ A\subseteq J : f_0^{-1}(A)\in\mc U \}$ which is a member of $\beta J$.
+Then $\beta f:\beta I\rightarrow\beta J$ is the map $\mc U\mapsto f_{0,*}(\mc U)$.
+\end{lemma}
+\begin{proof}
+Let $\mc U \in \beta I$.  As before, $f_{0,*}(\mc U)$ is indeed an ultrafilter.
+For $B\subseteq\beta J$, we see that $f^{-1}(B)$ depends only on $A = B \cap J$,
+and indeed $f^{-1}(B) = f_0^{-1}(A)$.  Thus
+\[ f_*(\mc U) = \{ B\subseteq \beta J : f^{-1}(B) \in\mc U \}
+= \{ B\subseteq \beta J : f_0^{-1}(B\cap J) \in\mc U \}
+= \{ B\subseteq \beta J : B\cap J \in f_{0,*}(\mc U) \}. \]
+Set $\mc W = f_*(\mc U)$.  We compute $\lim\mc W = \mc V$, say, a member of $\beta J$.  $\mc V$ is
+the unique point such that for any open $U\subseteq\beta J$ we have that $\mc V\in U$ implies $U\in\mc W$.
+Making $U$ smaller does not affect the condition, so we may suppose that $U=\mc O_A$ for some
+$A\subseteq J$.  Then $\mc V\in\mc O_A$ means $A\in\mc V$, while $\mc O_A\in\mc W$ means $\mc O_A \cap J
+\in f_{0,*}(\mc U)$.  As $\hat j\in \mc O_A$ exactly when $j\in A$, we see that $\mc O_A\in\mc W$ means
+that $A\in f_{0,*}(\mc U)$.  So $\mc V = \lim\mc W$ means $A\in\mc V
+\implies A\in f_{0,*}(\mc U)$, that is, $\mc V = f_{0,*}(\mc U)$.  We conclude that
+$\beta f(\mc U) = f_{0,*}(\mc U)$ for each $\mc U\in\beta I$.
+\end{proof}
+
+Finally, consider the commutative $C^*$-algebra $c_0(I)$.  A standard argument establishes that
+$M(c_0(I)) = \ell^\infty(I)$.  Given any $f\in \ell^\infty(I)$, we can regard $f$ as mapping into the
+compact space $\{ z\in\mathbb C : |z| \leq \|f\|_\infty \}$, and so form $\beta f \in C(\beta I)$.
+Conversely, any $g \in C(\beta I)$ is, by continuity, determined by its restriction to $I$.  This
+shows that $\ell^\infty(I) \cong C(\beta I)$ as $C^*$-algebras.
+
+
+
+\subsection{The construction}
+
+Let $\phi:\mathbb N\rightarrow\mathbb N$ be a bijection, view $\phi$ as a map $\mathbb N\rightarrow
+\beta\mathbb N$, and set $\theta = \beta\phi:\beta\mathbb N \rightarrow \beta\mathbb N$.  By
+Lemma~\ref{lem:beta_map_from_set}, for each $\mc U\in\beta\mathbb N$, we have
+\[ \theta(\mc U) = \phi_*(\mc U) = \{ A : \phi^{-1}(A) \in\mc U \}
+= \{ \phi(A) : A\in\mc U \}. \]
+Fix a $\phi$ with $\phi\circ\phi=\id$ and such that there is an infinite set $A_0$ with $\phi(A_0)
+\cap A_0 = \emptyset$.  For example, we could define $\phi(2n) = 2n-1$ and $\phi(2n-1)=2n$.
+By uniqueness of the continuous extension to $\beta\mathbb N$, we have that $\theta\circ\theta=\id$,
+and so $\theta$ is a homeomorphism of $\beta\mathbb N$.
+
+Define
+\[ \mc F = \{ A\subseteq\mathbb N : A \supseteq A_0\cap B \text{ for some cofinite }B \}. \]
+Here $B\subseteq\mathbb N$ is \emph{cofinite} when $\mathbb N\setminus B$ is finite.  As $A_0$ is infinite,
+$A_0\cap B$ is never empty, for a cofinite $B$.  As the intersection of two cofinite sets is again a cofinite,
+we see that $\mc F$ is a filter.  Notice that $\mc F$ contains all cofinite sets, and $A_0\in\mc F$.
+Let $\mc U$ be an ultrafilter refining $\mc F$.  Then $\mc U$ can contain no finite set, so $\mc U
+\in \beta\mathbb N \setminus \mathbb N$.  As $A_0\in\mc U$, we see that $\phi(A_0) \in \theta(\mc U)$,
+and so as $\phi(A_0)\cap A_0$, certainly $\theta(\mc U) \not= \mc U$.  We have shown:
+
+\begin{quote}
+There is an homeomorphism $\theta$ of $\beta\mathbb N$ and distinct $\mc U, \mc V\in \beta\mathbb N \setminus \mathbb N$ with $\theta(\mc U) = \mc V$ and $\theta(\mc V) = \mc U$.
+\end{quote}
+
+Set $A = \{ f\in C(\beta\mathbb N) : f(\mc U)=0 \}$, which is a closed ideal in $C(\beta\mathbb N)
+\cong M(c_0)$.  By Section~\ref{sec:ideals_in_mults}, we know that $M(A) \cong M(c_0) = C(\beta\mathbb N)$
+with $C(\beta\mathbb N)$ acting on $A$ in the natural way.  Define $\phi: M(A)\rightarrow M(A)$ by
+$\phi(f) = f\circ\theta$ for $f\in C(\beta\mathbb N)$.
+
+Let $(f_i)$ be some approximate identity for $A$, so that $f_i \rightarrow 1$ strictly in $M(A)$.
+Pick $g\in A$ with $g(\mc V)=1$.  Regarding now $f_i, g$ as members of $M(A) = C(\beta\mathbb N)$,
+we see that
+\[ \big( \phi(f_i) g \big)(\mc V) = f_i(\theta(\mc V)) g(\mc V) = f_i(\mc U) = 0 \]
+for all $i$, but $(\phi(1)g)(\mc V) = 1$.  Hence $\phi(f_i)g$ does not converge in norm to $g$ in $A$,
+and hence $\phi(f_i)$ does not converge strictly to $1 = \phi(1)$ in $M(A)$.
+
+This shows that $\phi$, regarded as an automorphism of $M(A)$, is not strictly continuous.
+
+
+
+\subsection{Further thoughts}
+
+\cite{qs} further asks:
+
+\begin{quote}
+Does a strictly continuous $*$-automorphism $\phi:M(A)\rightarrow M(A)$ preserve the subalgebra $A$,
+that is, do we have $\phi(A) \subseteq A$?
+\end{quote}
+
+Given the results in Section~\ref{sec:auts}, we want to find a strictly continuous $*$-automorphism
+such that $\phi^{-1}$ is not strictly continuous.
+
+
+\begin{thebibliography}{99}
+
+\bibitem{lance} E. C. Lance, {\it Hilbert $C^*$-modules}, London Mathematical Society Lecture Note Series, 210, Cambridge University Press, Cambridge, 1995. MR1325694
+
+\bibitem{mnw} T. Masuda, Y. Nakagami\ and\ S. L. Woronowicz, A $C^\ast$-algebraic framework for quantum groups, Internat. J. Math. {\bf 14} (2003), no.~9, 903--1001. MR2020804
+
+\bibitem{qs} QuantumSpace {\footnotesize (\url{https://mathoverflow.net/users/470427/quantumspace})}, Is a $*$-automorphism $M(A) \to M(A)$ automatically strictly continuous?, URL (version: 2022-04-07): \url{https://mathoverflow.net/q/417437}
+
+\bibitem{ds} Douglas Somerset {\footnotesize (\url{https://mathoverflow.net/users/142780/douglas-somerset})}, Is a $*$-automorphism $M(A) \to M(A)$ automatically strictly continuous?, URL (version: 2022-04-07): \url{https://mathoverflow.net/q/419876}
+
+\bibitem{w1} S. L. Woronowicz, $C^*$-algebras generated by unbounded elements, Rev. Math. Phys. {\bf 7} (1995), no.~3, 481--521. MR1326143
+
+\end{thebibliography}
+
+\end{document}
+
+
+
+
