@@ -8,7 +8,7 @@ An experiment: some longer pieces of Mathematics which don't quite belong on the
 - [Kaplansky Density](https://github.com/MatthewDaws/Mathematics/tree/master/Kaplansky) : An "elementary" proof of Kaplansky Density.
 - [Kaplansky Density Counter-Examples](https://github.com/MatthewDaws/Mathematics/tree/master/Kaplansky2) : Some counter-examples to Kaplansky Density.
 - [Multipliers](https://github.com/MatthewDaws/Mathematics/tree/master/Multipliers) : Some things about multipliers of algebras.
-- [Operator Space Direct Sums](https://github.com/MatthewDaws/Mathematics/tree/master/OS-Direct-Sums) : Some notes on the $\ell^\infty$ and $\ell^1$ direct sums of operator spaces.
+- [Operator Space Direct Sums](https://github.com/MatthewDaws/Mathematics/tree/master/OS-Direct-Sums) : Some notes on the $\ell^1$ direct sums of operator spaces.
 - [Purely Infinite](https://github.com/MatthewDaws/Mathematics/tree/master/Purely-Infinite) : Some notes on purely infinite simple rings.
 - [Quasi-Invariant Measures](https://github.com/MatthewDaws/Mathematics/tree/master/Quasi-Inv-Measures) : Brief notes on quasi-invariant measures on locally compact groups.
 
