@@ -31,6 +31,8 @@
 \newcommand{\lin}{\operatorname{lin}}
 \newcommand{\op}{{\operatorname{op}}}
 \newcommand{\aff}{\operatorname{Aff}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\aut}{\operatorname{Aut}}
 
 \begin{document}
 
@@ -147,15 +149,169 @@ $G\setminus H$ cannot contain any non-empty open set.  Thus $H$ is dense in $G$.
 now answered our original question, as both $H$ and its coset have empty interior, and yet their
 union is all of $G$.
 
+
+
+\section{Semi-direct products}
+
+This is standard material.  Let $G$ be a group with a subgroup $H$ and a normal subgroup $N$.
+The following statements are equivalent:
+\begin{enumerate}
+\item\label{sdp:1} $G=NH = \{ nh : n\in N, h\in H \}$ and $N \cap H = \{e\}$;
+\item\label{sdp:2} for each $g\in G$ there are unique $n\in N, h\in H$ with $g=nh$;
+\item\label{sdp:3} for each $g\in G$ there are unique $n\in N, h\in H$ with $g=hn$;
+\item\label{sdp:4} for the inclusion $i:H\rightarrow G$ and the quotient $\pi:G\rightarrow G/N$,
+the composition $\pi\circ i:H\rightarrow G/N$ is an isomorphism;
+\item\label{sdp:5} there is a homomorphism $G\rightarrow H$ that is the identity on $H$ and has
+kernel $N$;
+\item\label{sdp:6} there is a split short-exact sequence
+$1 \rightarrow N \rightarrow G \rightarrow H \rightarrow 1$.
+\end{enumerate}
+
+Let us show these equivalences.  If (\ref{sdp:1}) holds then $G=NH$ but if there was a possibly
+non-unique way to
+write $g = n_1h_1 = n_2h_2$ then $n_2^{-1} n_1 = h_2 h_1^{-1} \in N\cap H=\{e\}$ so $n_1=n_2$ and
+$h_1=h_2$, so (\ref{sdp:2}) holds.  Conversely, the uniqueness clause in (\ref{sdp:2}) shows that
+if $g\in N\cap H$ then we must have $g=e$.  So (\ref{sdp:1})$\Leftrightarrow$(\ref{sdp:2}).
+
+That (\ref{sdp:1})$\Leftrightarrow$(\ref{sdp:3}) is similar, using the group inverse to show that
+$G=NH$ if and only if $G = G^{-1} = H^{-1} N^{-1} = HN$.
+
+Considering (\ref{sdp:4}), $\ker(\pi\circ i) = N\cap H$ and the image of $\pi\circ i$ is $\{Nh :h\in H\}
+= \{ Nnh : n\in N, h\in H \}$, so immediately (\ref{sdp:1}) implies (\ref{sdp:4}), while conversely,
+if $\pi\circ i$ is onto, then given $g\in G$ there is $h\in H$ with $Nh = Ng$ so $g\in Nh \subseteq NH$
+and hence (\ref{sdp:1}) holds.  So (\ref{sdp:1})$\Leftrightarrow$(\ref{sdp:4}).
+
+For (\ref{sdp:5}) consider $p:G\rightarrow H$ a homomorphism with $p(h)=h$ for $h\in H$ and $\ker(p)=N$.
+Then $N\cap H=\{e\}$ while for $g\in G$ let $h=p(g)\in H$ so $p(h g^{-1}) = h p(g)^{-1} = e$ and hence
+$h g^{-1} = n$ for some $n\in N$, so $g = n^{-1} h \in NH$, so (\ref{sdp:1}) holds.
+Conversely, given (\ref{sdp:1}), also (\ref{sdp:4}), let $p:G\rightarrow H$ be the composition of
+$(\pi\circ i)^{-1} \circ \pi : G\rightarrow H$.  Then $p$ is a homomorphism, $\ker(p) = \ker(\pi) = N$,
+and for $h\in H$ we have $p(h) = h_1$ where $h_1\in H$ is the necessarily unique element with
+$h_1N = \pi(h) = hN$, so $h_1=h$ by uniqueness.  Hence (\ref{sdp:5}) holds.
+
+For (\ref{sdp:6}) we have
+\begin{equation}
+\xymatrix{ 1 \ar[r] & N \ar@{^{(}->}[r]^{\iota} & G
+\ar@{->>}@<0.6ex>[r]^{\pi} & H \ar[r] \ar@{..>}@<0.6ex>[l]^{\theta} & 1 }
+\label{eq:sdp:1}
+\end{equation}
+where $\iota$ is an inclusion, $\pi$ a surjection with $\ker(\pi) = \iota(H)$, and we have
+$\pi\circ\theta = \id_H$.  We identify $N$ with its image in $G$ which is certainly normal, and then
+$\pi$ gives an isomorphism between $G/N$ and $H$.  That $\pi\circ\theta=\id_H$ means $\theta$ is injective,
+so we identify $H$ with its image in $G$.  Then $p = \theta\circ\pi$ is an idempotent homomorphism,
+which is the identity on $H$, and has $\ker(p) = \ker(\pi) = N$, so (\ref{sdp:5}) holds.
+Conversely, given (\ref{sdp:5}), we have inclusions $N\rightarrow G$ and $H\rightarrow G$ giving
+$\iota$ and $\theta$.  Consider the map $p:G\rightarrow H$, and set $\pi=p$.  Then $\ker(\pi) = \ker(p)
+= N$ while $\pi$ is onto, and $\pi\circ\theta = \id_H$, so (\ref{sdp:6}) holds.
+
+Any of these equivalent conditions define what it means for $G$ to be the \emph{(inner) semidirect
+product} denoted $G = N \rtimes H$ (sometimes $G = H \ltimes N$).
+
+\begin{definition}
+The \emph{(outer) semidirect product} of groups $N,H$ is defined by specifying a homomorphism
+$\varphi:H\rightarrow \aut(N)$ and setting $G = N\times H$ as a set, with product
+\[ (n_1,h_1)(n_2,h_2) = (n_1 \varphi(h_1)(n_2), h_1h_2). \]
+The identity of $G$ is $(e_N, e_H)$ and the inverse is $(n,h)^{-1} = (\varphi(h^{-1})(n^{-1}), h^{-1})$.
+\end{definition}
+
+Given such a construction, we identify $N$ with $\{ (n,e_H) : n\in N \}$ and $H$ with $\{ (e_N,h):h\in H\}$.
+These are seen to be subgroups of $G$.  Then $NH = \{ (n,e)(e,h) : n\in N, h\in H \} = G$ and $N\cap H=\{e\}$.
+Finally, the product satisfies
+\[ h n h^{-1} = (e,h)(n,e)(e,h)^{-1}
+= (\varphi(h)(n), h) (e,h^{-1})
+= (\varphi(h)(n) \varphi(h)(e), e) = \varphi(h)(n) \in N, \]
+for each $n\in N, h\in H$.  Thus $N$ is a normal subgroup and we have verified condition (\ref{sdp:1}).
+
+Conversely, if we have an inner semidirect product $G=NH$ with $N \unlhd G$, then define $\varphi(h)(n)
+= hnh^{-1} \in N$, so that $\varphi(h)$ is an automorphism of $N$ for each $h$, and $\varphi:H\rightarrow
+\aut(N)$ is an homomorphism.  We define $\theta: G \rightarrow N \times H$ by $\theta(nh) =
+(n,h)$.  As a slight aside, notice that this map is a homomorphism if and only if $\theta(h) \theta(n) =
+\theta(hn) = \theta( (hnh^{-1}) h ) = \theta( \varphi(h)(n) h )$, which is true by definition.
+This ``commutation relation'', showing how elements of $N$ and $H$ commute pass each other, is often
+a useful way to think of a semi-direct product.
+
+Thus inner and outer semidirect products are canonically isomorphic.
+
+Finally, we claim that $G$ is isomorphic to $N \rtimes H$ if and only if there is a split short exact
+sequence
+\[ \xymatrix{ 1 \ar[r] & N \ar@{^{(}->}[r]^{\beta} & G
+\ar@{->>}@<0.6ex>[r]^{\alpha} & H \ar[r] \ar@{..>}@<0.6ex>[l]^{\gamma} & 1 } \]
+This is just condition (\ref{sdp:6}).  Notice 
+\[ \varphi(h)(n) = hnh^{-1} = \beta^{-1}\big( \gamma(h) \beta(n) \gamma(h^{-1}) \big) \]
+gives the action of $H$ on $N$.
+
+
+\subsection{For topological groups}
+
+When $G$ is a topological group, it seems natural to consider the continuous automorphisms of $N$,
+and to ask for $\varphi:H\rightarrow N$ to be continuous.  Forming the (outer) semidirect product, we
+form the topological product $N \times H$ and the product as above.  We require that $H\times N
+\rightarrow N; (h,n) \mapsto \varphi(h)(n)$ is (jointly) continuous, and then we see that the
+product on $N \rtimes H$ is (jointly) continuous.  The inverse is continuous, as it is the composition
+of $(h,n) \mapsto (h^{-1}, n^{-1})$ with the continuous action map.
+
+Then $N, H$ are closed subgroups of $N\rtimes H$.  Conversely, start with $G=NH$ for some closed
+$N,H$ with $N \unlhd G$.  Then in (\ref{sdp:4}) while $i,\pi$ are continuous, so $\pi\circ i$ is continuous,
+we require that $(\pi\circ i)^{-1}$ be continuous as well.  This is equivalent to $p$ in (\ref{sdp:5})
+being continuous.  For (\ref{sdp:6}), in the split short exact sequence \eqref{eq:sdp:1}, we have that
+$\iota,\pi$ are continuous, and we also require that $\theta$ is continuous.  Then $\theta$ is injective,
+and furthermore is a homeomorphism onto its range, because $\pi\circ\theta=\id_H$.
+
+It does not seem obvious what conditions we would like to add to (\ref{sdp:1}), (\ref{sdp:2}) or (\ref{sdp:3})
+to ensure the correct continuity conditions.  However, notice that given $G=NH$ with $N\unlhd H$, with
+$N, H$ closed, we can still define $\varphi(h)(n) = hnh^{-1}$, and continuity of the product in $G$ will
+ensure that $\varphi(h)$ is continuous for $h$, and that $H\times N \rightarrow N;
+(h,n) \mapsto \varphi(h)(n)$ is continuous.  Thus we can form the outer semidirect product.  The canonical
+isomorphism is $G \rightarrow N \times H, nh \mapsto (n,h)$.  The inverse of this is always continuous,
+but this map itself might not be.  It is continuous exactly when $(n_i h_i)$ is a net converging to
+$e$, we must have $n_i\rightarrow e$ and $h_i\rightarrow e$.  If $G$ is locally compact, this fails to
+happen exactly when we can find $(n_i) \subseteq N, (h_i)\subseteq H$ with $n_i\rightarrow \infty,
+h_i\rightarrow\infty$ and yet $n_ih_i\rightarrow e$.
+
+\begin{remark}
+It is implicitly claimed on page 10 of \cite{kt} that in this setting, the map from the outer
+semidirect product $N \rtimes H$ to $G$ is an isomorphism of locally compact groups.  The following
+counter-example, from \cite{a3}, shows that this need not be the case.  Let $K$ be an infinite compact
+group and let $K_d$ be $K$ with the discrete topology, so $K\not=K_d$ as topological groups.  Let
+$G = K_d \times K$ the direct product of groups, so $G$ is locally compact.  Let $N = K_d \times \{e\}$
+a closed subgroup, and let $H = \{ (g,g) : g\in K \} \subseteq G$ the diagonal, which is also a closed,
+normal subgroup.  Then it's easy to see that $N\cap H=\{e\}$ and $NH = G$.  However, both $N$ and $H$ have
+the discrete topology (as the subspace topologies from $G$) and so the outer semidirect product
+$N \rtimes H$ will also be discrete.  Hence $N\rtimes H\rightarrow G$ is continuous, but the inverse is
+not.
+
+In this example, the map $p$ from (\ref{sdp:5}) is given by $p(g,h) = (h,h)$ which is obviously a
+projection onto the diagonal $H$ with kernel $N$.  This is not continuous, as there is a net $(h_i)$ in
+$K$ which converges to $e$ without eventually being equal to $e$.  Then for any fixed $g$, we have
+$(g,h_i) \rightarrow (g,e)$ in $G$ but $(h_i,h_i) \not\rightarrow (e,e)$.  A similar remark applies
+to (\ref{sdp:6}), while in (\ref{sdp:4}) we see that $\pi\circ i$ does not have continuous inverse.
+\end{remark}
+
+In \cite{kt}, see page~9, in the locally compact case the Haar measure on $N \rtimes H$ is computed.
+For each $h\in H$ the measure on $N$ given by $\lambda_N^h(E) = \lambda_N(\varphi(h)(E))$, for each Borel $E$,
+is left-invariant, and so there is $\delta(h)>0$ with $\lambda_N^h(E) = \delta(h) \lambda_N(E)$ for
+all $E$.  One can check that $\delta:H\rightarrow (\mathbb R^+, \times)$ is a continuous homomorphism,
+and then a left Haar measure on $N \rtimes H$ is given by
+\[ \int_{N \rtimes H} f(n,h) \ d(n,h) = \int_H \int_N f(n,h) \delta(h)^{-1} \ dn \ dh. 
+\qquad (f\in C_{00}(N \rtimes H)). \]
+The modular function is
+\[ \Delta_{N \rtimes H}(n,h) = \Delta_N(n) \Delta_H(h) \delta(h)^{-1}. \]
+
+
 \begin{thebibliography}{aa}
 
 \bibitem{q1} Matthew Daws, Empty interior of union of cosets?, 
    \url{https://mathoverflow.net/q/351764}
 
+\bibitem{kt} E. Kaniuth\ and\ K. F. Taylor, {\it Induced representations of locally compact groups}, Cambridge Tracts in Mathematics, 197, Cambridge University Press, Cambridge, 2013. MR3012851
+
+\bibitem{a2} Brian M. Scott (\url{https://math.stackexchange.com/users/12042/brian-m-scott}), The set of ultrafilters on an infinite set is uncountable, \url{https://math.stackexchange.com/q/83540}
+
 \bibitem{a1} YCor (\url{https://mathoverflow.net/users/14094/ycor}), Empty interior of union of cosets?,
    \url{https://mathoverflow.net/q/351846}
 
-\bibitem{a2} Brian M. Scott (\url{https://math.stackexchange.com/users/12042/brian-m-scott}), The set of ultrafilters on an infinite set is uncountable, \url{https://math.stackexchange.com/q/83540}
+\bibitem{a3} YCor (\url{https://mathoverflow.net/users/14094/ycor}), Topological semi-direct products of groups,
+   \url{https://mathoverflow.net/q/425559}
 
 \end{thebibliography}
 
