@@ -3,6 +3,7 @@
 An experiment: some longer pieces of Mathematics which don't quite belong on the arXiv.
 
 - [Bits and Bobs](https://github.com/MatthewDaws/Mathematics/tree/master/Bits-n-Bobs) : Much shorter notes collected together.
+- [Cohen-Hewitt Factorisation](https://github.com/MatthewDaws/Mathematics/tree/master/Cohen-Hewitt) : Quick literature review around this theorem.
 - [Fell Topology](https://github.com/MatthewDaws/Mathematics/tree/master/Fell-Topology) : Some notes on various meanings of the "Fell Topology".
 - [Inductive Limits](https://github.com/MatthewDaws/Mathematics/tree/master/Inductive-Limits) : Some notes on inductive limits of Banach spaces.
 - [Kaplansky Density](https://github.com/MatthewDaws/Mathematics/tree/master/Kaplansky) : An "elementary" proof of Kaplansky Density.
