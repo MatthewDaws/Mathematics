@@ -1,4 +1,4 @@
-# Fell topology
+# Cohen-Hewitt Factorisation
 
 > We review some of the original literature around the Cohen--Hewitt factorisation theorem.
 
