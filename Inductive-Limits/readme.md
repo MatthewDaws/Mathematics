@@ -1,4 +1,4 @@
-# Fell topology
+# Inductive Limits
 
 > We provide an overview of inductive limits of Banach algebras, correcting a few misleading statements in the literature.
 
