@@ -1,0 +1,384 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+\usepackage{hyperref}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+\usepackage{hyperref}
+
+\usepackage{latexsym, amsmath, amsthm, amssymb}
+\usepackage{url}
+%\usepackage[all]{xy}
+%\usepackage{dsfont}
+
+\newcommand{\mc}[1]{{\mathcal{#1}}}
+\newcommand{\mf}[1]{{\mathfrak{#1}}}
+\newcommand{\ip}[2]{\langle{#1},{#2}\rangle}
+\newcommand{\Rep}{\operatorname{Rep}}
+\newcommand{\lin}{{\operatorname{lin}}}
+\newcommand{\supp}{{\operatorname{supp}}}
+\newcommand{\G}{{\mathbb{G}}}
+\newcommand{\HH}{{\mathbb{H}}}
+\newcommand{\hh}{\widehat}
+\newcommand{\qaut}{\operatorname{QAut}}
+\newcommand{\aut}{\operatorname{Aut}}
+\newcommand{\mor}{\operatorname{Mor}}
+\newcommand{\op}{{\operatorname{op}}}
+\newcommand{\cop}{{\operatorname{cop}}}
+\newcommand{\id}{{\operatorname{id}}}
+\newcommand{\vnten}{\overline\otimes}
+\newcommand{\WW}{\mathbb{W}}
+%\newcommand{\Ww}{{W_{ur}}}
+%\newcommand{\wW}{{W_{ru}}}
+\newcommand{\Ww}{\mathds{W}}
+\newcommand{\wW}{\text{\reflectbox{$\Ww$}}\:\!} % requires graphicx, only works in pdf
+\newcommand{\pol}{\operatorname{Pol}}
+\newcommand{\irr}{\operatorname{Irr}}
+
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{corollary}[lemma]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{example}[lemma]{Example}
+\newtheorem{examples}[lemma]{Examples}
+
+\newtheorem{remarkx}[lemma]{Remark}
+\newtheorem{remarksx}[lemma]{Remarks}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+
+
+\begin{document}
+\title{Conditional exceptations}
+\author{Matthew Daws}
+\maketitle
+
+\begin{abstract}
+We quickly show how Conditional Expectations arise on von Neumann algebras with traces.
+\end{abstract}
+
+I have been unable to find a really simple proof that given a tracial von Neumann algebra $N$ with a sub-von Neumann algebra $B\subseteq N$, there is always a conditional expectation $N\to B$.  This note shows this, a theorem first shown by Umegaki in \cite{Umegaki_CondExp2}.
+
+
+\section{Conditional Expectations}
+
+\begin{definition}
+Let $A$ be a $C^*$-algebra and $B\subseteq A$ a $C^*$-subalgebra.  A \emph{conditional expectation} from $A$ to $B$ is a contractive projection.  That is, a linear map $E\colon A \to B$ with $E(a)=a$ for $a\in B$, and with $\|E(x)\| \leq \|x\|$ for each $x\in A$.
+\end{definition}
+
+\begin{theorem}
+Let $E \colon A \to B$ be a conditional expectation.  Then:
+\begin{enumerate}
+  \item $E$ is positive, so $E(x^*x)\geq 0$ for each $x\in A$;
+  \item $E$ is a $B$-bimodule map, so $E(axb) = a E(x) b$ for $a,b\in B$ and $x\in A$;
+  \item $E$ satisfies the Schwarz inequality, $E(x)^* E(x) \leq E(x^*x)$ for $x\in A$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+This is standard, see \cite[Theorem~3.4, Chapter~III]{TakesakiI}, \cite[Theorem~1.5.10]{BrownOzawa}, \cite[Section~II.6.10]{Blackadar_OperatorAlgebrasBook} for example.
+\end{proof}
+
+\begin{corollary}
+Let $E \colon A \to B$ be a conditional expectation.  Then $E$ is a contractive completely poisitve map.
+\end{corollary}
+\begin{proof}
+We adopt \cite[Theorem~1.5.10]{BrownOzawa}.  Let $(x_{i,j}) \in M_n(A)$ be positive, let $\phi\colon B\to \mc B(H)$ be a faithful $*$-representation with cyclic vector $\xi$, and let $(b_k)\subseteq B$.  Then, using the bimodule property of $E$,
+\[ \sum_{i,j} \big( \phi(b_i)\xi \big| \phi(E(x_{i,j})) \phi(b_j) \xi \big)
+= \Big( \xi \Big| \pi\Big(E\Big( \sum_{i,j} b_i^* x_{i,j} b_j \Big)\Big) \xi \Big) \geq 0, \]
+because $\sum_{i,j} b_i^* x_{i,j} b_j \geq 0$ (see \cite[Lemma~3.2, Chapter~IV]{TakesakiI} for example).  It follows that $(E(x_{i,j})) \in M_n(B)$ is positive.  So $E$ is completely positive.  As $E$ extends to unitisations (see the proof of \cite[Theorem~3.4, Chapter~III]{TakesakiI}, or pass to biduals) and becomes a unital map, it follows that $E$ is contractive.
+\end{proof}
+
+The ``Schwarz inequality'' is also sometimes called the ``Kadison inequality'' after \cite{Kadison_Schwarz_Inequality}.
+
+\begin{corollary}
+Let $E\colon A\to B$ be an idempotent, positive, $B$-bimodule map.  Then $E$ is contractive, so a conditional expectation.
+\end{corollary}
+\begin{proof}
+We follow \cite[Corollary~II.6.10.3]{Blackadar_OperatorAlgebrasBook}.  For $x\in A$ we have
+\begin{align*}
+0 \leq E( (x-E(x))^*  &  (x-E(x)) )
+= E( x^*x - E(x)^*x - x^*E(x) + E(x)^*E(x) ) \\
+&= E(x^*x) - E(x)^* E(x) - E(x^*)E(x) + E(x)^*E(x)
+= E(x^*x) - E(x^*)E(x),
+\end{align*}
+so Kadison's inequality holds.  If $E$ is not contractive there is $x\in A$ with $\|x\|=1$ and $1 < \|E(x)\|$ and $\|E\| < \|E(x)\|^2$.  Then $\|E(x)\|^2 = \|E(x)^*E(x)\| \leq \|E(x^*x)\| \leq \|E\|$, as $\|x^*x\|=1$, which is a contradiction.
+\end{proof}
+
+
+\section{Invariant states}
+
+We follow \cite[Section~II.6.10]{Blackadar_OperatorAlgebrasBook}.  Again let $B\subseteq A$.  Let $\phi$ be a faithful state on $A$ and let $\psi = \phi|_B$.  The GNS space $H_\psi$ can naturally be identified with a closed subspace of the GNS space $H_\phi$.  Let $\xi_\phi = \xi_\psi$ be the cyclic vectors, which are identified under $H_\psi \subseteq H_\phi$.
+
+The following shows that when a conditional expectation leaves a faithful state invariant, then the conditional expectation gives the orthogonal projection onto $H_\psi$ under the GNS map.
+
+\begin{proposition}\label{prop:ce_gives_proj}
+Let $E\colon A\to B$ be a conditional expectation with $\phi = \phi \circ E$.  The orthogonal projection $e \colon H_\phi \to H_\psi$ satisfies that $e(x\xi_\phi) = E(x) \xi_\psi$ for $x\in A$.
+\end{proposition}
+\begin{proof}
+Define $f \colon A\xi_\phi \to H_\psi$ by $f(x\xi_\phi) = E(x)\xi_\psi$ which is well-defined as $\psi$ is faithful, so $A\to H_\phi; x\mapsto x\xi_phi$ is injective.  As $E$ is idempotent, $f$ has dense range, and as $\xi_\psi = \xi_\phi$ it follows that $f^2=f$.  For $x\in A$ we have
+\[ \| f(x\xi_\phi) \|^2 = \| E(x)\xi_\psi \|^2 = \phi\big( E(x)^*E(x) \big)
+\leq \phi(E(x^*x)) = \phi(x^*x) = \|x\xi_\phi\|^2, \]
+so $f$ is contractive, and so extends to an idempotent $H_\phi \to H_\psi$ which is now seen to be surjective.  A contractive idempotent on a Hilbert space is an orthogonal projection, and so $f=e$ as claimed.
+\end{proof}
+
+\begin{corollary}
+Let $B\subseteq A$ and let $\phi$ be a faithful state on $A$.  There is at most one conditional expectation $E\colon A\to B$ with $\phi = \phi\circ E$.
+\end{corollary}
+
+Notice that the same argument would apply to a weight.
+
+
+\section{Tracial von Neumann algebras}
+
+We recall some of the basics, \cite[Section~2, Chapter~V]{TakesakiI}.  A \emph{trace} on a von Neumann algebra $M$ is a map $\tau \colon M_+ \to [0,\infty]$ which is:
+\begin{enumerate}
+  \item additive, so $\tau(x+y) = \tau(x) + \tau(y)$ for $x,y\in M_+$;
+  \item positive homogeneous, so $\tau(\lambda x) = \lambda \tau(x)$ for $\lambda\geq 0, x\in M_+$;
+  \item tracial, so $\tau(x^*x) = \tau(xx^*)$ for $x\in M$.
+\end{enumerate}
+As usual, $0\cdot\infty = 0$.  We say $\tau$ is \emph{faithful} when $\tau(x)>0$ for each $0\not=x\in M_+$, is \emph{semifinite} when for each $0\not=x\in M_+$ there is $0\not=y\leq x$ with $\tau(y)<\infty$, is \emph{finite} when $\tau(1)<\infty$, and is \emph{normal} when $\tau(\sup_i x_i) = \sup_i \tau(x_i)$ for increasing bounded nets $(x_i)$ in $M_+$.
+
+We will always assume our traces are faithful, semifinite and normal (an ``nsf trace'').  A finite normal trace is simply a normal functional $\tau\in M_*$ with $\tau(xy) = \tau(yx)$ for $x,y\in M$.
+
+Given an nsf trace $\tau$ define
+\begin{gather*}
+\mf p_\tau = \{ x\in M_+ : \tau(x)<\infty \}, \qquad
+\mf n_\tau = \{ x\in M : \tau(x^*x)<\infty \}, \qquad
+\mf m_\tau = \Big\{ \sum_{i=1}^n : x_i y_i \in \mf n_\tau \Big\}.
+\end{gather*}
+We have that $\mf n_\tau$ is an ideal in $M$, and so $\mf m_\tau$ is also an ideal.  We have that $\mf p_\tau = \mf m_\tau \cap M_+$ and $\mf m_\tau = \lin \mf p_\tau$.  The map $\tau$ can be extended to a linear functional, still denoted by $\tau$, on $\mf m_\tau$ which is self-adjoint, and with
+\[ \tau(ax) = \tau(xa) \quad (a\in M, x\in \mf m_\tau), \qquad
+\tau(xy)=\tau(yx) \quad (x,y\in\mf n_\tau). \]
+
+For fun, we follow Martin Argerami\footnote{\url{https://math.stackexchange.com/q/1840578}} and show some equivalences to semifiniteness.
+
+\begin{proposition}\label{prop:sf_equivs}
+The following are equivalent:
+\begin{enumerate}
+  \item\label{prop:sf_equivs:one} $\tau$ is semifinite;
+  \item\label{prop:sf_equivs:two} for each $x\in M_+$ there is an increasing net $(x_i) \subseteq\mf p_\tau$ with $x_i\to x$ in SOT.
+  \item\label{prop:sf_equivs:three} for each $x\in M_+$ we have $\tau(x) = \{ \tau(y) : y\in\mf p_\tau, y\leq x \}$.
+  \item\label{prop:sf_equivs:four} the $\sigma$-weak closure of $\mf p_\tau$ is $M_+$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+When (\ref{prop:sf_equivs:one}) holds, given $x\in M_+$, we use Zorn's Lemma to find a maximal chain $(x_i)_{i\in I}$ in $\mf p_\tau$ with $0\not=x_i\leq x$ for each $i$.  Then $\|x_i\| \leq \|x\|$ so the ordered net in bounded, and hence $y=\sup x_i$ exists in the SOT, and $y\leq x$.  If $z=x-y\geq 0$ is not $0$, then there is $0\not=z_0 \in \mf p_\tau$ with $z_0\leq z$, and so $y+z_0 \leq y+z = x$ and $y+z_0 \geq x_i+z_0 \geq x_i$ for each $i$, and so we conclude that the family $(x_i)$ is not maximal, contradiction.  So (\ref{prop:sf_equivs:two}) holds.
+
+When (\ref{prop:sf_equivs:two}) holds, as $\tau$ is normal, (\ref{prop:sf_equivs:three}) follows immediately.  (\ref{prop:sf_equivs:three}) implies (\ref{prop:sf_equivs:one}) is clear, as $\tau$ is faithful.
+
+Clearly (\ref{prop:sf_equivs:two}) implies (\ref{prop:sf_equivs:four}).
+%, while conversely, as $\mf p_\tau$ is convex, the $\sigma$-weak closure agrees with the $\sigma$-strong closure, and so (\ref{prop:sf_equivs:four}) in particular implies that $\mf p_\tau$ is SOT dense in $M_+$
+For the converse, I follow ideas from \cite{TakesakiI}.\footnote{See Lemma~2.13, Chapter~V, but I do not see how working with $\mf n_\tau$ works.}  As $\mf m_\tau$ is an ideal, there is a unique central projection $z\in M$ with the $\sigma$-weak closure $\overline{\mf m_\tau}$ equal to $Mz$.  Furthermore, there is an increasing net $(e_i)$ of positive elements in $\mf m_\tau$, that is, in $\mf p_\tau$, with $e_i \to z$ $\sigma$-strongly.  Then, for $x\in (Mz)_+ = M_+z$ we have that $x = \lim_i x^{1/2} e_i x^{1/2}$, an increasing net in $M_+ \cap \mf m_\tau = \mf p_\tau$.  Under hypothesis (\ref{prop:sf_equivs:four}), $\mf p_\tau$ is $\sigma$-weakly dense in $M_+$, so taking linear combinations, $\mf m_\tau$ is $\sigma$-weakly dense in $M$, thus $z=1$.  Hence (\ref{prop:sf_equivs:two}) holds.
+\end{proof}
+
+Using polar decomposition arguments, $\|x\|_1 = \tau(|x|)$ for $x\in\mf m_\tau$ defines a norm on $\mf m_\tau$, and the map
+\[ \mf m_\tau \to M_*; \quad x \mapsto \tau(\cdot x) \]
+is an isometry onto a dense subspace of the predual $M_*$.  We denote by $L^1(M,\tau)$ the completion of $(\mf m_\tau, \|\cdot\|_1)$, a Banach space isometric with $M_*$.
+
+We turn $\mf n_\tau$ into an inner-product space via $(x|y) = \tau(x^*y)$, the completion being a generalised GNS space $H_\tau = L^2(M,\tau)$, with GNS map $\Lambda\colon \mf n_\tau\to L^2(M,\tau)$ and $*$-representation $\pi\colon M \to \mc B(H_\tau)$.  As $\tau$ is a trace, there is also an anti-$*$-homomorphism $\pi'\colon M \to \mc B(H_\tau)$ given by $\pi'(x) \Lambda(y) = \Lambda(yx)$.  The map $J\colon \Lambda(x) \mapsto \Lambda(x^*)$ extends to a conjugate-linear isometry on $H_\tau$ with $J^2=1$.  Finally, $J\pi(x)J = \pi'(x^*)$ for each $x\in M$, and $\pi(M)' = \pi'(M)$.
+
+We now follow an unpublished book by C. Anantharaman and S. Popa\footnote{``An introduction to $\textrm{II}_1$ factors'' available at \url{https://www.math.ucla.edu/~popa/Books/IIun.pdf} August 2024.} adapted to the semifinite case.
+Given $\xi\in L^2(M,\tau)$ there is a linear map $L_\xi^0 \colon \Lambda(\mf n_\tau) \to H_\tau; \Lambda(x) \mapsto \xi x = \pi'(x)(\xi)$.  Similarly, define $R_\xi^0 \colon \Lambda(\mf n_\tau) \to H_\tau; \Lambda(x) \mapsto x \xi = \pi(x)(\xi)$.
+
+\begin{lemma}
+The maps $L_\xi^0$ and $R_\xi^0$ are closable as densely defined operators on $L^2(M,\tau)$.
+\end{lemma}
+\begin{proof}
+Suppose that $R_\xi^0\Lambda(x_n) \to \eta$ while $\Lambda(x_n) \to 0$.  For $y\in M$ we have
+\begin{align*}
+(\Lambda(y) | R_\xi^0\Lambda(x_n))
+&= (\Lambda(y) | \pi(x_n)\xi)
+= (\pi(x_n)^*\Lambda(y) | \xi)
+= (\Lambda(x_n^*y)|\xi) \\
+&= (\pi'(y)\Lambda(x_n^*)|\xi)
+= (J\Lambda(x_n)|\pi'(y)^*\xi) \to 0.
+\end{align*}
+Thus $(\Lambda(y)|\eta)=0$, for each $y\in M$, as $\eta=0$.  A similar argument holds for $L_\xi^0$.
+\end{proof}
+
+Denote by $L_\xi$ the closure of $L_\xi^0$.  When $L_\xi$ is bounded, we say that $\xi$ is \emph{left bounded}.  Similarly define $R_\xi$ and the notion of being \emph{right bounded}.
+
+\begin{theorem}\label{thm:bounded_vectors}
+A vector $\xi\in L^2(M,\tau)$ is left bounded if and only if $\xi \in \Lambda(\mf n_\tau)$, and similarly for right bounded vectors.  Furthermore, if this case, $\xi=\Lambda(x)$ for $x\in\mf n_\tau$ with $\|x\| = \|L_\xi\|$, and analogously on the right.
+\end{theorem}
+\begin{proof}
+When $\xi=\Lambda(x)$ for some $x\in\mf n_\varphi$, see that $L_\xi\Lambda(a) = \pi'(a)\Lambda(x) = \Lambda(xa) = \pi(x)\Lambda(a)$ for $a\in\mf n_\tau$, and so $L_\xi = \pi(x)$, and $\|x\| = \|L_\xi\|$.  Similarly, $R_\xi = \pi'(x)$.
+
+We have that \cite[Chapter~V, Lemma~2.21]{TakesakiI} shows that $\xi\in\Lambda(\mf n_\tau)$ if and only if $\sup\{ \|a\xi\| : a\in\mf n_\tau, \|\Lambda(a)\|\leq 1\} < \infty$, and if so, then the supremum equals $\|x\|$ for the $x\in\mf n_\tau$ with $\xi=\Lambda(x)$.  That is, $R^0_\xi$ is bounded if and only if $\xi\in\Lambda(\mf n_\tau)$.
+
+We now compute that for any $\xi\in H_\tau$ and $x\in\mf n_\tau$, we have $JR^0_\xi J\Lambda(x) = J(\pi(x^*)\xi) = J\pi(x^*)J J\xi = \pi'(x) J\xi = L^0_{J\xi}\Lambda(x)$ so $JR^0_\xi J = L^0_{J\xi}$, and hence also $JL^0_\xi J = R^0_{J\xi}$.  This is $\xi$ is left-bounded, that $R_{J\xi} = JL_\xi J$ is bounded, so $J\xi$ is right-bounded, hence $J\xi \in \Lambda(\mf n_\tau)$ so also $\xi\in\Lambda(\mf n_\tau)$.
+\end{proof}
+
+
+\section{Approaches to existance of conditional expectations}
+
+We aim to give various approaches to proving the following result.
+
+\begin{theorem}\label{thm:main}
+Let $\tau$ be an nsf trace on $M$, and let $N\subseteq M$ be a sub-von Neumann algebra such that $\tau|_N$ is semifinite.  There is a unique conditional expectation $E\colon M\to N$ with $\tau \circ E = \tau$.
+\end{theorem}
+
+When $\tau|_N$ is semifinite, it is of course normal and faithful, so we can form $L^2(N,\varphi)$ which is naturally identified with a closed subspace of $L^2(M,\varphi)$.  Directly adapting the proof of Proposition~\ref{prop:ce_gives_proj} shows that if such an $E$ exists, then $e \Lambda(x) = \Lambda(Ex)$ for each $x\in\mf n_\varphi$ where $e \colon L^2(M,\varphi) \to L^2(N,\varphi)$ is the orthogonal projection.  Thus $E$ is unique.
+
+\begin{proof}[{Proof 1 of Theorem~\ref{thm:main}}]
+Define $E \colon M \to \mc B(L^2(N,\tau))$ by $E(x) = p\pi_M(x)\iota$ where $p \colon L^2(M,\tau) \to L^2(N,\tau)$ is the orthogonal projection, though of as having codomain $L^2(N,\tau)$, and $\iota \colon L^2(N,\tau) \to L^2(M,\tau)$ is the inclusion.\footnote{We could also write $E(x) = exe$ but we find it clear to make rather explicit domains and codomains.}
+Then $\iota^* = p$, and $\pi_M(a)\iota = \iota\pi_N(a)$ for $a\in N$, so also $p \pi_M(a) = \pi_N(a)p$.  In particular, $E(a) = \pi_N(a) p\iota = \pi_N(a)$ for each $a\in N$.
+For $J_N$ the conjugation operator on $L^2(N,\tau)$, and similarly $J_M$, we easily see that $\iota J_N = J_M \iota$, and so taking adjoints gives $J_N p = p J_M$.\footnote{If you are unhappy with the adjoint of a conjugate-linear operator, perform the calculation: let $a\in N, x\in M$, and consider $(\Lambda_N(a) | J_N p \Lambda_M(x))
+= (p \Lambda_M(x) | J_N \Lambda_N(a))
+= (p \Lambda_M(x) | \Lambda_N(a^*))
+= (\Lambda_M(x) | \iota \Lambda_N(a^*))
+= (\Lambda_M(x) | \Lambda_M(a^*))
+= (\Lambda_M(x) | J_M \Lambda_M(a))
+= (\Lambda_M(a) | J_M\Lambda_M(x))
+= (\Lambda_N(a) | J_M\Lambda_M(x))
+= (\Lambda_N(a) | pJ_M\Lambda_M(x))$ and so indeed $J_N p = p J_M$.}
+For $a\in N$ and $x\in M$ we hence have $E(x) J_N \pi_N(a) J_N = p \pi_M(x) J_M \pi_M(a)J_M \iota = p J_M \pi_M(a) J_M \pi_M(x) \iota = J_N \pi_N(a) J_N E(x)$.  Thus $E(x) \in (J_N\pi_N(N)J_N)' = \pi_N(N)$ and hence we can consider $E$ as a linear map $M\to N$.  As $E(x) = \iota^* \pi_M(x) \iota$, we see that $E$ is normal, unital completely positive.  Thus $E$ is a conditional expectation.
+
+Finally, we argue as in the proof of Proposition~\ref{prop:sf_equivs}.  As $\mf m_\tau \cap N$ is a $\sigma$-weakly dense ideal in $N$, there is an increasing net $(e_i)$ in $\mf p_\tau \cap N$ which converges to $1_N = 1_M$.  Then each $e_i^{1/2} \in \mf n_\tau \cap N$, and for $x\in M_+$, the net $(x^{1/2} e_i x^{1/2})$ is in $\mf m_\tau$ and increases to $x$.  Then $x^{1/2} e_i^{1/2}$ and $e_i^{1/2} x^{1/2}$ are in $\mf n_\tau$, and so
+\begin{align*}
+\tau(x) &= \lim_i \tau(x^{1/2} e_i x^{1/2})
+= \lim_i \tau(e_i^{1/2} x^{1/2}x^{1/2} e_i^{1/2})
+= \lim_i \tau(e_i^{1/2} x e_i^{1/2}) \\
+&= \lim_i \big( \Lambda_M(e_i^{1/2}) \big| \pi_M(x) \Lambda_M(e_i^{1/2}) \big)
+= \lim_i \big( \Lambda_N(e_i^{1/2}) \big| \pi_N(E(x)) \Lambda_N(e_i^{1/2}) \big)
+= \tau_N(E(x)),
+\end{align*}
+where in the final equality we reverse the initial calculation, now working with $N$ and $\tau_N$.  Hence $\tau = \tau\circ E$ on $M_+$, as required.
+\end{proof}
+
+\begin{corollary}
+Any $\tau$-invariant conditional expectation $E\colon M\to N$ is normal and faithful (meaning that if $x\in M_+$ is non-zero, then $E(x)\not=0$.)
+\end{corollary}
+\begin{proof}
+The conditional expectation is unique, and the $E$ just constructed is normal.  As $\tau$ is faithful, given a non-zero $x\in M_+$ we have $\tau(E(x))=\tau(x)\not=0$ and so $E(x)\not=0$.  Thus $E$ is faithful.
+\end{proof}
+
+It is also possible to use the relation between $E$ and $e$ to define $E$; this is the approach taken in \cite[Section~3.6]{SinclairSmith_FiniteVNBook}, though we do not quite follow their argument.
+
+\begin{proof}[{Proof 2 of Theorem~\ref{thm:main}}]
+We again use $\iota$ and $p$, to be careful about (co)domains.  Let $x\in\mf n_\tau$ and $a,b\in \mf n_\tau \cap N$, so
+\begin{align*}
+\big( \Lambda_N(a) \big|  &  J_N \pi_N(b^*) J_N p \Lambda_M(x) \big)
+= \big( J_N \pi_N(b) J_N \Lambda_N(a) \big| p \Lambda_M(x) \big)
+= \big( \Lambda_N(ab^*) \big| p \Lambda_M(x) \big) \\
+&= \big( \Lambda_M(ab^*) \big| \Lambda_M(x) \big)
+= \big( J_M\pi_M(b)J_M \Lambda_M(a) \big| \Lambda_M(x) \big) \\
+&= \big( \Lambda_M(a) \big| J_M\pi_M(b^*)J_M \Lambda_M(x) \big)
+= \big( \Lambda_M(a) \big| \Lambda_M(xb) \big)
+= \big( \Lambda_M(a) \big| \pi_M(x) \Lambda_M(b) \big).
+\end{align*}
+Set $\xi = p\Lambda_M(x) \in L^2(N,\tau)$, so this calculation shows that
+\begin{align*}
+|(\Lambda_N(a)|L_\xi\Lambda_N(b))|
+&= |(\Lambda_N(a)|\pi_N'(b)\xi)|
+= |(\Lambda_N(a)|J_N\pi_N(b^*)J_N p \Lambda_M(x))|  \\
+&= |( \Lambda_M(a) | \pi_M(x) \Lambda_M(b) )|
+\leq \|x\| \|\Lambda_N(a)\| \| \Lambda_N(b)\|.
+\end{align*}
+Thus $L_\xi$ is bounded, so by Theorem~\ref{thm:bounded_vectors}, $\xi = \Lambda_N(c)$ for some $c\in \mf n_\tau \cap N$ with $\|c\| = \|L_\xi\| \leq \|x\|$.  There is hence a contractive map $E \colon \mf n_\tau \to \mf n_\tau\cap N$ with $\Lambda_N \circ E = p \circ \Lambda_M$.  It is easy to see that $E(x)=x$ for $x\in \mf n_\tau \cap N$, and so $E$ is idempotent.\footnote{When $\tau$ is finite, $E$ is now defined on all of $M$, which gives the proof from \cite[Section~3.6]{SinclairSmith_FiniteVNBook}.}
+
+We now basically copy the previous proof.  For $a,b\in\mf n_\tau\cap N$ and $x\in\mf n_\tau$, we have
+\begin{align*}
+(\Lambda_N(a)|p\pi_M(x)  &  \iota\Lambda_N(b))
+= (\Lambda_M(a)|\pi_M(x) \Lambda_M(b))
+= \tau(a^*xb), \\
+&= (\Lambda_M(ab^*)|\Lambda_M(x))
+= (\Lambda_N(ab^*)|p\Lambda_M(x))
+= (\pi_N'(b^*)\Lambda_N(a)|p\Lambda_M(x)) \\
+&= (\Lambda_N(a)|\pi_N'(b)\Lambda_N(E(x)))
+= (\Lambda_N(a)|\Lambda_N(E(x)b))
+= (\Lambda_N(a)|\pi_N(E(x))\Lambda_N(b))
+\end{align*}
+As $\tau$ is a trace, these agree, and so $\pi_N(E(x)) = p \pi_M(x) \iota$ for $x\in\mf n_\tau$.  By normality, it follows that $E$ extends to a normal map $M\to N$, necessarily idempotent, with $\pi_N(E(x)) = p \pi_M(x) \iota$ for each $x\in M$.  Thus $E$ is a normal UCP map, so a conditional expectation.
+\end{proof}
+
+We have established that $E(x) = exe$, but this is only true when regarded as operators on $L^2(N,\tau)$, which motivates our careful notation in the next result.
+
+\begin{proposition}\label{prop:Eprops}
+Let $N\subseteq M$ be an inclusion of von Neumann algebra, with $\tau$ an nsf trace on $M$ which restricts to a semifinite trace on $N$.  Let $e\colon L^2(M,\tau) \to L^2(N,\tau)$ be the orthogonal projection.  The unique conditional expectation $E\colon M \to N$ satisfies:
+\begin{enumerate}
+  \item\label{prop:Eprops:one}
+  $\Lambda_N(E(x)) = e \Lambda_M(x)$ for $x\in\mf n_\tau$;
+  \item\label{prop:Eprops:two}
+  for $x\in M$ we have $e\pi_M(x)e = \pi_N(E(x))$ as operators on $L^2(N,\tau)$;
+  \item\label{prop:Eprops:twoa}
+  for $x\in M$ we have $e\pi_M(x)e = e \pi_M(E(x)) = \pi_M(E(x)) e$ as operators on $L^2(M,\tau)$;
+  \item\label{prop:Eprops:three}
+  for $x,y\in\mf n_\tau$ we have $\tau(xE(y)) = \tau(E(x)E(y)) = \tau(E(x)y)$;
+  \item\label{prop:Eprops:four}
+  $\{e\}' \cap \pi_M(M) = \pi_M(N)$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+We established (\ref{prop:Eprops:one}) in the 2nd proof, or adapting Proposition~\ref{prop:ce_gives_proj} to the semifinite case.  (\ref{prop:Eprops:two}) is shown in both proofs above.  For $a\in N$ we have $\pi_M(a) e = \pi_N(a) e = e \pi_N(a) e = e \pi_M(a) e$ and so taking the adjoint shows also $e \pi_M(a) = e \pi_M(a) e$, and so (\ref{prop:Eprops:three}) follows from (\ref{prop:Eprops:two}).
+
+Given $x,y\in\mf n_\tau$, as $e^2=e=e^*$, we have
+\begin{align*}
+\tau(xE(y)) &= (\Lambda_M(x^*)|\Lambda_M(E(y)))
+= (\Lambda_M(x^*)|e\Lambda_M(y))
+= (e\Lambda_M(x^*)|e\Lambda_M(y)) \\
+&= (\Lambda_M(E(x)^*)|\Lambda_M(E(y)))
+= \tau(E(x)E(y)),
+\end{align*}
+using that $E$ is self-adjoint, as it is positive.  Similarly, $\tau(E(x)y) = \tau(E(x)E(y))$, and so (\ref{prop:Eprops:three}) holds.
+
+Clearly $\pi_M(N) \subseteq \{e\}' \cap \pi_M(M)$.  Given $x\in \{e\}'\cap \pi_M(M)$, we write $E(x)$ for what might more properly be denoted $(\pi_M\circ E \circ \pi_M^{-1})(x)$.  For $\xi\in L^2(N,\tau)$, we have
+\[ (x-E(x))\xi = (x-E(x))e\xi = e(x-E(x))e\xi = 0, \]
+by (\ref{prop:Eprops:twoa}), and using $xe=ex$.
+As in the first proof, there is a net $(e_i)$ in $\mf p_\tau\cap N$ increasing to $1$, so $(e_i^{1/2})$ is a net in $\mf n_\tau\cap N$, and for each $y\in M_+$, the net $(y^{1/2} e_i y^{1/2})$ is in $\mf m_\tau$ and increases to $y$.  Given $x\in \{e\}' \cap \pi_M(M)$, choose $y\in M_+$ with $\pi_M(y) = (x-E(x))^*(x-E(x))$, so again $y^{1/2} e_i^{1/2}, e_i^{1/2} y^{1/2} \in \mf n_\tau$, and hence as $x-E(x)$ vanishes on $L^2(N,\tau)$,
+\begin{align*}
+0 = (x-E(x))\Lambda_N(e_i^{1/2})
+&\implies \big( \Lambda_N(e_i^{1/2}) \big| (x-E(x))^*(x-E(x))\Lambda_N(e_i^{1/2})) = 0 \\
+&\implies \tau\big( e_i^{1/2} y e_i^{1/2} \big) = 0 \\
+&\implies \tau\big( y^{1/2} e_i y^{1/2} \big) = 0,
+\end{align*}
+for each $i$.  Taking the limit shows that $\tau(y)=0$, so $y=0$ as $\tau$ is faithful, and hence $x = E(x) \in \pi_M(N)$ as required to show (\ref{prop:Eprops:four}).
+\end{proof}
+
+We finish with a third way to establish existance, following \cite[Chapter~V, Proposition~2.36]{TakesakiI}.
+
+\begin{proof}[{Proof 3 of Theorem~\ref{thm:main}}]
+Clearly the inclusion $\mf m_\tau \cap N \to \mf m_\tau$ induces an isometric inclusion $L^1(N,\tau) \to L^1(M,\tau)$, and hence an isometry $E_* \colon N_* \to M_*$.  Let $E \colon M \to N$ be the Banach space adjoint, so by construction $E$ is normal and contractive.  For $x\in \mf m_\tau$ let $\theta_x \in M_*$ be the functional $\theta_x(y) = \tau(xy)$ for $y\in M$, so $E_*(\theta_a) = \theta_a$ for $a\in N\subseteq M$, and hence
+\[ \tau(E(x)a) = \theta_a(E(x)) = E_*(\theta_a)(x) = \theta_a(x) = \tau(xa)
+\qquad (x\in M, a\in\mf m_\tau\cap N). \]
+So $\tau(E^2(x)a) = \tau(E(x)a)$ for each $x\in M, a\in\mf m_\tau\cap N$, while implies that $(\xi|E^2(x)\eta) = (\xi|E(x)\eta)$ for each $\xi,\eta\in L^2(N,\tau)$, and hence $E^2=E$.  So $E$ is a conditional expectation.  
+
+Yet again, we chose an increasing net $(e_i)$ in $\mf p_\tau \cap N$ converging to $1$, so for $x\in M_+$, the net $(x^{1/2}e_ix^{1/2})$ is in $\mf m_\tau$ and converges to $x$.  Then $e_i x^{1/2}$ and $x^{1/2}e_i$ are both in $\mf m_\tau$, and so
+\[ \tau(x) = \lim_i \tau(x^{1/2}e_ix^{1/2}) = \lim_i \tau(xe_i)
+= \lim_i \tau(E(x)e_i)
+= \tau(E(x)). \]
+Thus $\tau = \tau\circ E$, completing the proof.
+\end{proof}
+
+
+
+\section{For nsf weights}
+
+We just remark that much the same idea works for nsf \emph{weights} instead of traces, with of course more care.  See \cite[Theorem~III.4.7.7]{Blackadar_OperatorAlgebrasBook} or \cite[Chapter~, Theorem~4.2]{TakesakiII}.
+
+Let $N\subseteq M$ and $\varphi$ an nsf weight on $M$ such that $\varphi|_N$ is semifinite.  There is a $\varphi$-preserving conditional expectation $E\colon M \to N$ if and only if the modular automorphism group $(\tau_t)$ of $\varphi$ restricts to $N$.  In this case, we can again regard $L^2(N,\varphi)$ as a subspace of $L^2(M,\varphi)$, and then with $e$ the orthogonal projection, we again have that $E(x) = exe$ as operators on $L^2(N, \varphi)$.
+
+
+
+%\bibliographystyle{plain}
+%\bibliography{ce.bib}
+\input{ce.bbl}
+
+\end{document}
+

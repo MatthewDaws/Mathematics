@@ -3,6 +3,6 @@
 *.log
 *.synctex.*
 *.toc
-*.bbl
+# *.bbl
 *.blg
 *.out
