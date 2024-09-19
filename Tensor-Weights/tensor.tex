@@ -1,0 +1,168 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+%\usepackage{showkeys}
+\usepackage{hyperref}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage[T1]{fontenc}
+\usepackage{beton}
+\usepackage[euler-digits, euler-hat-accent]{eulervm}
+\DeclareFontSeriesDefault[rm]{bf}{sbc} 
+
+\usepackage{amsmath,amssymb,amsthm}
+%\usepackage[all]{xy}
+\usepackage{url, enumitem}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{question}[proposition]{Question}
+
+\theoremstyle{remark}
+\newtheorem{remarkx}[proposition]{Remark}
+\newtheorem{remarksx}[proposition]{Remarks}
+\newtheorem{workingx}[proposition]{Working}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+\newenvironment{working}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\workingx}
+  {\popQED\endworkingx}
+
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+
+\newcommand{\vnten}{\bar\otimes}
+
+\newcommand{\hh}{\widehat}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\op}{{\operatorname{op}}}
+
+\begin{document}
+
+\title{Tensor products of weights}
+\author{Matt Daws}
+\date{September 2024}
+\maketitle
+
+\section{Introduction}
+
+Let $M,N$ be von Neumann algebras with normal semifinite faithful weights $\varphi,\psi$.  We consider two different ways to form $\varphi\otimes\psi$, and show that they are equal.  We use \cite{TakesakiII} as our main reference for weight theory.  Having written most of this, we realised that \cite[Section~4]{Stratila_ModTheoryBook} gives a self-contained account, and is probably the best reference.
+
+
+\subsection{Operator valued weights}\label{sec:opvalweight}
+
+We can define $(\varphi\otimes\id)$ as an operator valued weight $M\vnten N \to N$, see \cite[Chapter~IX, Section~4]{TakesakiII}.  Indeed, letting $\hh N_+$ be the extended positive cone of $N$, we define
+\[ \varphi\otimes\id \colon (M\vnten N)_+ \to \hh N_+; \quad
+(\varphi\otimes\id)(x)(\omega) = \varphi((\id\otimes\omega)(x)) \qquad (\omega \in N_*^+). \]
+For a given $x\geq 0$ set $m = (\varphi\otimes\id)(x)$.  Then $m$ is positive homogeneous and additive.  We seek to show that $m \colon N_*^+ \to [0,\infty]$ is lower semi-continuous.  Let $\omega_0 \in N_*^+$, and let $\omega_i \to \omega_0$ in $N_*^+$, so setting $x_i = (\id\otimes\omega_i)(x)$, we have that $x_i \to (\id\otimes\omega_0)(x)$ $\sigma$-weakly in $M^+$.  As $\varphi$ is normal, $\liminf_i \varphi(x_i) \geq \varphi((\id\otimes\omega_0)(x))$, because $\varphi$ is $\sigma$-weakly lower semi-continuous, see \cite[Theorem~VII.1.11]{TakesakiII}.  That is, $\liminf_i m(\omega_i) \geq m(\omega_0)$, as required to show that $m$ is lower semi-continuous.
+
+It is easy to see that $\varphi\otimes\id$ is itself additive and positive homogeneous, and an $N$-bimodule map, that is, an operator-valued weight.  If $x_i \uparrow x$ then $(\id\otimes\omega)(x_i) \uparrow (\id\otimes\omega)(x)$ for each $\omega\in N_*^+$, and so $\varphi((\id\otimes\omega)(x_i)) \uparrow \varphi((\id\otimes\omega)(x))$ by definition of $\varphi$ being normal.  Thus $\varphi\otimes\id$ is a normal operator-valued weight.  Notice that for $x\in\mf n_\varphi$ and $y\in N$, we have that $x \otimes y \in \mf n_{\varphi\otimes\id}$ as $(\varphi\otimes\id)(x^*x\otimes y^*y)(\omega) = \varphi(x^*x) \omega(y^*y)$ for all $\omega\in N_*^+$, and so $(\varphi\otimes\id)(x^*x\otimes y^*y) = \varphi(x^*x) y^*y < \infty$.  Hence $\mf n_{\varphi\otimes\id}$ is $\sigma$-weakly dense in $M\vnten N$ because $\mf n_\varphi \odot N$ is.
+
+In particular, we may define
+\[ (\varphi\otimes\psi)(x) = \psi\big( (\varphi\otimes\id)(x) \big), \]
+where $\psi$ is extended to $\hh N_+$ in the obvious way, \cite[Corollary~IX.4.9]{TakesakiII}.  Defining
+\[ \Phi_\varphi = \{ \omega\in M_*^+ : \omega(x) \leq \varphi(x) \ (x\in M_+) \}, \]
+we have that $\varphi(x) = \sup_{\omega\in\Phi_\varphi} \omega(x)$ for $x\in M_+$, see \cite[Theorem~VII.1.11]{TakesakiII}.  Similarly form $\Phi_\psi$.  Then, just following the definitions,
+\begin{align*}
+(\varphi\otimes\psi)(x)
+&= \psi\big( (\varphi\otimes\id)(x) \big)
+= \sup_{\omega\in\Phi_\psi} \varphi((\id\otimes\omega)(x))
+= \sup_{\omega\in\Phi_\psi} \sup_{\tau\in\Phi_\varphi} (\tau\otimes\omega)(x) \\
+&= \sup_{\tau\in\Phi_\varphi} \psi( (\tau\otimes\id)(x) )
+= \varphi\big( (\id\otimes\psi)(x) \big),
+\end{align*}
+and so the definition is symmetric.
+
+
+
+\subsection{Tensor products of Hilbert algebras}
+
+This is the usual definition of $\varphi\otimes\psi$, see \cite[Definition~VIII.4.2]{TakesakiII}.  Let $\mf A_\varphi \subseteq H_\varphi$ be the full left Hilbert algebra given by $\varphi$, where $(H_\varphi, \Lambda_\varphi, \pi_\varphi)$ is the GNS construction for $\varphi$.  Thus $\mf A_\varphi = \Lambda_\varphi(\mf n_\varphi \cap \mf n_\varphi^*)$.  Similarly we define $\mf A_\psi$ and so forth.
+
+\begin{lemma}
+The algebraic tensor product $\mf A_\varphi \odot \mf A_\psi$ is a left Hilbert algebra in $H_\varphi \otimes H_\psi$.
+\end{lemma}
+\begin{proof}
+This is routine, with all operators defined using the tensor product.  Showing that $a\otimes b \mapsto a^\sharp \otimes b^\sharp$ is perhaps the only non-trivial step, but this follows by using $D^\flat$, and the relations from \cite[Lemma~VI.1.5]{TakesakiII}, for example.
+\end{proof}
+
+Tensor products of unbounded operators have the expected definitions and properties, see \cite[Section~7.5]{Schmudgen_UnboundedBook} for example.  When $T_1,T_2$ are densely defined and closed, then $T_1\odot T_2$ is densely and pre-closed, and we define $T_1\otimes T_2$ to be the closure.  One non-trivial result is that then $(T_1\otimes T_2)^* = T_1^*\otimes T_2^*$, see \cite[Proposition~7.26]{Schmudgen_UnboundedBook} or \cite[Lemma~VIII.4.1]{TakesakiII}.
+
+We consider the left Hilbert algebra $\mf A = \mf A_\varphi \odot \mf A_\psi$.  We then see that $S_{\mf A} = S_{\mf A_\varphi} \otimes S_{\mf A_\psi} = (J_\varphi\otimes J_\psi) (\Delta_\varphi^{1/2} \otimes \Delta_\psi^{1/2})$ and so forth.  For $\xi\in\mf A$ we denote by $\pi_l(\xi)$ the bounded operator formed by left multiplication by $\xi$.  It is easy to see that
+\[ \pi_l\big( \Lambda_\varphi(a) \otimes \Lambda_\psi(b) \big) = a\otimes b \qquad
+(a\in\mf n_\varphi \cap \mf n_\varphi^*, b\in\mf n_\psi \cap \mf n_\psi^*). \]
+By density, the (left) von Neumann algebra associated to $\mf A$, namely $\pi_l(\mf A)''$, is hence $M\vnten N$.  We define $\varphi\vnten\psi$ to be the weight associated to the left Hilbert algebra $\mf A$.
+
+Recall that $\mf B' \subseteq H_\varphi \otimes H_\psi$ is the space of right bounded vectors, so $\eta\in\mf B'$ exactly when there is a bounded operator $\pi_r(\eta)$ with $\pi_r(\eta)\xi = \pi_l(\xi)\eta$ for each $\xi\in \mf A$.  For $\eta\in\mf B'$ we define $\omega^l_\eta \in (M\vnten N)_*$ by $\omega^l_\eta(x) = (\eta|x\eta)$.  Now define
+\[ \Phi_{l,0} = \big\{ \omega^l_\eta : \eta\in\mf B', \|\pi_r(\eta)\|\leq 1 \big\}. \]
+Then, \cite[Lemma~VII.2.4]{TakesakiII}, we have that
+\[ (\varphi\vnten\psi)(x) = \sup\{ \omega(x) : \omega\in \Phi_{l,0} \} \qquad (x\in (M\vnten N)_+). \]
+
+Given $\xi\in\mf B_\varphi', \eta\in\mf B_\psi'$ it is easy to see that $\xi\otimes\eta\in \mf B'$ with $\pi_r(\xi\otimes\eta) = \pi_r(\xi)\otimes\pi_r(\eta)$.  It follows that
+\[ \{ \omega^l_\xi \otimes \omega^l_\eta : \xi\in \Phi^\varphi_{l,0}, \eta\in\Phi^\psi_{l,0} \} \subseteq \Phi_{l,0}, \]
+and so as $\varphi(x) = \sup\{ \omega(x) : \omega\in \Phi^\varphi_{l,0}\}$, and simiarly for $\psi$, arguing as in the end of last section, we conclude that
+\[ (\varphi\vnten\psi)(x) \geq \psi((\varphi\otimes\id)(x)). \]
+
+To show the other inclusion using these techniques seems hard.  One can show (see \cite[(7), Section~8]{Stratila_ModTheoryBook} for example) that $\mf A_\varphi' \odot \mf A_\psi'$ generates $\mf A'$ as a right Hilbert algebra (or use that $J$ intertwines $\mf A'$ and $\mf A''$, \cite[Theorem~VI.1.19(ii)]{TakesakiII}).  Presumably a similar result holds for the right bounded vectors $\mf B'$.  Using the right version of \cite[Theorem~VI.1.26(ii)]{TakesakiII}, we can hence approximate elements of $\mf B'$ by elements in $\mf B'_\varphi \odot \mf B'_\psi$, when forming $\Phi_{l,0}$.  However, we would wish to approximate by rank-one tensors, and this seems out of reach.
+
+Let $a\in\mf n_\varphi$ have polar decomposition $a = u|a|$, so $u\in M$, and $|a| = u^*a \in \mf n_\varphi$ as this is a left ideal.  Hence also $|a|\in\mf n_\varphi^*$ as $|a|$ is self-adjoint.  Similarly let $b=v|b|\in\mf n_\psi$.  As above, then $|a| \otimes |b| = \pi_l(\Lambda_\varphi(|a|) \otimes \Lambda_\varphi(|b|))$ and hence by definition, \cite[Section~VII.2]{TakesakiII},
+\[ (\varphi\vnten\psi)(a^*a\otimes b^*b) = \| \Lambda_\varphi(|a|) \otimes \Lambda_\varphi(|b|) \|^2
+= \| (u^*\otimes v^*)(\Lambda_\varphi(a)\otimes\Lambda_\psi(b)) \|^2
+= \| \Lambda_\varphi(a)\otimes\Lambda_\psi(b) \|^2. \]
+For the last equality, we clearly have ``$\leq$'', but also $\Lambda_\varphi(a) = u\Lambda_\varphi(|a|)$, and so $\| \Lambda_\varphi(a)\otimes\Lambda_\psi(b) \| \leq \| \Lambda_\varphi(|a|) \otimes \Lambda_\varphi(|b|) \|$.  In particular, $a\odot b \in \mf n_{\varphi\vnten\psi}$.  Furthermore, for $c\in\mf n_\varphi, d\in\mf n_\psi$, we have $c^*a\otimes d^*b \in \mf m_{\varphi\vnten\psi}$ with
+\[ (\varphi\vnten\psi)(c^*a\otimes d^*b) = (\Lambda_\varphi(c)\otimes\Lambda_\psi(d)|\Lambda_\varphi(a)\otimes\Lambda_\psi(b)) = \varphi(c^*a)\psi(d^*b). \]
+
+
+\subsubsection{Proceeding via modular automorphism groups}
+
+We follow the strategy from \cite{Stratila_ModTheoryBook}.  Deciding when two normal semi-finite weights are equal is hard, but use can be made of the modular automorphism groups.  Write $\varphi\vnten\psi$ as above, and $\varphi\otimes\psi$ for the weight constructed from operator-valued weight theory in Section~\ref{sec:opvalweight}.  We have that
+\[ \Delta_{\varphi\vnten\psi} = \Delta_\varphi \otimes \Delta_\psi
+\quad\implies\quad
+\sigma^{\varphi\vnten\psi}_t = \sigma^\varphi_t \otimes \sigma^\psi_t, \]
+compare \cite[Proposition~VIII.4.3]{TakesakiII}.
+
+However, determining $\sigma_t^{\varphi\otimes\psi}$ seems hard, and we proceed as suggested by \cite{Stratila_ModTheoryBook}.  I have not found suitable references in \cite{TakesakiII}, but the machinery used is that of Spatial Derivative theory.  Define
+\[ \Phi^0_\varphi = \{ t\omega\in M_*^+ : 0<t<1, \omega(x) \leq \varphi(x) \ (x\in M_+) \}, \]
+so that $\Phi^o_\varphi$ is a directed set (for a proof, compare \cite[Proposition~3.5]{kustermans1997kmsweightscalgebras}, using the ideas of \cite[page~55]{TakesakiII}).  We consider (finite) weights of the form $\tau \otimes \omega$ as $\tau,\omega$ vary over $\Phi^0_\varphi, \Phi^0_\psi$ respectively.  This forms a directed set, increasing to $\varphi\otimes\psi$.  By \cite[Proposition~7.17]{Stratila_ModTheoryBook}, we have that
+\[ \sigma_t^{\tau\otimes\omega}(x) \to \sigma_t^{\varphi\otimes\psi} \qquad (x\in M\vnten N), \]
+for each $t$ (infact, uniformly on bounded intervals).  However, also $\sigma_t^\tau \to \sigma_t^\varphi$ and $\sigma_t^\omega \to \sigma_t^\psi$ pointwise, and so 
+\[ \sigma_t^{\varphi\otimes\psi}(x) = (\sigma_t^\varphi \otimes \sigma_t^\psi)(x)
+\qquad (x\in M \odot N). \]
+As each automorphism is $\sigma$-weakly continuous, we see that $\sigma_t^{\varphi\otimes\psi} = \sigma_t^\varphi \otimes \sigma_t^\psi$ on all of $M\vnten N$.
+
+We now use \cite[Proposition~VIII.3.16]{TakesakiII}, which tells us that as the modular automorphism groups agree, to show that $\varphi\otimes\psi = \varphi \vnten \psi$, it suffices to show equality on a $\sigma$-weakly dense $*$-subalgebra $\mf m_0 \subseteq \mf m_{\varphi\vnten\psi}$.  We will use $\mf m_0 = \mf m_\varphi \odot \mf m_\psi$.  Indeed, we established above that $\mf m_\varphi \odot \mf m_\psi \subseteq \mf m_{\varphi\otimes\psi}$ with $\varphi\vnten\psi = \varphi\otimes\psi$ on this $*$-subalgebra.  It follows that $\varphi\vnten\psi = \varphi\otimes\psi$.
+
+
+\bibliographystyle{plain}
+\bibliography{thebib.bib}
+
+\end{document}
