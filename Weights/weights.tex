@@ -1,0 +1,175 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+%\usepackage{showkeys}
+\usepackage{hyperref}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage[T1]{fontenc}
+\usepackage{beton}
+\usepackage[euler-digits, euler-hat-accent]{eulervm}
+\DeclareFontSeriesDefault[rm]{bf}{sbc} 
+
+\usepackage{amsmath,amssymb,amsthm}
+%\usepackage[all]{xy}
+\usepackage{url, enumitem}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{question}[proposition]{Question}
+
+\theoremstyle{remark}
+\newtheorem{remarkx}[proposition]{Remark}
+\newtheorem{remarksx}[proposition]{Remarks}
+\newtheorem{workingx}[proposition]{Working}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+\newenvironment{working}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\workingx}
+  {\popQED\endworkingx}
+
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+
+\newcommand{\vnten}{\bar\otimes}
+
+\newcommand{\hh}{\widehat}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\op}{{\operatorname{op}}}
+
+\begin{document}
+
+\title{Some notes on weights}
+\author{Matt Daws}
+\date{September 2024}
+\maketitle
+
+\section{Introduction}
+
+I collect some notes about weights on von Neumann algebras.  These vary from the trivial to slightly complicated.  I constantly get confused about the basics, so these are just a personal aide de memoir.  I try to give some references to where I found ideas.
+
+\section{The basics}
+
+We follow the notation of \cite[Chapter~VII]{TakesakiII}.  Much the same material can be found in \cite[Section~10.14]{StratilaZsido}, with a brief summary in \cite[Chapter~I]{Stratila_ModTheoryBook}.  A very brief summary can be found in \cite[Section~7.5]{KadisonRingroseII}, but this final source is, as usual, notable for its very careful proofs.
+
+Given a weight $\varphi \colon M^+ \to [0,\infty]$ we set
+\[ \mf p_\varphi = \{ x\in M^+ : \varphi(x)<\infty \}, \quad
+\mf n_\varphi = \{ x\in M : \varphi(x^*x)<\infty \}, \quad
+\mf m_\varphi = \lin \{ x^*y : x,y\in\mf n_\varphi \}. \]
+We say that $\varphi$ is \emph{semi-finite} when $\mf m_\varphi$ is $\sigma$-weakly dense in $M$.  We shall mostly suppose that $\varphi$ is semi-finite, normal and faithful.
+
+As $\mf n_\varphi$ is a left ideal, we see that $\mf m_\varphi \subseteq \mf n_\varphi$; similarly $\mf m_\varphi \subseteq \mf n_\varphi^*$ and so in fact $\mf m_\varphi \subseteq \mf n_\varphi \cap \mf n_\varphi^*$.  So:
+\begin{itemize}
+\item $\varphi$ semi-finite implies that each of $\mf n_\varphi, \mf n_\varphi^*$ and $\mf n_\varphi\cap\mf n_\varphi^*$ are $\sigma$-weakly dense in $M$.
+\end{itemize}
+Let $x\in\mf n_\varphi$ and $x=u|x|$ be the polar decomposition.  Then $|x| = u^*x\in\mf n_\varphi$.
+% If $x\in\mf m_\varphi^+$ then $x^{1/2}\in\mf n_\varphi$ so $x = x^{1/2}x^{1/2} \in\mf n_\varphi$; whence:
+% \begin{itemize}
+%   \item $\mf m_\varphi^+ \subseteq \mf n_\varphi$.
+% \end{itemize}
+
+Form the GNS construction $(H_\varphi, \pi_\varphi, \Lambda_\varphi)$.  I think \cite{TakesakiII} is too hasty here, and so we follow \cite{KadisonRingroseII}.  As $\varphi$ is faithful, the map $\mf n_\varphi \to H_\varphi; a\mapsto \Lambda_\varphi(a)$ is injective.  Suppose that $\pi_\varphi(x)=0$, which is equivalent to $\Lambda_\varphi(xa)=0$ for each $a\in\mf n_\varphi$, equivalently, $xa=0$ for each $a\in\mf n_\varphi$.  As $\mf n_\varphi$ is $\sigma$-weakly dense in $M$, by continuity of the multiplication, $xa=0$ for each $a\in M$, so $x=0$.  A similarly careful treatment of why $\pi_\varphi$ is normal can be found in \cite{KadisonRingroseII}.
+
+By Kaplansky Density (the cleanest statement is \cite[Theorem~5.3.5, Corollary~5.3.6]{KadisonRingroseI}) the unit ball of $\mf m_\varphi$ is $\sigma$-strongly dense in the unit ball of $M$.  Further, for any $y\in M_+$ there is a net $(y_i)$ in $\mf m_\varphi^+$ with $y_i\to y$ $\sigma$-weakly, and with $\|y_i\| \leq \|y\|$ for each $i$.
+
+%From \cite[Theorem~I.7.4]{TakesakiI} the set $\{ x\in \mf n_\varphi : \|x\|<1 \}$ is upward directed and forms a right approximate identity for $\mf n_\varphi$, because $\mf n_\varphi$ is a left ideal.  Let $(a_i)$ be this approximate identity, so $(a_i)$ increases to some element $x\in M$.\footnote{I had a crisis: \emph{why} is this true again?  See \cite[Lemma~5.1.4]{KadisonRingroseI}.}  Then $ax = \lim aa_i = a$ for each $a\in\mf n_\varphi$, and so also $a^*bx = a^*b$ for $a,b\in\mf n_\varphi$, so $ax=a$ for each $a\in\mf m_\varphi$.  If $\mf n_\varphi$ is $\sigma$-weakly dense in $M$, then $ax=a$ for each $a\in\mf n_\varphi$ implies $x=1$.  This is elementary, or use that $\overline{\mf n_\varphi}^\sigma = Me$ for some projection $e\in M$, that $\sigma$-weak continuity implies that $ax=a$ for each $a\in \overline{\mf n_\varphi}^\sigma$, so $ex=e$; so if $\mf n_\varphi$ is dense, then $e=1$, so $x=1$.
+
+\begin{proposition}
+Let $\mf n \subseteq M$ be a left ideal, and let $\mf m = \lin \{ x^*y : x,y\in\mf n\}$, which is a $*$-subalgebra of $M$ contained in $\mf n$.  There is a projection $e\in M$ with $Me = \overline{\mf n}^\sigma$ and $eMe = \overline{\mf m}^\sigma$.  As such, $\mf n$ is $\sigma$-weakly dense in $M$ if and only if $\mf m$ is.
+\end{proposition}
+\begin{proof}
+We follow the sketch in \cite[III.1.1.15]{Blackadar_OperatorAlgebrasBook}.  As $\mf n$ is a left ideal, it follows that $\mf m \subseteq \mf n$, and that $\mf m$ is a $*$-algebra.  From \cite[Theorem~I.7.4]{TakesakiI} the set $\{ x\in \mf n_\varphi : \|x\|<1 \}$ is upward directed and forms a right approximate identity for $\mf n$, say $(a_i)$.
+
+We show that $a_i$ converges strongly to a projection $e$ with $\overline{\mf n}^\sigma = Me$.  There are many ways to show this, but here is a simple-minded approach.  Let $M$ act on $H$, and again, we know that $a_i \rightarrow e$ $\sigma$-strongly,\footnote{We have strong convergence, see \cite[Lemma~5.1.4]{KadisonRingroseI} for example.  By replacing $M$ with $M\otimes 1$ acting on $H\otimes\ell^2$, we convert strong convergence to $\sigma$-strong convergence.} where $e \in M^+$ is the upper bound.  For $x\in\mf n$ we have $xe = \lim_i xa_i = x$, the first limit holding strongly, say (the second limit is in norm, of course).  Set $H_0 = \overline\lin\{ x^*\xi : x\in\mf n, \xi\in H \}$.  As $a_i=a_i^*\rightarrow e$ strongly, it follows that $e(H) \subseteq H_0$.  For $x\in\mf n,\xi\in H$ we have $ex^*\xi = (xe)^*\xi = x^*\xi$ and so $e\eta=\eta$ for each $\eta\in H_0$.  Hence $e=e^2$ is an idempotent with image $H_0$.  Now let $\eta\in H_0^\perp, \xi\in H$, so $(e\eta|\xi) = \lim_i (a_i\eta|\xi) = \lim_i (\eta|a_i^*\xi) = 0$ as $a_i^*\xi\in H_0$ for each $i$.  So $e(H_0^\perp) = \{0\}$ and $e$ is the orthogonal projection onto $H_0$.  As $xe=x$ for each $x\in\mf n$, certainly $\mf n \subseteq Me$, and hence $\overline{\mf n}^\sigma \subseteq Me$.  For $x\in M$, we have $xe = \lim_i xa_i \in \overline{\mf n}^\sigma$, as the limit certainly holds in the $\sigma$-weak topology.  So $Me = \overline{\mf n}^\sigma$ as claimed.
+
+Now let $x,y\in\mf n$, so $x^*y\in\mf m$ and hence $x^*y = ex^*ye \in eMe$.  Hence $\overline{\mf m}^\sigma \subseteq eMe$.  Given $x\in eMe$, we have $x = exe = \lim_i a_i^* x a_i$ as $a_i=a_i^*$, the limit holding in the strong topology say, which follows from the estimate
+\begin{align*}
+\| (a_ixa_i - exe)\xi \| \leq \| a_ixa_i\xi - a_ixe\xi \| + \| a_ixe\xi -exe\xi\|
+\leq \|x\| \|(a_i-e)\xi\| + \| (a_i-e) xe\xi \|,
+\end{align*}
+remembering that $\|a_i\|\leq 1$.  As $a_i\in\mf n$ also $xa_i\in\mf n$ and so $a_i^* (xa_i) \in \mf m$.  We conclude that $x \in \overline{\mf m}^\sigma$, showing the other inclusion, so $\overline{\mf m}^\sigma = eMe$.
+
+To finish, as $\mf m \subseteq \mf n$, if $\mf m$ is $\sigma$-weakly dense in $M$, then obviously $\mf n$ is as well.  For the converse, we observe that $\overline{\mf n}^\sigma=M$ if and only if $Me=M$, if and only if $e=1$, which implies $\overline{\mf m}^\sigma = eMe = M$.  
+\end{proof}
+
+\begin{corollary}
+$\varphi$ is semi-finite if and only if $\mf n_\varphi$ is $\sigma$-weakly dense in $M$.
+\end{corollary}
+
+In particular, this shows that the meaning of ``semi-finite'' for operator-valued weights, \cite[Definition~IX.4.14]{TakesakiII}, is in accordance with the meaning for weights.
+
+If we work a bit harder, we can ensure that our approximate identity has further properties, compare \cite[Proposition~3.21]{StratilaZsido}, or indeed the proof of \cite[Theorem~I.7.4]{TakesakiI}.  Here is one way to do this.  Using functional calculus, for $a\geq 0$ we can form the element $(a+\epsilon)^{-1}a$, and then for $0\leq a\leq 1$ we have the estimate (which holds for real-values, so by functional calculus, for operators) $\| a - a^2(a+\epsilon)^{-1}\| < \epsilon$.  Thus $\|xa^2(a+\epsilon)^{-1}-x\| \leq \|x\|\epsilon + \|xa-x\|$.  Thus if $(a_i)$ is our original approximate identity, then $b_i = a_i^2(a_i+\epsilon)^{-1}$ will also be an approximate identity, still have $b_i \in \mf n_\varphi \cap M_+$, but we now also have $b_i \in \mf m_\varphi^+$.
+\begin{itemize}
+  \item There is a (right) approximate identity $(b_i)$ in $\mf m_\varphi^+ \subseteq \mf n_\varphi$ for $\mf n_\varphi$, that is, $\|ab_i-a\|\to 0$ for $a\in\mf n_\varphi$.
+\end{itemize}
+
+An alternative characterisation of \emph{semifinite} comes from \cite[Proposition~III.2.2.20]{Blackadar_OperatorAlgebrasBook}.  As $\mf m_\varphi$ is a $*$-algebra, its norm closure is a $C^*$-algebra, which has an approximate unit, so by approximation, so does $\mf m_\varphi$.\footnote{To maintain positivity, let $(e_i)$ be an (increasing) positive approximate identity for $\overline{\mf m_\varphi}$.  For each $i$, let $b_i\in\mf m_\varphi$ norm approximate $e_i^{1/2}$, and set $a_i = b_i^*b_i$, so $a_i\geq 0$ is norm close to $e_i$.}
+
+\begin{proposition}\label{prop:semifinitequiv}
+Let $\varphi$ be a normal weight on $M$.  The following are equivalent:
+\begin{enumerate}
+  \item\label{prop:semifinitequiv:one} $\varphi$ is semifinite: $\mf m_\varphi$ is $\sigma$-weakly dense in $M$;
+  \item\label{prop:semifinitequiv:two} for each (positive) approximate unit $(a_i)$ for $\mf m_\varphi$, for $x\in M_+$ we have $\varphi(x) \leq \liminf_i \varphi(a_i x a_i)$;
+  \item\label{prop:semifinitequiv:three} for each (positive) approximate unit $(a_i)$ for $\mf m_\varphi$, when $x\in M_+$ has $\varphi(x)=\infty$, we have $\lim_i \varphi(a_i x a_i) = \infty$;
+  \item\label{prop:semifinitequiv:four} for each (positive) approximate unit $(a_i)$ for $\mf m_\varphi$, when $x\in M_+$ has $\varphi(x)=\infty$, we have $\sup_i \varphi(a_i x a_i) = \infty$;
+\end{enumerate}
+A normal weight $\varphi$ is semifinite if and only if, for each .  Furthermore, this is equiv
+\end{proposition}
+\begin{proof}
+When $\mf m_\varphi$ is $\sigma$-weakly dense in $M$, we have that $a_i \to 1$ $\sigma$-strongly, and so for each $x\in M_+$ we have that $a_i x a_i \to x$ $\sigma$-weakly.  As $\varphi$ is $\sigma$-weakly lower semicontinuous, $\varphi(x) \leq \liminf_i \varphi(a_ixa_i)$, as required to show (\ref{prop:semifinitequiv:one})$\implies$(\ref{prop:semifinitequiv:two}).
+Conversely, as above, $\overline{\mf m_\varphi}^\sigma = pMp$ for some projection $p$, and $a_i \to p$ $\sigma$-strongly.  Let $x\in M_+$ with $px=0$.  As $a_i p = a_i$ because $a_i\in\mf m_\varphi$, we have $\varphi(x) \leq \liminf_i \varphi(a_ixa_i) = \liminf_i \varphi(a_ipxa_i) = 0$ so $\varphi(x)=0$ so $x\in\mf m_\varphi^+$, so $x = px = 0$.  Set $x=1-p$ to conclude that $p=1$ as required.
+
+As the $\liminf$ is infinite implies the limit is, clearly (\ref{prop:semifinitequiv:two})$\implies$(\ref{prop:semifinitequiv:three}).  When $x\in\mf m_\varphi^+$, the condition in (\ref{prop:semifinitequiv:two}) holds by lower semicontinuity, and so (\ref{prop:semifinitequiv:three})$\implies$(\ref{prop:semifinitequiv:two}).  Clearly (\ref{prop:semifinitequiv:three})$\implies$(\ref{prop:semifinitequiv:four}).  When (\ref{prop:semifinitequiv:four}) holds, towards a contradiction, suppose that (\ref{prop:semifinitequiv:three}) doesn't, so there is $K>0$ with $J = \{ i : \varphi(a_ixa_i) \leq K \}$ is cofinal (that is, for each $i_0$ there is $i\geq i_0$ with $\varphi(a_ixa_i) \leq K$, this being the opposite of the limit being infinite).  Then $(a_j)_{j\in J}$ is a subnet of $(a_i)$, and so is still an approximate identity, but as $\sup_{j\in J} \varphi(a_jxa_j) \leq K$, we contradict (\ref{prop:semifinitequiv:four}).  Hence (\ref{prop:semifinitequiv:four})$\implies$(\ref{prop:semifinitequiv:three}) as we want.
+\end{proof}
+
+
+
+
+We state the following in more generality 
+
+\begin{lemma}
+A normal weight $\varphi$ is semifinite if and only if, for each bounded approximate right unit $(a_i)$ for $\mf m_\varphi$, we have $\varphi(x) \leq \liminf_i \varphi(a_i x a_i)$.
+\end{lemma}
+\begin{proof}
+As $\mf m_\varphi$ is a $*$-algebra, its norm closure is a $C^*$-algebra, which has an approximate unit, so by approximation, so does $\mf m_\varphi$.\footnote{If we wanted, we can maintain positivity, let $(e_i)$ be an (increasing) positive approximate identity for $\overline{\mf m_\varphi}$.  For each $i$, let $b_i\in\mf m_\varphi$ norm approximate $e_i^{1/2}$, and set $a_i = b_i^*b_i$, so $a_i\geq 0$ is norm close to $e_i$.}  
+
+Moving to a subnet if necessary, we may suppose that $a_i\to e$ in the $\sigma$-weak topology, because the net $(a_i)$ is bounded.  Then $ae = a$ for each $a\in\mf m_\varphi$ by separate continuity of the product for the $\sigma$-weak topology.  When $\mf m_\varphi$ is $\sigma$-weakly dense in $M$, by continuity again, we have $xe=x$ for each $x\in M$, so $e=1$.
+
+we have that $a_i \to 1$ $\sigma$-strongly, and so for each $x\in M_+$ we have that $a_i x a_i \to x$ $\sigma$-weakly.  As $\varphi$ is $\sigma$-weakly lower semicontinuous, $\varphi(x) \leq \liminf_i \varphi(a_ixa_i)$, as required.
+
+Conversely, as above, $\overline{\mf m_\varphi}^\sigma = pMp$ for some projection $p$, and $a_i \to p$ $\sigma$-strongly.  Let $x\in M_+$ with $px=0$.  As $a_i p = a_i$ because $a_i\in\mf m_\varphi$, we have $\varphi(x) \leq \liminf_i \varphi(a_ixa_i) = \liminf_i \varphi(a_ipxa_i) = 0$ so $\varphi(x)=0$ so $x\in\mf m_\varphi^+$, so $x = px = 0$.  Set $x=1-p$ to conclude that $p=1$ as required.
+\end{proof}
+
+\bibliographystyle{plain}
+\bibliography{thebib.bib}
+
+\end{document}
