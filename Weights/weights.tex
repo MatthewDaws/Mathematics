@@ -99,9 +99,19 @@ Let $x\in\mf n_\varphi$ and $x=u|x|$ be the polar decomposition.  Then $|x| = u^
 
 Form the GNS construction $(H_\varphi, \pi_\varphi, \Lambda_\varphi)$.  I think \cite{TakesakiII} is too hasty here, and so we follow \cite{KadisonRingroseII}.  As $\varphi$ is faithful, the map $\mf n_\varphi \to H_\varphi; a\mapsto \Lambda_\varphi(a)$ is injective.  Suppose that $\pi_\varphi(x)=0$, which is equivalent to $\Lambda_\varphi(xa)=0$ for each $a\in\mf n_\varphi$, equivalently, $xa=0$ for each $a\in\mf n_\varphi$.  As $\mf n_\varphi$ is $\sigma$-weakly dense in $M$, by continuity of the multiplication, $xa=0$ for each $a\in M$, so $x=0$.  A similarly careful treatment of why $\pi_\varphi$ is normal can be found in \cite{KadisonRingroseII}.
 
-By Kaplansky Density (the cleanest statement is \cite[Theorem~5.3.5, Corollary~5.3.6]{KadisonRingroseI}) the unit ball of $\mf m_\varphi$ is $\sigma$-strongly dense in the unit ball of $M$.  Further, for any $y\in M_+$ there is a net $(y_i)$ in $\mf m_\varphi^+$ with $y_i\to y$ $\sigma$-weakly, and with $\|y_i\| \leq \|y\|$ for each $i$.
+By Kaplansky Density (the cleanest statement is \cite[Theorem~5.3.5, Corollary~5.3.6]{KadisonRingroseI}) the unit ball of $\mf m_\varphi$ is $\sigma$-strongly dense in the unit ball of $M$.  Further, for any $y\in M_+$ there is a net $(y_i)$ in $\mf m_\varphi^+$ with $y_i\to y$ $\sigma$-weakly, and with $\|y_i\| \leq \|y\|$ for each $i$.  However, I do not think it is true in general that we can choose $(y_i)$ increasing with $y_i\leq y$.
 
-%From \cite[Theorem~I.7.4]{TakesakiI} the set $\{ x\in \mf n_\varphi : \|x\|<1 \}$ is upward directed and forms a right approximate identity for $\mf n_\varphi$, because $\mf n_\varphi$ is a left ideal.  Let $(a_i)$ be this approximate identity, so $(a_i)$ increases to some element $x\in M$.\footnote{I had a crisis: \emph{why} is this true again?  See \cite[Lemma~5.1.4]{KadisonRingroseI}.}  Then $ax = \lim aa_i = a$ for each $a\in\mf n_\varphi$, and so also $a^*bx = a^*b$ for $a,b\in\mf n_\varphi$, so $ax=a$ for each $a\in\mf m_\varphi$.  If $\mf n_\varphi$ is $\sigma$-weakly dense in $M$, then $ax=a$ for each $a\in\mf n_\varphi$ implies $x=1$.  This is elementary, or use that $\overline{\mf n_\varphi}^\sigma = Me$ for some projection $e\in M$, that $\sigma$-weak continuity implies that $ax=a$ for each $a\in \overline{\mf n_\varphi}^\sigma$, so $ex=e$; so if $\mf n_\varphi$ is dense, then $e=1$, so $x=1$.
+As $\mf n_\varphi$ is a left ideal, it has an increasing approximate identity.  Indeed, \cite[Theorem~I.7.4]{TakesakiI} shows that the set $\{ x\in \mf n_\varphi : \|x\|<1 \}$ is upward directed and forms a right approximate identity for $\mf n$.
+
+If we work a bit harder, we can ensure that our approximate identity has further properties, compare \cite[Proposition~3.21]{StratilaZsido}, or indeed the proof of \cite[Theorem~I.7.4]{TakesakiI}.  Here is one way to do this.  Using functional calculus, for $a\geq 0$ we can form the element $(a+\epsilon)^{-1}a$, and then for $0\leq a\leq 1$ we have the estimate (which holds for real-values, so by functional calculus, for operators) $\| a - a^2(a+\epsilon)^{-1}\| < \epsilon$.  Thus $\|xa^2(a+\epsilon)^{-1}-x\| \leq \|x\|\epsilon + \|xa-x\|$.  Thus if $(a_i)$ is our original approximate identity, then $b_i = a_i^2(a_i+\epsilon)^{-1}$ will also be an approximate identity, still have $b_i \in \mf n_\varphi \cap M_+$, but we now also have $b_i \in \mf m_\varphi^+$.
+\begin{itemize}
+  \item There is a (right) approximate identity $(b_i)$ in $\mf m_\varphi^+ \subseteq \mf n_\varphi$ for $\mf n_\varphi$, that is, $\|ab_i-a\|\to 0$ for $a\in\mf n_\varphi$.
+\end{itemize}
+
+
+\subsection{Semi-finiteness}
+
+We explore some equivalent conditions for what it means for a normal weight to be semi-finite.
 
 \begin{proposition}
 Let $\mf n \subseteq M$ be a left ideal, and let $\mf m = \lin \{ x^*y : x,y\in\mf n\}$, which is a $*$-subalgebra of $M$ contained in $\mf n$.  There is a projection $e\in M$ with $Me = \overline{\mf n}^\sigma$ and $eMe = \overline{\mf m}^\sigma$.  As such, $\mf n$ is $\sigma$-weakly dense in $M$ if and only if $\mf m$ is.
@@ -127,11 +137,6 @@ $\varphi$ is semi-finite if and only if $\mf n_\varphi$ is $\sigma$-weakly dense
 
 In particular, this shows that the meaning of ``semi-finite'' for operator-valued weights, \cite[Definition~IX.4.14]{TakesakiII}, is in accordance with the meaning for weights.
 
-If we work a bit harder, we can ensure that our approximate identity has further properties, compare \cite[Proposition~3.21]{StratilaZsido}, or indeed the proof of \cite[Theorem~I.7.4]{TakesakiI}.  Here is one way to do this.  Using functional calculus, for $a\geq 0$ we can form the element $(a+\epsilon)^{-1}a$, and then for $0\leq a\leq 1$ we have the estimate (which holds for real-values, so by functional calculus, for operators) $\| a - a^2(a+\epsilon)^{-1}\| < \epsilon$.  Thus $\|xa^2(a+\epsilon)^{-1}-x\| \leq \|x\|\epsilon + \|xa-x\|$.  Thus if $(a_i)$ is our original approximate identity, then $b_i = a_i^2(a_i+\epsilon)^{-1}$ will also be an approximate identity, still have $b_i \in \mf n_\varphi \cap M_+$, but we now also have $b_i \in \mf m_\varphi^+$.
-\begin{itemize}
-  \item There is a (right) approximate identity $(b_i)$ in $\mf m_\varphi^+ \subseteq \mf n_\varphi$ for $\mf n_\varphi$, that is, $\|ab_i-a\|\to 0$ for $a\in\mf n_\varphi$.
-\end{itemize}
-
 An alternative characterisation of \emph{semifinite} comes from \cite[Proposition~III.2.2.20]{Blackadar_OperatorAlgebrasBook}.  As $\mf m_\varphi$ is a $*$-algebra, its norm closure is a $C^*$-algebra, which has an approximate unit, so by approximation, so does $\mf m_\varphi$.\footnote{To maintain positivity, let $(e_i)$ be an (increasing) positive approximate identity for $\overline{\mf m_\varphi}$.  For each $i$, let $b_i\in\mf m_\varphi$ norm approximate $e_i^{1/2}$, and set $a_i = b_i^*b_i$, so $a_i\geq 0$ is norm close to $e_i$.}
 
 \begin{proposition}\label{prop:semifinitequiv}
@@ -142,7 +147,6 @@ Let $\varphi$ be a normal weight on $M$.  The following are equivalent:
   \item\label{prop:semifinitequiv:three} for each (positive) approximate unit $(a_i)$ for $\mf m_\varphi$, when $x\in M_+$ has $\varphi(x)=\infty$, we have $\lim_i \varphi(a_i x a_i) = \infty$;
   \item\label{prop:semifinitequiv:four} for each (positive) approximate unit $(a_i)$ for $\mf m_\varphi$, when $x\in M_+$ has $\varphi(x)=\infty$, we have $\sup_i \varphi(a_i x a_i) = \infty$;
 \end{enumerate}
-A normal weight $\varphi$ is semifinite if and only if, for each .  Furthermore, this is equiv
 \end{proposition}
 \begin{proof}
 When $\mf m_\varphi$ is $\sigma$-weakly dense in $M$, we have that $a_i \to 1$ $\sigma$-strongly, and so for each $x\in M_+$ we have that $a_i x a_i \to x$ $\sigma$-weakly.  As $\varphi$ is $\sigma$-weakly lower semicontinuous, $\varphi(x) \leq \liminf_i \varphi(a_ixa_i)$, as required to show (\ref{prop:semifinitequiv:one})$\implies$(\ref{prop:semifinitequiv:two}).
@@ -154,20 +158,7 @@ As the $\liminf$ is infinite implies the limit is, clearly (\ref{prop:semifinite
 
 
 
-We state the following in more generality 
 
-\begin{lemma}
-A normal weight $\varphi$ is semifinite if and only if, for each bounded approximate right unit $(a_i)$ for $\mf m_\varphi$, we have $\varphi(x) \leq \liminf_i \varphi(a_i x a_i)$.
-\end{lemma}
-\begin{proof}
-As $\mf m_\varphi$ is a $*$-algebra, its norm closure is a $C^*$-algebra, which has an approximate unit, so by approximation, so does $\mf m_\varphi$.\footnote{If we wanted, we can maintain positivity, let $(e_i)$ be an (increasing) positive approximate identity for $\overline{\mf m_\varphi}$.  For each $i$, let $b_i\in\mf m_\varphi$ norm approximate $e_i^{1/2}$, and set $a_i = b_i^*b_i$, so $a_i\geq 0$ is norm close to $e_i$.}  
-
-Moving to a subnet if necessary, we may suppose that $a_i\to e$ in the $\sigma$-weak topology, because the net $(a_i)$ is bounded.  Then $ae = a$ for each $a\in\mf m_\varphi$ by separate continuity of the product for the $\sigma$-weak topology.  When $\mf m_\varphi$ is $\sigma$-weakly dense in $M$, by continuity again, we have $xe=x$ for each $x\in M$, so $e=1$.
-
-we have that $a_i \to 1$ $\sigma$-strongly, and so for each $x\in M_+$ we have that $a_i x a_i \to x$ $\sigma$-weakly.  As $\varphi$ is $\sigma$-weakly lower semicontinuous, $\varphi(x) \leq \liminf_i \varphi(a_ixa_i)$, as required.
-
-Conversely, as above, $\overline{\mf m_\varphi}^\sigma = pMp$ for some projection $p$, and $a_i \to p$ $\sigma$-strongly.  Let $x\in M_+$ with $px=0$.  As $a_i p = a_i$ because $a_i\in\mf m_\varphi$, we have $\varphi(x) \leq \liminf_i \varphi(a_ixa_i) = \liminf_i \varphi(a_ipxa_i) = 0$ so $\varphi(x)=0$ so $x\in\mf m_\varphi^+$, so $x = px = 0$.  Set $x=1-p$ to conclude that $p=1$ as required.
-\end{proof}
 
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
