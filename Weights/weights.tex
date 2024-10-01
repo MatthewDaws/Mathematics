@@ -157,8 +157,81 @@ As the $\liminf$ is infinite implies the limit is, clearly (\ref{prop:semifinite
 
 
 
+\section{Hilbert algebras to von Neumann algebras}
+
+I find the links between the Hilbert algebra and weights to be a bit obscure in \cite{TakesakiII}: it would perhaps benefit from a nice summary somewhere.  Similarly in \cite{StratilaZsido}.
+
+Let $\mf A$ be a full left Hilbert algebra associated to the weight $\varphi$.  The passage between these objects is detailed in \cite[Section~VII.2]{TakesakiII}.  We have
+\begin{gather*}
+\mf n_l = \pi_l(\mf B) = \mf n_{\varphi}, \quad \mf n_r = \pi_r(\mf B') = \mf n_{\varphi'}, \quad \pi_l(\mf A) = \mf n_l \cap \mf n_l^*, \quad
+\pi_r(\mf A') = \mf n_r \cap \mf n_r^*, \\
+\varphi(\pi_l(\eta)^*\pi_l(\xi)) = (\eta|\xi) \qquad (\xi,\eta\in\mf B), \qquad
+\varphi'(\pi_r(\eta)^*\pi_r(\xi)) = (\eta|\xi) \qquad (\xi,\eta\in\mf B').
+\end{gather*}
+For $\eta\in\mf B'$ define $\omega^l_\eta\in M_*^+; x \mapsto (\eta|x\eta)$, and set
+\[ \Phi_{l,0} = \{ \omega^l_\eta : \eta\in\mf B', \|\pi_r(\eta)\|<1 \}. \]
+Then
+\[ \varphi(x) = \sup\{\omega(x) : \omega\in \Phi_{l,0} \} \qquad (x\in M_+). \]
+
+We state the following for the ``left'' algebra, but analogous results hold on the right.  By \cite[Theorem~VI.1.19, Theorem~VIII.1.2]{TakesakiII} we have the modular automorphism group $(\sigma_t)$ on $M$ given by
+\[ \pi_l(\sigma_t(x)) = \nabla^{it} x \nabla^{-it} \qquad (x\in M, t\in\mathbb R). \]
+The map $J$ is a bijection between $\mf A$ and $\mf A'$ and an anti-homomorphism, \cite[Theorem~VI.1.19]{TakesakiII}.
+I find it buried in \cite{TakesakiII} (but see \cite[Theorem~10.12]{TakesakiII}) that
+\[ \pi_l(\nabla^{it}\xi) = \nabla^{it} \pi_l(\xi) \nabla^{-it},
+\qquad J \pi_l(\xi) J = \pi_r(J\xi), \qquad (\xi\in\mf A). \]
+We extend this to left bounded vectors.
+
+\begin{lemma}\label{lem:toB}
+For $\xi\in\mf B$ we have that $\pi_l(\nabla^{it}\xi) = \nabla^{it} \pi_l(\xi) \nabla^{-it}$.
+\end{lemma}
+\begin{proof}
+Let $\xi\in\mf B$ and $\eta\in\mf A'$ so also $\nabla^{-it}\eta\in \mf A'$, and
+\[ \pi_r(\eta) \nabla^{it}\xi
+= \nabla^{it} \nabla^{-it}\pi_r(\eta) \nabla^{it}\xi
+= \nabla^{it} \pi_r(\nabla^{-it}\eta) \xi
+= \nabla^{it} \pi_l(\xi) \nabla^{-it}\eta. \]
+As $\eta$ was arbitrary, we conclude that $\nabla^{it}\xi\in\mf B$ with $\pi_l(\nabla^{it}\xi) = \nabla^{it} \pi_l(\xi) \nabla^{-it}$ as required.
+\end{proof}
+
+This lemma is equivalently stated as $\pi_l(\nabla^{it}\Lambda(a)) = \sigma_{t}(a)$ for $a\in\mf n_\varphi$, or further, equivalently as $\nabla^{it}\Lambda(a) = \Lambda(\sigma_t(a))$, as $\Lambda\pi_l = \id$ on $\mf n_\varphi$.
+
+The relation between left and right bounded vectors allows us to show other results.  For example, given $b\in\mf n_\varphi \cap \mf n_\varphi^*$ we have $\Lambda(b)\in \mf A$ so $J\Lambda(b) \in\mf A'$ with $\pi_r(J\Lambda(b)) = JbJ$, and hence
+\[ JbJ\Lambda(a) = \pi_r(J\Lambda(b))\Lambda(a) = \pi_l(\Lambda(a))J\Lambda(b) = aJ\Lambda(b) \qquad (a\in\mf n_\varphi, b\in\mf n_\varphi \cap \mf n_\varphi^*). \]
+
+By \cite[Proposition~VI.1.24]{TakesakiII}, the map $\Lambda \colon \mf n_\varphi \to \mf B \subseteq H$ is closed for $\sigma$-strong topology on $M$ and the norm topology on $H$.  Simiarly, when restricted to $\mf n_\varphi\cap\mf n_\varphi^* \to \mf A$, the map is closed for the $\sigma$-strong$^*$ topology and the $\mf D^\sharp$ norm, that is, $\|\xi\|_{\sharp} = (\|\xi\|^2 + \|\xi^\sharp\|^2)^{1/2}$.
+
+We can approximate vectors, \cite[Theorem~VI.1.26]{TakesakiII}.  Given $\xi\in\mf B$ there is a sequence $(\xi_n)\subseteq\mf A$ converging to $\xi$ with $\|\pi_l(\xi_n)\| \leq \|\pi_l(\xi)\|$ for each $n$, whence $\pi_l(\xi_n) \to \pi_l(\xi)$ strongly, because $\pi_l(\xi_n)\eta \to \pi_l(xi)\eta$ for each $\eta\in\mf A'$.
+
+Similarly, if $\mf A_0\subseteq\mf A$ is any left Hilbert algebra with $\mf A_0''=\mf A$, then for $\xi\in\mf A$ there is a sequence $(\xi_n)$ in $\mf A_0$ with $\|\xi_n-\xi\|_\sharp\to 0$ and $\|\pi_l(\xi_n)\| \leq \|\pi_l(\xi)\|$ for each $n$, whence $\pi_l(\xi_n) \to \pi_l(\xi)$ $\sigma$-strong$^*$, using now that $\pi_l(\xi_n)^*\eta = \pi_l(\xi_n^\sharp)\eta = \pi_r(\eta)\xi_n^\sharp$ for $\eta\in\mf A'$.
 
 
+\subsection{Tomita algebras and smearing}
+
+Given $\xi\in H$ we define
+\[ \xi_n = \frac{n}{\sqrt\pi} \int_{\mathbb R} e^{-n^2t^2} \nabla^{it}\xi \ dt \qquad (n>0). \]
+(Notice we use a slightly different convention to \cite{TakesakiII,StratilaZsido}.)  As $\mathbb R \to H, t\mapsto \nabla^{it}\xi$ is continuous, dominated convergence shows that $\xi_n \to \xi$ in norm, as $n\to\infty$.  We have that $\xi_n \in D(\nabla^{iz})$ for any $z\in\mathbb C$, with
+\[ \nabla^{iz}(\xi_n) = \frac{n}{\sqrt\pi} \int_{\mathbb R} e^{-n^2(t-z)^2} \nabla^{it}\xi \ dt, \]
+a fact proved by contour deformation.
+
+In both, for example, \cite[Proof of Theorem~VI.2.2]{TakesakiII} or \cite[Page~303]{StratilaZsido}, it is claimed that if $\xi\in\mf A$ then $\pi_l(\xi_n) \to \pi_l(x)$ strongly.  I do not see why this is immediate.  Firstly, why is $\xi_n\in\mf B$?
+\begin{itemize}
+\item For $\eta\in\mf A'$ we certainly have that
+\[ \pi_r(\eta) \xi_n = \frac{n}{\sqrt\pi} \int_{\mathbb R} e^{-n^2t^2} \pi_r(\eta) \nabla^{it}\xi \ dt 
+= \frac{n}{\sqrt\pi} \int_{\mathbb R} e^{-n^2t^2} \nabla^{it}\pi_l(\xi) \nabla^{-it}\eta \ dt, \]
+compare the proof of Lemma~\ref{lem:toB}.  For any $x\in\mc B(H)$ the map $t\mapsto \nabla^{it} x \nabla^{-it}$ is strongly continuous, and so we can form the integral in the strong operator topology, to give meaning to
+\[ \pi_r(\eta) \xi_n
+= \frac{n}{\sqrt\pi} \Big( \int_{\mathbb R} e^{-n^2t^2} \nabla^{it}\pi_l(\xi) \nabla^{-it} \ dt \Big) \eta
+= \frac{n}{\sqrt\pi} \Big( \int_{\mathbb R} e^{-n^2t^2} \sigma_t(\pi_l(\xi)) \ dt \Big) \eta. \]
+Call this $\pi_l(\xi)_n \eta$.  Thus $\xi_n\in\mf B$ with $\pi_l(\xi_n) = \pi_l(\xi)_n$.
+
+\item An alternative argument is the following.  We can approximate the intergal by a suitable Riemann sum, say given a partition $I_m = \{ t_0 < t_1 < \cdots < t_{N(m)} \}$ we have
+\[ \xi_n \approx \frac{n}{\sqrt\pi} \sum_{k=1}^{N(m)} \frac{1}{t_k-t_{k-1}} e^
+{-n^2t_k^2} \nabla^{it_k} \xi = \xi_{n,m}, \]
+say.  Similarly $\pi_l(\xi)_n$ has the same approximation, but with $\sigma_{t_k}(\pi_l(\xi))$ replacing $\nabla^{it_k}\xi$.  As the sum is finite, we clearly have $\pi_l(\xi_{n,m}) = \pi_l(\xi)_{n,m}$.  As $\mf B \to \mf B(H), \xi\mapsto\pi_l(\xi)$ is closed for the strong topology, as $\lim_m \xi_{n,m} = \xi_n$ and $\lim_m \pi_l(\xi)_{n,m} = \pi_l(\xi)_n$ we have that $\xi_n\in\mf B$ with $\pi_l(\xi_n) = \pi_l(\xi)_n$.
+\end{itemize}
+We now wish to show that for any $\eta\in H$ we have
+\[ \pi_l(\xi_n)\eta = \frac{n}{\sqrt\pi} \int_{\mathbb R} e^{-n^2(t-z)^2} \sigma_t(\pi_l(\xi))\eta \ dt \to \pi_l(\xi)\eta. \]
+This is clear, as $t\mapsto \sigma_t(\pi_l(\xi))\eta$ is continuous, so in the limit the integral converges to $\sigma_0(\pi_l(\xi))\eta$.  The ingredients of this argument are in \cite[Proof of Theorem~VI.2.2]{TakesakiII}, but I think it's useful to be explicit.
 
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
