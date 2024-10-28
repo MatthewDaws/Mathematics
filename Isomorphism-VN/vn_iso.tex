@@ -1,0 +1,176 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+%\usepackage{showkeys}
+\usepackage{hyperref}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage[T1]{fontenc}
+\usepackage{beton}
+\usepackage[euler-digits, euler-hat-accent]{eulervm}
+\DeclareFontSeriesDefault[rm]{bf}{sbc} 
+
+\usepackage{amsmath,amssymb,amsthm}
+%\usepackage[all]{xy}
+\usepackage{url, enumitem}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{question}[proposition]{Question}
+
+\theoremstyle{remark}
+\newtheorem{remarkx}[proposition]{Remark}
+\newtheorem{remarksx}[proposition]{Remarks}
+\newtheorem{workingx}[proposition]{Working}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+\newenvironment{working}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\workingx}
+  {\popQED\endworkingx}
+
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+
+\newcommand{\vnten}{\bar\otimes}
+
+\newcommand{\hh}{\widehat}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\op}{{\operatorname{op}}}
+
+\begin{document}
+
+\title{Isomorphism of von Neumann algebras}
+\author{Matt Daws}
+\date{September 2024}
+\maketitle
+
+\begin{abstract}
+We give a simple proof of the fact that isomorphic von Neumann algebras have unitarily equivalent amplifications.
+\end{abstract}
+
+\section{Introduction}
+
+At a number of places in the literature, it is claimed that when $M\subseteq\mc B(H_M)$ and $N\subseteq\mc B(H_N)$ are von Neumann algebras which are $*$-isomorphic, then there is an amplification which is unitarily equivalent: there is some Hilbert space $L$ and a unitary $u\colon H_M\otimes L \to H_N\otimes L$ with $u(x\otimes 1) = (\theta(x)\otimes 1)u$ where $\theta \colon M\to N$ is the $*$-isomorphism.
+
+This is stated without proof in \cite[Theorem~III.2.2.8]{Blackadar_OperatorAlgebrasBook}, for example, and I have seen references to e.g. \cite[Theorem~IV.5.5]{TakesakiI}, which doesn't even state this result explicitly.  A rather minimal proof is given in \cite[Theorem~2.4.26]{BR_OpAlgBook_1}.  The implication is that this result should be an obvious corollary from the ``structure theorem'' for $*$-homomorphism between von Neumann algebras, but my belief is that some extra ingredients are needed.  This note spells out these extra steps.
+
+I had forgotten that I asked this on \texttt{math.stackexchange} \cite{4728018}, and provided my own answer, using the same technique as here.  The strategy is that given by Jones in his lecture notes \cite[Theorem~7.2.1]{JonesNotes}.
+
+\section{The structure theorem}
+
+What I refer to as the ``structure theorem'' for normal unital $*$-homomorphisms between von Neumann algebras is the following (see \cite[Theorem~III.2.2.8]{Blackadar_OperatorAlgebrasBook},  \cite[Theorem~IV.5.5]{TakesakiI} for example).
+
+\begin{theorem}
+Let $M\subseteq\mc B(H_M)$ be a von Neumann algebra, and let $\theta \colon M \to \mc B(K)$ be a normal unital $*$-homomorphism.  There is a Hilbert space $K'$ and an isometry $u\colon K \to H \otimes K'$ such that $u\theta(x) = (x\otimes 1)u$ for $x\in M$.  As such, $\theta(x) = u^*(x\otimes 1)u$ for $x\in M$, we have that $e = uu^*$ is a projection in $(M\otimes 1)' = M'\vnten\mc B(K')$, and so $u$ gives a spatial isomorphism between $\theta(M)$ and the induced von Neumann algebra $(M\otimes 1)_e$.
+\end{theorem}
+\begin{proof}
+Given a unit vector $\xi\in K$, the functional $\omega_\xi\circ\theta$ is a normal state on $M$, and so there is a square-summable sequence $(\eta_n)$ in $H$ with $\omega_\xi\circ\theta = \sum_n \omega_{\eta_n}$.  Let $\eta = \sum_n \eta_n \otimes \delta_n \in H\otimes \ell^2$ with $\delta_n$ the standard orthonormal basis of $\ell^2$, so
+\[ (\eta|(x\otimes 1)\eta) = \sum_n (\eta_n|x\eta_n) = (\xi|\theta(x)\xi) \qquad (x\in M). \]
+By Zorn's Lemma, we may choose $(\xi_i)_{i\in I}$ a maximal family of unit vectors in $K$ such that $(\xi_i|\theta(x)\xi_j)=0$ for $i\not=j, x\in M$.  As $\theta$ is a $*$-homomorphism, this is equivalent to the subspaces $K_i = \{ \theta(x)\xi_i : x\in M \}\subseteq K$ being pairwise orthogonal.  For each $i$ choose $\eta_i\in H\otimes\ell^2$ associated to $\xi_i$.
+%, and then the map $u_i \colon \theta(x)\xi_i \mapsto (x\otimes 1)\eta_i$ is an isometry (as $\|(x\otimes 1)\eta_i\|^2 = (\eta_i|(x^*x\otimes 1)\eta_i) = (\xi_i|\theta(x^*x)\xi_i) = \|\theta(x)\xi_i\|^2$.)  So $u_i$ extends to the closure $\overline{K_i}$, and by setting $u_i\equiv 0$ on $K_i^\perp$, we obtain a partial isometry.  As the initial subspaces of each $u_i$ are mutually orthogonal, we can define
+We define
+\[ u \colon \sum_i \theta(x_i)\xi_i \mapsto \sum_i (x_i\otimes 1)\eta_i\otimes\delta_i, \]
+for any finitely supported family $(x_i)$ in $M$, where $(\delta_i)$ is the canonical basis of $\ell^2(I)$, and then claim that $u$ is an isometry.  Indeed,
+\begin{align*}
+\Big\| \sum_i (x_i\otimes 1)\eta_i\otimes\delta_i \Big\|^2
+&= \sum_i \| (x_i\otimes 1)\eta_i \|^2
+= \sum_i (\eta_i|(x_i^*x_i\otimes 1)\eta_i)
+= \sum_i (\xi_i|\theta(x_i^*x_i)\xi_i) \\
+&= \Big( \sum_i \theta(x_i)\xi_i \Big| \sum_j \theta(x_j)\xi_j \Big)
+= \Big\| \sum_i \theta(x_i)\xi_i \Big\|^2,
+\end{align*}
+in the last step using that $K_i \perp K_j$ for $i\not=j$.  So $u$ extends to an isometry on the closure of its domain.  If this is not all of $K$, then there is a unit vector $\xi_0$ orthogonal to each $K_i$, which contradicts the maximality of our family $(\xi_i)$.
+
+Set $K' = \ell^2 \otimes \ell^2(I)$ so $u\colon K \to H\otimes K'$.  Almost by definition, $u\theta(x) = (x\otimes 1)u$ for $x\in M$, so as $u$ is an isometry, $\theta(x) = u^*(x\otimes 1)u$.  Then also $\theta(x)u^* = u^*(x\otimes 1)$ for each $x\in M$, and hence $uu^* (x\otimes 1) = (x\otimes 1) uu^*$ so $e = uu^* \in (M\otimes 1)' = M' \vnten \mc B(K')$.  Then $u$ is a unitary between $K$ and the image of $e$, and so $u$ gives a spatial isomorphism between $(M\otimes 1)_e$ and $\theta(M)$.
+\end{proof}
+
+Notice that when $K$ is separable, we can choose the family $(\xi_i)$ by using a version of the Gram--Schmidt procedure, starting from some dense subset of $K$ say.  Thus in this case $I$ is countable, and we can choose $K'$ to be separable.
+
+
+\section{The case of isomorphisms}
+
+When $\theta$ is an isomorphism (equivalently, $\theta$ is injective and $N = \theta(M)$) we hence obtain $u\colon H_N \to H_M \otimes K$ and $v\colon H_M \to H_N\otimes K'$ both isometries, with $u\theta(x)=(x\otimes 1)u$ and $vx=(\theta(x)\otimes 1)v$ for $x\in M$.  However, there seems no particular reason for a direct relationship between $u$ and $v$ and $K$ and $K'$.
+
+We proceed by using the comparison theory of projections, \cite[Section~V.1]{TakesakiI}, \cite[Chapter~6]{KadisonRingroseII}.  Recall that projections $e,f\in M$ are equivalent, written $e\sim f$, when there is a partial isometry $u\in M$ with $u^*u=e, uu^*=f$.  We further write $e \preceq f$ when $e$ is equivalent to a subprojection of $f$, that is, there is $u\in M$ with $u^*u=e$ and $uu^* \leq f$, that is, $f uu^* = uu^*$.  A variant of the Cantor--Bernstein theorem shows that if $e \preceq f$ and $f \preceq e$ then $e\sim f$, see \cite[Proposition~V.1.3]{TakesakiI} for example.  We shall make use of the result in an essential way.
+
+Define
+\[ M_1 = \Big\{ \begin{pmatrix} x & 0 \\ 0 & \theta(x) \end{pmatrix}: x\in M \Big\} \subseteq \mc B(H_M \oplus H_N), \]
+a von Neumann algebra.  We identify
+\begin{equation} \label{eq:1}
+\mc B(H_M \oplus H_N) \cong
+\Big\{ \begin{pmatrix} a & b \\ c & d \end{pmatrix} : a\in\mc B(H_M), d\in\mc B(H_N), b,c^*\in\mc B(H_N, H_M) \Big\}.
+\end{equation}
+A simple calculation shows that
+\[ M_1' = \Big\{ \begin{pmatrix} a & b \\ c & d \end{pmatrix} : a\in M', d\in\theta(M)', xb=b\theta(x), cx=\theta(x)c \ (x\in M) \Big\}. \]
+Given any Hilbert space $L$, we identify $(H_M \oplus H_N) \otimes L$ with $(H_M\otimes L) \oplus (H_N\otimes L)$ and so have a similar identification as \eqref{eq:1}.  Let $w\in M_1'\vnten\mc B(L)$ be a partial isometry with
+\[ w^*w = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}, \quad
+ww^* = \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix}
+\quad\implies\quad
+w = w \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} =
+\begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} w
+\quad\implies\quad
+w = \begin{pmatrix} 0 & 0 \\ u & 0 \end{pmatrix}, \]
+where $u \colon H_M\otimes L \to H_N\otimes L$ satisfies $u^*u = 1_{H_M}\otimes 1_L$ and $uu^* = 1_{H_N}\otimes 1_L$, that is, $u$ is unitary.  As $w\in M_1'\vnten\mc B(L)$, we have that $u(x\otimes 1) = (\theta(x)\otimes 1)u$.  Conversely, any such $u$ gives rise to such a $w$.
+
+So we exactly wish to show that such a $w$ exists.  By the theorem quoted above, it is enough to show that inside $M_1'\vnten\mc B(L)$ we have
+\[ \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} \preceq \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix},
+\quad
+\begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} \preceq  
+\begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}. \]
+
+Applying the structure theorem to $\theta$, as above, we have $u\colon H_N \to H_M \otimes K$ with $u^*u=1$ and $u\theta(x) = (x\otimes 1)u$.  For a set $I$ with sufficiently large cardinality, we have $K \otimes \ell^2(I) \cong \ell^2(I)$ (for example, if $K$ is separable, $I=\mathbb N$ suffices).  Then $u\otimes 1 \colon H_N \otimes \ell^2(I) \to H_M \otimes K \otimes \ell^2(I) \cong H_M \otimes \ell^2(I)$ and $(u\otimes 1)(\theta(x)\otimes 1) = (x\otimes 1)u\otimes 1 \cong (x\otimes 1)(u\otimes 1)$.  So $u_1 = u\otimes 1$ satisfies $u_1^*u_1=1$ and $u_1u_1^* \leq 1$, showing that
+\[ \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} \preceq \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} \]
+inside $M_1' \vnten \mc B(\ell^2(I))$.  Applying the same argument to $\theta^{-1}$ shows the other partial order, but possibly for a different index set $I$.  Of course, we can then simply choose the $I$ with the larger cardinality, and we have verified both partial orders, as required.
+
+
+\section{A worked example}
+
+We give an example to show that things can be a little complicated.  It is a fun exercise to show that if $H,K$ are Hilbert spaces, then a normal unital $*$-homomorphism $\theta \colon \mc B(H)\to \mc B(K)$ must take the following form: $K\cong H\otimes K'$ for some $K'$, and under this isomorphism, $\theta(x)=x\otimes 1$.  (For example, use the structure theorem, and note that $(\mc B(H)\otimes 1)' = 1\otimes\mc B(K')$.)
+
+Now let $M$ be the von Neumann algebraic direct sum of finite-dimensional matrix algebras $\mathbb M_{n_\alpha}$.  Let $\theta \colon M \to \mc B(K)$ be an injective unital normal $*$-homomorphism.  Let $1_\alpha \in \mathbb M_{n_\alpha}$ be the units of the matrix blocks, so $(1_\alpha)$ are minimal central projections in $M$, each mutually orthogonal.  The same is hence true of $(\theta(1_\alpha))$ in $\mc B(K)$, and so $K$ decomposes as the direct sum of orthogonal subspaces $K_\alpha = \theta(1_\alpha)H$.  The restriction of $\theta$ to the matrix block $\alpha$ gives a non-zero $*$-homomorphism $\mathbb M_{n_\alpha} \to \mc B(K_\alpha)$ and so $K_\alpha \cong \mathbb C^{n_\alpha} \otimes H_\alpha$ say, with $\mathbb M_{n_\alpha}$ acting as $x\otimes 1$.  Any family $(H_\alpha)$ could occur in this way.
+
+So, given two embeddings $M\subseteq \mc B(H_1)$ and $M\subseteq\mc B(H_2)$, we have
+\[ H_k = \bigoplus_\alpha \mathbb C^{n_\alpha} \otimes H_\alpha^{(k)}, \]
+for $k=1,2$.  Tensoring $H_k$ with $L$ is equivalent to tensoring $H_\alpha^{(k)}$ with $L$, for each $\alpha$.  Any unitary equivalence between these representations must restrict to unitaries $H^{(1)}_\alpha \to H^{(2)}_\alpha$ for each $\alpha$.
+
+It is now clear that $H_1\otimes L$ and $H_2\otimes L$ will admit a unitary intertwiner when $L$ is sufficiently large, but that not just any choice of $L$ will work.
+
+We now consider when there is an isometry $u\colon H_2 \to H_1\otimes K'$ intertwining the representations.  Again, $u$ must restrict to the components
+\[ u_\alpha \colon \mathbb C^{n_\alpha} \otimes H_\alpha^{(1)} \to
+\mathbb C^{n_\alpha} \otimes (H_\alpha^{(2)} \otimes K'), \quad
+u_\alpha(x\otimes 1) = (x\otimes 1\otimes 1)u_\alpha \qquad (x\in\mathbb M_{n_\alpha}), \]
+for each $\alpha$.  It follows that $u_\alpha = 1\otimes v_\alpha$ for some isometry $u'_\alpha \colon H_\alpha^{(1)} \to H_\alpha^{(2)} \otimes K'$, which may be arbitrary.  Again, this puts constraints on the size of $K'$.  It also shows that if $v\colon H_1 \to H_2\otimes K''$ is an intertwiner going the other way, there need indeed be little relation between $u$ and $v$, as the associated isometries $v'_\alpha \colon H^{(2)}_\alpha \to H^{(1)}_\alpha \otimes K''$ are again arbitrary.
+
+\bibliographystyle{plain}
+\bibliography{thebib.bib}
+
+\end{document}
