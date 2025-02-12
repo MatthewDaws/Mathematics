@@ -1,0 +1,515 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+\usepackage{hyperref}
+%\usepackage{showkeys}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage[T1]{fontenc}
+% \usepackage[euler-digits, euler-hat-accent]{eulervm}
+% \DeclareFontSeriesDefault[rm]{bf}{sbc} 
+%\usepackage{beton}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[sfdefault]{classico}
+\usepackage{eulerpx}
+
+%\usepackage[all]{xy}
+\usepackage{url}
+\usepackage[shortlabels]{enumitem}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\newenvironment{sd}{\begin{array}{c} \begin{tikzpicture}}{\end{tikzpicture} \end{array}}
+\usetikzlibrary{positioning} %,intersections,calc,decorations.markings,arrows.meta}
+\def\hsep{1cm}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{question}[proposition]{Question}
+
+\theoremstyle{remark}
+\newtheorem{remarkx}[proposition]{Remark}
+\newtheorem{remarksx}[proposition]{Remarks}
+\newtheorem{workingx}[proposition]{Working}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+\newenvironment{working}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\workingx}
+  {\popQED\endworkingx}
+
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+
+\newcommand{\vnten}{\bar\otimes}
+
+\newcommand{\hh}{\widehat}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\op}{{\operatorname{op}}}
+\newcommand{\Tr}{{\operatorname{Tr}}}
+\newcommand{\im}{{\operatorname{Im}}}
+\newcommand{\KMS}{\textrm{KMS}}
+
+\begin{document}
+
+\title{Quantum Graphs: using diagrams to move from adjacency matrices to subspaces}
+\author{Matthew Daws}
+\date{February 2025}
+\maketitle
+
+\section{Introduction}
+
+These are some brief notes which follow ideas from \cite{Yamashita_QG_Notes}, making links with \cite[Section~5.4]{daws_quantum_graphs} and \cite{Wasilewski_Quantum_Cayley}.  These notes are not self-contained, but can be read following \cite{daws_quantum_graphs}.  In particular, we use the notation of \cite[Section~5.1]{daws_quantum_graphs}, with the exception that we write $|\xi\rangle\langle\eta|$ for the rank-one operator $\theta_{\eta,\xi} \colon \alpha \mapsto (\eta|\alpha) \xi$.
+
+
+\subsection{An inner product}\label{sec:ip}
+
+Let $B$ be a finite-dimensional $C^*$-algebra and $\psi$ a faithful state on $B$.  We use the diagrammatical calculus, see \cite{matsuda_class_m2} for example.  Introduce an inner-product on $\mc B(L^2(B))$ by
+\[ (T_1|T_2) = \begin{sd}
+  \node[circle,draw] (T2) {$T_2$}; 
+  \node[circle,draw,above=0.6 of T2.center] (T1) {$T_1^*$};
+  \draw (T1)--(T2);
+  \draw (T1) to[out=90,in=90] coordinate[pos=1/2] (m) ([xshift=-\hsep]T1.north);
+  \draw (T2) to[out=-90,in=-90] coordinate[pos=1/2] (m*) ([xshift=-\hsep]T2.south);
+  \draw (m)--++(0,\hsep/3) arc(-90:270:0.1);
+  \draw (m*)--++(0,-\hsep/3) arc(90:450:0.1);
+  \draw ([xshift=-\hsep]T1.north) -- ([xshift=-\hsep]T2.south);
+  \end{sd}
+  = \eta^* m (1 \otimes T_1^* T_2) m^* \eta
+  = \psi(m(1 \otimes T_1^* T_2)m^*(1))
+  \qquad (T_1, T_2 \in \mc B(L^2(B))). \]
+Let's compute this more explicitly.  Let $m^*(1) = \sum_i e_i \otimes f_i$, so that $\psi(b^*a^*) = (ab|1) = (a\otimes b|m^*(1)) = \sum_i (a|e_i)(b|f_i) = \sum_i \psi(a^*e_i) \psi(b^*f_i)$ for each $a,b\in B$.  Let $T_j = |t_j\rangle\langle s_j|$ for $j=1,2$ be rank-one operators.  Then
+\begin{align*}
+(T_1|T_2) &= \psi\Big( \sum_i e_i T_1^*T_2(f_i) \Big)
+= \sum_i \psi(e_i s_1)  (t_1|t_2) (s_2|f_i).
+\end{align*}
+With $\psi$ having density $Q$, we see that $\psi(e_is_1) = \Tr(Qe_is_1) = \Tr(QQ^{-1}s_1Qe_i) = (Qs_1^*Q^{-1}|e_i)$.  Thus
+\begin{align*}
+(T_1|T_2) &= (t_1|t_2) \sum_i (Qs_1^*Q^{-1}|e_i) (s_2|f_i)
+= (t_1|t_2) (Qs_1^*Q^{-1}s_2|1)
+= (t_1|t_2) \psi(s_2^* Q^{-1} s_1 Q) \\
+&= (t_1|t_2) \psi(s_2^* \sigma_i(s_1))
+= (t_1|t_2) (s_2 | \sigma_i(s_1)),
+\end{align*}
+where $(\sigma_t)$ is the modular automorphism group.
+We briefly stop suppressing the GNS map $\Lambda$, and recall that the modular operator is given by $\nabla \Lambda(a) = \Lambda(\sigma_{-i}(a))$.  Thus
+\[ (T_1|T_2) = (\Lambda(t_1)|\Lambda(t_2)) (\Lambda(s_2)|\nabla^{-1}\Lambda(s_1))
+= (\Lambda(t_1)|\Lambda(t_2)) (\nabla^{-1/2}\Lambda(s_2)|\nabla^{-1/2}\Lambda(s_1)). \]
+Consequently, with $T_j = |\xi_j\rangle\langle\eta_j|$ for $j=1,2$, we find that
+\[ (T_1|T_2) = (\xi_1|\xi_2) (\nabla^{-1/2}\eta_2|\nabla^{-1/2}\eta_1)
+= \big( \xi_1 \otimes \overline{\nabla^{-1/2}\eta_1} \big| \xi_2 \otimes \overline{\nabla^{-1/2}\eta_2} \big), \]
+the final inner-product being the natural one on $L^2(B) \otimes \overline{L^2(B)}$, where $\overline{L^2(B)}$ is the conjugate Hilbert space to $L^2(B)$.  Thus the map
+\begin{equation}
+\mc B(L^2(B)) \to L^2(B) \otimes \overline{L^2(B)}, \quad
+|\xi\rangle\langle\eta| \mapsto \xi\otimes\overline{\nabla^{-1/2}\eta}
+\label{eq:twistedGNS}
+\end{equation}
+extends linearly to a unitary.
+
+In \cite{daws_quantum_graphs}, we always identify $\mc B(L^2(B))$ with $L^2(B) \otimes \overline{L^2(B)}$, but for the ``untwisted map'' $|\xi\rangle\langle\eta| \mapsto \xi\otimes\overline{\eta}$.  We continue to let $B\otimes B^\op$ act on $\mc B(L^2(B))$ as $(a\otimes b) \cdot T = aTb$, for $a\in B, b\in B^\op, T\in\mc B(L^2(B))$; similarly for $B'\otimes (B')^\op$.  We now see what this action becomes on $L^2(B) \otimes \overline{L^2(B)}$.
+
+For $a,b\in B$, when $T = |\xi\rangle\langle\eta|$ we have that $aTb = |a\xi\rangle\langle b^*\eta|$, and so
+\[ (a\otimes b) \cdot (\xi\otimes \overline{\nabla^{-1/2}\eta})
+ \cong aTb = |a\xi\rangle\langle b^*\eta|
+ \cong a\xi\otimes \overline{\nabla^{-1/2}b^*\eta}. \]
+Equivalently,
+\begin{equation} \notag%\label{eq:twisted_action}
+(a\otimes b) \cdot (\xi\otimes \overline{\eta})
+= a\xi\otimes \overline{\nabla^{-1/2}b^*\nabla^{1/2}\eta}
+= a\xi \otimes \sigma_{-i/2}(b)^\top \overline{ \eta }
+\qquad (a\otimes b\in B\otimes B^\op, \xi,\eta\in L^2(B)).
+\end{equation}
+This uses that $\sigma_{-i/2}(b) = \nabla^{1/2} b \nabla^{-1/2}$.  Exactly the same calculations shows that 
+\[ (a\otimes b) \cdot (\xi\otimes\overline\eta) = a\xi \otimes (\nabla^{1/2} b \nabla^{-1/2})^\top\overline\eta \qquad (a,b\in B'). \]
+Hence the natural actions of $B\otimes B^\op$, and $B'\otimes (B')^\op$, on $L^2(B) \otimes \overline{L^2(B)}$ are ``twisted''.  The following lemma shows that in both cases, we can think of this as a twist on the algebra ($B\otimes B^\op$ or $B'\otimes (B')^\op$ respectively) followed by the ``natural'' action on $L^2(B) \otimes \overline{L^2(B)}$.
+
+\begin{lemma}\label{lem:mod_aut_bcomm}
+For any $b\in B' \subseteq \mc B(L^2(B))$ and $z\in\mathbb C$, we have that $\nabla^z b \nabla^{-z} \in B'$, and so $b\mapsto \nabla^z b \nabla^{-z}$ defines an automorphism of $B'$ (in general not $*$-preserving).
+\end{lemma}
+\begin{proof}
+This is related to identifing $B'$ and $B^\op$, compare \cite[Lemma~5.32]{daws_quantum_graphs}.  However, a simple calculation suffices.  As $\nabla^z a \nabla^{-z} = \sigma_{-iz}(a)\in B$ for each $a\in B$, for $a\in B, b\in B'$ we see that
+\[ \nabla^z b \nabla^{-z} a = \nabla^z b \nabla^{-z} a \nabla^z \nabla^{-z}
+= \nabla^z b \sigma_{iz}(a) \nabla^{-z}
+= \nabla^z \sigma_{iz}(a) b \nabla^{-z}
+= \nabla^z \nabla^{-z} a \nabla^z b \nabla^{-z}
+= a \nabla^z b \nabla^{-z}, \]
+and so $\nabla^z b \nabla^{-z}$ commutes with $a$, for each $a\in B$, and hence is in $B'$.
+\end{proof}
+
+While it might seem odd to twist the action, notice that by doing so we maintain the bijections we used in \cite{daws_quantum_graphs}, namely between:
+\begin{enumerate}[(1)]
+  \item\label{im:1} $B'$-bimodules $\mc S \subseteq \mc B(L^2(B))$;
+  \item\label{im:2} $B'\otimes (B')^\op$-invariant subspaces $V \subseteq L^2(B) \otimes \overline{L^2(B)}$;
+  \item\label{im:3} projections $e\in B\otimes B^\op$.
+\end{enumerate}
+
+To be explicit, here we use the unitary from equation \eqref{eq:twistedGNS} to link $\mc S$ and $V$.  The twisted action of $B'\otimes (B')^\op$ on $L^2(B) \otimes \overline{L^2(B)}$ is not a $*$-homomorphism, but that does not matter when we are showing that \ref{im:1} and \ref{im:2} biject; all that matters is the compatibility of the $B'$ actions.
+
+When showing that \ref{im:2} and \ref{im:3} biject, we do need a $*$-homomorphism, and so here we consider the usual action of $B\otimes B^\op$ on $L^2(B) \otimes \overline{L^2(B)}$.  We now have two actions of $B'\otimes (B')^\op$ on $L^2(B) \otimes \overline{L^2(B)}$, but they have the same invariant subspaces.  Henceforth, we shall only consider the ``natural'' action.
+
+
+\subsection{Linking adjacency operators and projections}\label{sec:adj_proj}
+
+We follow \cite[Section~5.4]{daws_quantum_graphs}.  Let $A\in\mc B(L^2(B))$ be a quantum adjacency operator, and here we consider this to mean that the underlying linear map $A\colon B\to B$ is completely positive, and that $A$ is idempotent for the Schur product.  Then it is natural to consider the map $\Psi' = \Psi'_{0,1/2} \colon \mc B(L^2(B)) \to B \otimes B^\op$, as \cite[Theorem~5.36]{daws_quantum_graphs} shows that $f = \Psi'(A)$ is positive, while (the proof of) \cite[Theorem~5.37]{daws_quantum_graphs} shows that $f=f^2$, that is, $f$ is a projection.  (Here we write $f$ not $e$ to follow the notation of \cite[Theorem~5.37]{daws_quantum_graphs}.)
+
+Henceforth, we continue with the notation that $A$ is linked with $e = \Psi'_{0,1/2}(A)$.  To be explicit, if $A = |b\rangle \langle a| \in\mc B(L^2(B))$, then $e = b \otimes \sigma_{i/2}(a)^*$.  Letting $B\otimes B^\op$ act ``naturally'' on $L^2(B) \otimes \overline{L^2(B)}$, we obtain the operator $b \otimes (\sigma_{i/2}(a)^*)^\top$.  Now considering the unitary given by formula \eqref{eq:twistedGNS}, we have
+\begin{align*}
+\mc B(L^2(B)) \ni  |\xi\rangle \langle\eta| \mapsto \xi \otimes \overline{\nabla^{-1/2}\eta}
+\ \xrightarrow{e} \ 
+b\xi \otimes \overline{\sigma_{i/2}(a) \nabla^{-1/2} \eta}
+= b\xi \otimes \overline{\nabla^{-1/2} a \eta}
+\mapsto |b\xi\rangle \langle a\eta|
+= b |\xi\rangle \langle\eta| a^*.
+\end{align*}
+Thus the associated action on $\mc B(L^2(B))$ is simply $T\mapsto bTa^*$; compare with Proposition~\ref{prop:thetaA} below.
+
+We now consider $A = \sum_{j=1}^k | b_j \rangle \langle a_j |$ assumed to be Schur idempotent and completely positive, so that $e = \Psi'_{0,1/2}(A) = \sum_j b_j \otimes \sigma_{i/2}(a_j)^*$ is a (self-adjoint) projection.  Hence
+\[ V = \im (e) = \lin \Big\{ \sum_j b_j\xi \otimes (\sigma_{i/2}(a_j)^*)^\top\overline\eta : \xi,\eta\in L^2(B) \Big\} \subseteq L^2(B) \otimes \overline{L^2(B)}, \]
+and given the bijections just established, we have that
+\begin{equation}
+\mc S = \Big\{ \sum_j b_j T a_j^* : T\in\mc B(L^2(B)) \Big\}.
+\label{eq:S_from_A}
+\end{equation}
+
+\begin{remark}
+One way to think here is that the ``twist'' introduced by $\Psi'_{0,1/2}$ is cancelled out by the unitary given by \eqref{eq:twistedGNS}, and so the relation between $A$, and for the formula for $\mc S$, looks ``untwisted''.
+\end{remark}
+
+We can nicely write much of this using diagrams.  Consider the map
+\begin{equation} \label{eq:defn_thetaA}
+\theta_A \colon \mc B(L^2(B)) \to \mc B(L^2(B)); \qquad
+T \mapsto 
+  \begin{sd}
+  \node[circle, draw] (A) {$A$};
+  \node[circle, draw, right=\hsep*0.7 of A.center] (T) {$T$};
+  \draw (A) to [out=90, in=90] coordinate[pos=1/2] (m) (T);
+  \draw (A) to [out=-90, in=-90] coordinate[pos=1/2] (m*) (T);
+  \draw (m) -- ++(0,\hsep/3);
+  \draw (m*) -- ++(0,-\hsep/3);
+  \end{sd}
+  = A \bullet T.
+\end{equation}
+This defines an idempotent, which can be seen diagrammatically, using that the multiplication on $B$ is associative and that $A$ is Schur idempotent:
+\[ \theta_A(\theta_A(T)) = 
+  \begin{sd}
+  \node[circle, draw] (A) {$A$};
+  \node[circle, draw, right=\hsep*0.7 of A.center] (T) {$T$};
+  \draw (A) to [out=90, in=90] coordinate[pos=1/2] (m) (T);
+  \draw (A) to [out=-90, in=-90] coordinate[pos=1/2] (m*) (T);
+  \draw (m) -- ++(0,\hsep/3) coordinate (mt);
+  \draw (m*) -- ++(0,-\hsep/3) coordinate (m*t);
+
+  \node[circle, draw, left=\hsep*0.7 of A.center] (A1) {$A$};
+  \draw (mt) to [out=90, in=90] coordinate[pos=1/2] (mm) (A1);
+  \draw (m*t) to [out=-90, in=-90] coordinate[pos=1/2] (mm*) (A1);
+  \draw (mm) -- ++(0,\hsep/3);
+  \draw (mm*) -- ++(0,-\hsep/3);
+  \end{sd}
+  =
+  \begin{sd}
+    \node[circle, draw] (A) {$A$};
+    \node[circle, draw, right=\hsep*0.7 of A.center] (T) {$T$};
+    \node[circle, draw, left=\hsep*0.7 of A.center] (A1) {$A$};
+    \draw (A) to [out=90, in=90] coordinate[pos=1/2] (m) (A1);
+    \draw (m) to [out=90, in=90] coordinate[pos=1/2] (mm) (T);
+    \draw (mm) -- ++(0,\hsep/3);
+    \draw (A) to [out=-90, in=-90] coordinate[pos=1/2] (mb) (A1);
+    \draw (mb) to [out=-90, in=-90] coordinate[pos=1/2] (mmb) (T);
+    \draw (mmb) -- ++(0,-\hsep/3);
+  \end{sd} 
+  =
+  \begin{sd}
+  \node[circle, draw] (A) {$A$};
+  \node[circle, draw, right=\hsep*0.7 of A.center] (T) {$T$};
+  \draw (A) to [out=90, in=90] coordinate[pos=1/2] (m) (T);
+  \draw (A) to [out=-90, in=-90] coordinate[pos=1/2] (m*) (T);
+  \draw (m) -- ++(0,\hsep/3);
+  \draw (m*) -- ++(0,-\hsep/3);
+  \end{sd}
+  = \theta_A(T). \]
+  
+\begin{proposition}\label{prop:thetaA}
+With $A = \sum_{j=1}^k | b_j \rangle \langle a_j |$, we have that $\theta_A(T) = \sum_j b_j T a_j^*$ for $T\in\mc B(L^2(B))$.  Hence, with $\mc S$ given by \eqref{eq:S_from_A} using $A$, we have that $\mc S$ is the image of the idempotent $\theta_A$.
+\end{proposition}
+\begin{proof}
+Let $a\in B$ and let $m^*(a) = \sum_k c_k \otimes d_k$, so $\sum_k (a_1|c_k) (a_2|d_k) = (a_1a_2|a)$ for each $a_1,a_2\in B$.  Then, for $b\in A$, and with $T = |c\rangle\langle d|$, we have
+\begin{align*}
+(b|\theta_A(T)a)
+&= (m^*(b)|(A\otimes T)m^*(a))
+= \sum_{j,k} (m^*(b)|b_j\otimes T(d_k)) (a_j|c_k)
+= \sum_{j,k} (m^*(b)|b_j\otimes c) (a_j|c_k) (d|d_k) \\
+&= \sum_{j,k} (b|b_j c) (a_j|c_k) (d|d_k)
+= \sum_j (b|b_j c) (a_jd|a),
+\end{align*}
+from which it follows that
+\[ \theta_A(T) = \sum_j |b_jc\rangle\langle a_jd|
+= \sum_j b_j T a_j^*. \]
+By linearity, this holds for all $T$, as claimed.  It is now clear that $\mc S$ is the image of $\theta_A$.
+\end{proof}
+
+Diagrammatically, we see that
+\[ \begin{sd}
+  \coordinate (v1);
+  \coordinate[right=\hsep of v1.center] (v2);
+  \draw (v1) to [in=90,out=90] coordinate[pos=1/2] (m) (v2) arc(90:450:0.1);
+  \draw (m) -- ++(0,\hsep/3);
+  \end{sd}
+  =
+  \begin{sd}
+  \coordinate (v1);
+  \draw (v1) -- ++(0,\hsep);
+  \end{sd}
+  \qquad\implies\qquad
+  \theta_A(|1\rangle\langle1|) =
+  \begin{sd}
+  \node[circle, draw] (A) {$A$};
+  \coordinate[right=\hsep of A.north] (v1);
+  \draw (A) to [in=90,out=90] coordinate[pos=1/2] (m) (v1) arc(90:450:0.1);
+  \draw (m) -- ++(0,\hsep/3);
+  \coordinate[right=\hsep of A.south] (v2);
+  \draw (A) to [in=-90,out=-90] coordinate[pos=1/2] (mb) (v2) arc(-90:270:0.1);
+  \draw (mb) -- ++(0,-\hsep/3);
+  \end{sd}
+  =
+  \begin{sd}
+    \node[circle, draw] (A) {$A$};
+    \draw (A) -- ++(0,\hsep);
+    \draw (A) -- ++(0,-\hsep);
+  \end{sd}    
+  =  A
+  \]
+Thus we can recover $A$ from $\theta_A$.
+
+\begin{proposition}\label{prop:S_is_bimod_A}
+We have that $\mc S = \lin B' A B'$, the $B$'-bimodule generated by the operator $A$.
+\end{proposition}
+\begin{proof}
+The previous proposition shows that $\mc S = \{ \sum_j b_j T a_j^* : T\in\mc B(L^2(B)) \}$ where $A = \sum_{j=1}^k | b_j \rangle \langle a_j |$.  Let $J$ be the modular conjugation, so $JBJ = B'$ and, again with $\Lambda$ the GNS map, we have $JaJ \Lambda(b) = \Lambda(b \sigma_{-i/2}(a^*))$, for $a,b\in B$.  Thus
+\begin{align*}
+(Ja^*J) A (Jb^*J)
+&= \sum_j | Ja^*J\Lambda(b_j) \rangle \langle JbJ \Lambda(a_j) |
+= \sum_j | \Lambda(b_j \sigma_{-i/2}(a)) \rangle \langle \Lambda(a_j \sigma_{-i/2}(b^*)) | \\
+&= \sum_j b_j |\sigma_{-i/2}(a)\rangle\langle \sigma_{-i/2}(b^*)| a_j^*
+= \theta_A(|\sigma_{-i/2}(a)\rangle\langle \sigma_{-i/2}(b^*)|).
+\end{align*}
+Taking the linear span as $a,b$ vary, it follows that $B' A B' = \theta_A(\mc B(L^2(B))) = \mc S$, as claimed.
+\end{proof}
+
+
+
+\section{KMS Inner products}
+
+We now consider \cite{Wasilewski_Quantum_Cayley}.  Here Wasilewski works with the ``KMS inner-product'', which we shall denote by
+\begin{equation}
+(a|b)_K = \psi(a^* \sigma_{-i/2}(b)) \qquad (a,b\in B).
+\label{eq:KMS_defn}
+\end{equation}
+A simple calculation shows that $(a|b)_K = (\sigma_{-i/4}(a)|\sigma_{-i/4}(b))$.  We continue to identify (or ``confuse'') $B$ with $L^2(B)$, and so the rank-one operator $|a\rangle\langle b|$ can be considered as the map $B\to B; c \mapsto (b|c) a = \psi(b^*c) a$.  Similarly, we define $|a\rangle\langle b|_K$ using the KMS inner-product, so
+\[ |a\rangle\langle b|_K \colon B \to B; \quad c \mapsto (b|c)_K a =  \psi(b^* \sigma_{-i/2}(c)) a. \]
+Hence $|a\rangle\langle b|_K = |a\rangle\langle b| \circ \sigma_{-i/2}$.  As $\psi(b^* \sigma_{-i/2}(c)) = \psi(\sigma_{-i/2}(b)^* c)$, also $|a\rangle\langle b|_K = |a\rangle\langle\sigma_{-i/2}(b)|$.
+
+Then \cite[Lemma~3.3]{Wasilewski_Quantum_Cayley} defines a map $\Psi^{\KMS} \colon \mc B(L^2(B)) \to B\otimes B^\op$ by, in our notation,
+\[ \Psi^{\KMS} \colon  |a\rangle\langle b|_K  \mapsto  a \otimes b^*. \]
+Consequently $\Psi^{\KMS}(|a\rangle\langle b|) = \Psi^{\KMS}(|a\rangle\langle \sigma_{i/2}(b)|_K)= a \otimes \sigma_{i/2}(b)^* = \Psi'_{0, 1/2}(|a\rangle\langle b|)$.  Thus $\Psi^{\KMS} = \Psi'_{0,1/2}$ in our notation.
+
+Note that \cite[Proposition~3.7]{Wasilewski_Quantum_Cayley} nicely separates out the correspondence between properties of $\Psi^{\KMS}(A)$ to those of $A$.
+
+In Section~\ref{sec:adj_proj}, we established bijections between $A\in\mc B(L^2(B))$ with $e\in B\otimes B^\op$, and with $\theta_A \in \mc B(\mc B(L^2(B)))$.  These are
+\begin{align*}
+A &= |b\rangle \langle a| 
+&\leftrightarrow&&
+e &= b \otimes \sigma_{i/2}(a)^*
+&\leftrightarrow&&
+\theta_A &\colon T \mapsto bTa^*.
+\end{align*}
+We can write this alternatively as
+\begin{align*}
+A &= |b\rangle \langle \sigma_{-i/2}(c^*) | 
+&\leftrightarrow&&
+e &= b \otimes c
+&\leftrightarrow&&
+\theta_A &\colon T \mapsto bT \sigma_{i/2}(c).
+\end{align*}
+This does not agree verbatim with \cite[Proposition~3.14]{Wasilewski_Quantum_Cayley}, but private communication with Wasilewski verifies that this is a typo (compare with the paragraph before \cite[Proposition~3.14]{Wasilewski_Quantum_Cayley}, where $\sigma_{-i/2}^{\psi^{-1}}$ is used: when restricted to $B$, as is occurring in this context, this map agrees with $\sigma_{i/2}$).  Thus \cite[Proposition~3.14]{Wasilewski_Quantum_Cayley} uses the same map $\theta_A$.
+
+
+\subsection{A difference}\label{sec:diff}
+
+An important difference between the conventions in this note and \cite{Wasilewski_Quantum_Cayley} is that the relation between $\mc S$ and $A$ (and/or $e$) is different, compare \cite[Theorem~3.15]{Wasilewski_Quantum_Cayley}.  (Again, there is a sign convention here, with this note henceforth making the choice which seems to work, given our other conventions.)
+
+For $z\in\mathbb C$ and a $B'$-bimodule $\mc S\subseteq\mc B(L^2(B))$, define $\mc S_z = Q^{-iz} \mc S Q^{iz}$ where $Q\in B$ is the density of $\psi$ as in Section~\ref{sec:ip}.
+
+\begin{lemma}
+We have that $\mc S_z$ is a $B'$-bimodule.
+\end{lemma}
+\begin{proof}
+This is similar to the proof of Lemma~\ref{lem:mod_aut_bcomm}.  As $\sigma_z(a) = Q^{iz} a Q^{-iz}$ for each $a\in B$, exactly the same argument as before shows that $Q^{iz} x Q^{-iz} \in B'$ for each $x\in B'$.  Hence, given $T\in\mc S$, so that $Q^{-iz} T Q^{iz} \in \mc S_z$, and given $x\in B'$, we see that
+\[ Q^{-iz} T Q^{iz} x = Q^{-iz} T (Q^{iz} x Q^{-iz}) Q^{iz}
+\in Q^{-iz} \mc S Q^{iz} = \mc S_z, \]
+as $Q^{iz} x Q^{-iz} \in B'$ and using that $\mc S$ is a $B'$-bimodule.  Similarly $B' \mc S_z \subseteq \mc S_z$.
+\end{proof}
+
+Given $A$ and hence $\theta_A$ as before, we now define $\mc T = \mc S_{i/4}$ where $\mc S$ is the image of the idempotent $\theta_A$.  From Proposition~\ref{prop:thetaA}, we see that
+\begin{align}
+T\in\mc T = \mc S_{i/4}
+&\quad\Leftrightarrow\quad
+T \in Q^{1/4} \mc S Q^{-1/4}
+\quad\Leftrightarrow\quad
+Q^{-1/4} T Q^{1/4} \in \mc S   \notag \\
+&\quad\Leftrightarrow\quad
+\sum_j b_j Q^{-1/4} T Q^{1/4} a_j^* = Q^{-1/4} T Q^{1/4}  \notag \\
+&\quad\Leftrightarrow\quad
+\sum_j Q^{1/4} b_j Q^{-1/4} T Q^{1/4} a_j^*Q^{-1/4} = T    \notag \\
+&\quad\Leftrightarrow\quad
+\sum_j \sigma_{-i/4}(b_j) T \sigma_{i/4}(a_j)^* = T
+\label{eq:twistedT}
+\end{align}
+This may look strange, but we'll see below in Section~\ref{sec:twisted_corr} that in some senses it is quite natural.
+
+\begin{remark}
+We could also use $\nabla$ in place of $Q$, when defining $\mc S_z$.  Remember that, with $\Lambda \colon B \to L^2(B)$ the GNS map, we have that $\nabla^z\Lambda(a) = \Lambda(Q^zaQ^{-z})$ for $a\in B$.  Hence $\nabla^z Q^{-z} \Lambda(a) = \Lambda(a Q^{-z}) = Q^{-z} \nabla^z \Lambda(a)$ for $a\in B$, and hence $\nabla^z Q^{-z} = Q^{-z} \nabla^z \in B'$.  So $\nabla^z Q^{-z} \mc S Q^z \nabla^{-z} \subseteq B' \mc S B' \subseteq \mc S$ for all $z$, and hence $\mc S_z = Q^{-iz} \mc S Q^{-iz} \subseteq \nabla^{-iz} \mc S \nabla^{iz}$.  Reversing the roles of $Q$ and $\nabla$ shows the other inclusion, and so we have equality.
+\end{remark}
+
+Using Lemma~\ref{lem:mod_aut_bcomm} (and the above remark) and Proposition~\ref{prop:S_is_bimod_A}, the following is an easy calculation.
+
+\begin{proposition}
+For $z\in\mathbb C$ we have that $\mc S_z = B' (Q^{-iz}AQ^{iz}) B' = B' (\nabla^{-iz}A\nabla^{iz}) B'$.
+\end{proposition}
+
+
+
+\section{One wrinkle: operator systems}
+
+We have not talked about operator systems $\mc S$, only $B'$-bimodules.  Here we consider the missing properties.
+As in \cite[Definition~5.11]{daws_quantum_graphs}, we write
+\[ J_0 \colon L^2(B) \otimes \overline{L^2(B)} \to L^2(B) \otimes \overline{L^2(B)}; \xi \otimes \overline\eta \mapsto \eta \otimes \overline\xi \]
+for the anti-linear unitary ``tensor swap map''.
+
+When is $\mc S$ self-adjoint?  Due to the relation given by formula \eqref{eq:twistedGNS}, if $\mc S$ and $V$ are related, then as $|\xi\rangle\langle\eta| \mapsto \xi\otimes\overline{\nabla^{-1/2}\eta}$, we see that
+\[ |\eta\rangle\langle\xi| \mapsto \eta\otimes\overline{\nabla^{-1/2}\xi}
+= (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top)(\nabla^{-1/2}\eta \otimes \overline\xi)
+= (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) J_0 (\xi\otimes\overline{\nabla^{-1/2}\eta}). \]
+Hence $\mc S^*$ corresponds to $(\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) J_0(V) = V_a$ (where ``a'' is chosen for ``adjoint'').  Let $e$ be the orthogonal projection onto $V$, and $e_a$ the orthogonal projection onto $V_a$.  It seems hard to write down $e_a$ in terms of $e$, as $V_a^\perp = J_0 (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) (V^\perp)$.
+
+Set $J_1 = (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) J_0$ and notice that
+\begin{align*}
+  J_0 (\nabla^{-1/2} \otimes (\nabla^{1/2})^\top) (\xi\otimes\overline\eta)
+= J_0 (\nabla^{-1/2}\xi \otimes \overline{\nabla^{1/2}\eta})
+= \nabla^{1/2}\eta \otimes \overline{\nabla^{-1/2}\xi}
+= (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) J_0 (\xi\otimes\overline\eta).
+\end{align*}
+Thus $J_1^2 = (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) J_0 (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) J_0 = J_0 (\nabla^{-1/2} \otimes (\nabla^{1/2})^\top) (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) J_0 = J_0^2 = 1$.
+
+Consider when $\mc S = \mc S^*$; equivalently, when $V = V_a$, equivalently, $e = e_a$.
+We have that $V = V_a$ exactly when
+\begin{equation} \notag
+  J_1(V) = V
+  \quad\Leftrightarrow\quad
+  J_1^{-1}(V) = V
+  \quad\Leftrightarrow\quad
+  J_1(V) \subseteq V
+  \quad\Leftrightarrow\quad
+  J_1^{-1}(V) \subseteq V,
+\end{equation}
+because, for example, if $J_1(V) \subseteq V$ then $V = J_1^2(V) \subseteq J_1(V) \subseteq V$ and so we have equality throughout.  As $V$ is the image of the projection $e$, we see immediately that $J_1(V) \subseteq V$ if and only if $e J_1 e = J_1 e$, if and only if $J_1 e J_1 e = e$.  Set $e' = J_1 e J_1$, so $e'^2 = e'$ and the image of $e'$ is exactly $V_a$, but note that in general $e'$ is not self-adjoint.  So $V=V_a$ if and only if $e'e = e$ (equivalently, $ee' = e'$).
+
+As in Section~\ref{sec:adj_proj}, let $A = \sum_{j=1}^k | b_j \rangle \langle a_j |$ so $e = \Psi'_{0,1/2}(A) = \sum_j b_j \otimes \sigma_{i/2}(a_j)^*$, and hence
+\begin{align*}
+e' (\xi\otimes\overline\eta)
+&= J_1 \sum_j b_j\nabla^{1/2}\eta \otimes \overline{\sigma_{i/2}(a_j) \nabla^{-1/2}\xi}
+= (\nabla^{1/2} \otimes (\nabla^{-1/2})^\top) \sum_j \nabla^{-1/2} a_j \xi \otimes \overline{b_j\nabla^{1/2}\eta} \\
+&= \sum_j a_j \xi \otimes \overline{\nabla^{-1/2}b_j\nabla^{1/2}\eta}
+= \Big( \sum_j a_j \otimes (\sigma_{i/2}(b_j)^*)^\top \Big) (\xi\otimes\overline\eta).
+\end{align*}
+Hence $e' = \sum_j a_j \otimes \sigma_{i/2}(b_j)^*$ and so $A' = A^*$.
+
+The following conclusion is perhaps not very satisfying.
+
+\begin{proposition}
+We have that $\mc S = \mc S^*$ if and only if $A \bullet A^* = A^*$, if and only if $A^*\in\mc S$.
+\end{proposition}
+\begin{proof}
+As above, $\mc S= \mc S^*$ is equivalent to $e'e=e$, which we now see is equivalent to $A^* \bullet A = A$.  Equivalently, $ee'=e'$, the same as $A \bullet A^* = A^*$, is the same as $\theta_A(A^*) = A^*$, recall \eqref{eq:defn_thetaA}, and as $\theta_A$ is an idempotent with image $\mc S$, this is the same as $A^* \in \mc S$.
+\end{proof}
+
+The second condition to be an operator system, that $1\in\mc S$, is easier to study.  We have that $1\in\mc S$ if and only if $\theta_A(1)=1$ if and only if $m(A\otimes 1)m^* = 1$, which is the usual axiom.
+
+
+\subsection{For the twisted correspondence}\label{sec:twisted_corr}
+
+We finally make links with the idea explored in Section~\ref{sec:diff}.  Again let $A, e, \mc S$ be linked, and set $\mc T = \mc S_{i/4}$, as before.
+To avoid notational clashes, we write $\tau \colon B\otimes B^\op \to B\otimes B^\op$ for the tensor swap map, an anti-$*$-homomorphism.
+
+The expression $A^*_K = \nabla^{-1/2} A^* \nabla^{1/2}$ occurring in the following is the KMS adjoint, that is, satisfies $(a|A^*_K(b))_K = (A(a)|b)_K$ for $a,b\in B$, a fact easily verified from the definition of the KMS inner-product \eqref{eq:KMS_defn}.
+For the following, compare \cite[Theorem~A]{Wasilewski_Quantum_Cayley}.
+
+\begin{proposition}
+With $\mc T$ corresponding to $e$ and $A$, we have that $\mc T^*$ corresponds to $\tau(e)$ and $A^*_K = \nabla^{-1/2} A^* \nabla^{1/2}$.
+\end{proposition}
+\begin{proof}
+Recall \eqref{eq:twistedT}, so with $A = \sum_{j=1}^k | b_j \rangle \langle a_j |$ we have that $T\in\mc T$ if and only if $\sum_j \sigma_{-i/4}(b_j) T \sigma_{i/4}(a_j)^* = T$.  Hence $T\in\mc T^*$ if and only if $T^* = \sum_j \sigma_{-i/4}(b_j) T^* \sigma_{i/4}(a_j)^*$, equivalently,
+\begin{align*}
+T = \sum_j \sigma_{i/4}(a_j) T \sigma_{-i/4}(b_j)^*
+= \sum_j \sigma_{-i/4}(\sigma_{i/2}(a_j)) T \sigma_{i/4}(\sigma_{-i/2}(b_j))^*  .
+\end{align*}
+Thus $\mc T^*$ is associated to the operator
+\[ \sum_{j=1}^k | \sigma_{i/2}(a_j) \rangle \langle \sigma_{-i/2}(b_j) |
+= \sum_{j=1}^k \nabla^{-1/2} |a_j\rangle \langle b_j| \nabla^{1/2} = \nabla^{-1/2} A^* \nabla^{1/2} = A^*_K, \]
+as claimed.  In turn, this corresponds to
+\[ \Psi'_{0,1/2}( A^*_K ) = \sum_j \sigma_{i/2}(a_j) \otimes \sigma_{i/2}(\sigma_{-i/2}(b_j))^* =  \sum_j \sigma_{i/2}(a_j) \otimes b_j^*
+= \tau \Big( \sum_j b_j \otimes \sigma_{i/2}(a_j)^* \Big)^*
+= \tau(e)^*, \]
+which of course equals $\tau(e)$, as $e=e^*$.
+\end{proof}
+
+This gives the somewhat more transparent condition that $\mc T$ is self-adjoint if and only if $e = \tau(e)$.  Notice that $1\in\mc T$ if and only if $1\in\mc S$; see the discussion at the end of the last section.
+
+This gives some motivation for considering the $B'$-bimodule $\mc T = \mc S_{i/4}$ and not $\mc S$ directly; in \cite{Wasilewski_Quantum_Cayley}, motivation for considering $\mc S_{i/4}$ was given from considerations of the KMS inner-product.
+
+
+
+
+\section{Conclusion}
+
+This is subjective, but my opinion is that this gives further weight to the belief that the ``nicest'' axioms are to suppose that $A$ is completely positive and Schur idempotent, equivalently, $A$ is Schur idempotent and ``real''.  (That is, do not suppose that $A$ is self-adjoint or ``symmetric'' / ``self-transpose'', though these might be imposed as further, optional, conditions.)
+
+Taking this axiomatic approach means that we link $A$ with $e\in B\otimes B^\op$ using $\Psi' = \Psi'_{0,1/2}$.  We find that this is ``natural'', either from considering the graphical calculus, or from considering KMS inner-products.  One drawback is that $\mc S$ being self-adjoint becomes hard to express in a natural way at the level of the operator $A$ or the projection $e$.  However, the ``twisting'' considered in \cite{Wasilewski_Quantum_Cayley} solves this.
+
+\subsection{Acknowledgments}
+
+Initial parts of this note were written at the Isaac Newton Institute for Mathematical Sciences, Cambridge, during the programme Quantum information, quantum groups and operator algebras; this programme was supported by EPSRC grant EP/Z000580/1.  I thank Mateusz Wasilewski and Makoto Yamashita for helpful correspondence.  The TikZ code for the diagrams was adapted from source-code for the paper \cite{matsuda_class_m2}.
+
+
+\bibliographystyle{plain}
+\bibliography{qg.bib}
+
+\end{document}
+
