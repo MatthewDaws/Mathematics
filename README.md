@@ -13,6 +13,7 @@ An experiment: some longer pieces of Mathematics which don't quite belong on the
 - [Multipliers](https://github.com/MatthewDaws/Mathematics/tree/master/Multipliers) : Some things about multipliers of algebras.
 - [Operator Space Direct Sums](https://github.com/MatthewDaws/Mathematics/tree/master/OS-Direct-Sums) : Some notes on the  $\ell^{\infty} $ and  $\ell^1 $ direct sums of operator spaces.
 - [Purely Infinite](https://github.com/MatthewDaws/Mathematics/tree/master/Purely-Infinite) : Some notes on purely infinite simple rings.
+- [Quantum Graphs via diagrams](https://github.com/MatthewDaws/Mathematics/tree/master/Quantum-Graphs) : using diagrams to move from adjacency matrices to subspaces.
 - [Quasi-Invariant Measures](https://github.com/MatthewDaws/Mathematics/tree/master/Quasi-Inv-Measures) : Brief notes on quasi-invariant measures on locally compact groups.
 - [Tensor products of weights](https://github.com/MatthewDaws/Mathematics/tree/master/Tensor-Weights) : Some notes about tensoring nfs weights.
 - [Weights](https://github.com/MatthewDaws/Mathematics/tree/master/Weights) : Some notes about weights on von Neumann algebras.
