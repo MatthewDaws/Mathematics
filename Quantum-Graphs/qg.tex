@@ -354,13 +354,13 @@ e &= b \otimes \sigma_{i/2}(a)^*
 \theta_A &\colon T \mapsto bTa^*.
 \end{align*}
 We can write this alternatively as
-\begin{align*}
+\begin{align}  \label{eq:correspondence}
 A &= |b\rangle \langle \sigma_{-i/2}(c^*) | 
 &\leftrightarrow&&
 e &= b \otimes c
 &\leftrightarrow&&
 \theta_A &\colon T \mapsto bT \sigma_{i/2}(c).
-\end{align*}
+\end{align}
 This does not agree verbatim with \cite[Proposition~3.14]{Wasilewski_Quantum_Cayley}, but private communication with Wasilewski verifies that this is a typo (compare with the paragraph before \cite[Proposition~3.14]{Wasilewski_Quantum_Cayley}, where $\sigma_{-i/2}^{\psi^{-1}}$ is used: when restricted to $B$, as is occurring in this context, this map agrees with $\sigma_{i/2}$).  Thus \cite[Proposition~3.14]{Wasilewski_Quantum_Cayley} uses the same map $\theta_A$.
 
 
@@ -496,6 +496,93 @@ which of course equals $\tau(e)$, as $e=e^*$.
 This gives the somewhat more transparent condition that $\mc T$ is self-adjoint if and only if $e = \tau(e)$.  Notice that $1\in\mc T$ if and only if $1\in\mc S$; see the discussion at the end of the last section.
 
 This gives some motivation for considering the $B'$-bimodule $\mc T = \mc S_{i/4}$ and not $\mc S$ directly; in \cite{Wasilewski_Quantum_Cayley}, motivation for considering $\mc S_{i/4}$ was given from considerations of the KMS inner-product.
+
+
+
+\section{The other axioms}
+
+Analogously, we now consider the other axioms on $A$, coming to the same conclusions as \cite{Yamashita_QG_Notes} (and \cite{daws_quantum_graphs} though there we did not previously explicitly consider $\Psi'_{0,1/2}$).  The conditions on $A$ which we will consider are that $A$ is self-adjoint, $A=A^*$, and that $A$ is ``self-transpose'', which can be either of the conditions:
+\begin{itemize}
+  \item $(1\otimes\eta^*m)(1\otimes A\otimes 1)(m^*\eta\otimes 1)=A$
+or $(\eta^*m\otimes 1)(1\otimes A\otimes 1)(1\otimes m^*\eta)=A$;
+  \item which as diagrams are written as
+\[
+\begin{sd}
+\node[circle,draw] (G) {$A$};
+\draw (G.north) to[out=90,in=90] ([xshift=\hsep/2]G.north) --++(0,-.9);
+\draw (G.south) to[out=-90,in=-90] ([xshift=-\hsep/2]G.south) --++(0,.9);
+\end{sd}=\begin{sd}
+\node[circle,draw] (G1) {$A$};
+\draw (G1)--++(0,\hsep/2);
+\draw (G1)--++(0,-\hsep/2);
+\end{sd}
+\quad\text{or}\quad
+\begin{sd}
+\node[circle,draw] (G) {$A$};
+\draw (G.north) to[out=90,in=90] ([xshift=-\hsep/2]G.north) --++(0,-.9);
+\draw (G.south) to[out=-90,in=-90] ([xshift=\hsep/2]G.south) --++(0,.9);
+\end{sd}=\begin{sd}
+\node[circle,draw] (G1) {$A$};
+\draw (G1)--++(0,\hsep/2);
+\draw (G1)--++(0,-\hsep/2);
+\end{sd}
+\]
+\end{itemize}
+
+The following is immediate from \cite[Proposition~5.5, Lemma~5.7]{daws_quantum_graphs}; again we now write $\tau \colon B\otimes B^\op \to B\otimes B^\op$ for the tensor swap map.
+
+\begin{proposition}
+Let $A\in\mc B(L^2(B))$ and set $e = \Psi'_{0,1/2}(A)$.  Then:
+\begin{enumerate}
+  \item $\Psi'_{0,1/2}(A^*) = (\sigma_{-i/2}\otimes\sigma_{-i/2})\tau(e^*)$;
+  \item $\Psi'_{0,1/2}((1\otimes\eta^*m)(1\otimes A\otimes 1)(m^*\eta\otimes 1)) = (\sigma_{-i/2}\otimes\sigma_{-i/2})\tau(e)$;
+  \item $\Psi'_{0,1/2}((\eta^*m\otimes 1)(1\otimes A\otimes 1)(1\otimes m^*\eta)) = (\sigma_{i/2}\otimes\sigma_{i/2})\tau(e)$;
+  \item define $A_r(a) = A(a^*)^*$ for $a\in B$.  Then $\Psi'_{0,1/2}(A_r) = e^*$.
+\end{enumerate}
+\end{proposition}
+
+Define a one-parameter (complex) automorphism group on $\mc B(L^2(B))$ by setting $\tilde\sigma_z(T) = Q^{iz} T Q^{-iz}$ for $T\in\mc B(L^2(B)), z\in\mathbb C$.  Notice that $\tilde\sigma_z$ restricts to $\sigma_z$ on $B$.
+
+Recall that \cite{matsuda_class_m2} shows that of the three conditions (i) $A$ is real; (ii) $A=A^*$; (iii) $A$ is self-transpose, any two of the conditions imply the third.  Compare also \cite[Theorem~5.17]{daws_quantum_graphs}.
+
+\begin{corollary}
+Let $A$ be Schur idempotent and real (equivalently completely positive), so $e = \Psi'_{0,1/2}(A)$ is a self-adjoint projection.  Then the following are equivalent:
+\begin{enumerate}
+  \item $A$ is self-adjoint;
+  \item $A$ satisfies one or both of the self-transpose conditions;
+  \item $A$ commutes with $\nabla$;
+  \item $e = (\sigma_z\otimes\sigma_z)(e)$ for all $z\in\mathbb C$;
+  \item $\tilde\sigma_z \circ \theta_A = \theta_A \circ \tilde\sigma_z$ for each $z\in\mathbb C$;
+  \item $\mc S = Q^{iz} \mc S Q^{-iz}$ for each $z\in\mathbb C$.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+From the previous proposition, that $A$ is self-adjoint is that $(\sigma_{-i/2}\otimes\sigma_{-i/2})\tau(e) = e$ (as $e^*=e$) and that $A$ satisfies one of the self-transpose conditions is that $ (\sigma_{-i/2}\otimes\sigma_{-i/2})\tau(e)=e$ or $(\sigma_{i/2}\otimes\sigma_{i/2})\tau(e) =e$.  These are now seen to be the same condition.  When they hold, we see that
+\[ e = (\sigma_{i/2}\otimes\sigma_{i/2})\tau(e) = (\sigma_{i/2}\otimes\sigma_{i/2})\tau(e^*) = (\sigma_{-i/2}\otimes\sigma_{-i/2})\tau(e)^*, \]
+using that $e=e^*$.  Hence $(\sigma_{i/2}\otimes\sigma_{i/2})\tau(e) = e = e^* = (\sigma_{-i/2}\otimes\sigma_{-i/2})\tau(e)$ and hence $(\sigma_{i}\otimes\sigma_{i})e = e$.  So $e$ commutes with $Q\otimes Q^{-1}$ (remember that the second tensor factor of $e$ is $B^\op$ where multiplication is reversed), and hence with any power of this strictly positive operator, and so $e = (\sigma_z\otimes\sigma_z)(e)$ for all $z\in\mathbb C$.
+
+The correspondence between $A,e$ and $\theta_A$ is given by \eqref{eq:correspondence} above, which gives
+\begin{align*}
+A &= |\sigma_z(b)\rangle \langle \sigma_{z+i/2}(c)^* | 
+&\leftrightarrow&&
+e &= \sigma_z(b) \otimes \sigma_z(c)
+&\leftrightarrow&&
+\theta_A &\colon T \mapsto \sigma_z(b)T \sigma_{z+i/2}(c).
+\end{align*}
+For $a,c\in B$ we see that $(\sigma_z(c)^*|a) = \psi(\sigma_z(c)a) = \psi(c\sigma_{-z}(a)) = (c^*|\sigma_{-z}(a))$ by invariance of $\psi$ under the modular automorphism group.  As $\Lambda(\sigma_z(a)) = \nabla^{-iz}\Lambda(a)$, we see that
+\[ |\sigma_z(b)\rangle \langle \sigma_{z+i/2}(c)^* |
+= \nabla^{iz} |b\rangle \langle \sigma_{i/2}(c)^* | \nabla^{-iz}. \]
+So $e = (\sigma_z\otimes\sigma_z)(e)$ is equivalent to $\nabla^{iz} A = A\nabla^{iz}$, and this holding for all $z$ is equivalent to $\nabla A = A\nabla$.
+
+Similarly, $\sigma_z(b)T \sigma_{z+i/2}(c) = \tilde\sigma_z( b \tilde\sigma_{-z}(T) \sigma_{i/2}(c) )$ and so $e = (\sigma_z\otimes\sigma_z)(e)$ is equivalent to $\tilde\sigma_z \theta_A \tilde\sigma_{-z} = \theta_A$.  When this condition holds, $\mc S = \theta_A(\mc B(L^2(B))) = \theta_A(\tilde\sigma_z(\mc B(L^2(B)))) = \tilde\sigma_z(\theta_A(\mc B(L^2(B))) = \tilde\sigma_z(\mc S)$ for each $z$.  For the converse, notice that using the unitary from \eqref{eq:twistedGNS}, we have that
+\[ Q^{iz} |\xi\rangle\langle\eta| Q^{-iz}
+= |Q^{iz}\xi\rangle \langle Q^{i\overline z}\eta|
+\mapsto Q^{iz}\xi \otimes \overline{Q^{i\overline z}\nabla^{-1/2}\eta}
+= Q^{iz}\xi \otimes (Q^{-iz})^\top \overline{ \nabla^{-1/2}\eta }. \]
+So that $\mc S = Q^{iz} \mc S Q^{-iz}$ means that $V = (Q^{iz} \otimes (Q^{-iz})^\top)V$.  As $e$ is the orthogonal projection onto $V$, and for $z=t\in\mathbb R$, this is equivalent to $e$ commuting with $Q^{it} \otimes (Q^{-it})^\top$, as this is a unitary operator.  This holding for all $t$ is again equivalent to $e$ commuting with $Q\otimes Q^{-1}$.
+\end{proof}
+
+Again, we could replace $Q$ by $\nabla$ in the above conditions.  Notice that when these conditions hold, $\mc T = \mc S_{i/4} = Q^{1/4}\mc S Q^{-1/4} = \mc S$.  It follows that $\mc S^* = \mc S$ if and only if $e = \tau(e)$.
 
 
 
