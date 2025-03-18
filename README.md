@@ -6,6 +6,7 @@ An experiment: some longer pieces of Mathematics which don't quite belong on the
 - [Cohen-Hewitt Factorisation](https://github.com/MatthewDaws/Mathematics/tree/master/Cohen-Hewitt) : Quick literature review around this theorem.
 - [Conditional Expectations](https://github.com/MatthewDaws/Mathematics/tree/master/Conditional-Expectations) : Self-contained proof of existence of trace-preserving conditional expectations.
 - [Fell Topology](https://github.com/MatthewDaws/Mathematics/tree/master/Fell-Topology) : Some notes on various meanings of the "Fell Topology".
+- [Finite index](https://github.com/MatthewDaws/Mathematics/tree/master/Finite-Index) : Some brief notes about finite-index Hilbert bimodules.
 - [Inductive Limits](https://github.com/MatthewDaws/Mathematics/tree/master/Inductive-Limits) : Some notes on inductive limits of Banach spaces.
 - [Isomorphisms of von Neumann algebras](https://github.com/MatthewDaws/Mathematics/tree/master/Isomorphism-VN) : Isomorphisms of von Neumann algebras are, after amplication, spatial.
 - [Kaplansky Density](https://github.com/MatthewDaws/Mathematics/tree/master/Kaplansky) : An "elementary" proof of Kaplansky Density.
