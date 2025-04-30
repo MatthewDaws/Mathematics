@@ -1,0 +1,153 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+%\usepackage{showkeys}
+\usepackage{hyperref}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage[T1]{fontenc}
+\usepackage{beton}
+\usepackage[euler-digits, euler-hat-accent]{eulervm}
+\DeclareFontSeriesDefault[rm]{bf}{sbc} 
+
+\usepackage{amsmath,amssymb,amsthm}
+%\usepackage[all]{xy}
+\usepackage{url}
+\usepackage[shortlabels]{enumitem}
+%\usepackage{amscd}
+\usepackage{tikz-cd}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{question}[proposition]{Question}
+
+\theoremstyle{remark}
+\newtheorem{remarkx}[proposition]{Remark}
+\newtheorem{remarksx}[proposition]{Remarks}
+\newtheorem{workingx}[proposition]{Working}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+\newenvironment{working}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\workingx}
+  {\popQED\endworkingx}
+
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+
+\newcommand{\vnten}{\bar\otimes}
+
+\newcommand{\hh}{\widehat}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\op}{{\operatorname{op}}}
+
+\begin{document}
+
+\title{Interpolation spaces and duality}
+\author{Matt Daws}
+\date{April 2025}
+\maketitle
+
+\begin{abstract}
+Some notes on the monograph by Kaijser and Pelletier.
+\end{abstract}
+
+We give some notes about the book \cite{KP_InterpolationFunctorsDuality}.
+
+\section{Doolittle Diagrams}
+
+I find the discussion in Section~1 quite hard to follow, so here is a more pedestrian account.
+
+The book works with the category of Banach spaces and bounded linear maps.  Often we might restrict to just contractive maps, giving a subcategory with generally nicer properties: for example, isomorphisms become isometric.  So ``operator'' will mean bounded linear map, unless stated otherwise.
+
+\begin{definition}
+A \emph{doolittle diagram} $\overline{X}$ of Banach spaces is a commutative diagram
+% \[ \begin{CD} \Delta\overline X @>\delta_0>> X_0 \\
+%   @V\delta_1VV   @VV\sigma_0V \\
+%   X_1 @>>\sigma_1> \Sigma\overline X
+% \end{CD} \]
+\[ \begin{tikzcd}
+\Delta\overline X \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \arrow[d, "\sigma_0"] \\
+X_1 \arrow[r, "\sigma_1"'] & \Sigma\overline X
+\end{tikzcd}
+\]
+which is both a pullback and a pushout.
+\end{definition}
+
+We recall from basic category theory (\cite[Definition~5.1.16]{Leinster_BasicCatTheory} for example) that $\Delta\overline X$ being the \emph{pullback} of $(\sigma_0, \sigma_1)$ means that whenever $Y$ is a Banach space with operators $f_0 \colon Y \to X_0, f_1 \colon Y \to X_1$ with $\sigma_0 f_0 = \sigma_1 f_1$, there is a unique operator $u\colon Y \to \Delta\overline X$ with $\delta_0 u = f_0, \delta_1 u = f_1$.  As a diagram:
+\[ \begin{tikzcd}
+Y \arrow[rd, dotted, "\exists !\, u"] \arrow[rrd, bend left, "f_0"] \arrow[rdd, bend right, "f_1"']\\
+& \Delta\overline X \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \arrow[d, "\sigma_0"] \\
+& X_1 \arrow[r, "\sigma_1"'] & \Sigma\overline X
+\end{tikzcd}
+\]
+
+Similarly, that $\Sigma\overline X$ is the \emph{pushout} (\cite[Definition~5.2.11]{Leinster_BasicCatTheory} for example) of $(\delta_0, \delta_1)$ means that whenever $Z$ is a Banach space with operators $g_0 \colon X_0 \to Z$ and $f_1 \colon Z_1\to Z$ with $g_0\delta_0 = g_1\delta_1$, there is a unique operator $v\colon \Sigma\overline X \to Z$ with $v\sigma_0 = g_0, v\sigma_1=g_1$.  As a diagram:
+\[ \begin{tikzcd}
+\Delta\overline X \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \arrow[d, "\sigma_0"] \arrow[rdd, bend left, "g_0"] \\
+X_1 \arrow[r, "\sigma_1"'] \arrow[rrd, bend right, "g_1"'] & \Sigma\overline X \arrow[rd, dotted, "v"] \\
+&& Z    
+\end{tikzcd} \]
+
+Using the universal properties, it is 
+
+There are canonical constructions of these objects in the category of Banach spaces.  Firstly, for the pullback, define
+\[ D\overline X = \{ (\xi_0,\xi_1) : \sigma_0(\xi_0) = \sigma_1(\xi_1) \} \subseteq X_0 \oplus_\infty X_1. \]
+As $\sigma_0,\sigma_1$ are continuous, $D\overline X$ is a closed subspace of $X_0 \oplus_\infty X_1$.
+Let $\delta_i \colon D\overline X \to X_i$ be the natural projection maps restricted to $D\overline X$, which are contractions satisfying $\sigma_0\delta_0 = \sigma_1\delta_1$.
+Given $Y, f_0, f_1$ as above, by definition, $(f_0(\xi), f_1(\xi)) \in D\overline X$ for each $\xi\in Y$ and so we obtain a map $u \colon Y \to D\overline X$.  Notice that $\|u(\xi)\| = \max( \|f_0(\xi)\|, \|f_1(\xi)\| ) \leq \|\xi\| \max(\|f_0\|, \|f_1\|)$ so $u$ is bounded, and contractive if $f_0,f_1$ both are.  Then $\delta_i u = f_i$ and so $u$ satisfies the required property.  Clearly $u$ is unique.  Hence $\Delta\overline X$ is isomorphic (but perhaps not isometric) with $D\overline X$.
+
+For the pushout, set
+\[ P\overline X = X_0 \oplus_1 X_1 / \overline\lin\{ (\delta_0(\xi), -\delta_1(\xi)) : \xi\in \Delta\overline X \}. \]
+Notice that the linear span is superfluous, but the closure is needed, in general.  We shall abuse notation and suppress the quotient when writing elements of $P\overline X$.
+Let $\sigma_0(\xi_0) = (\xi_0,0)$ for $\xi_0\in X_0$, and simiarly define $\sigma_1(\xi_1) = (0,\xi_1)$ for $\xi_1\in X_1$; both of these operators are contractions.  For $\xi\in \Delta\overline X$ we see that $\sigma_0 \delta_0(\xi) = (\delta_0(\xi), 0) = (0, \delta_1(\xi)) = \sigma_1 \delta_1(\xi)$ by the choice of the subspace to quotient by.
+Given $Z, g_0, g_1$ as above, define $v(\xi_0, \xi_1) = g_0(\xi_0) + g_1(\xi_1)$.  This is well-defined as $v(\delta_0(\xi), -\delta_1(\xi)) = g_0\delta_0(\xi) - g_1\delta_1(\xi) = 0$ for each $\xi\in\Delta\overline X$.  As we use the $1$-norm, $\|v\| \leq \max(\|g_0\|, \|g_1\|)$ and so $v$ is contractive if $g_0,g_1$ both are.  Finally, $v \sigma_0 = g_0$ and $v\sigma_1 = g_1$, 
+and again $v$ is unique with these properties.  Hence $P\overline X$ is the pushout, and so $\Sigma\overline X$ is isomorphic to $P\overline X$.
+
+Of course, for a doolittle diagram\footnote{Why the name?} we require compatibility between the constructions, in that we simultaneously have a pushout and a pullback.  We now classify these, up to isomorphism.
+
+\begin{proposition}
+Let $(X_0, X_1)$ be a pair of Banach spaces.  Given a closed subspace $E$ of $X_0 \oplus_\infty X_1$, setting $\delta_i \colon E \to X_i$ to be the restriction of the natural projection, we have that $\Delta\overline X = E$, and $\Sigma\overline X = P\overline X$ the pushout of $(\delta_0,\delta_1)$, gives a doolittle diagram.  Up to isomorphism, all doolittle diagrams arise in this way.
+\end{proposition}
+\begin{proof}
+If $\overline X$ is a doolittle diagram, then $\Delta\overline X$ is isomorphic to $D\overline X$, the pullback of $(\sigma_0, \sigma_1)$.  By construction, $E = D\overline X$ is a closed subspace of $X_0 \oplus_\infty X_1$, and as above, $\Sigma\overline X$ is isomorphic to $P\overline X$.
+
+Conversely, given such an $E$, we construct $P\overline X$.  To show we have a doolittle diagram, it remains to show that $E, \delta_0, \delta_1$ gives the pullback of $(\sigma_0, \sigma_1)$, these maps coming from the construction of $P\overline X$.  Notice that for any $\xi = (\xi_0, \xi_1) \in E$, we have $(\delta_0(\xi), \delta_1(\xi)) = (\xi_0, \xi_1) = \xi$.  It follows that $E_0 := \{ (\delta_0(\xi), -\delta_1(\xi)) : \xi\in\Delta\overline X\}$ is a closed subspace, as the map $(\eta_0,\eta_1) \mapsto (\eta_0, -\eta_1)$ is an isometry.  By the construction of $P\overline X$, we now see that $\sigma_0(\xi_0) = \sigma_1(\xi_1)$ if and only if $(\xi_0, -\xi_1) \in E_0$.  That is, if and only if $(\xi_0,\xi_1) \in E$.  We conclude that $D\overline X = E$ isometrically, and the natural maps giving the pullback are $\delta_0,\delta_1$.  Hence we do obtain a doolittle diagram.
+\end{proof}
+
+Notice that the doolittle diagrams we construct from closed subspaces $E$ have all the map $\delta_i, \sigma_i$ contractive.
+If we work in the category of contractive maps, then this proposition classifies doolittle diagrams up to isometric isomorphism.  However, in general, we are free to renorm $D\overline X$ and $\Sigma\overline X$.  I believe that the comment at the bottom of Page~9 of \cite{KP_InterpolationFunctorsDuality} means that we only consider doolittle diagrams coming from this construction, and not renormings.
+
+
+\bibliographystyle{plain}
+\bibliography{thebib.bib}
+
+\end{document}
