@@ -1,0 +1,67 @@
+\begin{thebibliography}{10}
+
+\bibitem{BMS_quasimults}
+Lawrence~G. Brown, James~A. Mingo, and Nien-Tsu Shen.
+\newblock Quasi-multipliers and embeddings of {H}ilbert {$C^\ast$}-bimodules.
+\newblock {\em Canad. J. Math.}, 46(6):1150--1174, 1994.
+
+\bibitem{FK_CondExpFinIdx}
+Michael Frank and Eberhard Kirchberg.
+\newblock On conditional expectations of finite index.
+\newblock {\em J. Operator Theory}, 40(1):87--111, 1998.
+
+\bibitem{KPW_CStarHilbertBimods}
+Tsuyoshi Kajiwara, Claudia Pinzari, and Yasuo Watatani.
+\newblock Ideal structure and simplicity of the {$C^\ast$}-algebras generated
+  by {H}ilbert bimodules.
+\newblock {\em J. Funct. Anal.}, 159(2):295--322, 1998.
+
+\bibitem{KPW_JonesIndexTheory}
+Tsuyoshi Kajiwara, Claudia Pinzari, and Yasuo Watatani.
+\newblock Jones index theory for {H}ilbert {$C^*$}-bimodules and its
+  equivalence with conjugation theory.
+\newblock {\em J. Funct. Anal.}, 215(1):1--49, 2004.
+
+\bibitem{KW_JonesIndexBimods}
+Tsuyoshi Kajiwara and Yasuo Watatani.
+\newblock Jones index theory by {H}ilbert {$C^*$}-bimodules and {$K$}-theory.
+\newblock {\em Trans. Amer. Math. Soc.}, 352(8):3429--3472, 2000.
+
+\bibitem{Lance_HilbModsBook}
+E.~C. Lance.
+\newblock {\em Hilbert {$C^*$}-modules}, volume 210 of {\em London Mathematical
+  Society Lecture Note Series}.
+\newblock Cambridge University Press, Cambridge, 1995.
+\newblock A toolkit for operator algebraists.
+
+\bibitem{LR_Theory_dimension}
+R.~Longo and J.~E. Roberts.
+\newblock A theory of dimension.
+\newblock {\em $K$-Theory}, 11(2):103--159, 1997.
+
+\bibitem{MT_HilbertCStarModBook}
+V.~M. Manuilov and E.~V. Troitsky.
+\newblock {\em Hilbert {$C^*$}-modules}, volume 226 of {\em Translations of
+  Mathematical Monographs}.
+\newblock American Mathematical Society, Providence, RI, 2005.
+\newblock Translated from the 2001 Russian original by the authors.
+
+\bibitem{Rieffel_induced_Cstar}
+Marc~A. Rieffel.
+\newblock Induced representations of {$C\sp{\ast} $}-algebras.
+\newblock {\em Advances in Math.}, 13:176--257, 1974.
+
+\bibitem{TakesakiI}
+M.~Takesaki.
+\newblock {\em Theory of operator algebras. {I}}, volume 124 of {\em
+  Encyclopaedia of Mathematical Sciences}.
+\newblock Springer-Verlag, Berlin, 2002.
+\newblock Reprint of the first (1979) edition, Operator Algebras and
+  Non-commutative Geometry, 5.
+
+\bibitem{Watatani_indexcstar}
+Yasuo Watatani.
+\newblock Index for {$C^*$}-subalgebras.
+\newblock {\em Mem. Amer. Math. Soc.}, 83(424):vi+117, 1990.
+
+\end{thebibliography}

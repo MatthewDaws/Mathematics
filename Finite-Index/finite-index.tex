@@ -1,0 +1,417 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+\usepackage{hyperref}
+%\usepackage{showkeys}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage[T1]{fontenc}
+% \usepackage[euler-digits, euler-hat-accent]{eulervm}
+% \DeclareFontSeriesDefault[rm]{bf}{sbc} 
+%\usepackage{beton}
+\usepackage{amsmath,amssymb,amsthm}
+%\usepackage[sfdefault]{classico}
+%\usepackage{Archivo}
+%\usepackage[sfdefault]{FiraSans}
+\usepackage{fix-cm}
+\usepackage[default]{sourcesanspro}
+\usepackage{eulerpx}
+
+%\usepackage[all]{xy}
+\usepackage{url}
+\usepackage[shortlabels]{enumitem}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{question}[proposition]{Question}
+
+\theoremstyle{remark}
+\newtheorem{remarkx}[proposition]{Remark}
+\newtheorem{remarksx}[proposition]{Remarks}
+\newtheorem{workingx}[proposition]{Working}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+\newenvironment{working}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\workingx}
+  {\popQED\endworkingx}
+
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+
+\newcommand{\vnten}{\bar\otimes}
+
+\newcommand{\hh}{\widehat}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\op}{{\operatorname{op}}}
+\newcommand{\Tr}{{\operatorname{Tr}}}
+\newcommand{\im}{{\operatorname{Im}}}
+\newcommand{\KMS}{\textrm{KMS}}
+\newcommand{\iindex}{\operatorname{Index}}
+\newcommand{\ind}{\operatorname{Ind}}
+
+\begin{document}
+
+\title{Hilbert $C^*$-bimodules and conjugation theory}
+\author{Matthew Daws}
+\date{March 2025}
+\maketitle
+
+\section{Introduction}
+
+We summarise some of the ideas from \cite{KPW_JonesIndexTheory}, and clarify some of the proofs.
+We very closely study the \cite[Section~2]{KPW_JonesIndexTheory}, giving almost complete proofs, and clarifying some points.  Much of the rest of this document currently is then just a summary.\footnote{Due to lack of time and/or motivation.}
+
+After a little time, I found that actually, for my purposes, the paper \cite{KW_JonesIndexBimods} is a somewhat more gentle introduction to similar ideas.
+
+
+
+
+\section{bi-Hilbertian modules}
+
+We follow \cite[Section~2]{KPW_JonesIndexTheory}.  We assume the basic theory of Hilbert $C^*$-modules, see Lance's book \cite{Lance_HilbModsBook}, for example.  
+
+For $x,y\in X$ we write $\theta_{x,y}$ for the adjointable operator $z \mapsto x (y|z)$.  Write $\mc K_0(X)$ for the linear span of such operators, write $\mc K(X)$ for the (operator) norm closure, and write $\mc L(X)$ for the algebra of all adjointable operators.
+
+An $A$-$B$-bimodule is a Hilbert $C^*$-module $X$ over $B$, with a $*$-homomorphism $\phi \colon A \to \mc L(X)$ turning $X$ into a left $A$-module.  We caution that terminology is confused here: something this notion is termed a ``correspondence'': sometimes a ``bimodule'' means something somewhat stronger, see \cite[Section~1.5]{MT_HilbertCStarModBook} for example.  We write ${}_A X_B$ if we wish to stress which algebra is acting on the left/right.
+
+We also have the notion of a \emph{left} Hilbert $C^*$-module.  An $A$-$B$-bimodule ${}_A X_B$ is \emph{bi-Hilbertian} if it is both a (right) Hilbert $C^*$-module over $B$, a left Hilbert $C^*$-module over $A$, such that both structures lead to bimodules in the above sense, and such that the induced norms are equivalent: there are constants $\lambda, \lambda'>0$ such that
+\[ \lambda' \|(x|x)_B\| \leq \|{}_A(x|x)\| \leq \lambda \|(x|x)_B\|
+\qquad (x\in X). \]
+That we get bimodules means, for example, that $(x|ay)_B = (a^*x|y)_B$ and ${}_A(x|yb) = {}_A(xb^*|y)$.  We stress that no further compatibility is assumed between $(\cdot|\cdot)_B$ and ${}_A(\cdot|\cdot)$ (but see Section~\ref{sec:imprim} below).
+
+\begin{proposition}[{See \cite[Proposition~2.4]{KPW_JonesIndexTheory}}]\label{prop:lower_ineq_sums}
+Suppose that $\lambda' \|(x|x)_B\| \leq \|{}_A(x|x)\|$ for each $x\in X$.  Then for any $x_1,\cdots,x_n\in X$ we have
+\[ \lambda' \Big\| \sum_{i=1}^n \theta_{x_i,x_i} \Big\| \leq 
+\Big\| \sum_{i=1}^n {}_A(x_i|x_i) \Big\|. \]
+\end{proposition}
+\begin{proof}
+I don't follow the (end of the) proof given in \cite{KPW_JonesIndexTheory}, so we give the details.
+
+Let $T\in M_n(B)$ be the matrix with $i,j$ entry $(x_i|x_j)_B$.  As shown in \cite[Lemma~2.1]{KPW_CStarHilbertBimods}, we have that $\|T\| = \| \sum_{i=1}^n \theta_{x_i,x_i} \|$.  Further, we have that
+\[ \|T\| = \sup\Big\{ \Big\|\sum_{i,j=1}^n b_i^* (x_i|x_j) b_j \Big\| : \Big\| \sum_{i=1}^n b_i^*b_i \Big\| \leq 1 \Big\}. \]
+For any choice of $(b_i)$ with $\sum_i b_i^*b_i \leq 1$, set $y = \sum_i x_i b_i$, so that
+\begin{equation} \label{eq:one}
+\lambda' \|(y|y)_B\| \leq \| {}_A (y|y) \| = \Big\| \sum_{j=1}^n {}_A(y b_j^* | x_j) \Big \|
+\leq \big\| (y b_j^*)_j \big\| \big\| (x_j)_j \big\|.
+\end{equation}
+The final inequality comes from Cauchy--Schwarz applied to the Hilbert $C^*$-module $X \otimes \mathbb C^n$ with $A$-valued inner product $((w_i)|(z_i)) = \sum_i {}_A(w_i|z_i)$.  Thus, by definition,
+\begin{equation} \label{eq:two}
+\big\| (y b_j^*)_j \big\| = \Big\| \sum_j {}_A(yb_j^*|yb_j^*) \Big\|^{1/2}
+= \Big\| \sum_j {}_A(yb_j^*b_j|y) \Big\|^{1/2}
+\leq \|y\|_A \Big\| \sum_j b_j^*b_j \Big\|^{1/2} \leq \|y\|_A.
+\end{equation}
+As $\|{}_A(y|y)\| = \|y\|_A^2$, combining \eqref{eq:one} and \eqref{eq:two} shows that
+\[ \|y\|_A^2 \leq \|y\|_A \Big\| \sum_j {}_A(x_j|x_j) \Big\|^{1/2}
+\quad \implies \quad \|y\|_A^2 \leq \Big\| \sum_{j=1}^n {}_A(x_j|x_j) \Big\|. \]
+Taking the supremum over such $(y_i)$ yields the result.
+\end{proof}
+
+As shown in \cite[Proposition~1.4]{KPW_JonesIndexTheory}, there is a directed set $\Lambda$ such that for each $\lambda\in\Lambda$, there is a finite set $u_\lambda \subseteq X$ so that, when we set $T_\lambda = \sum_{x\in u_\lambda} \theta_{x,x}$, we have that $(T_\lambda)_{\lambda\in\Lambda}$ is an increasing bounded approximate identity for $\mc K(X)$, of norm $\leq 1$.  We term $(u_\lambda)$ a \emph{generalised basis for $X$}.
+
+Let ${}_A X_B$ be bi-Hilbertian.  We wish to show that there is a linear map
+\[ F \colon \mc K_0(X) \to A; \quad \theta_{x,y} \mapsto {}_A(x|y). \]
+The only non-trivial thing to check is that if $\sum_{i=1}^n \theta_{x_i, y_i} = 0$ then $\sum_{i=1}^n {}_A (x_i|y_i)=0$.  This seems not to be obvious; here is one way to show this.  Let $(u_\lambda)$ be a generalised basis, and for each $\lambda\in\Lambda$, set
+\[ F_\lambda \colon \mc L(X_B) \to A; \quad T \mapsto \sum_{y\in u_\lambda} {}_A (Ty|y). \]
+As $\lim_\lambda \sum_{y\in u_\lambda} \theta_{y,y}(z) = \lim_\lambda \sum_{y\in u_\lambda} y (y|z)_B = y$ for $\|\cdot\|_B$, and hence also for $\|\cdot\|_A$ as these norms are equivalent, we see that
+\[ F_\lambda(\theta_{x,z}) = \sum_{y\in u_\lambda} {}_A (x (z|y)_B|y)
+= \sum_{y\in u_\lambda} {}_A(x|y(y|z)_B) \to {}_A(x|z). \]
+In fact, this only uses that $\|{}_A(x|x)\| \leq \lambda \|(x|x)_B\|$ for all $x\in X$.  We can now conclude that
+\[ \sum_{i=1}^n \theta_{x_i, y_i} = 0
+\quad\implies\quad
+\sum_{i=1}^n {}_A(x_i|y_i) = \sum_{i=1}^n \lim_\lambda F_\lambda(\theta_{x_i,y_i})
+= \lim_\lambda F_\lambda\Big( \sum_{i=1}^n \theta_{x_i,y_i} \Big) = 0. \]
+So $F$ exists.
+
+We can now give some properties of $F$; see Lemma~\ref{lem:positive_finite_ranks} below for context, especially for \ref{prop:F_properties:4}.
+
+\begin{proposition}[{\cite[Lemma~2.6]{KPW_JonesIndexTheory}}]\label{prop:F_properties}
+The map $F \colon \mc K(X_B) \to A; \theta_{x,y} \mapsto {}_A(x|y)$ satisfies:
+\begin{enumerate}[(a)]
+  \item\label{prop:F_properties:1}
+  $F(T^*T) \geq 0$ for $T\in\mc K_0(X_B)$;
+  \item\label{prop:F_properties:2}
+  $F(T)^* = F(T^*)$ for $T\in\mc K_0(X_B)$;
+  \item\label{prop:F_properties:3}
+  letting $\phi\colon A \to \mc L(X_B)$ be the left-module action, we have $F(\phi(a)T) = a F(T)$ and $F(T\phi(a)) = F(T)a$ for $a\in A, T\in\mc K_0(X_B)$;
+  \item\label{prop:F_properties:4}
+  supposing also the lower inequality $\lambda' \|(x|x)_B\| \leq \|{}_A(x|x)\|$, we have $\|F(T)\| \geq \lambda' \|T\|$ for any $T$ of the form $\sum_{i=1}^n \theta_{x_i,x_i}$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+Part \ref{prop:F_properties:1} follows from Lemma~\ref{lem:positive_finite_ranks}.Part \ref{prop:F_properties:2} is immediate.  Part \ref{prop:F_properties:3} follows from the identities $\phi(a) \theta_{x,y} = \theta_{a\cdot x, y}$ and $\theta_{x,y} \phi(a) = \theta_{x, a^*\cdot y}$.  Proposition~\ref{prop:lower_ineq_sums} gives \ref{prop:F_properties:4}.
+\end{proof}
+
+When do we have the analogue of Proposition~\ref{prop:lower_ineq_sums} for the right-hand inequality?  This doesn't always hold, but the following gives some equivalent conditions.
+
+\begin{proposition}[{\cite[Proposition~2.7]{KPW_JonesIndexTheory}}]\label{prop:RHS_ineq}
+The following are equivalent:
+\begin{enumerate}
+  \item\label{prop:RHS_ineq:1} there is $\lambda>0$ so that for all $x_1,\cdots,x_n\in X$, we have
+  \[ \Big\| \sum_{j=1}^n {}_A(x_i|x_i) \Big\| \leq \lambda \Big\| \sum_{j=1}^n \theta_{x_i,x_i} \Big\|; \]
+  \item\label{prop:RHS_ineq:2} there is $\lambda>0$ so that for all $x_1,\cdots,x_n,y_1,\cdots,y_n\in X$, we have
+  \[ \Big\| \sum_{j=1}^n {}_A(x_i|y_i) \Big\| \leq \lambda \Big\| \sum_{j=1}^n \theta_{x_i,y_i} \Big\|; \]
+  \item\label{prop:RHS_ineq:3} $F(T)\geq 0$ for each $T\in\mc K_0(X_B) \cap \mc K(X_B)^+$, and $\lambda = \sup_{\lambda} \big\| F(\sum_{y\in u_\lambda} \theta_{y,y}) \big\| < \infty$ for some generalised basis $(u_\lambda)$.
+\end{enumerate}
+When these conditions hold, the smallest constants $\lambda>0$ for which \ref{prop:RHS_ineq:1} and \ref{prop:RHS_ineq:2} hold agree, and these agree with the $\lambda$ in \ref{prop:RHS_ineq:3}.  In particular, condition \ref{prop:RHS_ineq:3} does not depend on the choice of generalised basis.
+\end{proposition}
+% \begin{proof}
+% \end{proof}
+
+The smallest such $\lambda>0$ is the \emph{right numerical index} of $X$, denoted $r\text{-}I[X]$.  We define the contragradient module $\overline X$, Appendix~\ref{sec:contragradient}, which is a $B$-$A$-bimodule, and then the \emph{left numerical index} is $l\text{-}I[X] = r\text{-}I[\overline X]$.
+
+Notice that condition \ref{prop:RHS_ineq:2} is simply the statement that $\|F\|\leq\lambda$.
+
+\begin{proposition}[{\cite[Corollary~2.11]{KPW_JonesIndexTheory}}]\label{prop:Jones1}
+Let $X$ have finite right numerical index.
+Let $\lambda'$ be the constant in our assumed inequality $\lambda' \|(x|x)_B\| \leq \|{}_A(x|x)\|$ for each $x\in X$, and let $\phi\colon A\to\mc L(X)$ be the left action.  We have that $\phi(F(T)) \geq \lambda' T$ for $T\in\mc K(X)^+$.
+\end{proposition}
+\begin{proof}
+By Proposition~\ref{prop:F_properties}\ref{prop:F_properties:4} combined with Lemma~\ref{lem:positive_finite_ranks}, we have that $\|F(T)\| \geq \lambda'\|T\|$ for any $T = S^*S$ with $S\in\mc K_0(X)$.  By continuity, the same holds for $T=S^*S$ with $S\in\mc K(X)$, that is, for any $T\in\mc K(X)^+$.
+
+We now adapt an argument from \cite[Pages~90--91]{FK_CondExpFinIdx}.  For $\epsilon>0$ we have that $\epsilon + F(T)$ is invertible (as $F(T)\geq0$) and positive, and so we can set $S = T^{1/2} \phi((\epsilon+F(T))^{-1/2}) = T^{1/2} (\epsilon + \phi(F(T)))^{-1/2} \in \mc K(X_B)$.  Then
+\[ F(S^*S) = F\big( (\epsilon + \phi(F(T)))^{-1/2} T (\epsilon + \phi(F(T)))^{-1/2} \big)
+= (\epsilon +F(T))^{-1/2} F(T) (\epsilon +F(T))^{-1/2}, \]
+in the last step using Proposition~\ref{prop:F_properties}\ref{prop:F_properties:3}.  So $F(S^*S) \leq 1$, and hence $\lambda' \|S^*S\| \leq \|F(S^*S)\| \leq 1$.  Hence $\lambda' S^*S \leq 1$ and so $\lambda' (\epsilon + \phi(F(T)))^{-1/2} T (\epsilon + \phi(F(T)))^{-1/2} \leq 1$.  Multiplying both sides by $(\epsilon + \phi(F(T)))^{1/2}$ we obtain $\lambda' T \leq \epsilon + \phi(F(T))$ and letting $\epsilon \to 0$, we conclude that $\lambda' T \leq \phi(F(T))$ as claimed.
+\end{proof}
+
+
+
+\subsection{Examples}
+
+\subsubsection{Conditional expectations}\label{sec:eg_ce}
+
+Let $B \subseteq A$ be an inclusion of $C^*$-algebras, and let $E\colon A\to B$ be a conditional expectation.  This means that $E$ is contractive and $E(b)=b$ for $b\in B$; then automatically $E$ is (completely) positive and a bimodule map over $A$, see \cite[Theorem~III.3.4]{TakesakiI}.   Assume there is a constant $\lambda>0$ so that $\|E(a)\| \geq \lambda \|a\|$ for each $a\in A^+$.  
+
+We turn ${}_A X_B = A$ into a $A$-$B$-bimodule for the obvious actions, $B$-valued inner-product $(x|y)_B = E(x^*y)$ and $A$-valued inner-product ${}_A(x|y) = xy^*$.  As $E$ is contractive, and by our assumption, we have for each $x\in X$,
+\[ \|(x|x)_A\| = \|E(x^*x)\| \leq \|x^*x\| = \|x\|^2 = \|x^*\|^2 = \|xx^*\|= \|{}_B(x|x)\| \leq \lambda^{-1} \|E(x^*x)\| = \lambda^{-1} \|(x|x)_A\|, \]
+and so the two inner-products give equivalent norms.
+
+Consider the contragradient module ${}_B\overline{X}_A$, see Appendix~\ref{sec:contragradient}, so the right inner-product is $(\overline x|\overline y)_A = {}_A(x|y) = xy^*$.  The map $u \colon \overline{X} \to A; \overline x \mapsto x^*$ is hence linear, bijective, and an isometry for the right-norm.  Using \eqref{eq:finite_rank_contra} we see that
+\begin{equation}\label{eq:eg1_1}
+u \theta_{\overline x,\overline y} u^{-1}(z)
+= u \theta_{\overline x,\overline y}(\overline{z^*})
+= u (\overline{{}_A(z^*|y) \cdot x})
+= u (\overline{ z^*y^*x })
+= x^* y z,
+\end{equation}
+and so $\theta_{\overline x,\overline y}$ is identified with $x^*y$.  Hence \cite[Lemma~2.1]{KPW_CStarHilbertBimods} (also used in the proof of Proposition~\ref{prop:lower_ineq_sums}) shows that
+\[ \Big\| \sum_{i=1}^n x_i^*x_i \Big\|_A
+= \Big\| \sum_{i=1}^n \theta_{\overline{x_i}, \overline{x_i}} \Big\|
+= \big\| \big( (\overline{x_i}|\overline{x_j})_A \big)_{i,j} \big\|_{M_n(A)}
+= \big\| \big( {}_A(x_i|x_j) \big)_{i,j} \big\|_{M_n(A)}
+= \big\| \big( x_ix_j^* \big)_{i,j} \big\|_{M_n(A)}. \]
+Analogously, \cite[Lemma~2.1]{KPW_CStarHilbertBimods} applied to $X$ shows that
+\begin{equation}\label{eq:eg1_2}
+\big\| \big( E(x_i^*x_j) \big)_{i,j} \big\|_{M_n(A)}
+= \big\| \big( (x_i|x_j)_B \big)_{i,j} \big\|_{M_n(A)}
+= \Big\| \sum_{i=1}^n \theta_{x_i,x_i} \Big\|.
+\end{equation}
+
+As the two inner-products give equivalent norms, as ${}_AX = A$ is complete, also $X_B$ is complete, and so \cite[Theorem~1]{FK_CondExpFinIdx} implies that the map $(E - \lambda \id_A)$ is positive (this is essentially the argument we used in the proof of Proposition~\ref{prop:Jones1} above).  In fact, \cite[Theorem~1]{FK_CondExpFinIdx} gives us more: there is $\lambda' > 0$ so that $(E - \lambda' \id_A)$ is completely positive.  Together with \eqref{eq:eg1_1} and \eqref{eq:eg1_2} we obtain
+\[ \Big\| \sum_{i=1}^n \theta_{x_i,x_i} \Big\|
+= \big\| \big( E(x_i^*x_j) \big)_{i,j} \big\|_{M_n(A)}
+\geq \lambda' \big\| \big( x_i^*x_j \big)_{i,j} \big\|_{M_n(A)}
+= \Big\| \sum_{i=1}^n x_ix_i^* \Big\|_A
+= \Big\| \sum_{i=1}^n {}_A(x_i|x_i) \Big\|_A. \]
+Hence we've verified the first condition in Proposition~\ref{prop:RHS_ineq}, and so $X$ has finite right numerical index, with constant at most $1 / \lambda'$.  \cite[Proposition~2.12]{KPW_JonesIndexTheory} shows we have equality, $r\text{-}I[X] = 1/\lambda'$.
+
+Furthermore, to verify \cite[Proposition~2.12]{KPW_JonesIndexTheory} for $\overline X$, for constant $\lambda''>0$, we wish to show that
+\[ \Big\| \sum_{i=1}^n {}_B(\overline{x_i}|\overline{x_i}) \Big\| 
+\leq \lambda'' \Big\| \sum_{i=1}^n \theta_{\overline{x_i},\overline{x_i}} \Big\|. \]
+Using the map $u$ again, this is equivalent to
+\[ \Big\| E\Big(\sum_{i=1}^n x_i^*x_i\Big)\Big\|
+= \Big\| \sum_{i=1}^n (x_i|x_i)_B \Big\|
+\leq \lambda'' \Big\| \sum_{i=1}^n x_i^* x_i \Big\|. \]
+Clearly this holds with $\lambda''=1$ and this is the best constant.  So $l\text{-}I[X]=1$.
+
+Following Watatani, \cite[Definition~1.2.2]{Watatani_indexcstar}, a \emph{quasi-basis} for $E$ is a finite family $(u_1,v_1), \cdots, (u_n,v_n)$ in $A\times A$ with
+\begin{equation}\label{eq:quasi-basis}
+\sum_{i=1}^n u_i E(v_ix) = \sum_{i=1}^n E(xu_i) v_i = x \qquad (x\in A).
+\end{equation}
+The \emph{index} of $E$ is $\iindex(E) = \sum_i u_i v_i$.  Then \cite[Proposition~2.6.2]{Watatani_indexcstar} shows that
+\[ E(a) \geq \|\iindex(E)\|^{-1} a \qquad (a\in A^+). \]
+Hence such a conditional expectation fits into this framework (note that in \cite{Watatani_indexcstar} we always assume that $E$ is faithful).
+
+
+\subsubsection{Finite basis}
+
+Remember that $X$ has a finite basis if there are $(u_i)_{i=1}^n$ in $X$ with $\sum_i \theta_{u_i,u_i} = \id_X$.  By comparison, notice that \eqref{eq:quasi-basis} can be re-written as
+\[ \sum_i \theta_{u_i, v_i^*}(x) = \sum_i u_i \cdot (v_i^*|x) = x, \quad
+\sum_i \theta_{v_i^*, u_i}(x^*) = \sum_i v_i^* E(u_i^*x^*) = x^* \qquad (x\in X), \]
+and so a quasi-basis has $\sum_i \theta_{u_i, v_i^*} = \id_X$ (as then taking the adjoint shows that $\sum_i \theta_{v_i^*, u_i} = \id_X$).  In fact, \cite[Lemma~2.1.6]{Watatani_indexcstar} shows that we can always suppose that $v_i = u_i^*$ and so we have a finite basis.
+
+If we have a finite basis $(u_i)_{i=1}^n$ then $\mc K_0(X) = \mc K(X) = \mc L(X)$, and so $F$ obviously extends to $\mc K(X)$.  Hence $r\text{-}I[X] = \|F(1)\|$ by Proposition~\ref{prop:RHS_ineq}.
+
+It is hence natural to also want $\overline X$ to have a finite basis.  See \cite{KW_JonesIndexBimods} for much more in this setting.
+
+
+\subsection{Imprimitivity bimodules}\label{sec:imprim}
+
+We depart from Rieffel's original definition in \cite{Rieffel_induced_Cstar} and instead follow the very readable \cite{BMS_quasimults}.  Of course, this material is by now well-covered in many sources.  A bi-Hilbertian module is a \emph{Hilbert $A$-$B$-bimodule} when we have the stronger compatibility between the two inner-products:
+\[ {}_A(x|y)\cdot z = a \cdot (y|z)_B. \]
+This automatically implies that the left $A$-action (respectively, right $B$-action) is adjointable, see \cite[Remark~1.9]{BMS_quasimults}.
+
+Let $I_A \subseteq A$ be the closed ideal generated by $\{ {}_A(x|y) : x,y\in X \}$, and $I_B \subseteq B$ the closed ideal generated by $\{ (x|y)_B : x,y\in X \}$.  This, contrary to Rieffel, we do not assume $I_A=A$ and $I_B=B$.  By \cite[Proposition~1.10]{BMS_quasimults} we have that $\mc K(X) \cong I_A$ and $\mc K(\overline X) \cong I_B$.  Furthermore, \cite[Corollary~1.11]{BMS_quasimults} shows that $\| {}_A(x|x) \| = \| (x|x)_B \|$ for each $x\in X$.  Thus in our main assumed inequality we can take $\lambda = \lambda' = 1$.
+
+See \cite[Corollary~1.28]{KW_JonesIndexBimods} for a characterisation of Imprimitivity bimodules in the main setting of this note.
+
+
+
+\section{Further constructions}
+
+We recall from e.g. \cite[Proposition~2.5]{Lance_HilbModsBook} the notion of a $*$-homomorphism being \emph{non-degenerate}.  As argued on \cite[Page~5]{Lance_HilbModsBook} when $(u_i)$ is an approximate identity for $B$, we have that $x\cdot u_i \to x$ for each $x\in X_B$.
+
+\begin{lemma}[{\cite[Proposition~2.16]{KPW_JonesIndexTheory}}]
+When ${}_AX_B$ is bi-Hilbertian, the $*$-homomorphism $\phi\colon A\to\mc L(X_B)$ is non-degenerate.
+\end{lemma}
+\begin{proof}
+By the observation about approximate identities, $A\cdot X$ is dense in $X$ for the norm from the $A$-valued inner-product.  Hence also for the norm from the $B$-valued inner product, which is exactly the definition of $\phi$ begin non-degenerate.
+\end{proof}
+
+We can always extend $\phi$ by weak$^*$-weak$^*$-continuity to a $*$-homomorphism $\phi^{**} \colon A^{**} \to \mc K(X)^{**}$.  To do this, we first use that $\mc L(X)$ is the multiplier algebra of $\mc K(X)$, and that $M(C) \subseteq C^{**}$ for any $C^*$-algebra $C$.  Thus $\phi$ can be considered as a $*$-homomorphism $A \to \mc K(X)^{**}$, and then we take the normal extension.  Then $\phi^{**}$ will be unital, as $\phi$ is non-degenerate.
+
+Let ${}_AX_B$ have finite right numerical index, so that $F\colon \mc K(X_B) \to A$ is continuous.  Hence $F$ extends to $F^{**} \colon \mc K(X_B)^{**} \to A^{**}$.  The \emph{right index element} is $F^{**}(1) \in A^{**}$ denoted $r\text{-}\ind[X]$.  Letting $(u_\lambda)$ be a generalised basis for $X_B$, we have that $T_\lambda = \sum_{y\in u_\lambda} \theta_{y,y}$ is an increasing approximate identity for $\mc K(X_B)$ and so increases to $1$ in $\mc K(X_B)^{**}$.  Hence $r\text{-}\ind[X] = \lim_\lambda F(T_\lambda)$ and so by Proposition~\ref{prop:RHS_ineq}\ref{prop:RHS_ineq:3}, $r\text{-}I[X] = \| r\text{-}\ind[X] \|$.
+
+
+
+
+\section{Categories of bimodules}
+
+We follow \cite[Section~4]{KPW_JonesIndexTheory}.  Let $\mc A$ be a class of $C^*$-algebras.  Objects of the category $\mc H_{\mc A}$ are (right) Hilbert $C^*$-modules over elements $B\in\mc A$, endowed with a non-degenerate left action of $A\in\mc A$, say ${}_A X_B$.  The hom space is either empty, or $\hom({}_AX_B, {}_AY_B) = \mc L(X_B,Y_B)$ the adjointable linear maps, when $X,Y$ are over the same $A,B\in\mc A$.  We use the inner tensor product, so ${}_A X_B \otimes_B {}_B Y_C$.  Given $T\in\mc L(X_B, X'_B)$ we can form $T\otimes\id_Y$ which is adjointable.
+
+Any $B\in\mc A$ gives $\iota_B = {}_B B_B \in \mc H_{\mc A}$ in the obvious way, and ${}_AX_B \otimes \iota_B \cong X$ canonically.  We also have $\iota_A \otimes_A {}_AX_B \cong X$ as the left action is assumed non-degenerate.
+
+Notice that $\mc H_{\mc A}$ is not quite a tensor 2-$C^*$-category, because $\id_X\otimes T$ need not exist.  However, if we look at elements $T\in\mc L(X_B,X_B')$ which commute with the left $A$ action, then $\id_X\otimes T$ will exist, see Proposition~\ref{prop:action_other_side}.  Write ${}_{\mc A}\mc H_{\mc A}$ for this category with morphism bimodule maps.
+
+We can also introduce a ``weak-closure'' of this: we have the same objects, but take the weak closure of $\mc K(X_B, Y_B)$ in a suitable bidual-like construction.  See \cite[Proposition~4.2]{KPW_JonesIndexTheory} for a clearer statement.\footnote{But be aware that the proof of this proposition seems to end midway through the given proof: I think the last two paragraphs should not be in the proof, but rather the main body of the text.}
+
+We can now introduce the notion of a \emph{conjugate} following \cite{LR_Theory_dimension}.  We state this just for ${}_{\mc A}\mc H_{\mc A}$.  Given ${}_AX_B$, a conjugate is ${}_BY_A$ if there are $R\in {}_A\mc L_B(B, Y\otimes_A X)$ and $\overline R \in {}_B\mc L_A(A, X\otimes_B Y)$ which satisfy the conjugate equations
+\[ (\overline R^*\otimes I_X) (I_X\otimes R) = I_X, \qquad
+(R^*\otimes I_Y)(I_Y\otimes \overline R) = I_Y. \]
+To interpret these, we repeatedly use that $X \otimes_B B \cong X$, and so forth.
+
+To avoid the weak completions, we shall just state results under slightly stronger hypotheses.  Following \cite[Definition~2.23]{KPW_JonesIndexTheory} we say that a bi-Hilbertian $X$ is of \emph{finite right index} when $X$ if of finite right numerical index, and $r\text{-}\ind[X] \in M(A)$.  (Recall that by definition, this element is only in $A^{**}$ in general.)  Similarly \emph{finite left index} and \emph{finite index} if both.
+
+When $X$ is of finite index, we find that $\overline X$ is a conjugate of $X$, with intertwiners
+\[ \overline R^* (x\otimes\overline y) = {}_A(x|y), \qquad
+R^*(\overline x\otimes y) = (x|y)_B. \]
+See \cite[Theorem~4.4]{KPW_JonesIndexTheory}.
+
+There is a converse, \cite[Theorem~4.13]{KPW_JonesIndexTheory}.  Let $X_B$ be a right Hilbert $C^*$-module over $B$, and suppose there is a non-degenerate $\phi \colon A \to {}_AX_B$, so $X$ is an $A$-$B$-bimodule (but not assumed bi-Hilbertian).  Suppose that $Y$ is a conjugate object, with intertwiners $R,\overline R$.  We can then define
+\[ {}_A(x|a\cdot y) = \overline{R}^* (\theta_{x,y}\otimes I_Y) \overline R(a^*)
+\qquad (a\in A, x,y\in X). \]
+This gives an $A$-valued inner-product making $X$ bi-Hilbertian, of finite index.  Once we have this structure, $Y$ is bi-unitarily equivalent to $\overline X$, with the intertwiners taking the above form.
+
+So a characterisation of Imprimitivity bimodules (aka ``Strong Morita Equivalence'') see \cite[Corollary~4.14]{KPW_JonesIndexTheory}.
+
+
+
+
+
+% \subsection{Example of conditional expectations}
+
+% We return to the example from Section~\ref{sec:eg_ce}, that of a conditional expectation $E\colon A\to B\subseteq A$.  Assume now that $A$ is unital.  We consider ${}_AX_B = A$ with $(x|y)_B = E(x^*y)$.  Then $\theta_{x,y}(z) = x\cdot (y|z)_B = x E(y^*z)$.  PROBLEM: Really hard to describe $\theta_{x,y}$ in a concrete way!
+
+
+
+
+
+
+\appendix
+
+\section{Results on Hilbert modules}
+
+I don't know a reference for the following.
+
+\begin{lemma}\label{lem:positive_finite_ranks}
+Let $X_B$ be a Hilbert $C^*$-module over $B$.  For $T\in \mc K_0(X_B)$ we have that $T^*T = \sum_{i=1}^n \theta_{z_i, z_i}$ for some $z_i$ in $X$.
+\end{lemma}
+\begin{proof}
+Compare \url{https://mathoverflow.net/questions/488971}.  Let $T = \sum_{i=1}^n \theta_{x_i, y_i}$, so that $T^*T = \sum_{i,j} \theta_{y_i \cdot (x_i|x_j), y_j}$.
+
+Consider the matrix $((x_i|x_j))_{i,j} \in M_n(B)$.  Given $(a_i)_{i=1}^n$ in $B$,
+\[ \sum_{i,j} a_i^* (x_i|x_j) a_j = \Big( \sum_i x_i\cdot a_i \Big| \sum_j x_j\cdot a_j \Big) \geq 0, \]
+so by \cite[Lemma~IV.3.2]{TakesakiI}, the matrix is positive in $M_n(B)$.  Let $R\in M_n(B)$ be the positive square-root, so $(x_i|x_j) = (R^*R)_{i,j} = \sum_k (R_{i,k})^* R_{k,j}$.  Thus
+\[ T^*T = \sum_{i,j,k} \theta_{y_i \cdot R^*_{i,k} R_{k,j}, y_j}
+= \sum_{i,j,k} \theta_{y_i \cdot R^*_{i,k}, y_j\cdot R_{k,j}^*}
+= \sum_k \theta_{z_k, z_k}, \]
+here setting $z_k = \sum_i y_i \cdot R_{k,i}^*$.
+\end{proof}
+
+Again, I am not aware of explicit reference for the following.  The idea of this proof is motivated by Lance's book \cite{Lance_HilbModsBook}.
+
+\begin{proposition}\label{prop:action_other_side}
+Let $T\in\mc L(Y_C, Y'_C)$ commute with the left action of $B$ on ${}_BY_C$ and ${}_BY'_C$.  Then $\id_X\otimes T \in \mc L({}_AX \otimes_B Y_C, {}_AX \otimes_B Y'_C)$ with adjoint $\id_X\otimes T^*$.
+\end{proposition}
+\begin{proof}
+Let $x_1,\cdots,x_n \in X$ and $y_1,\cdots,y_n \in Y$, and let $x = ((x_i|x_j))_{i,j} \in M_n(B)$.  By \cite[Lemma~4.2]{Lance_HilbModsBook}, $x$ is positive; let $b \in M_n(B)$ be a square-root.  Consider $u = \sum_i x_i\otimes y_i \in X\otimes_B Y$, so
+\begin{align*}
+\big\| (\id_X\otimes T)u \big\|^2
+&= \Big\| \sum_{i,j} (x_i\otimes Ty_i|x_j\otimes Ty_j) \Big\| 
+= \Big\| \sum_{i,j} (Ty_i|(x_i|x_j) \cdot Ty_j) \Big\|  \\
+&= \Big\| \sum_{i,j,k} (Ty_i | b^*_{k,i} b_{k,j} \cdot Ty_j )  \Big\|
+= \Big\| \sum_{i,j,k} (T( b_{k,i}\cdot y_i) | T( b_{k,j} \cdot y_j) )  \Big\|
+\end{align*}
+here using that $T$ commutes with the right $B$-action.  This is of the form $(Tv|Tv)$ and by \cite[Proposition~1.2]{Lance_HilbModsBook} we have that $(Tv|Tv) \leq \|T\|^2 (v|v)$.  Hence
+\begin{align*}
+\big\| (\id_X\otimes T)u \big\|^2
+&\leq \|T\|^2 \Big\| \sum_{i,j,k} (b_{k,i}\cdot y_i | b_{k,j} \cdot y_j )  \Big\|
+= \|T\|^2 \|u\|^2,
+\end{align*}
+by reversing the previous calculation.  Hence $\id_X\otimes T$ is bounded, and a routine calculation shows that it is adjointable, with adjoint $\id_X\otimes T^*$.
+\end{proof}
+  
+
+\subsection{Contragradient modules}\label{sec:contragradient}
+
+Given ${}_AX_B$ we let $\overline X$ be the contragradient vector space, which becomes a $B$-$A$-bimodule for actions
+\[ b \cdot \overline{x} \cdot a = \overline{ a^*\cdot x\cdot b^* }
+\qquad (a\in A, b\in B, x\in X). \]
+We define the inner-products by
+\[ {}_B(\overline x|\overline y) = (x|y)_B, \quad
+(\overline x|\overline y)_A = {}_A(x|y) \qquad (x,y\in A). \]
+Notice that this definition correctly makes, for example, the right $B$-valued inner-product conjugate linear in the 1st variable.
+
+Clearly if ${}_AX_B$ is bi-Hilbertian then so is ${}_B\overline X_A$, as the norms will still be equivalent.
+
+We consider finite-rank operators on $\overline X$:
+\begin{equation} \label{eq:finite_rank_contra}
+\theta_{\overline x,\overline y} \colon \overline  z \mapsto \overline x \cdot (\overline y|\overline z)_A = \overline x \cdot {}_A(y|z) = \overline{ {}_A(y|z)^* \cdot x }
+= \overline{ {}_A(z|y)\cdot x }.
+\end{equation}
+
+%\bibliographystyle{plain}
+%\bibliography{my.bib}
+\input{finite-index.bbl}
+
+\end{document}
+
