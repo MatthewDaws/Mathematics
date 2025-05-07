@@ -90,10 +90,6 @@ The book works with the category of Banach spaces and bounded linear maps.  Ofte
 
 \begin{definition}
 A \emph{doolittle diagram} $\overline{X}$ of Banach spaces is a commutative diagram
-% \[ \begin{CD} \Delta\overline X @>\delta_0>> X_0 \\
-%   @V\delta_1VV   @VV\sigma_0V \\
-%   X_1 @>>\sigma_1> \Sigma\overline X
-% \end{CD} \]
 \[ \begin{tikzcd}
 \Delta\overline X \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \arrow[d, "\sigma_0"] \\
 X_1 \arrow[r, "\sigma_1"'] & \Sigma\overline X
@@ -117,34 +113,299 @@ X_1 \arrow[r, "\sigma_1"'] \arrow[rrd, bend right, "g_1"'] & \Sigma\overline X \
 && Z    
 \end{tikzcd} \]
 
-Using the universal properties, it is 
+Using the universal properties, it is routine to show that pullbacks and pushouts, if they exist, are unique up to isomorphism.
 
 There are canonical constructions of these objects in the category of Banach spaces.  Firstly, for the pullback, define
-\[ D\overline X = \{ (\xi_0,\xi_1) : \sigma_0(\xi_0) = \sigma_1(\xi_1) \} \subseteq X_0 \oplus_\infty X_1. \]
-As $\sigma_0,\sigma_1$ are continuous, $D\overline X$ is a closed subspace of $X_0 \oplus_\infty X_1$.
-Let $\delta_i \colon D\overline X \to X_i$ be the natural projection maps restricted to $D\overline X$, which are contractions satisfying $\sigma_0\delta_0 = \sigma_1\delta_1$.
-Given $Y, f_0, f_1$ as above, by definition, $(f_0(\xi), f_1(\xi)) \in D\overline X$ for each $\xi\in Y$ and so we obtain a map $u \colon Y \to D\overline X$.  Notice that $\|u(\xi)\| = \max( \|f_0(\xi)\|, \|f_1(\xi)\| ) \leq \|\xi\| \max(\|f_0\|, \|f_1\|)$ so $u$ is bounded, and contractive if $f_0,f_1$ both are.  Then $\delta_i u = f_i$ and so $u$ satisfies the required property.  Clearly $u$ is unique.  Hence $\Delta\overline X$ is isomorphic (but perhaps not isometric) with $D\overline X$.
+\[ D(\sigma_0,\sigma_1) = D\sigma = \{ (\xi_0,\xi_1) : \sigma_0(\xi_0) = \sigma_1(\xi_1) \} \subseteq X_0 \oplus_\infty X_1. \]
+As $\sigma_0,\sigma_1$ are continuous, $D\sigma$ is a closed subspace of $X_0 \oplus_\infty X_1$.
+Let $\delta_i \colon D\sigma \to X_i$ be the natural projection maps restricted to $D\sigma$, which are contractions satisfying $\sigma_0\delta_0 = \sigma_1\delta_1$.
+Given $Y, f_0, f_1$ as above, by definition, $(f_0(\xi), f_1(\xi)) \in D\sigma$ for each $\xi\in Y$ and so we obtain a map $u \colon Y \to D\sigma$.  Notice that $\|u(\xi)\| = \max( \|f_0(\xi)\|, \|f_1(\xi)\| ) \leq \|\xi\| \max(\|f_0\|, \|f_1\|)$ so $u$ is bounded, and contractive if $f_0,f_1$ both are.  Then $\delta_i u = f_i$ and so $u$ satisfies the required property.  Clearly $u$ is unique.  Hence $\Delta\overline X$ is isomorphic (but perhaps not isometric) with $D\sigma$.
 
 For the pushout, set
-\[ P\overline X = X_0 \oplus_1 X_1 / \overline\lin\{ (\delta_0(\xi), -\delta_1(\xi)) : \xi\in \Delta\overline X \}. \]
-Notice that the linear span is superfluous, but the closure is needed, in general.  We shall abuse notation and suppress the quotient when writing elements of $P\overline X$.
+\[ P(\delta_0,\delta_1) = P\delta = X_0 \oplus_1 X_1 / \overline\lin\{ (\delta_0(\xi), -\delta_1(\xi)) : \xi\in \Delta\overline X \}. \]
+Notice that the linear span is superfluous, but the closure is needed, in general.  We shall abuse notation and suppress the quotient when writing elements of $P\delta$.
 Let $\sigma_0(\xi_0) = (\xi_0,0)$ for $\xi_0\in X_0$, and simiarly define $\sigma_1(\xi_1) = (0,\xi_1)$ for $\xi_1\in X_1$; both of these operators are contractions.  For $\xi\in \Delta\overline X$ we see that $\sigma_0 \delta_0(\xi) = (\delta_0(\xi), 0) = (0, \delta_1(\xi)) = \sigma_1 \delta_1(\xi)$ by the choice of the subspace to quotient by.
 Given $Z, g_0, g_1$ as above, define $v(\xi_0, \xi_1) = g_0(\xi_0) + g_1(\xi_1)$.  This is well-defined as $v(\delta_0(\xi), -\delta_1(\xi)) = g_0\delta_0(\xi) - g_1\delta_1(\xi) = 0$ for each $\xi\in\Delta\overline X$.  As we use the $1$-norm, $\|v\| \leq \max(\|g_0\|, \|g_1\|)$ and so $v$ is contractive if $g_0,g_1$ both are.  Finally, $v \sigma_0 = g_0$ and $v\sigma_1 = g_1$, 
-and again $v$ is unique with these properties.  Hence $P\overline X$ is the pushout, and so $\Sigma\overline X$ is isomorphic to $P\overline X$.
+and again $v$ is unique with these properties.  Hence $P\delta$ is the pushout, and so $\Sigma\overline X$ is isomorphic to $P\delta$.
 
-Of course, for a doolittle diagram\footnote{Why the name?} we require compatibility between the constructions, in that we simultaneously have a pushout and a pullback.  We now classify these, up to isomorphism.
+\begin{remark}
+We introduce some occasionally useful notation.  Given a subspace $E\subseteq X_0\oplus X_1$ let $E' = \{ (\xi_0, -\xi_1) : (\xi_0,\xi_1) \in E \}$.  (It will be clear from context that this can never be confused with a commutant.)  As the map $(\eta_0,\eta_1) \mapsto (\eta_0, -\eta_1)$ is an isometry, $(E')' = E$, and $E$ is closed if and only if $E'$ is closed.
+\end{remark}
 
-\begin{proposition}
-Let $(X_0, X_1)$ be a pair of Banach spaces.  Given a closed subspace $E$ of $X_0 \oplus_\infty X_1$, setting $\delta_i \colon E \to X_i$ to be the restriction of the natural projection, we have that $\Delta\overline X = E$, and $\Sigma\overline X = P\overline X$ the pushout of $(\delta_0,\delta_1)$, gives a doolittle diagram.  Up to isomorphism, all doolittle diagrams arise in this way.
+Of course, for a doolittle diagram we require compatibility between the constructions, in that we simultaneously have a pushout and a pullback.  The following is useful; we have not found an easily stated analogue starting with $P\delta$.
+  
+\begin{lemma}\label{lem:when_doolittle_from_pullback}
+Let $X_0, X_1, F$ be Banach spaces, and $\sigma_i\colon X_i\to F$ operators, for $i=12$.  The diagram
+\[ \begin{tikzcd}
+D\sigma \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \arrow[d, "\sigma_0"] \\
+X_1 \arrow[r, "\sigma_1"'] & F
+\end{tikzcd} \]
+is a doolittle diagram if and only if $\sigma_0(X_0) + \sigma_1(X_1) = F$.
+\end{lemma}
+\begin{proof}
+By construction, $D\sigma = \{ (\xi_0,\xi_1) : \sigma_0(\xi_0) = \sigma_1(\xi_1) \}$ with $\delta_i$ being the projection maps.  As $D\sigma$ is closed, also $(D\sigma)'$ is closed, and so the space we quotient by in forming $P\delta$ is $\{ (\delta_0(\xi), -\delta_1(\xi)) : \xi\in D\sigma \} = \{ (\xi_0, -\xi_1) : (\xi_0,\xi_1) \in D\sigma \} = (D\sigma)'$, no closure required.
+
+Let $F_0 = \sigma_0(X_0) + \sigma_1(X_1) \subseteq F$ a subspace (perhaps not closed) and define $\theta \colon F_0 \to P\delta =  X_0 \oplus_1 X_1 / (D\sigma)'$ by $\theta(\sigma_0(\xi_0) + \sigma_1(\xi_1)) = (\xi_0, \xi_1) + (D\sigma)'$.  This is well-defined, as
+\begin{align*}
+\sigma_0(\xi_0) + \sigma_1(\xi_1) = \sigma_0(\eta_0) + \sigma_1(\eta_1)
+\quad&\Leftrightarrow\quad  \sigma_0(\xi_0-\eta_0) = -\sigma_1(\xi_1-\eta_1)  \\
+&\Leftrightarrow\quad  (\xi_0-\eta_0, \xi_1-\eta_1) \in (D\sigma)'   \\
+&\Leftrightarrow\quad  (\xi_0-\eta_0, \xi_1-\eta_1) = 0 \text{ in } P\delta   \\
+&\Leftrightarrow\quad  (\xi_0, \xi_1) = (\eta_0, \eta_1) \text{ in } P\delta.
+\end{align*}
+So also $\theta$ is injective, and so by the Open Mapping Theorem, $\theta$ is an isomorphism if and only if $F_0$ is closed (as always $\theta$ is onto).  Let $\sigma'_i \colon X_i \to P\delta$ be the canonical maps, so $\sigma_0'(\xi_0) = (\xi_0,0) = \theta(\sigma_0(\xi_0))$ and similarly $\sigma_1' = \theta\circ\sigma_1$.  The result follows, as the required isomorphism between $F$ and $P\delta$ must be $\theta$.
+\end{proof}
+
+\begin{remark}\label{rem:when_equal_in_sigma}
+As useful observation of this proof is that in $P\delta$, we have $(\xi_0,0) = (0,\xi_1)$ if and only if $(\xi_0, -\xi_1) \in (D\sigma)'$, if and only if $(\xi_0, \xi_1) \in D\sigma$.
+\end{remark}
+
+We now classify doolittle diagrams, up to isomorphism.
+
+\begin{proposition}\label{prop:classification_doolittle}
+Let $(X_0, X_1)$ be a pair of Banach spaces.  Given a closed subspace $E$ of $X_0 \oplus_\infty X_1$, setting $\delta_i \colon E \to X_i$ to be the restriction of the natural projection, we have that $\Delta\overline X = E$, and $\Sigma\overline X = P\delta$, gives a doolittle diagram.  Up to isomorphism, all doolittle diagrams arise in this way.
 \end{proposition}
 \begin{proof}
-If $\overline X$ is a doolittle diagram, then $\Delta\overline X$ is isomorphic to $D\overline X$, the pullback of $(\sigma_0, \sigma_1)$.  By construction, $E = D\overline X$ is a closed subspace of $X_0 \oplus_\infty X_1$, and as above, $\Sigma\overline X$ is isomorphic to $P\overline X$.
+If $\overline X$ is a doolittle diagram, then $\Delta\overline X$ is isomorphic to $D\sigma$, the pullback of $(\sigma_0, \sigma_1)$.  By construction, $E = D\sigma$ is a closed subspace of $X_0 \oplus_\infty X_1$, and as above, $\Sigma\overline X$ is isomorphic to $P\delta$.
 
-Conversely, given such an $E$, we construct $P\overline X$.  To show we have a doolittle diagram, it remains to show that $E, \delta_0, \delta_1$ gives the pullback of $(\sigma_0, \sigma_1)$, these maps coming from the construction of $P\overline X$.  Notice that for any $\xi = (\xi_0, \xi_1) \in E$, we have $(\delta_0(\xi), \delta_1(\xi)) = (\xi_0, \xi_1) = \xi$.  It follows that $E_0 := \{ (\delta_0(\xi), -\delta_1(\xi)) : \xi\in\Delta\overline X\}$ is a closed subspace, as the map $(\eta_0,\eta_1) \mapsto (\eta_0, -\eta_1)$ is an isometry.  By the construction of $P\overline X$, we now see that $\sigma_0(\xi_0) = \sigma_1(\xi_1)$ if and only if $(\xi_0, -\xi_1) \in E_0$.  That is, if and only if $(\xi_0,\xi_1) \in E$.  We conclude that $D\overline X = E$ isometrically, and the natural maps giving the pullback are $\delta_0,\delta_1$.  Hence we do obtain a doolittle diagram.
+Conversely, given such an $E$, we construct $P\delta$.  To show we have a doolittle diagram, it remains to show that $E, \delta_0, \delta_1$ gives the pullback of $(\sigma_0, \sigma_1)$, these maps coming from the construction of $P\delta$.
+%Notice that for any $\xi = (\xi_0, \xi_1) \in E$, we have $(\delta_0(\xi), \delta_1(\xi)) = (\xi_0, \xi_1) = \xi$.  It follows that $E_0 := \{ (\delta_0(\xi), -\delta_1(\xi)) : \xi\in\Delta\overline X\}$ is a closed subspace, as the map $(\eta_0,\eta_1) \mapsto (\eta_0, -\eta_1)$ is an isometry.  By the construction of $P\delta$, we now see that $\sigma_0(\xi_0) = \sigma_1(\xi_1)$ if and only if $(\xi_0, -\xi_1) \in E_0$.  That is, if and only if $(\xi_0,\xi_1) \in E$.  We conclude that $D\sigma = E$ isometrically, and the natural maps giving the pullback are $\delta_0,\delta_1$.  Hence we do obtain a doolittle diagram.
+This follows immediately from Lemma~\ref{lem:when_doolittle_from_pullback}.
 \end{proof}
 
 Notice that the doolittle diagrams we construct from closed subspaces $E$ have all the map $\delta_i, \sigma_i$ contractive.
 If we work in the category of contractive maps, then this proposition classifies doolittle diagrams up to isometric isomorphism.  However, in general, we are free to renorm $D\overline X$ and $\Sigma\overline X$.  I believe that the comment at the bottom of Page~9 of \cite{KP_InterpolationFunctorsDuality} means that we only consider doolittle diagrams coming from this construction, and not renormings.
+
+Henceforth, we shall assume doolittle diagrams arise \emph{isometrically} in this way, so $\Delta\overline X = D\sigma$ isometrically, and $\Sigma\overline X = P\delta$ isometrically.  By Proposition~\ref{prop:classification_doolittle}, we are free to choose $\Delta\overline X$ to be any closed subspace of $X_0\oplus_\infty X_1$, and then $\Sigma\overline X$ is uniquely determined.
+
+Recall from e.g. \cite{BL_Interpolation_Sps_Book} that a \emph{Banach couple} is a pair of Banach spaces $(X_0, X_1)$ which are both realised as subspaces of a Hausdorff topological vector space.  This allows us to form the intersect $X_0 \cap X_1$ and sum $X_0 + X_1$ which then have natural norms
+\[ \|\xi\|_{X_0 \cap X_1} = \max\big( \|\xi\|_{X_0}, \|\xi\|_{X_1} \big), \quad
+\|\xi\|_{X_0+X_1} = \inf\{ \|\xi_0\|_{X_0} + \|\xi_1\|_{X_1} : \xi = \xi_0+\xi_1 \}. \]
+Thus by definition $X_0 \cap X_1 \subseteq X_0 \oplus_\infty X_1$.  Let $\sigma_i \colon X_i \to X_0 + X_1$ be the inclusion maps, and notice that given $(\xi_0,\xi_1) \in X_0 \oplus_\infty X_1$, we have $\sigma_0(\xi_0) = \sigma_1(\xi_1)$ exactly when $\xi_0 = \xi_1$ in $X_0 \cap X_1$.  Hence $X_0 \cap X_1$ is the pullback of $(\sigma_0, \sigma_1)$ and Lemma~\ref{lem:when_doolittle_from_pullback} now shows that
+\[ \begin{tikzcd}
+X_0 \cap X_1 \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \arrow[d, "\sigma_0"] \\
+X_1 \arrow[r, "\sigma_1"'] & X_0+X_1
+\end{tikzcd} \]
+is a doolittle diagram.
+
+Notice that here $\sigma_0, \sigma_1$ are injective.  We shall see that this characterises Banach couples, but first we shall investigate the kernel of $\sigma_i$ in the general case.
+
+\begin{lemma}\label{lem:kernels_maps}
+For any doolittle diagram, we have that $\delta_0$ is injective on the kernel of $\delta_1$, and $\delta_0(\ker \delta_1) = \ker \sigma_0$.  Similarly $\delta_1(\ker \delta_0) = \ker \sigma_1$.
+\end{lemma}
+\begin{proof}
+As $D\sigma$ is the pullback, we see immediately that
+\[ \ker\delta_1 = \{ (\xi_0,\xi_1) \in D\sigma : \xi_1 = 0 \}
+= \{ (\xi_0, 0) : \sigma_0(\xi_0) = 0 \}. \]
+Obviously, if $(\xi_0,0) \in \ker\delta_1$ then $\delta_0((\xi_0,0)) = \xi_0$ and this is zero only when $(\xi_0,0) = 0$, so $\delta_0$ is injective on $\ker\delta_1$, and $\delta_0(\ker\delta_1) = \{ \xi_0\in X_0 : \sigma_0(\xi_0)=0 \} = \ker\sigma_0$.
+\end{proof}
+
+\begin{proposition}\label{prop:when_couple}
+A doolittle diagram arises from a Banach couple if and only if $\sigma_0,\sigma_1$ are both injective.
+\end{proposition}
+\begin{proof}
+As observed, Banach couples give rise to doolittle diagrams with $\sigma_0,\sigma_1$ injective.  Conversely, if $\sigma_0,\sigma_1$ are injective, then by the lemma, also $\delta_0,\delta_1$ are injective.  As $\sigma_0,\sigma_1$ are injective, we may use $\Sigma\overline X$ as our ambient space to form $X_0\cap X_1$ and $X_0 + X_1$.  Then $\xi_0 = \xi_1$ exactly when $(\xi_0,0) = (0,\xi_1)$ in $\Sigma\overline X$, that is, $(\xi_0,\xi_1) \in D\sigma$, see Remark~\ref{rem:when_equal_in_sigma}.  Hence $X_0 \cap X_1 = D\sigma$, isometrically.  The norm on $\Sigma\overline X = P\delta$ is then, for $\xi = \xi_0+\xi_1$,
+\begin{align*}
+\|\xi\| &= \inf\{ \|\eta_0\|_{X_0} + \|\eta_1\|_{X_1} : (\xi_0-\eta_0, \xi_1-\eta_1) \in (D\sigma)' \} \\
+&= \inf\{ \|\eta_0\|_{X_0} + \|\eta_1\|_{X_1} : \xi_0-\eta_0 = \eta_1-\xi_1 \} \\
+&= \inf\{ \|\eta_0\|_{X_0} + \|\eta_1\|_{X_1} : \xi = \xi_0 + \xi_1 = \eta_0 + \eta_1 \}
+= \|\xi\|_{X_0 + X_1}.
+\end{align*}
+Thus $\Sigma\overline X = X_0+X_1$ isometrically.
+\end{proof}
+
+We shall call a doolittle \emph{classical} if it arises from a Banach couple.
+
+\begin{remark}
+Notice that $\sigma_0(\xi_0)=0$ if and only if $(\xi_0,0)=0 \in P\delta$ if and only if $(\xi_0,0) \in \Delta\overline X$.  Hence $\sigma_0$ is injective exactly when $(\xi_0,0) \in \Delta\overline X$ implies $\xi_0=0$ (this also follows from Lemma~\ref{lem:kernels_maps}).
+As $\Delta\overline X \subseteq X_0\oplus_\infty X_1$ is a subspace, this is equivalent to $(\xi_0,\xi_1), (\xi_0',\xi_1) \in \Delta\overline X$ implies $\xi_0=\xi_0'$.
+
+In this case, we can hence define $\alpha_1 \colon \delta_1(\Delta\overline X) \to X_0; \delta_1((\xi_0,\xi_1)) = \xi_1 \mapsto \xi_0$.  Thus actually $\alpha_1$ maps to $\delta_0(\Delta\overline X)$.  If $\sigma_1$ is injective, we have $\alpha_0 \colon \delta_0(\Delta\overline X) \to \delta_1(\Delta\overline X); \delta_0((\xi_0,\xi_1)) = \xi_0 \mapsto \xi_1$.  When both $\sigma_i$ are injective, the maps $\alpha_0, \alpha_1$ are mutual inverses: indeed, they are just the identity map on $X_0 \cap X_1$.
+
+A standard way to obtain a Banach couple is to start with a contractive injection $\iota \colon X_0 \to X_1$.  Then $X_0 \cap X_1 = X_0$ isometrically, and $X_0 + X_1 = X_1$ isometrically, and the resulting doolittle diagram is
+\[ \begin{tikzcd}
+\Delta = X_0  \arrow[r, "="] \arrow[d, "\iota"'] & X_0 \arrow[d, "\iota"] \\
+X_1 \arrow[r, "="'] & \Sigma = X_1
+\end{tikzcd} \]
+
+As a generalisation, consider a closed operator $T \colon X_0 \supseteq D(T) \to X_1$ and let $\Delta$ be the graph of $T$.  Then $\delta_0(\Delta) = D(T)$ and $\delta_0$ is clearly injective, so by Lemma~\ref{lem:kernels_maps}, $\sigma_1$ is injective.  Conversely, if $\sigma_1$ is injective, then we have $\alpha_0 \colon \delta_0(\Delta\overline X) \to \delta_1(\Delta\overline X)$ and its graph is equal to $\Delta\overline X$.
+\end{remark}
+
+By definition, in a doolittle diagram, we have that $\sigma_0\circ \delta_0 = \sigma_1 \circ \delta_1$.  Call this map $j \colon \Delta\overline X \to \Sigma\overline X$.  We say that $\overline X$ is \emph{non-trivial} when $j\not=0$.
+
+\begin{proposition}\label{prop:when_j_zero}
+We have that $\overline X$ is trivial, that is, $j=0$, if and only if $\Delta = Y_0 \oplus_\infty Y_1$ for closed subspaces $Y_i \subseteq X_i$.
+\end{proposition}
+\begin{proof}
+If $\Delta = Y_0 \oplus_\infty Y_1$ then given any $\xi=(\xi_0,\xi_1)\in \Delta$ we see that also $(\xi_0,0) \in \Delta$ and so $(\xi_0,0) = 0$ in $\Sigma = P\delta$, see Remark~\ref{rem:when_equal_in_sigma}.  So $j(\xi) = \sigma_0 \delta_0(\xi)=0$.
+
+Conversely, if $j=0$ then let $Y_0 = \{ \xi_0\in X_0 : (\xi_0,0)\in \Delta \}$ and similarly define $Y_1$.  Given $\xi=(\xi_0,\xi_1)\in \Delta$, as $0 = j(\xi) = \sigma_0(\xi_0) = (\xi_0,0) \in P\delta$ we have that $(\xi_0,0) \in \Delta$, and similarly $(0,\xi_1)\in\Delta$.  Hence $(\xi_0,\xi_1) \in Y_0 \oplus_\infty Y_1$, as claimed.
+\end{proof}
+
+Notice that in this case, $\Sigma = X_0/Y_0 \oplus_1 X_1/Y_1$.
+
+To close this section, we discuss dual spaces.  By Hahn--Banach, we identify $(\Delta\overline X)^*$ with $X_0^* \oplus_1 X_1^* / \Delta^\perp$ and $(\Sigma\overline X)^*$ with $(\Delta')^\perp \subseteq X_0^* \oplus_\infty X_1^*$.  Furthermore, notice that $\sigma_i^* \colon (\Delta')^\perp \to X_i^*$ is the natural projection, and that $\delta_0^*(\xi_0^*) = (\xi_0^*,0) + \Delta^\perp$, and similarly for $\delta_1^*$.
+
+\begin{proposition}\label{prop:dual}
+Given a doolittle diagram, also
+\[ \begin{tikzcd}
+(\Sigma\overline X)^* = (\Delta')^\perp  \arrow[r, "\sigma_0^*"] \arrow[d, "\sigma_1^*"'] & X_0^* \arrow[d, "\delta_0^*"]\\
+X_1^* \arrow[r, "\delta_1^*"'] & (\Delta\overline X)^* = X_0^* \oplus_1 X_1^* / \Delta^\perp
+\end{tikzcd} \]
+\end{proposition}
+\begin{proof}
+The only thing to check is that $X_0^* \oplus_1 X_1^* / \Delta^\perp = P(\sigma_0^*, \sigma_1^*)$.  This will follow if we show that $\Delta^\perp = ((\Delta')^\perp)'$.  However, $(\xi_0^*, \xi_1^*) \in ((\Delta')^\perp)'$ exactly when $\ip{(\xi_0^*, -\xi_1^*)}{(\xi_0,\xi_1)}=0$ for all $(\xi_0,\xi_1) \in \Delta'$, equivalently, $\ip{(\xi_0^*, -\xi_1^*)}{(\xi_0,-\xi_1)}=0$ for each $(\xi_0,\xi_1)\in \Delta$, that is, $(\xi_0^*, \xi_1^*) \in \Delta^\perp$, as the minus signs cancel.
+\end{proof}
+
+We now see the usefulness of doolittle diagrams: these are closed under duality, but by Proposition~\ref{prop:when_couple}, we see that the dual doolittle diagram arises from a Banach couple only when $\delta_0^*$ and $\delta_1^*$ are injective, which is equivalent to $\delta_0,\delta_1$ both having dense range.  Furthermore, even if the dual is a Banach couple, the bidual is only a couple when $\sigma_0^*, \sigma_1^*$ have (norm) dense range, which seems even more restrictive.
+
+With this in mind, we note that the bidual is
+\[ \begin{tikzcd}
+  ((\Delta')^\perp)')^\perp = \Delta^{\perp\perp} \arrow[r, "\delta_0^{**}"] \arrow[d, "\delta_1^{**}"'] & X_0^{**} \arrow[d, "\sigma_0^{**}"]\\
+  X_1^{**} \arrow[r, "\sigma_1^{**}"] & X_0^{**} \oplus_1 X_1^{**} / (\Delta')^{\perp\perp}
+\end{tikzcd} \]
+The argument in the proof of the lemma shows that $((\Delta')^\perp)' = \Delta^\perp$ from which the identifications arise.  Notice that Hahn--Banach shows that $\Delta^{\perp\perp}$ is isometric to $\Delta^{**}$, and similarly $\Sigma(\overline X^{**}) = X_0^{**} \oplus_1 X_1^{**} / (\Delta')^{\perp\perp}$ is isometric to $(\Sigma\overline X)^{**}$.
+
+
+\subsection{Morphisms}
+
+\begin{definition}
+A morphism of doolittle diagrams $\overline X \to \overline Y$ is a pair $T=(T_0, T_1)$ where $T_i\in\mc B(X_i, Y_i)$ making the following diagram commute:
+\[ \begin{tikzcd} & X_0 \arrow[r, "T_0"] & Y_0 \arrow[rd, "\sigma_0"] \\
+\Delta\overline X \arrow[ru, "\delta_0"] \arrow[rd, "\delta_1"'] & & &  \Sigma\overline Y \\
+& X_1 \arrow[r, "T_1"'] & Y_1 \arrow[ru, "\sigma_1"'] \end{tikzcd} \]
+\end{definition}
+
+\begin{lemma}\label{lem:when_morphism}
+A pair $T=(T_0,T_1)$ is a morphism if and only if $(\xi_0,\xi_1)\in\Delta\overline X$ implies that $(T_0(\xi_0), T_1(\xi_1)) \in \Delta\overline Y$.
+\end{lemma}
+\begin{proof}
+Let $(\xi_0,\xi_1)\in\Delta\overline X$, so $\sigma_0 T_0 \delta_0(\xi_0,\xi_1) = (T_0(\xi_0), 0)$ and simiarly $\sigma_1 T_1 \delta_1(\xi_0,\xi_1) = (0, T_1(\xi_1))$.  Hence $T$ is a morphism exactly when $(T_0(\xi_0), T_1(\xi_1)) \in \Delta\overline Y$, see Remark~\ref{rem:when_equal_in_sigma}.
+\end{proof}
+
+Given a morphism $T$, write $\Delta T \colon \Delta\overline X \to \Delta\overline Y$ for the map given by the lemma.  We also obtain a map $\Sigma T \colon \Sigma\overline X \to \Sigma\overline Y$ as, given $(\xi_0,\xi_1) \in (\Delta\overline X)'$ also $(T_0(\xi_0), T_1(xi_1)) \in (\Delta\overline Y)'$, and hence we obtain a well-defined map $\Sigma T$.  We define the obvious norm,
+\[ \|T\| = \max( \|T_0\|, \|T_1\| ). \]
+When $\overline X$ arises from a Banach couple, the condition becomes that $T_0(\xi) = T_1(\xi)$ for each $\xi\in X_0 \cap X_1$, and hence we recover the usual notion of a morphism between couples, isometrically.
+
+\begin{proposition}
+The morphism space $\overline X \to\overline Y$ is the pullback of the following diagram
+\[ \begin{tikzcd}
+  & \mc B(X_0, Y_0) \arrow[d, "\alpha_0"] \\
+  \mc B(X_1,Y_1) \arrow[r, "\alpha_1"']  & \mc B(\Delta\overline X, \Sigma\overline Y)
+\end{tikzcd} \]
+where $\alpha_0(T_0)$ is the map $\Delta\overline X \to \Sigma\overline Y; (\xi_0,\xi_1) \mapsto (T_0(\xi_0), 0)$, and similarly for $\alpha_1$.
+\end{proposition}
+\begin{proof}
+As before, the pullback is $\{ (T_0,T_1) : \alpha_0(T_0) = \alpha_1(T_1) \} \subseteq \mc B(X_0,Y_0) \oplus_\infty \mc B(X_1,Y_1)$.  We have that $\alpha_0(T_0) = \alpha_1(T_1)$ if and only if $(T_0(\xi_0),0) = (0,T_1(\xi_1))$ in $\Sigma\overline Y$ for each $(\xi_0,\xi_1)\in\Delta\overline X$, equivalently, $(T_0(\xi_0), T_1(\xi_1))\in\Delta\overline Y$.  So the result follows from Lemma~\ref{lem:when_morphism}.
+\end{proof}
+
+From Lemma~\ref{lem:when_morphism} it is clear that if $T\colon \overline X \to \overline Y$ and $S\colon \overline Y\to\overline Z$ then $S\circ T = (S_0\circ T_0, S_1\circ T_1)$ is a morphism $\overline X \to \overline Z$.
+
+By taking adjoints of all the operators involved, compare Proposition~\ref{prop:dual}, it follows immediately that if $(T_0, T_1) \colon \overline X\to\overline Y$ then $(T_0^*, T_1^*) \colon \overline Y^* \to \overline X^*$.
+
+Write $\kappa_X \colon X \to X^{**}$ for the canonical map from a Banach space to its bidual.
+
+\begin{proposition}
+The pair $(\kappa_{X_0}, \kappa_{X_1})$ is a morphism $\overline X \to \overline X^{**}$.
+\end{proposition}
+\begin{proof}
+As above, we have $\Delta(\overline X^{**}) = (\Delta\overline X)^{\perp\perp}$.  The result is now immediate.
+\end{proof}
+
+
+
+\subsection{Constructions}
+
+With reference to Lemma~\ref{lem:kernels_maps}, set $K_i\overline X = \ker(\sigma_i) \subseteq X_i$, so also $K_i\overline X = \delta_i(\ker \delta_{i+1})$ where ``$i+1$'' is interpretted modulo $2$.  The following is immediate.
+
+\begin{lemma}
+Let $\Delta (K\overline X) = K_0\overline X \oplus_\infty K_1\overline X \subseteq X_0\oplus_\infty X_1$.  The following is a doolittle diagram, say $K\overline X$,
+\[ \begin{tikzcd} \Delta(K\overline X) \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & K_0\overline X \arrow[d] \\
+K_1\overline X \arrow[r] & 0
+\end{tikzcd} \]
+where $\delta_i$ is the projection map, as usual, and the other maps are zero.
+\end{lemma}
+
+For the following, compare Proposition~\ref{prop:when_j_zero}.
+
+\begin{proposition}\label{prop:Ki_and_j}
+For any doolittle diagram, we have that
+\[ K_0\overline X = \{ \xi_0\in X_0 : (\xi_0,0) \in \Delta\overline X \}, \quad
+K_1\overline X = \{ \xi_1\in X_1 : (0,\xi_1) \in \Delta\overline X \} \]
+and that $\ker j = \Delta(K\overline X) \subseteq \Delta\overline X$.
+\end{proposition}
+\begin{proof}
+Again using Remark~\ref{rem:when_equal_in_sigma}, we see that $\sigma_0(\xi_0)=0$ if and only if $(\xi_0,0)=0$ in $P\delta$, if and only if $(\xi_0,0) \in \Delta\overline X$.  Similarly for $K_1\overline X$.
+
+As $j(\xi_0,\xi_1) = \sigma_0\delta_0(\xi_0,\xi_1) = (\xi_0,0)$ we see that $j(\xi_0,\xi_1) = 0$ exactly when $(\xi_0,0) \in \Delta$.  Using that also $j=\sigma_1\delta_1$, we see that
+\[ \ker j = \{ (\xi_0,\xi_1)\in \Delta : (\xi_0,0), (0,\xi_1) \in \Delta \}
+= K_0\overline X \oplus_\infty K_1\overline X, \]
+as claimed.
+\end{proof}
+
+The following shows how to convert a doolittle diagram into a Banach couple.
+
+\begin{proposition}\label{prop:quotient_by_kernel}
+For any doolittle diagram, the following is also a doolittle diagram $\overline X / K\overline X$
+\[ \begin{tikzcd}
+\Delta\overline X / \Delta(K\overline X) \arrow[r, "\hat\delta_0"] \arrow[d, "\hat\delta_1"'] & X_0 / K_0\overline X\arrow[d, "\hat\sigma_0"] \\
+X_1 / K_1\overline X \arrow[r, "\hat\sigma_1"'] & \Sigma\overline X
+\end{tikzcd}
+\]
+Here $\hat\delta_i$ is the quotient operator $\xi+K\overline X \mapsto \delta_i(\xi) + K_i\overline X$, and $\hat\sigma_i$ is the quotient operator $\xi_i + K_i\overline X \mapsto \sigma_i(\xi_i)$.  Further, the maps $\hat\sigma_i$ are injective, and so this diagram comes from a Banach couple.
+\end{proposition}
+\begin{proof}
+As $\Delta(K\overline X) \subseteq \Delta\overline X$, the quotient exists, and as $\delta_i(\Delta(K\overline X)) \subseteq K_i\overline X$, the maps $\hat\delta_i$ are well-defined.  As $K_i\overline X = \ker\sigma_i$, similarly the maps $\hat\sigma_i$ are well-defined.  Clearly $\hat\sigma_i$ is injective.
+
+Set $Y_i = X_i / K_i\overline X$ and $\Delta\overline Y = \{ (\xi_0', \xi_1') \in Y_0 \oplus_\infty Y_1 : \hat\sigma_0(\xi_0') = \hat\sigma_1(\xi_1') \}$.  As $\hat\sigma_0(Y_0) + \hat\sigma_1(Y_1) = \sigma_0(X_0) + \sigma_1(X_1) = \Sigma\overline X$, by Lemma~\ref{lem:when_doolittle_from_pullback}, the following is a doolittle diagram:
+\[ \begin{tikzcd}
+\Delta\overline Y \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & Y_0 \arrow[d, "\hat\sigma_0"] \\
+Y_1 \arrow[r, "\hat\sigma_1"'] & \Sigma\overline X
+\end{tikzcd} \]
+We see that for $(\xi_0,\xi_1)\in \Delta\overline X$ we have that $(\xi_0+K_0\overline X, \xi_1+K_1\overline X) \in \Delta\overline Y$, and the kernel of the resulting map $\Delta\overline X \to \Delta\overline Y$ is $K_0\overline X \oplus K_1\overline X = K\overline X$, while clearly this map is onto.  So $\Delta\overline X / \Delta(K\overline X) = \Delta\overline Y$ as Banach spaces.
+Furthermore, in $\Delta\overline X / \Delta(K\overline X)$,
+\begin{align*}
+\| (\xi_0,\xi_1) + \Delta(K\overline X) \|
+&= \inf\{ \max(\|\eta_0\|, \|\eta_1\|) : (\xi_0 - \eta_0, \xi_1-\eta_1) \in \Delta(K\overline X) \} \\
+&= \inf\{ \max(\|\eta_0\|, \|\eta_1\|) : \xi_i - \eta_i \in K_i\overline X \} \\
+&= \max( \|\xi_0+K_0\overline X\|, \|\xi_1+K_1\overline X\| ),
+\end{align*}
+as when computing the infimum we can let $\eta_0$ and $\eta_1$ vary independently.  Hence $\Delta\overline X / \Delta(K\overline X) = \Delta\overline Y$ isometrically, which completes the proof.
+\end{proof}
+
+By Proposition~\ref{prop:classification_doolittle}, a doolittle diagram only really depends upon $\Delta\overline X$, and there is some choice in $X_0,X_1$.  In fact, given $\Delta\overline X$ we set $X_i^\circ$ to be the closure of the image of $\delta_i$.  Then by construction, $\Delta\overline X$ is a closed subspace of $X_0^\circ \oplus_\infty X_1^\circ$, let $\Delta\overline X^\circ$ be this subspace, and so we obtain the doolittle diagram $\overline X^\circ$, namely
+\[ \begin{tikzcd}
+\Delta\overline X^\circ \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0^\circ \arrow[d, "\sigma_0"] \\
+X_1^\circ \arrow[r, "\sigma_1"'] & \Sigma\overline X^\circ = X_0^\circ \oplus_1 X_1^\circ / (\Delta\overline X)'
+\end{tikzcd} \]
+The inclusion $X_0^\circ \oplus_1 X_1^\circ \to X_0\oplus_1 X_1$ drops to a map $\Sigma\overline X^\circ \to \Sigma\overline X$ which is isometric (as the space we quotient by is ``the same'').
+
+[\footnote{Some stuff in the book about ``short exact sequences'' and quotients which we'll treat below in the category section.}]
+
+By Lemma~\ref{lem:kernels_maps}, $\sigma_0,\sigma_1$ are injective if and only if $\delta_0,\delta_1$ are injective, so Proposition~\ref{prop:when_couple} shows that $\overline X^\circ$ comes from a Banach couple if and only if $\overline X$ does.
+
+\begin{proposition}
+We have that $K\overline X = K(\overline X^\circ)$, and that $(\overline X / K\overline X)^\circ$ is equal to $\overline X^\circ / (K\overline X)$.
+\end{proposition}
+\begin{proof}
+Proposition~\ref{prop:Ki_and_j} gives that $K_0\overline X = \{ \xi_0\in X_0 : (\xi_0,0) \in \Delta\overline X \}$ and so $K_0\overline X \subseteq X_0^\circ$, and similarly for $K_1$.  Hence $K\overline X = K(\overline X^\circ)$.
+
+Recall the doolittle diagram for $\overline X / K\overline X$ from Proposition~\ref{prop:quotient_by_kernel}.  As $\hat\delta_i$ is the quotient of $\delta_i$, we see that $(X_i / K_i\overline X)^\circ$ is the closure of $X_i^\circ / K_i\overline X$, but this is already closed as $K_i\overline X = K_i\overline X^\circ$.  It follows that $(\overline X / K\overline X)^\circ = \overline X^\circ / (K\overline X)$.
+\end{proof}
+
+
+\subsection{The resulting category}
+
+Write $\msf{Ban}$ for the category of Banach spaces, $\msf{BanCp}$ for the category of Banach couples, and $\msf{BanDL}$ for the category of doolittle diagrams.  As discussed above, $\msf{BanCp}$ is a subcategory of $\msf{BanDL}$, in fact, it is a full subcategory.
+
+We continue to be a little vague about whether we consider all (bounded) morphisms, or just contractive morphisms.  We will make comments about when the difference is important.
+
+We consider $\msf{BanDL}$ and the subcategory $\msf{BanCp}$.
+The zero object in both these categories is the diagram with $X_0 = X_1 = \{0\}$ and the zero maps.  The zero morphisms are the pairs $(0,0)$.
+
+\begin{proposition}
+Let $T=(T_0,T_1)$ be a morphism $\overline X \to \overline Y$.  Let $\Delta K$ TODO once we think about ``regular'' things I think!
+\end{proposition}
 
 
 \bibliographystyle{plain}
