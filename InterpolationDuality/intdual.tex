@@ -68,6 +68,7 @@
 \newcommand{\G}{\mathbb{G}}
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\op}{{\operatorname{op}}}
+\newcommand{\coker}{\operatorname{coker}}
 
 \begin{document}
 
@@ -312,13 +313,36 @@ The pair $(\kappa_{X_0}, \kappa_{X_1})$ is a morphism $\overline X \to \overline
 As above, we have $\Delta(\overline X^{**}) = (\Delta\overline X)^{\perp\perp}$.  The result is now immediate.
 \end{proof}
 
+Finally, we give another view of morphisms, showing that they can naturally be thought of as morphism of the doolittle diagrams.
+
+\begin{proposition}\label{prop:morphisms_of_diagrams}
+A morphism $\overline X \to \overline Y$ may be described by four maps $\Delta T, T_0, T_1, \Sigma T$ making the following diagram commute:
+\[ \begin{tikzcd}
+\Delta\overline X \arrow[r, "\delta_0"] \arrow[d, "\delta_1"']
+\arrow[rrr, bend left, "\Delta T"]
+& X_0 \arrow[d, "\sigma_0"] \arrow[rrr, bend left, "T_0"]
+& &
+\Delta\overline Y \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & Y_0 \arrow[d, "\sigma_0"]
+\\
+X_1 \arrow[r, "\sigma_1"'] \arrow[rrr, bend right, "T_1"']
+& \Sigma\overline X \arrow[rrr, bend right, "\Sigma T"']
+& &
+Y_1 \arrow[r, "\sigma_1"'] & \Sigma\overline Y
+\end{tikzcd}
+\]
+\end{proposition}
+\begin{proof}
+Given a morphism, we obtain maps $\Delta T$ and $\Sigma T$.  By construction, given $\xi = (\xi_0,\xi_1) \in \Delta\overline X$, we have $T_0 \delta_0(\xi) = T_0(\xi_0) = \delta_0 \Delta T(\xi)$.  Similarly for $\Sigma T$, and by definition of a morphism, the rest of the diagram commutes.
+
+Conversely, given four maps making the diagram commute, we have by definition that $(T_0,T_1)$ forms a morphism.  Then that $T_0 \circ \delta_0 = \Delta_0 \circ \Delta T$ and similarly for $T_1$, we see that $\Delta T$ is uniquely determined by $(T_0,T_1)$.  Similarly for $\Sigma T$.
+\end{proof}
 
 
 \subsection{Constructions}
 
 With reference to Lemma~\ref{lem:kernels_maps}, set $K_i\overline X = \ker(\sigma_i) \subseteq X_i$, so also $K_i\overline X = \delta_i(\ker \delta_{i+1})$ where ``$i+1$'' is interpretted modulo $2$.  The following is immediate.
 
-\begin{lemma}
+\begin{lemma}\label{lem:defn_K}
 Let $\Delta (K\overline X) = K_0\overline X \oplus_\infty K_1\overline X \subseteq X_0\oplus_\infty X_1$.  The following is a doolittle diagram, say $K\overline X$,
 \[ \begin{tikzcd} \Delta(K\overline X) \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & K_0\overline X \arrow[d] \\
 K_1\overline X \arrow[r] & 0
@@ -373,7 +397,9 @@ Furthermore, in $\Delta\overline X / \Delta(K\overline X)$,
 as when computing the infimum we can let $\eta_0$ and $\eta_1$ vary independently.  Hence $\Delta\overline X / \Delta(K\overline X) = \Delta\overline Y$ isometrically, which completes the proof.
 \end{proof}
 
-By Proposition~\ref{prop:classification_doolittle}, a doolittle diagram only really depends upon $\Delta\overline X$, and there is some choice in $X_0,X_1$.  In fact, given $\Delta\overline X$ we set $X_i^\circ$ to be the closure of the image of $\delta_i$.  Then by construction, $\Delta\overline X$ is a closed subspace of $X_0^\circ \oplus_\infty X_1^\circ$, let $\Delta\overline X^\circ$ be this subspace, and so we obtain the doolittle diagram $\overline X^\circ$, namely
+By Proposition~\ref{prop:classification_doolittle}, a doolittle diagram only really depends upon $\Delta\overline X$, and there is some choice in $X_0,X_1$.  Indeed, we can always embed $X_i$ into larger spaces, leave $\Delta\overline X$ unchanged, and form a (larger) pullback to complete the diagram.  There is a construction to, in some sense, get around this problem.
+
+Given $\Delta\overline X$ we set $X_i^\circ$ to be the closure of the image of $\delta_i$.  Then by construction, $\Delta\overline X$ is a closed subspace of $X_0^\circ \oplus_\infty X_1^\circ$, let $\Delta\overline X^\circ$ be this subspace, and so we obtain the doolittle diagram $\overline X^\circ$, namely
 \[ \begin{tikzcd}
 \Delta\overline X^\circ \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0^\circ \arrow[d, "\sigma_0"] \\
 X_1^\circ \arrow[r, "\sigma_1"'] & \Sigma\overline X^\circ = X_0^\circ \oplus_1 X_1^\circ / (\Delta\overline X)'
@@ -382,7 +408,7 @@ The inclusion $X_0^\circ \oplus_1 X_1^\circ \to X_0\oplus_1 X_1$ drops to a map 
 
 [\footnote{Some stuff in the book about ``short exact sequences'' and quotients which we'll treat below in the category section.}]
 
-By Lemma~\ref{lem:kernels_maps}, $\sigma_0,\sigma_1$ are injective if and only if $\delta_0,\delta_1$ are injective, so Proposition~\ref{prop:when_couple} shows that $\overline X^\circ$ comes from a Banach couple if and only if $\overline X$ does.
+By Lemma~\ref{lem:kernels_maps}, $\sigma_0,\sigma_1$ are injective if and only if $\delta_0,\delta_1$ are injective, so Proposition~\ref{prop:when_couple} shows that $\overline X^\circ$ comes from a Banach couple if and only if $\overline X$ does.  Recall that a Banach couple is \emph{regular} if $X_0\cap X_1$ is dense in both $X_0$ and $X_1$.  Thus the construction of $\overline X^\circ$ can be thought of as ensuring a regularity-like condition.
 
 \begin{proposition}
 We have that $K\overline X = K(\overline X^\circ)$, and that $(\overline X / K\overline X)^\circ$ is equal to $\overline X^\circ / (K\overline X)$.
@@ -404,9 +430,102 @@ We consider $\msf{BanDL}$ and the subcategory $\msf{BanCp}$.
 The zero object in both these categories is the diagram with $X_0 = X_1 = \{0\}$ and the zero maps.  The zero morphisms are the pairs $(0,0)$.
 
 \begin{proposition}
-Let $T=(T_0,T_1)$ be a morphism $\overline X \to \overline Y$.  Let $\Delta K$ TODO once we think about ``regular'' things I think!
+Let $T=(T_0,T_1)$ be a morphism $\overline X \to \overline Y$.  We define $\ker T$ by setting $\Delta(\ker T) = \{ (\xi_0,\xi_1)\in\Delta\overline X : T_0(\xi_0)=0, T_1(\xi_1)=0 \}$.
+Treat $\Delta(\ker T)$ as a subspace of $X_0\oplus_\infty X_1$, so that we obtain doolittle diagram $\ker T$.  With $\iota$ given by the formal identity, we obtain a morphism $\ker T \to \overline X$ which is the categorical kernel of $T$.
 \end{proposition}
+\begin{proof}
+Let $\iota_i \colon X_i\to X_i$ be the identity, so $\iota$ is a morphism as $\Delta(\ker T) \subseteq \Delta\overline X$ by definition.
+Suppose we have a diagram
+\[ \begin{tikzcd}
+  \overline X \arrow[rd, "T"] \\
+  \overline Z \arrow[u, "S"] \arrow[r, "0"'] & \overline Y
+\end{tikzcd} \]
+We show the existence of a unique morphism $\phi\circ \overline Z \to \ker T$ with $S = \iota\circ \phi$.  As $T_i\circ S_i = 0$, given $(\eta_0,\eta_1) \in \Delta\overline Z$ we have that $(S_0(\eta_0), S_1(\eta_1)) \in \Delta\overline X$ as $S$ is a morphism, and $(T_0S_0(\eta_0), T_1S_1(\eta_1))= (0,0)$ so $(S_0(\eta_0), S_1(\eta_1)) \in \Delta(\ker T)$.  Thus we can consider $\phi_i$ as $S_i$, giving a morphism $\phi\colon\overline Z \to \ker T$ with $\iota\circ\phi=S$.  As $\iota$ is the formal identity, clearly $\phi$ is uniquely defined.
+\end{proof}
 
+As kernels are unique (up to isomorphism) we don't have any choice in this construction: in particular, notice that we only change the $\Delta$ space to form the kernel.  We can similarly construct cokernels.
+
+\begin{proposition}
+Let $T=(T_0,T_1)$ be a morphism $\overline X \to \overline Y$.  We define $\coker T$ to be the doolittle diagram with pair of spaces $Q_i = Y_i / \overline{T_i(X_i)}$ with natural quotient maps $q_i \colon Y_i \to Q_i$, and $\Delta(\coker T)$ to be the closure of the image of $\Delta Y$, namely the closure of $\{ (q_0(\xi_0), q_1(\xi_1)) : (\xi_0,\xi_1)\in\Delta Y \}$.  Then $q$ gives a morphism $\overline Y \to \coker T$, and this gives the categorical cokernel.
+\end{proposition}
+\begin{proof}
+By construction, $q$ is a morphism, and $q \circ T = 0$.  Let $\overline Q'$ be a doolittle diagram with morphism $q' \colon Y \to \overline Q'$ with $q' \circ T = 0$.  We show the existence of a unique morphism $\phi \colon \coker T \to \overline Q'$ with $\phi\circ q = q'$.
+
+Define $\phi_i \colon q_i(\xi_i) = q_i'(\xi_i)$, which is well-defined, as if $q_i(\xi_i)=0$ then $\xi_i\in \overline {T_i(X_i)}$ and so $q_i'(\xi_i)=0$.  Given $(\xi_0,\xi_1) \in \Delta\overline Y$, we have that $(q_0(\xi_0), q_1(\xi_1)) \in \Delta(\coker T)$ and $(\phi_0q_0(\xi_0), \phi_1q_1(\xi_1)) = (q'_0(\xi_0), q'_1(\xi_1)) \in \Delta\overline Q'$.  By density of such elements in $\Delta(\coker T)$, it follows that $\phi$ is a morphism, with $\phi\circ q = q'$ by construction.  As $q_i$ is onto, $\phi_i$ is uniquely defined, and so $\phi$ is unique.
+\end{proof}
+
+This construction suggests a general notion of a ``quotient''.  First we need the notion of a ``subspace''.
+
+\begin{definition}
+Let $\overline X$ be a doolittle diagram.  A \emph{subspace} of $\overline X$ is $\overline Y$ where $Y_i\subseteq X_i$ are closed subspaces, and $\Delta Y \subseteq \Delta X$.
+
+The \emph{quotient} is $\overline Q = \overline X / \overline Y$ where $Q_i = X_i / Y_i$ and $\Delta\overline Q$ is the closure of the image of $\Delta\overline X$ in $Q_0 \oplus_\infty Q_1$.  Let $q_i \colon X_i \to Q_i$ be the quotient map.
+\end{definition}
+
+\begin{proposition}
+The subspace and quotient form doolittle diagrams, with the inclusion $\overline Y\to\overline X$ a morphism, and $q=(q_0,q_1) \colon \overline X \to \overline X/\overline Y$ a morphism.
+\end{proposition}
+\begin{proof}
+The subspace is by definition a doolittle diagram, and obviously the inclusion gives a morphism, as $\Delta Y \subseteq \Delta X$ by definition.  Again, the quotient is doolittle by definition, and $\Delta Q$ is defined so that $q$ forms a morphism.
+\end{proof}
+
+The quotient construction has the following universal property.
+
+\begin{proposition}\label{prop:factor_through_quotient}
+Let $\overline Y$ be a subspace of $\overline X$.  The quotient $Q = \overline X / \overline Y$ has the property that a morphism $T\colon \overline X \to \overline Z$ factors through $q\colon \overline X \to \overline Q$ if and only if $Y_i \subseteq \ker(T_i)$ for $i=0,1$.
+\end{proposition}
+\begin{proof}
+If we have $T$ and $S\colon\overline Q\to\overline Z$ with $S\circ q = T$, then for $\xi_i\in Y_i$ we have that $T(\xi_i) = S_i q_i(\xi_i) = 0$, so $Y_i \subseteq \ker(T_i)$.  Conversely, if this holds, then define $S_i \colon X_i / Y_i \to Z_i$ by $S_i(\xi_i + Y_i) = T_i(\xi_i)$, which is well-defined by the assumption that $T_i(Y_i) = \{0\}$.  Then $\|S_i\| \leq \|T_i\|$, and for $(\xi_0,\xi_1) \in \Delta\overline X$ we see that $(\xi_0+Y_0, \xi_1+Y_1) \in \Delta\overline Q$ and $(S_0(\xi_0+Y_0), S_1(\xi_1+Y_1)) = (T_0(\xi_0), T_1(\xi_1)) \in \Delta\overline Z$.  By the density of such elements in $\Delta\overline Q$, we conclude that $S$ is a morphism.  By construction, $S\circ q = T$.
+\end{proof}
+
+\begin{remark}
+It seems strange that the quotient does not depend upon $\Delta\overline Y$.  However, firstly, the factorisation property given by Proposition~\ref{prop:factor_through_quotient} only holds because $\Delta Q$ is minimal, in the sense that the image of $\Delta X$ is dense.  Indeed, let $\overline Q'$ be a doolittle diagram with $Q'_i = X_i / Y_i$ but $\Delta\overline Q'$ arbitrary with $\Delta \overline Q' \supseteq \overline Q$.  The quotient map $q'$ is still a morphism.  However, $q \colon \overline X \to \overline Q$ does not factor through $q'$ unless $\Delta\overline Q' \subseteq \Delta\overline Q$, that is, actually $\overline Q' = \overline Q$.
+
+Of course, perhaps requiring some extra property from $T$ would give an alternative formulation of this factorisation property, using a different notion of quotient.
+\end{remark}
+
+\begin{remark}
+Continuing, consider how we might somehow use $\Delta\overline Y$ in defining the quotient.  It is perhaps natural to try to use $\Delta\overline X / \Delta\overline Y$ as the pullback.  This would mean a doolittle diagram like
+\[ \begin{tikzcd}
+\Delta\overline X / \Delta\overline Y \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0/Y_0 \arrow[d, "\sigma_0"] \\
+X_1/Y_1 \arrow[r, "\sigma_1"'] & P\delta
+\end{tikzcd}
+\qquad\text{where}\quad
+P\delta = (X_0/Y_0 \oplus_1 X_1/Y_1) / \{ (\delta_0\xi,-\delta_1\xi) : \xi\in \Delta\overline X / \Delta\overline Y \}^{\overline{\phantom{\{\ }}^{\|\cdot\|}}. \]
+Of course, this means that $\Delta\overline X / \Delta\overline Y \cong D\sigma$ where
+\begin{align*}
+D\sigma &= \{ (\xi_0+Y_0, \xi_1+Y_1) : \sigma_0(\xi_0+Y_0) = \sigma_1(\xi_1+Y_1) \}  \\
+&= \{ (\xi_0+Y_0, -\xi_1+Y_1) : (\xi_0+Y_0, -\xi_1+Y_1) = 0 \in P\delta \} \\
+&= \{ (\delta_0\xi,\delta_1\xi) : \xi\in \Delta\overline X / \Delta\overline Y \}^{\overline{\phantom{\{\ }}^{\|\cdot\|}}.
+\end{align*}
+We need to decide on the maps $\delta_i$, for which the natural choice seems to be $\delta_0 \colon \overline X / \overline Y \to X_0/Y_0; (\xi_0,\xi_1)+\overline Y \mapsto \xi_0+Y_0$, and similarly for $\delta_1$.  These are well-defined, for if $(\xi_0,\xi_1)\in\overline Y$ then $\xi_0\in Y_0$ and $\xi_1\in Y_1$.  For these choices,
+\[ D\sigma = \{ (\xi_0+Y_0, \xi_1+Y_1) : (\xi_0,\xi_1)\in\Delta\overline X \}^{\overline{\phantom{\{\ }}^{\|\cdot\|}}, \]
+and we're back to $\Delta\overline Q$.
+
+Thus an arbitrary $\Delta\overline Y$ doesn't seem to work.  For which $\Delta\overline Y$ do we have that $\Delta\overline X / \Delta\overline Y \cong \Delta\overline Q$?  The natural map to use is $\Delta\overline X / \Delta\overline Y \ni (\xi_0,\xi_1) + \Delta\overline Y \mapsto (\xi_0+Y_0, \xi_1+Y_0) \in \Delta\overline Q$, which has dense range.  It is injective if and only if $(\xi_0,\xi_1)\in\Delta\overline X \cap Y_0\oplus Y_1 \subseteq \Delta\overline Y$, but as $\Delta\overline Y \subseteq \Delta\overline X$ and $Y_0\oplus Y_1$, we must have equality:
+\[ \Delta\overline Y = \Delta\overline X \cap Y_0\oplus Y_1. \]
+We also require the map to be bounded below (ideally, to be an isometry).  For $(\xi_0,\xi_1) \in \Delta\overline X$, the two norms are
+\begin{gather*}
+\|(\xi_0,\xi_1)\|_{\Delta\overline X / \Delta\overline Y}
+= \inf\big\{ \max(\|\xi_0-\eta_0\|, \|\xi_1-\eta_1\|) : (\eta_0,\eta_1) \in \Delta\overline X \cap Y_0\oplus Y_1 \big\}, \\
+\|(\xi_0,\xi_1)\|_{\Delta\overline Q}
+= \inf\big\{ \max(\|\xi_0-\eta_0\|, \|\xi_1-\eta_1\|) : (\eta_0,\eta_1) \in Y_0\oplus Y_1 \big\}.
+\end{gather*}
+It seems hard to give a characterisation of when this happens.
+
+However, in the special case that $\Delta\overline X \cap Y_0\oplus Y_1 = Y_0 \oplus Y_1$, we obviously do have equality.  This occurs for $K\overline X$, see Lemma~\ref{lem:defn_K}.
+\end{remark}
+
+A related issue occurs with our notion of a subspace: do we also have that $\Sigma Y \to \Sigma X$ is an ``inclusion'', which we might take to mean, ``is isometric''?  This is again rare, because while we always have a contractive map (compare Proposition~\ref{prop:morphisms_of_diagrams}), for $(\xi_0,\xi_1) \in Y_0\oplus Y_1$ we have
+\begin{gather*}
+\|(\xi_0,\xi_1)\|_{\Sigma\overline Y}
+= \inf\big\{\max(\|\xi_0-\eta_0\|, \|\xi_1-\eta_1\|) : (\eta_0,\eta_1)\in \Delta\overline Y\big\}, \\
+\|(\xi_0,\xi_1)\|_{\Sigma\overline X}
+= \inf\big\{\max(\|\xi_0-\eta_0\|, \|\xi_1-\eta_1\|) : (\eta_0,\eta_1)\in \Delta\overline X\big\}.
+\end{gather*}
+A case when we do have equality is in the construction of $\overline X^\circ$, for the boring reason that there $\Delta\overline X^\circ = \Delta\overline X$.
+
+In \cite[Section~I.2]{KP_InterpolationFunctorsDuality}, the notion of a \emph{short exact sequence} of couples is defined, by requiring that all the four maps (Proposition~\ref{prop:morphisms_of_diagrams}) are exact at each point of the diagram.  While the constructions $\overline X\mapsto K\overline X$ and $\overline X \mapsto \overline X^\circ$ give examples, it seems hard to think of other cases, given the discussion just made.
 
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
