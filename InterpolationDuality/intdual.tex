@@ -424,10 +424,10 @@ Recall the doolittle diagram for $\overline X / K\overline X$ from Proposition~\
 
 Write $\msf{Ban}$ for the category of Banach spaces, $\msf{BanCp}$ for the category of Banach couples, and $\msf{BanDL}$ for the category of doolittle diagrams.  As discussed above, $\msf{BanCp}$ is a subcategory of $\msf{BanDL}$, in fact, it is a full subcategory.
 
-We continue to be a little vague about whether we consider all (bounded) morphisms, or just contractive morphisms.  We will make comments about when the difference is important.
+We continue to be a little vague about whether we consider all (bounded) morphisms, or just contractive morphisms.  We will make comments about when the difference is important.  The following was written by the author, but much more detail can be found in \cite[Section~IV.3]{KP_InterpolationFunctorsDuality}.
 
 We consider $\msf{BanDL}$ and the subcategory $\msf{BanCp}$.
-The zero object in both these categories is the diagram with $X_0 = X_1 = \{0\}$ and the zero maps.  The zero morphisms are the pairs $(0,0)$.
+The zero object in both these categories is the diagram with $X_0 = X_1 = \{0\}$ and the zero maps.  The zero morphisms are the pairs $(0,0)$.  The following is essentially \cite[Proposition~IV.3.2]{KP_InterpolationFunctorsDuality}.
 
 \begin{proposition}
 Let $T=(T_0,T_1)$ be a morphism $\overline X \to \overline Y$.  We define $\ker T$ by setting $\Delta(\ker T) = \{ (\xi_0,\xi_1)\in\Delta\overline X : T_0(\xi_0)=0, T_1(\xi_1)=0 \}$.
@@ -443,7 +443,7 @@ Suppose we have a diagram
 We show the existence of a unique morphism $\phi\circ \overline Z \to \ker T$ with $S = \iota\circ \phi$.  As $T_i\circ S_i = 0$, given $(\eta_0,\eta_1) \in \Delta\overline Z$ we have that $(S_0(\eta_0), S_1(\eta_1)) \in \Delta\overline X$ as $S$ is a morphism, and $(T_0S_0(\eta_0), T_1S_1(\eta_1))= (0,0)$ so $(S_0(\eta_0), S_1(\eta_1)) \in \Delta(\ker T)$.  Thus we can consider $\phi_i$ as $S_i$, giving a morphism $\phi\colon\overline Z \to \ker T$ with $\iota\circ\phi=S$.  As $\iota$ is the formal identity, clearly $\phi$ is uniquely defined.
 \end{proof}
 
-As kernels are unique (up to isomorphism) we don't have any choice in this construction: in particular, notice that we only change the $\Delta$ space to form the kernel.  We can similarly construct cokernels.
+As kernels are unique (up to isomorphism) we don't have any choice in this construction: in particular, notice that we only change the $\Delta$ space to form the kernel.  We can similarly construct cokernels; once one unpacks the construction, this agrees with \cite[Proposition~IV.3.2]{KP_InterpolationFunctorsDuality}.
 
 \begin{proposition}
 Let $T=(T_0,T_1)$ be a morphism $\overline X \to \overline Y$.  We define $\coker T$ to be the doolittle diagram with pair of spaces $Q_i = Y_i / \overline{T_i(X_i)}$ with natural quotient maps $q_i \colon Y_i \to Q_i$, and $\Delta(\coker T)$ to be the closure of the image of $\Delta Y$, namely the closure of $\{ (q_0(\xi_0), q_1(\xi_1)) : (\xi_0,\xi_1)\in\Delta Y \}$.  Then $q$ gives a morphism $\overline Y \to \coker T$, and this gives the categorical cokernel.
@@ -526,6 +526,27 @@ A related issue occurs with our notion of a subspace: do we also have that $\Sig
 A case when we do have equality is in the construction of $\overline X^\circ$, for the boring reason that there $\Delta\overline X^\circ = \Delta\overline X$.
 
 In \cite[Section~I.2]{KP_InterpolationFunctorsDuality}, the notion of a \emph{short exact sequence} of couples is defined, by requiring that all the four maps (Proposition~\ref{prop:morphisms_of_diagrams}) are exact at each point of the diagram.  While the constructions $\overline X\mapsto K\overline X$ and $\overline X \mapsto \overline X^\circ$ give examples, it seems hard to think of other cases, given the discussion just made.
+
+
+\subsection{Interpolation}
+
+Classically, given a Banach couple $(X_0, X_1)$, an interpolation space is simply a Banach space $X$ with $X_0\cap X_1 \subseteq X \subseteq X_0+X_1$ (continuous inclusions) such that for every morphism $T$, there is a bounded operator $X\to X$ extending the map on $X_0\cap X_1$.
+
+For a doolittle diagram, the map $j\colon \Delta\overline X \to \Sigma\overline X$ need not be injective, and so the notion of interpolation is more subtle.  For doolittle diagrams $\overline X, \overline Y$ write $\mc B(\overline X,\overline Y)$ for the morphism space, and write $\mc B(\overline X)$ for $\mc B(\overline X,\overline X)$.
+
+The most basis idea is simply that of a $\mc B(\overline X)$-module, equivalently, a Banach space $X$ with a homomorphism $\mc B(\overline X) \to \mc B(X)$.  As always, we have a choice as to whether this homomorphism is assumed contractive, or just bounded.  We can always re-norm $X$ to be contractive, by setting
+\[ \| x \|_0 = \sup\{ \|T\cdot x \| : T\in\mc B(\overline X), \|T\|\leq 1 \}. \]
+As $1\in\mc B(\overline X)$ acts as the identity on $X$, this norm is equivalent to the given norm.  We see that for $\|T\|\leq $, for $S\in\mc B(\overline X)$ with $\|S\|\leq 1$ also $\|ST\|\leq 1$ and so $\|T\cdot x\|_0 = \sup\{ \|ST\cdot x\| : \|S\|\leq 1 \} \leq \sup\{ \|R\cdot x\| : \|R\|\leq 1 \} = \|x\|_0$, as required to show that the module action for $\|\cdot\|_0$ is contractive.
+
+\begin{definition}\label{defn:int_space}
+Let $\overline X$ be a doolittle diagram.  We call an $\mc B(\overline X)$-module a \emph{quasi-interpolation space} for $\overline X$ if additionally there are module maps $\delta \colon \Delta\overline X \to X$ and $\sigma\colon X\to\Sigma\overline X$ with $\sigma\circ\delta = j$.  When $\delta$ has dense range, we call $X$ a \emph{$\Delta$-interpolation space}.  When $\sigma$ is injective, we call $X$ a \emph{$\Sigma$-interpolation space}.
+\end{definition}
+
+Notice that $X = \Delta\overline X$ gives a $\Delta$-interpolation space (which is only a $\Sigma$-interpolation space when $j$ is injective).  Similarly $X = \Sigma\Delta$ give a $\Sigma$-interpolation space (which is only a $\Delta$-interpolation space when $j$ is injective).
+
+If $X$ is a $\Delta$-interpolation space, then $\delta$ being a dense-range module maps shows that the $\mc B(\overline X)$-module action on $X$ is uniquely defined.  Similarly for a $\Sigma$-interpolation space.
+
+\cite{KP_InterpolationFunctorsDuality} observes that most $\Delta$-interpolation spaces are also $\Sigma$-interpolation spaces, but \cite[Example~I.3.2]{KP_InterpolationFunctorsDuality} shows that this isn't always so (an example different from $X = \Delta\overline X$).
 
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
