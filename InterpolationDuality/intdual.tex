@@ -63,6 +63,7 @@
 \newcommand{\id}{\operatorname{id}}
 
 \newcommand{\vnten}{\bar\otimes}
+\newcommand{\proten}{\widehat\otimes}
 
 \newcommand{\hh}{\widehat}
 \newcommand{\G}{\mathbb{G}}
@@ -178,7 +179,7 @@ Conversely, given such an $E$, we construct $P\delta$.  To show we have a doolit
 This follows immediately from Lemma~\ref{lem:when_doolittle_from_pullback}.
 \end{proof}
 
-Notice that the doolittle diagrams we construct from closed subspaces $E$ have all the map $\delta_i, \sigma_i$ contractive.
+Notice that the doolittle diagrams we construct from such closed subspaces $E$ have all the map $\delta_i, \sigma_i$ contractive.
 If we work in the category of contractive maps, then this proposition classifies doolittle diagrams up to isometric isomorphism.  However, in general, we are free to renorm $D\overline X$ and $\Sigma\overline X$.  I believe that the comment at the bottom of Page~9 of \cite{KP_InterpolationFunctorsDuality} means that we only consider doolittle diagrams coming from this construction, and not renormings.
 
 Henceforth, we shall assume doolittle diagrams arise \emph{isometrically} in this way, so $\Delta\overline X = D\sigma$ isometrically, and $\Sigma\overline X = P\delta$ isometrically.  By Proposition~\ref{prop:classification_doolittle}, we are free to choose $\Delta\overline X$ to be any closed subspace of $X_0\oplus_\infty X_1$, and then $\Sigma\overline X$ is uniquely determined.
@@ -292,7 +293,7 @@ Given a morphism $T$, write $\Delta T \colon \Delta\overline X \to \Delta\overli
 \[ \|T\| = \max( \|T_0\|, \|T_1\| ). \]
 When $\overline X$ arises from a Banach couple, the condition becomes that $T_0(\xi) = T_1(\xi)$ for each $\xi\in X_0 \cap X_1$, and hence we recover the usual notion of a morphism between couples, isometrically.
 
-\begin{proposition}
+\begin{proposition}\label{prop:morphisms_as_pullback}
 The morphism space $\overline X \to\overline Y$ is the pullback of the following diagram
 \[ \begin{tikzcd}
   & \mc B(X_0, Y_0) \arrow[d, "\alpha_0"] \\
@@ -433,7 +434,7 @@ We continue to be a little vague about whether we consider all (bounded) morphis
 We consider $\msf{BanDL}$ and the subcategory $\msf{BanCp}$.
 The zero object in both these categories is the diagram with $X_0 = X_1 = \{0\}$ and the zero maps.  The zero morphisms are the pairs $(0,0)$.  The following is essentially \cite[Proposition~IV.3.2]{KP_InterpolationFunctorsDuality}.
 
-\begin{proposition}
+\begin{proposition}\label{prop:kernel_DL}
 Let $T=(T_0,T_1)$ be a morphism $\overline X \to \overline Y$.  We define $\ker T$ by setting $\Delta(\ker T) = \{ (\xi_0,\xi_1)\in\Delta\overline X : T_0(\xi_0)=0, T_1(\xi_1)=0 \}$.
 Treat $\Delta(\ker T)$ as a subspace of $X_0\oplus_\infty X_1$, so that we obtain doolittle diagram $\ker T$.  With $\iota$ given by the formal identity, we obtain a morphism $\ker T \to \overline X$ which is the categorical kernel of $T$.
 \end{proposition}
@@ -447,9 +448,10 @@ Suppose we have a diagram
 We show the existence of a unique morphism $\phi\circ \overline Z \to \ker T$ with $S = \iota\circ \phi$.  As $T_i\circ S_i = 0$, given $(\eta_0,\eta_1) \in \Delta\overline Z$ we have that $(S_0(\eta_0), S_1(\eta_1)) \in \Delta\overline X$ as $S$ is a morphism, and $(T_0S_0(\eta_0), T_1S_1(\eta_1))= (0,0)$ so $(S_0(\eta_0), S_1(\eta_1)) \in \Delta(\ker T)$.  Thus we can consider $\phi_i$ as $S_i$, giving a morphism $\phi\colon\overline Z \to \ker T$ with $\iota\circ\phi=S$.  As $\iota$ is the formal identity, clearly $\phi$ is uniquely defined.
 \end{proof}
 
+It might be more notationally consistent to write $\overline{\ker T}$ or $\overline\ker T$, but it should be clear from context that if $T$ is a morphism of doolittle diagrams, then $\ker T$ is a doolittle diagram with ``inclusion'' morphism.
 As kernels are unique (up to isomorphism) we don't have any choice in this construction: in particular, notice that we only change the $\Delta$ space to form the kernel.  We can similarly construct cokernels; once one unpacks the construction, this agrees with \cite[Proposition~IV.3.2]{KP_InterpolationFunctorsDuality}.
 
-\begin{proposition}
+\begin{proposition}\label{prop:cokernel_DL}
 Let $T=(T_0,T_1)$ be a morphism $\overline X \to \overline Y$.  We define $\coker T$ to be the doolittle diagram with pair of spaces $Q_i = Y_i / \overline{T_i(X_i)}$ with natural quotient maps $q_i \colon Y_i \to Q_i$, and $\Delta(\coker T)$ to be the closure of the image of $\Delta Y$, namely the closure of $\{ (q_0(\xi_0), q_1(\xi_1)) : (\xi_0,\xi_1)\in\Delta Y \}$.  Then $q$ gives a morphism $\overline Y \to \coker T$, and this gives the categorical cokernel.
 \end{proposition}
 \begin{proof}
@@ -458,9 +460,9 @@ By construction, $q$ is a morphism, and $q \circ T = 0$.  Let $\overline Q'$ be 
 Define $\phi_i \colon q_i(\xi_i) = q_i'(\xi_i)$, which is well-defined, as if $q_i(\xi_i)=0$ then $\xi_i\in \overline {T_i(X_i)}$ and so $q_i'(\xi_i)=0$.  Given $(\xi_0,\xi_1) \in \Delta\overline Y$, we have that $(q_0(\xi_0), q_1(\xi_1)) \in \Delta(\coker T)$ and $(\phi_0q_0(\xi_0), \phi_1q_1(\xi_1)) = (q'_0(\xi_0), q'_1(\xi_1)) \in \Delta\overline Q'$.  By density of such elements in $\Delta(\coker T)$, it follows that $\phi$ is a morphism, with $\phi\circ q = q'$ by construction.  As $q_i$ is onto, $\phi_i$ is uniquely defined, and so $\phi$ is unique.
 \end{proof}
 
-This construction suggests a general notion of a ``quotient''.  First we need the notion of a ``subspace''.
+This construction suggests a general notion of a ``quotient''.  First we need the notion of a ``subspace''; this should be compared with the arguably better definition below, Definition~\ref{defn:subspace_quotient}.
 
-\begin{definition}
+\begin{definition}\label{defn:old_subspace_quotient}
 Let $\overline X$ be a doolittle diagram.  A \emph{subspace} of $\overline X$ is $\overline Y$ where $Y_i\subseteq X_i$ are closed subspaces, and $\Delta Y \subseteq \Delta X$.
 
 The \emph{quotient} is $\overline Q = \overline X / \overline Y$ where $Q_i = X_i / Y_i$ and $\Delta\overline Q$ is the closure of the image of $\Delta\overline X$ in $Q_0 \oplus_\infty Q_1$.  Let $q_i \colon X_i \to Q_i$ be the quotient map.
@@ -551,6 +553,148 @@ Notice that $X = \Delta\overline X$ gives a $\Delta$-interpolation space (which 
 If $X$ is a $\Delta$-interpolation space, then $\delta$ being a dense-range module maps shows that the $\mc B(\overline X)$-module action on $X$ is uniquely defined.  Similarly for a $\Sigma$-interpolation space.
 
 \cite{KP_InterpolationFunctorsDuality} observes that most $\Delta$-interpolation spaces are also $\Sigma$-interpolation spaces, but \cite[Example~I.3.2]{KP_InterpolationFunctorsDuality} shows that this isn't always so (an example different from $X = \Delta\overline X$).
+
+
+
+\section{Part II Category theory}
+
+\cite[Part~II]{KP_InterpolationFunctorsDuality} is concerned with category theory aspects.  I find it easier to read than Part~I, probably because of the work put in to understand Part~I.  So initial theory of abstract doolittle diagrams in general categories is expounded, but here we shall just look at Banach spaces.  Much more explictly, both the book, and these notes, now work with morphisms being contractions, not arbitrary bounded linear maps (unless specified).
+
+\subsection{Morphism spaces and tensor products}
+
+Recall that $\msf{Ban}$ is a ``closed category'', in particular, has an internal Hom functor, or in down to Earth language, $\mc B(X,Y)$ is itself a Banach space.  Notice that, if we restrict to morphisms being contractions, then this is not actually the Hom space.  Similarly we have the projective tensor product, and the relation that $\mc B(X, \mc B(Y,Z)) \cong \mc B(X\proten Y, Z)$.
+
+We have already turned $\mc B(\overline X,\overline Y)$ into a Banach space.  Notice that Proposition~\ref{prop:morphisms_as_pullback} shows, in particular, that the norm we placed on $\mc B(\overline X, \overline Y)$ agrees with the norm on the pullback.  We now define a doolittle diagram representing the morphism space $\overline X \to \overline Y$, denoted $\overline{\mc B}(\overline X,\overline Y)$.  We define $\Delta\overline B \subseteq \mc B(X_0,Y_0) \oplus_\infty \mc B(X_1, Y_1)$ to be $\mc B(\overline X, \overline Y)$, and then complete to a doolittle diagram
+\[ \begin{tikzcd}
+\Delta\overline B \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & \mc B(X_0,Y_0) \arrow[d, "\sigma_0"] \\
+\mc B(X_1,Y_1) \arrow[r, "\sigma_1"'] & \Sigma\overline B
+\end{tikzcd} \]
+Here $\delta_i$ is the natural projection map, and $\Sigma\overline B$ is the pushforward, so explicitly
+\[ \Sigma\overline B = \big( \mc B(X_0,Y_0) \oplus_1 \mc B(X_1,Y_1) \big)
+/ \{ (T_0, -T_1) :  (T_0, T_1) \in \mc B(\overline X, \overline Y) \}. \]
+
+We similarly define tensor products.  Given $\overline X,\overline Y \in \msf{BanDL}$ we define $\overline X \proten \overline Y \in \msf{Ban}$ to be the pushout of
+\[ \begin{tikzcd}
+  \Delta\overline X \proten \Delta\overline Y \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \proten Y_0 \\ X_1\proten Y_1
+\end{tikzcd} \]
+Here $\delta_i \colon (\xi_0,\xi_1) \otimes (\eta_0,\eta_1) \mapsto \xi_i \otimes \eta_i$.  That is,
+\[ \overline X \proten \overline Y = \big(  (X_0 \proten Y_0) \oplus_1 ( X_1 \proten Y_1) \big) / \big\{ (\delta_0(u),-\delta_1(u)) : u \in \Delta\overline X \proten \Delta\overline Y \big\}^{\overline{\phantom{x}}^{\|\cdot\|}}. \]
+Explicitly, $u\in \Delta\overline X \proten \Delta\overline Y$ has the form 
+\[ u = \sum_k (\xi_0^{(k)}, \xi_1^{(k)}) \otimes (\eta_0^{(k)}, \eta_1^{(k)})
+\quad\text{where}\quad
+\sum_k \max(\|\xi_0^{(k)}\|, \|\xi_1^{(k)}\|) \max(\|\eta_0^{(k)}\|, \|\eta_1^{(k)}\|) < \infty, \]
+and then $(\delta_0(u),-\delta_1(u)) = (\sum_k \xi_0^{(k)}\otimes \eta_0^{(k)}, -\sum_k \xi_1^{(k)} \otimes \eta_1^{(k)})$.  Again, we wish to now define an associated doolittle diagram, denoted $\overline X \overline{\proten} \overline Y$, where we set $\Sigma(\overline X \overline{\proten} \overline Y) = \overline X \proten \overline Y$, and define $\Delta$ to be the pullback, so obtaining
+\[ \begin{tikzcd}
+\Delta(\overline X \overline{\proten} \overline Y) \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \proten Y_0 \arrow[d, "\sigma_0"] \\ X_1\proten Y_1 \arrow[r, "\sigma_1"'] & \Sigma(\overline X \overline{\proten} \overline Y) = \overline X \proten \overline Y
+\end{tikzcd} \]
+Unpacking this, we find that
+\[ \Delta(\overline X \overline{\proten} \overline Y)
+= \big\{ \big(\sum_k \xi_0^{(k)} \otimes \eta_0^{(k)}, \sum_k\xi_1^{(k)}\otimes\eta_1^{(k)}\big)  : (\xi_0^{(n)}, \xi_1^{(n)}) \in \Delta\overline X, (\eta_0^{(n)}, \eta_1^{(n)}) \in \Delta\overline Y\big\} \]
+a subset of $(X_0\proten Y_0)\oplus_\infty (X_1\proten Y_1)$.  One can check that this is isomorphic, but not isometric, with $\Delta\overline X \proten \Delta\overline Y$.
+
+Much more is in \cite[Section IV.2]{KP_InterpolationFunctorsDuality}.
+
+
+\section{Morphisms and inclusions}
+
+We start by considering isomorphisms in $\msf{BanDL}$.
+
+\begin{proposition}\label{prop:isomorphism_DL}
+In $\msf{BanDL}$, $T=(T_0,T_1) \colon \overline X \to \overline Y$ is an isomorphism if and only if $T_0,T_1$ are both isomorphisms of Banach spaces, and given $(\xi_0,\xi_1) \in X_0\oplus_\infty X_1$ we have that $(\xi_0,\xi_1) \in \Delta\overline X$ if and only if $(T_0\xi_0, T_1\xi_1) \in \Delta\overline Y$.
+\end{proposition}
+\begin{proof}
+By definition, $T$ is an isomorphism if and only if there is a morphism $S$ with $ST = 1_{\overline X}$ and $TS = 1_{\overline Y}$.  If so, then $T_i$ is invertible with $S_i = T_i^{-1}$, and that $S$ is a morphism shows that $(\eta_0, \eta_1) = (T_0\xi_0, T_1\xi_1) \in \Delta\overline Y$ implies $(\xi_0,\xi_1) = (S_0\eta_0, S_1\eta_1)\in\Delta\overline X$.  Conversely, if $T_0,T_1$ are isomorphisms with the condition of the $\Delta$ spaces, then $S = (T_0^{-1}, T_1^{-1})$ is a morphism $\overline Y\to\overline X$ forming the inverse to $T$.
+\end{proof}
+
+The following are easily proved from the definitions.
+
+\begin{proposition}\label{prop:monomorphism_DL}
+For $T\colon\overline X\to\overline Y$, the following are equivalent:
+\begin{enumerate}
+  \item $T$ is a monomorphism (so given $S\colon\overline Z\to\overline X$ if $T\circ S = 0$ then $S=0$);
+  \item $T_0, T_1$ are injective;
+  \item $T_0, T_1$ and $\Delta T$ are injective;
+  \item $\ker T = \overline{0}$ (see Proposition~\ref{prop:kernel_DL}).
+\end{enumerate}
+\end{proposition}
+
+\begin{proposition}\label{prop:epimorphism_DL}
+For $T\colon\overline X\to\overline Y$, the following are equivalent:
+\begin{enumerate}
+  \item $T$ is an epimorphism (so given $S\colon\overline Y\to\overline Z$ if $S\circ T = 0$ then $S=0$);
+  \item $T_0, T_1$ have dense range;
+  \item $T_0, T_1$ and $\Sigma T$ have dense range;
+  \item $\coker T = \overline{0}$ (see Proposition~\ref{prop:cokernel_DL}).
+\end{enumerate}
+\end{proposition}
+
+The following are made as \emph{definitions} in \cite[Definition~3.5]{KP_InterpolationFunctorsDuality} but we wish to stress that they are results.  We state this in the case when morphisms are contractive, but in general one may replace ``isometry'' by ``bounded below''.
+
+\begin{proposition}\label{prop:ex_monomorphism_DL}
+For $T\colon\overline X\to\overline Y$, the following are equivalent:
+\begin{enumerate}
+  \item $T$ is an extremal monomorphism (which means that if $T = S\circ R$ with $R$ an epimorphism, then necessarily $R$ is an isomorphism);
+  \item $T_0$ and $T_1$ are isometries, and $\Sigma T$ is injective.
+\end{enumerate}
+In this case, also $\Delta T$ is an isometry.
+\end{proposition}
+\begin{proof}
+If $T_0,T_1$ are isometries, then also $\Delta T$ will be.  Notice that
+\[ \Sigma T \colon \Sigma\overline X = X_0\oplus_1 X_1 / (\Delta\overline X)' \to 
+\Sigma\overline Y = Y_0\oplus_1 Y_1 / (\Delta\overline Y)', \quad (\xi_0,\xi_1) + (\Delta\overline X)' \mapsto (T_0\xi_0, T_1\xi_1) + (\Delta\overline Y)' \]
+is injective exactly when $(T_0\xi_0, T_1\xi_1) \in \Delta\overline Y$ implies that $(\xi_0,\xi_1) \in \Delta\overline X$ (the minus signs again cancelling).
+
+Suppose that $T_0,T_1$ are isometries and that $\Sigma T$ is injective, and that $T = S\circ R$ with $R$ an epimorphism.  Then $T_i = S_i \circ R_i$ and $R_i$ has dense range, so that $T_i$ is an isometry shows that $R_i$ is isometric, and hence $R_i$ is an isometric isomorphism.  We verify the remaining condition from Proposition~\ref{prop:isomorphism_DL}, so let $(T_0\xi_0, T_1\xi_1) \in \Delta\overline Y$.  By assumption, then $(\xi_0,\xi_1) \in \Delta\overline X$, exactly the condition we need to show that $T$ is an isomorphism.
+
+Conversely, let $T$ be an extremal monomorphism.  Set $Z_i = \overline{ T_i(X_i) } \subseteq Y_i$ and define $\Delta\overline Z = \Delta\overline Y \cap (Z_0\oplus_\infty Z_1)$, so we obtain a doolittle diagram $\overline Z$.  We can define $R_i \colon X_i \to Z_i$ to be the corestriction of $T_i$, and $\iota_i \colon Z_i\to Y_i$ to be the inclusion.  Then $R$ and $\iota$ are morphisms, and $\iota\circ R = T$.  As $R_i$ has dense range, $R$ is an epimorphism, and so $R$ is an isomorphism.  Hence $R_i$, so also $T_i$, is an isometry, and if $(R_0\xi_0, R_1\xi_1) \in \Delta Z$ then $(\xi_0,\xi_1) \in \Delta X$.  So, if $(T_0\xi_0, T_1\xi_1) \in \Delta Y$, then by construction of $\Delta Z$, also $(R_0\xi_0, R_1\xi_1) \in \Delta Z$, so $(\xi_0,\xi_1) \in \Delta X$, and we have checked that $\Sigma T$ is injective.
+\end{proof}
+
+\begin{remark}
+Performing the calculations, it seems very unlikely that $\Sigma T$ will be an isometry, though I do not have a counter-example.
+
+The method of proof here suggests what the ``closed image'' of $T$ should be, namely $\overline Z$.
+\end{remark}
+
+We analogously have the epimorphism version, which is the following.  A ``metric surjection'' is a surjective linear map $T\colon X\to Y$ with $\|y\| = \inf\{ \|x\| : T(x)=y \}$ for each $y\in Y$, that is, such that the induced map $\hat T \colon X/\ker T \to Y$ is an isometric isomorphism.  Again, if our category has morphisms as all bounded linear maps, then one can replace ``metric surjection'' by ``quotient map'' (that $\hat T$ is an isomorphism).
+
+\begin{proposition}\label{prop:ex_epimorphism_DL}
+For $T\colon\overline X\to\overline Y$, the following are equivalent:
+\begin{enumerate}
+  \item $T$ is an extremal epimorphism (which means that if $T = S\circ R$ with $S$ a monomorphism, then necessarily $S$ is an isomorphism);
+  \item $T_0$ and $T_1$ are metric surjections, and $\Delta T$ has dense range.
+\end{enumerate}
+In this case, also $\Sigma T$ is a metric surjection.
+\end{proposition}
+\begin{proof}
+If $T_0, T_1$ are metric surjections, then clearly $T_0 \oplus T_1 \colon X_0\oplus_1 X_1 \to Y_0\oplus_1 Y_1$ is also a metric surjection.  As quotient maps are metric surjections, it follows readily that $\Sigma T$ is also a metric surjection.
+
+Suppose that $T_0, T_1$ are metric surjections, and that $\Delta T$ has dense range.  Let $T = S\circ R$, for some $S\colon\overline Z\to\overline Y$, and with each $S_i$ injective.  Then each $S_i$ is surjective, and so is an isomorphism.  For $\eta_i \in Y_i$ and $\epsilon>0$ there is $\xi_i\in X_i$ with $\|\xi_i\| < \|\eta_i\| + \epsilon$ and with $T\xi_i = \eta_i$.  Set $\alpha_i = R_i\xi_i$ so $S_i \alpha_i = \xi_i$ and hence $\alpha_i$ is unique with this property.  Furthermore, $\|\eta_i\| = \|S_i\alpha_i\| \leq \|\alpha_i\| = \|R_i\xi_i\| \leq \|\xi_i\| < \|\eta_i\| + \epsilon$ so $\|\alpha_i\| \leq \|\xi_i\| < \|\alpha_i\|+\epsilon$.  As $\epsilon>0$ was arbitrary, $\|\alpha_i\| = \|\xi_i\|$ and so $S_i$ is isometric.
+
+We again verify the condition of Proposition~\ref{prop:isomorphism_DL}.  Given $(S_0\alpha_0, S_1\alpha_1) \in \Delta\overline Y$, as $\Delta T$ has dense range, we can approximate by $(T_0\xi_0, T_1\xi_1)$ for some $(\xi_0,\xi_1) \in \Delta\overline X$.  As $S_0, S_1$ are isometries, it follows that $(\alpha_0,\alpha_1)$ is approximated by $(R_0\xi_0, R_1\xi_1)$ which is in $\Delta\overline Z$, so as this is closed, also $(\alpha_0,\alpha_1) \in \Delta\overline Z$.  So $S$ is an isomorphism.
+
+Conversely, let $T$ be an extremal epimorphism.  Set $Q_i = X_i / \ker T_i$, let $q_i \colon X_i\to Q_i$ be the quotient map, and set $\delta\overline Q$ to the closure of $\{ (q_0\xi_0, q_1\xi_1) : (\xi_0,\xi_1) \in \Delta\overline X \}$. Then $\overline Q$ is a doolittle diagram and $q\colon\overline X \to \overline Q$ a morphism.  Let $S_i \colon Q_i \to Y_i$ be induced by $T_i$, and notice that $\Delta\overline Q$ is constructed so that $S$ gives a morphism $\overline Q\to\overline Y$.  Then $S\circ q = T$ and as each $S_i$ is injective, $S$ is a monomorphism, and so $S$ is an isomorphism.
+
+As each $S_i$ is an isometric isomorphism, by definition, each $T_i$ is a metric surjection.  Given $(\eta_0, \eta_1)\in\Delta\overline Y$, let $(\alpha_0,\alpha_1) = (S_0^{-1}\eta_0, S_1^{-1}\eta_1) \in \Delta\overline Q$.  We can approximate this as $(q_0\xi_0, q_1\xi_1)$ for $(\xi_0,\xi_1)\in\Delta\overline X$, and then by continuity, $(T_0\xi_0, T_1\xi_1) = (S_0q_0\xi_0, S_1q_1\xi_1)$ approximates $(\alpha_0, \alpha_1)$.  Thus $\Delta T$ has dense range.
+\end{proof}
+
+Again, it seems rather unlikely that $\Delta T$ need by surjective.
+
+Motivated by these results, we can define subspaces and quotients.
+
+\begin{definition}\label{defn:subspace_quotient}
+Let $\overline X$ be a doolittle diagram.  If $\overline Y$ is doolittle with $Y_i \subseteq X_i$ a closed subspace, we say that $\overline Y$ is a \emph{subspace} of $\overline X$ when the inclusion $\iota\colon\overline Y\to\overline X$ is an extremal monomorphism.
+
+A \emph{(metric) surjection} is an extremal epimorphism $\overline X \to \overline Y$.
+\end{definition}
+
+So $\overline Y \subseteq \overline X$ is a subspace when $Y_i \subseteq X_i$ is a closed subspace, $\iota$ is a morphism, and $\Sigma\iota$ is injective.  That $\iota$ is a morphism means that $\Delta\overline Y \subseteq \Delta\overline X$, where we regard $Y_0\oplus_\infty Y_1 \subseteq X_0\oplus_\infty X_1$.  That $\Sigma\iota$ is injective means that if $(\iota_0\xi_0, \iota_1\xi_1) \in \Delta\overline X$, then $(\xi_0,\xi_1) \in \Delta\overline Y$.  That is, we must have $\Delta\overline Y = \Delta\overline X \cap (Y_0 \oplus_\infty Y_1)$; we have hence shown \cite[Proposition~3.8]{KP_InterpolationFunctorsDuality}.
+
+Consider now an extremal epimorphism $T \colon \overline X \to \overline Y$.  Up to isometric isomorphism, we have that $Y_i = X_i / \ker T_i$, and that $\{ (\xi_0+\ker T_0, \xi_1+\ker T_1) : (\xi_0,\xi_1) \in \Delta\overline X\}$ is a dense subspace of $\Delta\overline Y$.  Equivalently, $\Delta\overline Y$ is the closure of this subspace of $Y_0 \oplus_\infty Y_1$.  This accords with our previous definition of a quotient, Definition~\ref{defn:old_subspace_quotient}.
+
+
+
+
+
 
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
