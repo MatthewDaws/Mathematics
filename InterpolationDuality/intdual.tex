@@ -69,7 +69,9 @@
 \newcommand{\G}{\mathbb{G}}
 \renewcommand{\H}{\mathbb{H}}
 \newcommand{\op}{{\operatorname{op}}}
+\newcommand{\im}{{\operatorname{Im}}}
 \newcommand{\coker}{\operatorname{coker}}
+\newcommand{\intdual}{\circledast}
 
 \begin{document}
 
@@ -253,7 +255,7 @@ Notice that in this case, $\Sigma = X_0/Y_0 \oplus_1 X_1/Y_1$.
 To close this section, we discuss dual spaces.  By Hahn--Banach, we identify $(\Delta\overline X)^*$ with $X_0^* \oplus_1 X_1^* / \Delta^\perp$ and $(\Sigma\overline X)^*$ with $(\Delta')^\perp \subseteq X_0^* \oplus_\infty X_1^*$.  Furthermore, notice that $\sigma_i^* \colon (\Delta')^\perp \to X_i^*$ is the natural projection, and that $\delta_0^*(\xi_0^*) = (\xi_0^*,0) + \Delta^\perp$, and similarly for $\delta_1^*$.
 
 \begin{proposition}\label{prop:dual}
-Given a doolittle diagram, also
+Given a doolittle diagram $\overline X$, also the following is doolittle
 \[ \begin{tikzcd}
 (\Sigma\overline X)^* = (\Delta')^\perp  \arrow[r, "\sigma_0^*"] \arrow[d, "\sigma_1^*"'] & X_0^* \arrow[d, "\delta_0^*"]\\
 X_1^* \arrow[r, "\delta_1^*"'] & (\Delta\overline X)^* = X_0^* \oplus_1 X_1^* / \Delta^\perp
@@ -263,6 +265,7 @@ X_1^* \arrow[r, "\delta_1^*"'] & (\Delta\overline X)^* = X_0^* \oplus_1 X_1^* / 
 The only thing to check is that $X_0^* \oplus_1 X_1^* / \Delta^\perp = P(\sigma_0^*, \sigma_1^*)$.  This will follow if we show that $\Delta^\perp = ((\Delta')^\perp)'$.  However, $(\xi_0^*, \xi_1^*) \in ((\Delta')^\perp)'$ exactly when $\ip{(\xi_0^*, -\xi_1^*)}{(\xi_0,\xi_1)}=0$ for all $(\xi_0,\xi_1) \in \Delta'$, equivalently, $\ip{(\xi_0^*, -\xi_1^*)}{(\xi_0,-\xi_1)}=0$ for each $(\xi_0,\xi_1)\in \Delta$, that is, $(\xi_0^*, \xi_1^*) \in \Delta^\perp$, as the minus signs cancel.
 \end{proof}
 
+We write $\overline X^*$ for this doolittle diagram: the dual to $\overline X$.
 We now see the usefulness of doolittle diagrams: these are closed under duality, but by Proposition~\ref{prop:when_couple}, we see that the dual doolittle diagram arises from a Banach couple only when $\delta_0^*$ and $\delta_1^*$ are injective, which is equivalent to $\delta_0,\delta_1$ both having dense range.  Furthermore, even if the dual is a Banach couple, the bidual is only a couple when $\sigma_0^*, \sigma_1^*$ have (norm) dense range, which seems even more restrictive.
 
 With this in mind, we note that the bidual is
@@ -560,7 +563,7 @@ If $X$ is a $\Delta$-interpolation space, then $\delta$ being a dense-range modu
 
 \cite[Part~II]{KP_InterpolationFunctorsDuality} is concerned with category theory aspects.  I find it easier to read than Part~I, probably because of the work put in to understand Part~I.  So initial theory of abstract doolittle diagrams in general categories is expounded, but here we shall just look at Banach spaces.  Much more explictly, both the book, and these notes, now work with morphisms being contractions, not arbitrary bounded linear maps (unless specified).
 
-\subsection{Morphism spaces and tensor products}
+\subsection{Morphism spaces and tensor products}\label{sec:mor_tenprod}
 
 Recall that $\msf{Ban}$ is a ``closed category'', in particular, has an internal Hom functor, or in down to Earth language, $\mc B(X,Y)$ is itself a Banach space.  Notice that, if we restrict to morphisms being contractions, then this is not actually the Hom space.  Similarly we have the projective tensor product, and the relation that $\mc B(X, \mc B(Y,Z)) \cong \mc B(X\proten Y, Z)$.
 
@@ -575,27 +578,36 @@ Here $\delta_i$ is the natural projection map, and $\Sigma\overline B$ is the pu
 
 We similarly define tensor products.  Given $\overline X,\overline Y \in \msf{BanDL}$ we define $\overline X \proten \overline Y \in \msf{Ban}$ to be the pushout of
 \[ \begin{tikzcd}
-  \Delta\overline X \proten \Delta\overline Y \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \proten Y_0 \\ X_1\proten Y_1
+  \Delta\overline X \proten \Delta\overline Y \arrow[r, "p_0"] \arrow[d, "p_1"'] & X_0 \proten Y_0 \\ X_1\proten Y_1
 \end{tikzcd} \]
-Here $\delta_i \colon (\xi_0,\xi_1) \otimes (\eta_0,\eta_1) \mapsto \xi_i \otimes \eta_i$.  That is,
-\[ \overline X \proten \overline Y = \big(  (X_0 \proten Y_0) \oplus_1 ( X_1 \proten Y_1) \big) / \big\{ (\delta_0(u),-\delta_1(u)) : u \in \Delta\overline X \proten \Delta\overline Y \big\}^{\overline{\phantom{x}}^{\|\cdot\|}}. \]
-Explicitly, $u\in \Delta\overline X \proten \Delta\overline Y$ has the form 
-\[ u = \sum_k (\xi_0^{(k)}, \xi_1^{(k)}) \otimes (\eta_0^{(k)}, \eta_1^{(k)})
-\quad\text{where}\quad
-\sum_k \max(\|\xi_0^{(k)}\|, \|\xi_1^{(k)}\|) \max(\|\eta_0^{(k)}\|, \|\eta_1^{(k)}\|) < \infty, \]
-and then $(\delta_0(u),-\delta_1(u)) = (\sum_k \xi_0^{(k)}\otimes \eta_0^{(k)}, -\sum_k \xi_1^{(k)} \otimes \eta_1^{(k)})$.  Again, we wish to now define an associated doolittle diagram, denoted $\overline X \overline{\proten} \overline Y$, where we set $\Sigma(\overline X \overline{\proten} \overline Y) = \overline X \proten \overline Y$, and define $\Delta$ to be the pullback, so obtaining
-\[ \begin{tikzcd}
+Here $p_i \colon (\xi_0,\xi_1) \otimes (\eta_0,\eta_1) \mapsto \xi_i \otimes \eta_i$.  That is,
+\begin{equation} \overline X \proten \overline Y = \big(  (X_0 \proten Y_0) \oplus_1 ( X_1 \proten Y_1) \big) / \big\{ (p_0(u), -p_1(u)) : u \in \Delta\overline X \proten \Delta\overline Y \big\}^{\overline{\phantom{x}}^{\|\cdot\|}}. \label{eq:dl_tenprod}
+\end{equation}
+As usual, let $\sigma_i \colon X_i\proten Y_i \to \overline X \proten \overline Y$ be the usual maps.  As $\overline X \proten \overline Y$ is defined as a pushout, it satisfies the universal property that if $Z$ is any Banach space with contractive maps $g_i \colon X_i\proten Y_i \to Z$ satisfying $g_0p_0 = g_1p_1$, there is a unique contraction $\psi \colon \overline X\proten\overline Y \to Z$ with $g_i = \psi \sigma_i$.  As in Banach space theory, describing maps to $\overline X \proten \overline Y$ is harder.
+
+The associated doolittle diagram, denoted $\overline X \overline{\proten} \overline Y$, is obtained by setting $\Sigma(\overline X \overline{\proten} \overline Y) = \overline X \proten \overline Y$, and defining $\Delta$ to be the pullback, giving
+\begin{equation} \begin{tikzcd}
 \Delta(\overline X \overline{\proten} \overline Y) \arrow[r, "\delta_0"] \arrow[d, "\delta_1"'] & X_0 \proten Y_0 \arrow[d, "\sigma_0"] \\ X_1\proten Y_1 \arrow[r, "\sigma_1"'] & \Sigma(\overline X \overline{\proten} \overline Y) = \overline X \proten \overline Y
-\end{tikzcd} \]
-Unpacking this, we find that
-\[ \Delta(\overline X \overline{\proten} \overline Y)
-= \big\{ \big(\sum_k \xi_0^{(k)} \otimes \eta_0^{(k)}, \sum_k\xi_1^{(k)}\otimes\eta_1^{(k)}\big)  : (\xi_0^{(n)}, \xi_1^{(n)}) \in \Delta\overline X, (\eta_0^{(n)}, \eta_1^{(n)}) \in \Delta\overline Y\big\} \]
-a subset of $(X_0\proten Y_0)\oplus_\infty (X_1\proten Y_1)$.  One can check that this is isomorphic, but not isometric, with $\Delta\overline X \proten \Delta\overline Y$.
+\end{tikzcd}
+\label{eq:tenprod_full_dl}
+\end{equation}
+By construction, the maps $p_i$ satisfy that $\sigma_0p_0 = \sigma_1p_1$ and so by the universal property of the pullback, there is a unique $\phi \colon \Delta\overline X \proten \Delta\overline X \to \Delta(\overline X \overline\proten \overline Y)$ with $\delta_i \circ \phi = p_i$.  Indeed, $\Delta(\overline X \overline\proten \overline Y)$ is by definition the subspace of $(X_0\proten Y_0)\oplus_\infty(X_1\proten Y_1)$ consisting of pairs $(u_0,u_1)$ with $\sigma_0(u_0) = \sigma_1(u_1)$.  Equivalently, $(u_0, -u_1) = 0$ in the quotient space $\overline X \proten \overline Y$ given by \eqref{eq:dl_tenprod}.  The map $\phi$ is simply $u\mapsto (p_0(u), p_1(u))$, and as the subspace we quotient by is generated by such pairs (up to a minus sign) we conclude that $\phi$ has dense range.  We remark that it seems hard to give a more concrete description of $\Delta(\overline X \overline{\proten} \overline Y)$, since it seems that $\phi$ need not be an isometry, or even bounded below, in general.
 
-Much more is in \cite[Section IV.2]{KP_InterpolationFunctorsDuality}.
+We shall generally suppress the map $\phi$ and regard $\Delta\overline X \otimes \Delta\overline Y$ as a dense subspace of $\Delta(\overline X \overline{\proten} \overline Y)$: notice that $\phi$ restricted to the algebraic tensor product is certainly injective.  The following proof illustrates this point of view.
+
+\begin{proposition}\label{prop:tenprod_morphisms}
+Let $\overline T \colon \overline X \to \overline Z$, and $\overline S \colon \overline Y \to \overline W$ be morphisms.  Then there is a morphism $\overline T \otimes \overline S \colon \overline X \overline{\proten} \overline Y \to \overline Z \overline{\proten} \overline W$ which has components $T_i\otimes S_i \colon X_i\proten Y_i \to Z_i\proten W_i$.  The resulting map of Banach spaces
+\[ \overline T \otimes \overline S \colon \overline X \proten \overline Y \to \overline Z \proten \overline W \]
+is uniquely determined by the relations $(\overline T \otimes \overline S) \sigma_i = \sigma_i (T_i \otimes S_i)$, with $\sigma_i$ as in \eqref{eq:tenprod_full_dl}.
+\end{proposition}
+\begin{proof}
+If $\overline T, \overline S$ are contractive, then so are $T_i\otimes S_i \colon X_i\proten Y_i \to Z_i\proten W_i$.  We need to check that we map $\Delta(\overline X \overline{\proten} \overline Y)$ to $\Delta(\overline Z \overline{\proten} \overline W)$.  It suffices to prove that we map $\Delta\overline X \otimes \Delta\overline Y$ to $\Delta\overline Z \otimes \Delta\overline W$, but this is clear, as the required map is simply $\Delta\overline T \otimes \Delta\overline S$.
+\end{proof}
+
+More is in \cite[Section IV.2]{KP_InterpolationFunctorsDuality}.
 
 
-\section{Morphisms and inclusions}
+\subsection{Morphisms and inclusions}
 
 We start by considering isomorphisms in $\msf{BanDL}$.
 
@@ -692,8 +704,283 @@ So $\overline Y \subseteq \overline X$ is a subspace when $Y_i \subseteq X_i$ is
 Consider now an extremal epimorphism $T \colon \overline X \to \overline Y$.  Up to isometric isomorphism, we have that $Y_i = X_i / \ker T_i$, and that $\{ (\xi_0+\ker T_0, \xi_1+\ker T_1) : (\xi_0,\xi_1) \in \Delta\overline X\}$ is a dense subspace of $\Delta\overline Y$.  Equivalently, $\Delta\overline Y$ is the closure of this subspace of $Y_0 \oplus_\infty Y_1$.  This accords with our previous definition of a quotient, Definition~\ref{defn:old_subspace_quotient}.
 
 
+\subsection{Finite-rank morphisms}
+
+We say that $\overline X \in \msf{BanDL}$ is \emph{finite-dimensional} if $X_0,X_1$ are.  A morphism $\overline T \colon \overline X \to \overline Y$ is \emph{finite-rank} if $T$ factors through a finite-dimensional doolittle diagram; see \cite[Section~V.3]{KP_InterpolationFunctorsDuality}.
+
+\begin{proposition}
+We have that $\overline T \colon \overline X \to \overline Y$ is finite-rank if and only if $T_0,T_1$ are finite-rank operators $X_i\to Y_i$.
+\end{proposition}
+\begin{proof}
+If $\overline T$ is finite-rank, then $T_0, T_1$ factor through finite-dimensional Banach spaces, and so have finite-rank.  Conversely, if $T_0, T_1$ are finite-rank operators, then set $Z_i = T_i(X_i) \subseteq Y_i$ finite-dimensional subspaces.  Let $\overline Z$ be the subspace induced, so $\Delta\overline Z = \Delta\overline Y \cap (Z_0 \oplus\infty Z_1)$.  That $\overline T$ is a morphism means that for $(\xi_0, \xi_1) \in \Delta\overline X$ we have that $(T_0\xi_0, T_1\xi_1) \in \Delta\overline Y \cap (Z_0 \oplus Z_1) = \Delta\overline Z$, and so $\overline T$ corestricts to a morphism $\overline S \colon \overline X\to\overline Z$.  With $\iota\colon \overline Z \to \overline Y$ the inclusion, we have our factorisation $\overline T = \iota \circ \overline S$.
+\end{proof}
+
+The following is from \cite[Section~IV.2]{KP_InterpolationFunctorsDuality}.  Recall the map $j = \sigma_0\delta_0 = \sigma_1\delta_1 \colon \Delta\overline X \to \Sigma\overline X$.
+
+\begin{definition}
+An element $u\in\Delta\overline X$ is a \emph{unit} if $\|ju\| = \|u\| = 1$.  If $\|j\|=1$ then $\overline X$ has an \emph{approximate unit}, a sequence of unit vectors $(u_n)$ in $\Delta\overline X$ with $\|j(u_n)\| \to 1$.
+\end{definition}
+
+\begin{lemma}
+Let $u$ be a unit for $\overline X$.  There is $u^* \in (\Sigma\overline X)^*$ with $\|u^*\| = 1 = \ip{u^*}{ju}$ and then $u^*$ is a unit for $\overline X^*$.
+\end{lemma}
+\begin{proof}
+We recall the dual doolittle diagram from Proposition~\ref{prop:dual}.  That $u^*$ exists is the Hahn--Banach theorem.  As $\Delta(\overline X^*) = (\Sigma\overline X)^*$, we see that $u^*$ is a candidate for a unit, and we need to show that $\|j_{\overline X^*}u^*\|=1$.  By definition, $j_{\overline X^*} = j^*$, and so as $\|j\|=1$, also $\|j^*u^*\|\leq 1$.  However, $1 = \ip{u^*}{ju} = \ip{j^*u^*}{u}$ shows that $\|j^*u^*\|\geq 1$ as $\|u\|=1$, and the proof is complete.
+\end{proof}
+
+We now depart from \cite{KP_InterpolationFunctorsDuality}.
+For any $\overline X, \overline Y$, we always have a map
+\[ \Delta\overline X \otimes (\Sigma\overline Y)^* \to \mc B(\overline Y, \overline X), \]
+with $x \otimes y^* = (\xi_0,\xi_1) \otimes (\eta_0^*,\eta_1^*) \in \Delta\overline X \otimes (\Sigma\overline Y)^*$ inducing $\overline T = (\xi_0\otimes\eta_0^*, \xi_1\otimes\eta_1^*)$.  Here we identify $(\Sigma\overline Y)^*$ with $((\Delta\overline Y)')^\perp \subseteq Y_0^* \oplus_\infty Y_1^*$, and $\xi\otimes\eta^* \colon \eta \mapsto \ip{\eta^*}{\eta} \xi$ is a rank-one operator.  We need to check that given $(\eta_0,\eta_1)\in\Delta\overline Y$ we have that $(T_0\eta_0, T_1\eta_1) \in \Delta\overline X$.  However, as $(\eta_0^*,\eta_1^*) \in (\Delta')^\perp$, we see that $\ip{(\eta_0^*,\eta_1^*)}{(\eta_0, -\eta_1)} = 0$, that is, $\ip{\eta_0^*}{\eta_0} = \ip{\eta_1^*}{\eta_1}$.  It follows that
+\[ (T_0\eta_0, T_1\eta_1) = ( \ip{\eta_0^*}{\eta_0} \xi_0, \ip{\eta_1^*}{\eta_1} \xi_1 )
+= \ip{\eta_0^*}{\eta_0} (\xi_0, \xi_1) \in \Delta\overline X. \]
+Thus $\overline T = (T_0, T_1)$ is a morphism, as claimed.
+Denoting $y = (\eta_0, \eta_1)$ we note that $j(y) = (\eta_0,0) + \Delta' = (0, \eta_1) + \Delta'$ in $\Sigma\overline Y$, and so $\ip{\eta_0^*}{\eta_0} = \ip{y^*}{jy} =\ip{\eta_1^*}{\eta_1}$, and furthermore, $\Delta \overline T \colon \Delta\overline Y \to \Delta\overline X$ is $y \mapsto \ip{y^*}{jy} x$.  As the map is bilinear and contractive, we actually have a contraction $\Delta\overline X \proten (\Sigma\overline Y)^* \to \mc B(\overline Y, \overline X)$.
+
+\begin{remark}
+It does not appear to be true that every finite-rank morphism $\overline Y \to \overline X$ arises in this way, as there is no need for such a $\overline T$ to give $\Delta \overline T$ which factors through $j_{\overline Y}$.
+\end{remark}
+
+%This provides, in the author's opinion, some justification for the term ``unit''.  Suppose $\overline E = x \otimes x^*$ is a contractive idempotent in $\mc B(\overline X)$.  With $x = (\xi_0, \xi_1)$ and $x^* = (\xi_0^*, \xi_1^*)$, this means that $\xi_i \otimes \xi_i^*$ is a contractive idempotent for $i=0,1$, so $\|\xi_0\| \|\xi_0^*\| \leq 1, \|\xi_1\| \|\xi_1^*\| \leq 1$.  Also $\Delta\overline E = x \otimes j^*(x^*)$ is a contractive idempotent, so by rescaling, we may suppose that $\|x\|\leq 1$ and  $\|j^*x^*\| \leq 1$.  However, to be an idempotent, we have $\ip{j^*x^*}{x} = 1$, so actually $\|x\| =1$ and $\|j^*x^*\|=1$.  Hence $\|\xi_0\|\leq 1, \|\xi_1\|\leq 1$ with equality in at least one component, say $\|\xi_0\|=1$.  Then $\|\xi_0^*\|=1$
+
+We make some remarks.  When $\overline X = \overline Y$, we see that
+\[ (x_1\otimes x_1^*) \circ (x_2\otimes x_2^*) = \ip{x_1^*}{jx_2} x_1 \otimes x_2^*, \]
+and so the image of $\Delta\overline X \otimes (\Sigma\overline X)^*$ is a subalgebra of $\mc B(\overline X)$.  Indeed, given $\overline T\in\mc B(\overline X)$, we also see that
+\[ (x\otimes x^*)\circ\overline T = (x_0 \otimes x^*_0\circ T_0, x_1 \otimes x^*_1\circ T_1) \]
+which is of the same form, as if $(x_0^*, x_1^*) \in (\Sigma\overline X)^* = \Delta'^\perp$, then for $(\xi_0,\xi_1) \in \Delta$, as $(T_0\xi_0, T_1\xi_1)\in\Delta$, we have $0 = \ip{x_0^*}{T_0\xi_0} - \ip{x_1^*}{T_1\xi_1}$ and so $(T_0^*x_0^*, T_1^*x_1^*) \in \Delta'^\perp$ as well.  More obviously, $\overline T \circ (x\otimes x^*) = (T_0x_0\otimes x_0^*, T_1x_1\otimes x_1^*)$ is of the same form, as $(T_0, T_1)$ maps $\Delta\overline X$ to itself.  Thus the image of $\Delta\overline X \otimes (\Sigma\overline X)^*$ is an ideal in $\mc B(\overline X)$.
+
+As partial motivation for considering units $u$ and $u^*$, notice that $u\otimes u^*$ is a rank-one contractive idempotent in $\mc B(\overline X)$.  However, it appears that not all rank-one contractive idempotents need arise in this way, even if we look only at elements in $\Delta\overline X \otimes (\Sigma\overline X)^*$.
+
+\begin{proposition}\label{prop:rank_one_morphisms}
+Let $\overline X,\overline Y$ be doolittle diagrams.  For $i=0,1$ let $T_i = \xi_i^*\otimes\xi_i$ a rank-one map $X_i\to Y_i$.  Then $\overline T=(T_0,T_1)$ is a morphism if and only if one of the following conditions holds:
+\begin{enumerate}[(a)]
+\item\label{prop:rank_one_morphisms:one}
+$\xi_i^* \in (\im\delta_i)^\perp$ for $i=0,1$, with $\xi_i\in Y_i$ arbitrary, in which case $\Delta\overline T = 0$;
+\item\label{prop:rank_one_morphisms:two}
+$\xi_0^* \in (\im\delta_0)^\perp$ and $\xi_1\in K_1\overline Y$, with $\xi_0\in Y_0, \xi_1^*\in Y_1^*$ arbitrary, in which case $\Delta\overline T = (0, \xi_1^*\otimes\xi_1)$;
+%\item\label{prop:rank_one_morphisms:twoa}
+%$\xi_1^* \in (\im\delta_1)^\perp$ and $\xi_0\in K_0\overline Y$, in which case $\Delta\overline T = (\xi_0^*\otimes\xi_0, 0)$;
+\item\label{prop:rank_one_morphisms:four}
+$\xi_0\in K_0\overline Y$ and $\xi_1\in K_1\overline Y$ with $\xi_i^* \in X_i^*$ arbitrary;
+\item\label{prop:rank_one_morphisms:five}
+for some scalar $\alpha$ we have $(\alpha\xi_0^*, \xi_1^*) \in (\Delta\overline X)'^\perp$ and $(\xi_0,\alpha\xi_1) \in \Delta\overline Y$, in which case $\Delta\overline T(x) = \ip{\xi_0^*}{x_0} (\xi_0, \alpha\xi_1)$ for each $x=(x_0,x_1)\in\Delta\overline X$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+When \ref{prop:rank_one_morphisms:one} holds, for $(x_0, x_1)\in\Delta\overline X$ we have that $(T_0x_0, T_1x_1) = (\ip{\xi_0^*}{x_0}\xi_0, \ip{\xi_1^*}{x_1}\xi_1) = 0$ as $x_i \in \im\delta_i$, and so $\overline T$ exists with $\Delta\overline T = 0$.
+
+Suppose $\xi_0^*\in(\im\delta_0)^\perp$ but $\xi_1^*\not\in(\im\delta_1)^\perp$ (so we are not in case \ref{prop:rank_one_morphisms:one}).  There hence exists $(x_0,x_1)\in\Delta\overline X$ with $\ip{\xi_1^*}{x_1}=1$, and so if $\Delta\overline T$ exists, then $(T_0x_0, T_1x_1) = (0, \xi_1) \in \Delta\overline Y$ showing that $\xi_1\in K_1\overline Y$.  This gives case \ref{prop:rank_one_morphisms:two}, while conversely, if $\xi_0^*\in(\im\delta_0)^\perp$ and $\xi_1\in K_1\overline Y$, then we have always have a morphism.  Note that the symmetric case, when $\xi_1^*\in(\im\delta_1)^\perp$, is covered by case \ref{prop:rank_one_morphisms:five} with $\alpha=0$.
+
+Suppose $\xi_0^*\not\in(\im\delta_0)^\perp$, so there is $z=(z_0,z_1)\in \Delta\overline X$ with $\ip{\xi_0^*}{z_0} = 1$.  Set $\alpha = \ip{\xi_1^*}{z_1}$.  Given $x\in\Delta\overline X$ consider $y = x - \ip{\xi_0^*}{x_0}z \in \Delta\overline X$, which has $\ip{\xi_0^*}{y_0} = \ip{\xi_0^*}{x_0 - \ip{\xi_0^*}{x_0}z_0} = 0$.  Supposing that $\Delta\overline T$ exists, we have that $\Delta\overline T(y) = (0, \ip{\xi_1^*}{y_1}\xi_1) \in \Delta\overline Y$.  If $\xi_1\not\in K_1\overline Y$ we have $\ip{\xi_1^*}{y_1} = 0$, equivalently, $\ip{\xi_1^*}{x_1} = \ip{\xi_0^*}{x_0}\ip{\xi_1^*}{z_1}$.  As this holds for all $x$, we conclude that $(\alpha\xi_0^*, \xi_1^*) \in (\Delta\overline X)'^\perp$ and $\Delta\overline T(x_0,x_1) = \ip{\xi_0^*}{x_0} (\xi_0, \alpha \xi_1)$ so $(\xi_0, \alpha \xi_1) \in \Delta\overline Y$.  So \ref{prop:rank_one_morphisms:five} holds.
+
+Continuing, it could be that $\xi_1 \in K_1\overline Y$, so for $x\in\Delta\overline X$ we have that $(0, \ip{\xi_1^*}{x_1}\xi_1) \in \Delta\overline Y$ and hence also $(\ip{\xi_0^*}{x_0}\xi_0, 0) \in \Delta\overline Y$.  Taking $x=z$ shows that $(\xi_0,0) \in \Delta\overline Y$ so $\xi_0\in K_0\overline Y$.  Hence case \ref{prop:rank_one_morphisms:four} holds.
+
+Obviously if \ref{prop:rank_one_morphisms:four} holds then we have a morphism.  If \ref{prop:rank_one_morphisms:five} holds then for any $x\in\Delta\overline X$ we have that $0 = \ip{(\alpha\xi_0^*, \xi_1^*)}{(x_0, -x_1)}$ and so $\ip{\xi_1^*}{x_1} = \alpha \ip{\xi_0^*}{x_0}$.  Hence $(T_0x_0, T_1x_1) = \ip{\xi_0^*}{x_0} (\xi_0, \alpha \xi_1) \in \Delta\overline Y$, and so we do have a morphism, and $\Delta\overline T$ has the given form.
+\end{proof}
 
 
+\subsection{Functors and adjoints}
+
+We make some further category theory remarks.  We define a functor $J\colon \msf{Ban} \to \msf{BanDL}$ by, for a Banach space $X$, setting $JX$ to be the doolittle diagram
+\[ JX = \begin{tikzcd}
+X \arrow[r, "1"] \arrow[d, "1"'] & X \arrow[d, "1"] \\
+X \arrow[r, "1"'] & X.
+\end{tikzcd} \]
+Notice that here formally $\Delta = \{ (x,x) : x\in X \} \cong X$ and $\Sigma = X\oplus_1 X / \{ (x,-x) : x\in X \} \cong X$, the isomorphism being $(x,y) +\Delta' \mapsto x+y$.  Hence given $T\in\mc B(X,Y)$, we obtain $JT =(T,T) \colon JX \to JY$, and then $\Delta JT = T$ and $\Sigma JT = T$ under these isomorphisms.
+
+\begin{proposition}\label{prop:J_hom_space_adjoints}
+For any $\overline X\in\msf{BanDL}$ and $Z\in\msf{Ban}$, we have that $\mc B(\Sigma\overline X, Z) \cong \mc B(\overline X, JZ)$, the isomorphism mapping $\overline T\in\mc B(\overline X, JZ)$ to $\Sigma\overline T \colon \Sigma\overline X \to \Sigma JZ\cong Z$.  Also $\mc B(Z, \Delta\overline X) \cong \mc B(JZ, \overline X)$ the isomorphism mapping $\overline T \in \mc B(JZ, \overline X)$ to $\Delta\overline T \colon Z \cong \Delta JZ \mapsto \Delta\overline X$.
+\end{proposition}
+\begin{proof}
+Given $S\in\mc B(\Sigma\overline X, Z)$ define $T_i = S\circ \sigma_i \colon X_i \to Z$ and observe that for $x\in\Delta\overline X$, we have $T_0\delta_0(x) = S \sigma_0\delta_0(x) = S\sigma_1\delta_1(x) = T_1\delta_1(x)$, and so $\overline T=(T_0,T_1)$ is a morphism $\overline X \to JZ$, because $\Delta\overline T$ exists.  Then $\Sigma\overline T \colon \Sigma\overline X \to Z$ is $\sigma_0(\xi_0) + \sigma_1(\xi_1) \mapsto T_0\xi_0 + T_1\xi_1 = S(\sigma_0(\xi_0) + \sigma_1(\xi_1))$ and so we obtain a bijection, as claimed.
+
+Given $S\in\mc B(Z,\Delta\overline X)$ define $T_i\colon Z\to X_i$ by $T_i = \delta_i\circ S$.  For $(z,z)\in \Delta JZ$ we see that $(T_0z, T_1z) = Sz$, and so $\overline T$ is a morphism, and $\Delta\overline T = S$.  Hence we obtain the required isomorphism $\mc B(Z, \Delta\overline X) \cong \mc B(JZ, \overline X)$.
+\end{proof}
+
+We set $\overline I = J\mathbb C$.  Then, for example, $\mc B(\overline X,\overline I) \cong(\Sigma\overline X)^*$ and $\mc B(\overline I, \overline X) \cong \Delta\overline X$.
+
+\begin{proposition}\label{prop:tensor_unit}
+For any $\overline X$ we have that $\overline I \overline\proten \overline X \cong \overline X \cong \overline X \overline\proten \overline I$.  In particular, $\overline I \proten \overline X \cong \Sigma \overline X \cong \overline X \proten \overline I$.
+\end{proposition}
+\begin{proof}
+We only show one of these, the other following by symmetry.  We first construct $\overline I \proten \overline X$ starting with the isomorphic diagrams
+\[ \begin{tikzcd}
+\Delta\overline I \proten \Delta\overline X \arrow[r, "p_0"] \arrow[d, "p_1"'] & \mathbb C \proten X_0  & &
+\Delta\overline X \arrow[r, "\delta_0"] \arrow[d, "\delta_1"']  & X_0
+\\
+\mathbb C\proten X_1  & & &  X_1
+\end{tikzcd} \]
+As $\overline I \proten \overline X$ is the pushforward of this, we see that $\overline I \proten \overline X \cong \Sigma\overline X$.  The rest follows.
+\end{proof}
+
+We recall the notion of a \emph{natural transformation} between functors $F,G\colon \msf{Ban} \to \msf{Ban}$; for other categories the notion is analogously.  We write $\eta \colon F \Rightarrow G$, and require
+\[ \begin{tikzcd}
+X \arrow[d, "T"]    &
+F(X) \arrow[r, "\eta_X"] \arrow[d, "F(T)"'] & G(X) \arrow[d, "G(T)"]
+\\
+Y    &
+F(Y) \arrow[r, "\eta_Y"']  & G(Y)  
+\end{tikzcd} \]
+Here $T\in\mc B(X,Y)$, and as usual, we require the \emph{components} $\eta_X$ to be linear and contractive.  If each component is an isomorphism, then $\eta$ is a \emph{natural isomorphism}.
+
+Recall that an \emph{adjunction} between two categories $\mc C, \mc D$ consists of the following (over-specified) data:
+\begin{itemize}
+  \item A functor $F\colon\mc C\to\mc D$, the \emph{left adjoint};
+  \item A functor $G\colon\mc D \to \mc C$, the \emph{right adjoint};
+  \item A natural isomorphism $\Phi \colon \hom_{\mc C}(F\cdot, \cdot) \Rightarrow \hom_{\mc D}(\cdot, G\cdot)$;
+  \item A natural transformation $\epsilon \colon FG \Rightarrow 1_{\mc C}$ the \emph{counit};
+  \item A natural transformation $\eta \colon 1_{\mc D} \Rightarrow GF$ the \emph{unit}.
+\end{itemize}
+We write $F \dashv G$, or $G \vdash F$.
+The natural transformations $\epsilon, \eta$ satisfy the counit--unit equations
+\[ 1_{F(Y)} = \epsilon_{F(Y)} \circ F(\eta_Y) \quad (Y\in \mc C), \qquad
+1_{G(X)} = G(\epsilon_X) \circ \eta_{G(X)} \quad (X\in\mc D). \]
+When these hold, $\Phi$ and $\Phi^{-1}$ can be defined by $\Phi_{Y,X}(f) = G(f)\circ\eta_Y, \Phi^{-1}_{Y,X}(g) = \epsilon_X\circ F(g)$.  Conversely, we have $\epsilon_X = \Phi^{-1}_{G(X), X}(1_{G(X)}) \in \hom_{\mc C}(FG(X), X)$ and $\eta_Y = \Phi_{Y,F(Y)}(1_{F(Y)}) \in \hom_{\mc D}(Y, GF(Y))$.
+
+In diagrams, $\epsilon,\eta$ need to satisfy
+\[ \begin{tikzcd}
+X \arrow[d, "f"]    &
+FG(X) \arrow[r, "\epsilon_X"] \arrow[d, "FG(f)"'] & X \arrow[d, "f"]
+\\
+Y    &
+FG(Y) \arrow[r, "\epsilon_Y"']  & Y
+\end{tikzcd}
+\qquad\qquad\qquad
+\begin{tikzcd}
+X \arrow[d, "g"]    &
+X \arrow[r, "\eta_X"] \arrow[d, "g"'] & GF(X) \arrow[d, "GF(g)"]
+\\
+Y    &
+Y \arrow[r, "\eta_Y"']  & GF(Y)
+\end{tikzcd}    \]
+and the counit--unit equations are
+\[ \begin{tikzcd}
+F(Y) \arrow[r, "F(\eta_Y)"] \arrow[rd, "="'] & FGF(Y) \arrow[d, "\epsilon_{F(Y)}"] \\
+& F(Y)
+\end{tikzcd}
+\qquad\qquad
+\begin{tikzcd}
+G(X) \arrow[r, "\eta_{G(X)}"] \arrow[rd, "="'] & GFG(X) \arrow[d, "G(\epsilon_X)"] \\
+& G(X)
+\end{tikzcd}
+\]
+
+Notice that $\Sigma$ and $\Delta$ give functors $\msf{BanDL} \to \msf{Ban}$.
+
+\begin{proposition}
+We have $J \vdash \Sigma$.
+\end{proposition}
+\begin{proof}
+Proposition~\ref{prop:J_hom_space_adjoints} gives a (natural) isomorphism $\mc B(\Sigma\overline X, Z) \cong \mc B(\overline X, JZ)$.  Let us see what the unit and counit are.  Notice that $\Sigma JZ = Z$ naturally, but $J\Sigma$ is non-trivial.  We define $\epsilon_Z \colon \Sigma JZ \to Z$ to be the identity.  Define $\eta_{\overline X} \colon \overline X \to J\Sigma\overline X$ to be the morphism $(\sigma_0, \sigma_1)$.  This is well-defined as $\sigma_i \colon X_i \to \Sigma\overline X$ and given $x\in\Delta\overline X$ we have $T_0\delta_0(x) = j(x) = T_1\delta_1(x)$ so $\Delta\overline T$ exists, and agrees with $j\colon \Delta\overline X \to \Sigma\overline X$.  Notice that then $\Sigma(\eta_{\overline X}) \colon \Sigma\overline X \to \Sigma J\Sigma \overline X = \Sigma\overline X$ is the identity.
+
+We check the counit-unit equations.  Writing these out, the only non-trivial to check is that $\eta_{JZ} = \overline{1}$, but this is clear once the definitions are written out.
+\end{proof}
+
+\begin{proposition}
+We have $J \dashv \Delta$.
+\end{proposition}
+\begin{proof}
+Again, Proposition~\ref{prop:J_hom_space_adjoints} gives a (natural) isomorphism $\mc B(Z, \Delta\overline X) \cong \mc B(JZ, \overline X)$.  The associated unit and counit are given as
+$\eta_Z = 1_Z$ for all $Z$, while $\epsilon_{\overline X} = (\delta_0, \delta_1)$.  This again makes sense, as $\delta_i \colon \Delta\overline X \to X_i$, so we obtain a morphism $J\Delta\overline X \to \overline X$, because $(\delta_0, \delta_1)$ maps $\Delta J\Delta\overline X = \Delta\overline X$ to $\Delta\overline X$.  Again, the counit-unit equations are easily checked.
+\end{proof}
+
+
+
+
+\subsection{Duality}
+
+To motivate the following, we first consider functors.  Let $\overline A \in \msf{BanDL}$ and let $\mc A \subseteq \msf{BanDL}$ be the full subcategory with the single object $\overline A$.  A functor $F \colon \mc A \to \msf{Ban}$ is hence determined by a Banach space $X = F(\overline A)$ and a (contractive) homomorphism $\mc B(\overline A) \to \mc B(X); \overline T \mapsto F(\overline T)$.  That is, $X$ is a $\mc B(\overline A)$-module, the starting point for the definition of an interpolation space.
+
+However, it seems that rarely $X^*$ will be a $\mc B(\overline X^*)$-module.  We can repair this problem as follows.
+
+\begin{definition}
+Let $X$ be a $\mc B(\overline X)$-module.  The \emph{interpolation dual} $X^\intdual$ is the $\mc B(\overline X^*)$ module
+\[ X^\intdual = {}_{\mc B(\overline X)}\mc B(X, \overline X \proten \overline X^*), \]
+the $\mc B(\overline X)$-module maps from $X$ to $\overline X \proten \overline X^*$.
+\end{definition}
+
+\begin{proposition}
+We have that $X^\intdual$ is well-defined and is a $\mc B(\overline X^*)$-module.  Given a $\mc B(\overline X)$-module homomorphism $f \colon X \to Y$, there is a dual map $f^\intdual \colon Y^\intdual \to X^\intdual$ such that $f\mapsto f^\intdual$ is a contravariant functor.  When $\overline X$ is non-trivial, $(\Delta\overline X)^\intdual = \Sigma(\overline X^*) = (\Delta\overline X)^*$, this holding isometrically when $\|j\|=1$.
+\end{proposition}
+\begin{proof}
+From the definition of $\overline X \proten \overline X^*$, recall Section~\ref{sec:mor_tenprod}, given $\overline T \in \mc B(\overline X)$, we can form the tensor product $\overline T \otimes \overline{1}$, as in Proposition~\ref{prop:tenprod_morphisms}.  In this way, $\overline X \proten \overline X^*$ becomes a left $\mc B(\overline X)$-module, and so $X^\intdual$ makes sense.
+
+The same argument shows that $\overline X \proten \overline X^*$ is a left $\mc B(\overline X^*)$-module.  Given $\overline T\in\mc B(\overline X^*)$ and $t\in X^\intdual$ define $\overline T \cdot t = (\overline 1\otimes\overline T)\circ t$.  As the actions of $\mc B(\overline X)$ and $\mc B(\overline X^*)$ commute, $(\overline 1\otimes\overline T)\circ t$ is still in ${}_{\mc B(\overline X)}\mc B(X, \overline X \proten \overline X^*)$, and so $X^\intdual$ becomes a left $\mc B(\overline X^*)$-module.
+
+Given a $\mc B(\overline X)$-module homomorphism $f \colon X \to Y$, define
+\[ f^\intdual \colon {}_{\mc B(\overline X)}\mc B(Y, \overline X \proten \overline X^*) \to {}_{\mc B(\overline X)}\mc B(X, \overline X \proten \overline X^*); \quad
+f^\intdual(t) = t \circ f. \]
+As $f$ is a module map, $t\circ f$ is also a module map, and hence a member of $X^\intdual$.
+
+We show that $(\Delta\overline X)^\intdual = \Sigma \overline X^*$; this seems tedious, and it is in \cite[Proposition~IV.5.8]{KP_InterpolationFunctorsDuality} as well.  Let $t\in (\Delta\overline X)^\intdual = {}_{\mc B(\overline X)}\mc B(\Delta\overline X, \overline X \proten \overline X^*)$ so $t (\Delta\overline T(x)) = (\overline T \otimes \overline 1)t(x)$ for each $x\in \Delta\overline X, \overline T\in\mc B(\overline X)$.  Choose $x\in\Delta\overline X$.  There are two cases; firstly suppose that $j(x)\not=0$, so there is $x^*\in (\Sigma\overline X)^*$ with $\ip{x^*}{j(x)} = 1$.  Set $\overline T = x\otimes x^*$, so $T_i = x_i \otimes \xi_i^*$ if $(\xi_0^*, \xi_1^*)$ is a representative of $x^*$.  With $\sigma_i \colon X_i \proten X_i^* \to \overline X \proten \overline X^*$ as in \eqref{eq:tenprod_full_dl}, let $t(x) = \sigma_0(u_0) + \sigma_1(u_1)$ for some $u_0, u_1$.  Then $\Delta \overline T(x) = x$ and so
+\[ t(x) = (\overline T\otimes\overline 1)t(x)
+= \sigma_0(T_0\otimes 1)(u_0) + \sigma_1(T_1\otimes 1)(u_1)
+= \sigma_0(x_0 \otimes (\xi_0^*\otimes\id)u_0) + \sigma_1(x_1\otimes (\xi_1^*\otimes\id)u_1), \]
+where $\xi_i^*\otimes\id \colon X_i\proten X_i^* \to X_i^*$ is the slice map.  We have shown that there are $\eta_i^*\in X_i^*$ with $t(x) = \sigma_0(x_0\otimes\eta_0^*) + \sigma_1(x_1\otimes\eta_1^*)$.
+
+Alternatively, $j(x)=0$, so by Proposition~\ref{prop:Ki_and_j}, $x\in K_0\overline X \oplus K_1\overline X$.  By Proposition~\ref{prop:rank_one_morphisms}, given any $\xi_i^*\in X_i^*$, we have that $\overline T = (x_0\otimes\xi_0^*, x_1\otimes\xi_1^*)$ is a morphism.  Choosing $\xi_i^*$ with $\ip{\xi_i^*}{x_i}=1$, if $x_i\not=0$, or arbitrarily otherwise, we again have $\Delta \overline T(x) = x$, and so again
+\[ t(x) = \sigma_0(x_0 \otimes (\xi_0^*\otimes\id)u_0) + \sigma_1(x_1\otimes (\xi_1^*\otimes\id)u_1), \]
+and hence $t(x)$ has the same form.
+
+Conversely, given any $\eta_i^*\in X_i^*$, the map $t\colon \Delta\overline X \to \overline X\proten \overline X^*; x \mapsto \sigma_0(x_0\otimes\eta_0^*) + \sigma_1(x_1\otimes\eta_1^*)$ is linear, bounded, and obviously a module map, again see Proposition~\ref{prop:tenprod_morphisms}.
+
+%So there is a linear surjection $X_0^* \oplus X_1^* \to (\Delta\overline X)^\intdual$.  Given $\eta^* = (\eta_0^*,\eta_1^*) \in \Delta(\overline X^*) = (\Delta\overline X)'^\perp$, see Proposition~\ref{prop:dual}, we have that $\ip{\eta_0^*}{x_0} = \ip{\eta_1^*}{x_1}$ for all $x=(x_0,x_1) \in \Delta\overline X$, and hence 
+
+So there is a linear surjection $X_0^* \oplus X_1^* \to (\Delta\overline X)^\intdual$.  Given $\eta^* = (\eta_0^*,\eta_1^*) \in \Delta(\overline X^*)$ we have that $p_i(x\otimes\eta^*) = x_i \otimes \eta_i^*$ and so $(x_0\otimes\eta_0^*, -x_1\otimes\eta_1^*) = 0$ in $\overline X \proten \overline X^*$, see \eqref{eq:dl_tenprod}.  That is, $\sigma_0(x_0\otimes\eta_0^*) - \sigma_1(x_1\otimes\eta_1^*) = 0$, and so the map $t$ induced by $(\eta_0^*, -\eta_1^*)$ is zero.  As 
+$\Delta(\overline X^*) = (\Delta\overline X)'^\perp$, equivalently, we have shown that $\eta^* \in (\Delta\overline X)^\perp$ induces $t=0$.
+
+Conversely, suppose $\eta^*$ induces to the zero map, so $\sigma_0(x_0\otimes\eta_0^*) + \sigma_1(x_1\otimes\eta_1^*) = 0$ for all $x\in\Delta\overline X$.  Again with reference to \eqref{eq:dl_tenprod}, there is a sequence $(u_n)$ in $\Delta\overline X \proten \Delta(\overline X^*)$ with
+\[ x_0\otimes\eta_0^* = \lim_n p_0(u_n), \quad
+x_1\otimes\eta_1^* = \lim_n -p_1(u_n). \]
+As $j\not=0$, there is some choice of $x$ with $jx\not=0$.  Now choose $x^*$ as before, with $\ip{x^*}{jx} = 1$, and notice that $\ip{\xi_0^*}{y_0} = \ip{\xi_1^*}{y_1} = \ip{x^*}{jy}$ for all $y=(y_0,y_1)\in\Delta\overline X$.   Then
+\[ \eta_0^* = \lim_n (\xi_0^*\otimes\id)p_i(u_n) = \lim_n \delta_0\big( (x^*\circ j\otimes\id)u_n \big), \]
+and $\eta_1^* = \lim_n -\delta_1( (x^*\circ j\otimes\id)u_n )$, where here $\delta_i \colon \Delta(\overline X^*) \to X_i^*$.  Hence $(\eta_0^*, -\eta_1^*) \in \Delta(\overline X^*)$, equivalently, $\eta^* \in (\Delta\overline X)^\perp$.
+
+We conclude that we obtain a bijection $\Sigma(\overline X^*) = (\Delta\overline X)^* = (X_0^* \oplus_1 X_1^*) / (\Delta\overline X)^\perp \to (\Delta\overline X)^\intdual$.  We now compute norms: given $(\eta_0^*, \eta_1^*)$ let $t$ be the associated map, so
+\begin{align*}
+\|t(x)\| &= \| \sigma_0(x_0\otimes\eta_0^*) + \sigma_1(x_1\otimes\eta_1^*) \|
+\leq \|x_0\otimes\eta_0^*\| + \|x_1\otimes\eta_1^*\|
+\leq \|x_0\|\|\eta_0^*\| + \|x_1\|\|\eta_1^*\|   \\
+&\leq \max(\|x_0\|, \|x_1\|) \big( \|\eta_0^*\| + \|\eta_1^*\| \big)
+= \|x\| \| (\eta_0^*, \eta_1^*) \|_1.
+\end{align*}
+Taking the infimum over all choices of $\eta^*$, we conclude that the map $\Sigma(\overline X^*) \to (\Delta\overline X)^\intdual$ is contractive.  Suppose now that $\|j\|=1$, so there is a sequence $(u_n)$ of unit vectors in $\Delta\overline X$ with $\|j(u_n)\| \to 1$.  We can hence find a sequence $\xi_n^* = (\xi_{0,n}^*, \xi_{1,n}^*)$ of unit vectors in $(\Sigma\overline X)^*$ with $\ip{\xi_{0,n}^*}{u_{0,n}} + \ip{\xi_{1,n}^*}{u_{1,n}} \to 1$.  Recall that $\mc B(\overline X,\overline I) \cong (\Sigma\overline X)^*$, and so using Proposition~\ref{prop:tensor_unit}, we have maps
+\[ \xi_n^* \otimes \overline 1 \colon \overline X \proten \overline X^*
+\to \overline I \proten \overline X^* \cong \Sigma(\overline X^*), \]
+each of which is a contraction.  Using Proposition~\ref{prop:tenprod_morphisms}, we see that
+\[ (\xi_n^* \otimes \overline 1) t (u_n)
+= \sigma_0\big( (\xi_{0,n}^*\otimes 1)(u_{0,n}\otimes \eta_0^*) \big) + 
+\sigma_1\big( (\xi_{1,n}^*\otimes 1)(u_{1,n}\otimes \eta_1^*) \big)
+= \sigma_0(\eta_0^*) + \sigma_1(\eta_1^*). \]
+This establishes that $\|t\| \geq \|(\eta_0^*, \eta_1^*)\|_{\Sigma(\overline X^*)}$, and so we have equality.
+\end{proof}
+
+\begin{remark}
+Suppose $\overline X$ is trivial, so by Propositions~\ref{prop:when_j_zero} and~\ref{prop:Ki_and_j}, $\Delta\overline X = K_0\overline X \oplus K_1\overline X$, and $\Sigma\overline X = X_0 / K_0\overline X \oplus X_1 / K_1\overline X$.  Hence $\Delta(\overline X^*) = (K_0\overline X)^\perp \oplus (K_0\overline X)^\perp$.
+With reference to \eqref{eq:dl_tenprod}, the space we quotient by is the closure of
+\[ \{ (p_0(u), -p_1(u)) : u\in (K_0\overline X \oplus K_1\overline X)\otimes((K_0\overline X)^\perp \oplus (K_0\overline X)^\perp) \}
+= (K_0\overline X \otimes (K_0\overline X)^\perp ) \oplus (K_1\overline X \otimes (K_1\overline X)^\perp ). \]
+As the projective tensor product respects quotients, we conclude that
+\[ \overline X \proten \overline X^* = \big((X_0/K_0\overline X) \proten (X_0^* / (K_0\overline X)^\perp)\big) \oplus_1 \big((X_1/K_1\overline X) \proten (X_1^* / (K_1\overline X)^\perp)\big). \]
+
+Now let $t\colon\Delta\overline X \to \overline X \proten \overline X^*$ be a module map.  Let $x=(x_0,x_1)\in\Delta\overline X$, and choose $\xi_i^*\in X_i^*$ with $\ip{\xi_i^*}{x_i} = 1$.  Then $\overline T=(T_0,T_1) = (x_0\otimes\xi_0^*, x_1\otimes\xi_1^*)$ is a morphism, as $T_i$ restricts to $K_i\overline X$, and $\Delta\overline T(x) = x$.  However, as $T_i(X_i) \subseteq K_i$ here, we see that the induced map on $X_i / K_i\overline X$ is zero, and so $\overline T \otimes \overline 1 = 0$ on $\overline X \proten \overline X^*$.  Thus $t(x) = t \Delta\overline T(x) = (\overline T\otimes\overline 1)t(x) = 0$.  So $t=0$, and we conclude that $(\Delta\overline X)^\intdual = \{0\}$.
+\end{remark}
+
+
+Recall the notion of a $\Delta$-interpolation space, Definition~\ref{defn:int_space}.
+
+\begin{proposition}
+Let $X$ be a $\Delta$-interpolation space, so $X$ is a $\mc B(\overline X)$-module, and there is a dense range module map $\delta \colon \Delta\overline X \to X$, and a module map $\sigma\colon X \to \Sigma\overline X$, with $\sigma\circ\delta = j$.  Then we have inclusions
+\[ X^\intdual \to X^* \to \Sigma\overline X^* \]
+and $X^\intdual$ can be identified as the maximal $\mc B(\overline X^*)$-module contained in $X^*$.
+\end{proposition}
+\begin{proof}
+We have that $\delta^* \colon X^* \to (\Delta\overline X)^*$ is injective.  Further,
+\[ \delta^\intdual \colon X^\intdual = \colon {}_{\mc B(\overline X)}\mc B(X, \overline X \proten \overline X^*) \to \colon {}_{\mc B(\overline X)}\mc B(\Delta\overline X, \overline X \proten \overline X^*) = (\Delta\overline X)^\intdual = \Sigma\overline X^*, \]
+being the map $t\mapsto t\circ \delta$, is injective, as $\delta$ has dense range.
+
+TODO, if we now care.
+\end{proof}
 
 
 \bibliographystyle{plain}
