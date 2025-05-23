@@ -72,6 +72,8 @@
 \newcommand{\im}{{\operatorname{Im}}}
 \newcommand{\coker}{\operatorname{coker}}
 \newcommand{\intdual}{\circledast}
+\newcommand{\tr}{\operatorname{Tr}}
+\newcommand{\ad}{{\operatorname{ad}}}
 
 \begin{document}
 
@@ -604,7 +606,19 @@ is uniquely determined by the relations $(\overline T \otimes \overline S) \sigm
 If $\overline T, \overline S$ are contractive, then so are $T_i\otimes S_i \colon X_i\proten Y_i \to Z_i\proten W_i$.  We need to check that we map $\Delta(\overline X \overline{\proten} \overline Y)$ to $\Delta(\overline Z \overline{\proten} \overline W)$.  It suffices to prove that we map $\Delta\overline X \otimes \Delta\overline Y$ to $\Delta\overline Z \otimes \Delta\overline W$, but this is clear, as the required map is simply $\Delta\overline T \otimes \Delta\overline S$.
 \end{proof}
 
+More generally we can describe $\mc B(\overline X\overline\proten\overline Y, \overline Z)$.
+
+\begin{proposition}\label{prop:tensor_adjoint_hom}
+Let $T_i \colon X_i\proten Y_i \to Z_i$ for $i=0,1$.  Then $\overline T=(T_0,T_1)$ is a morphism $\overline X\overline\proten\overline Y \to \overline Z$ if and only if, for each $x=(x_0,x_1)\in\Delta\overline X, y=(y_0,y_1)\in\Delta\overline Y$ we have $(T_0(x_0\otimes y_0), T_1(x_1\otimes y_1)) \in \Delta\overline Z$.  We have that $\mc B(\overline X\overline\proten\overline Y, \overline Z) \cong \mc B(\overline X, \overline{\mc B}(\overline Y,\overline Z))$.
+\end{proposition}
+\begin{proof}
+We again use the dense-range map $\phi \colon \Delta\overline X \otimes \Delta\overline Y \to \in\Delta(\overline X\overline\proten\overline Y)$.  That $\Delta\overline T$ exists is, by continuity, equivalent to $(T_0,T_1)\phi(\Delta\overline X \otimes \Delta\overline Y) \subseteq \Delta\overline Z$.  This is now immediately seen to be equivalent to the statement in the claim.
+
+Given a morphism $\overline T\colon \overline X\overline\proten\overline Y \to \overline Z$ we define $\overline S=(S_0,S_1) \colon \overline X \to \overline{\mc B}(\overline Y,\overline Z)$ by setting $S_i \colon X_i \to \mc B(Y_i, Z_i)$ to be $S_i(x_i)(y_i) = T_i(x_i\otimes y_i)$.  Then $\Delta\overline S$ exists as given $(x_0,x_1)\in\Delta\overline X$, we claim that $(S_0(x_0), S_1(x_1)) \in \Delta \overline{\mc B}(\overline Y,\overline Z)$.  That is, for $(y_0,y_1)\in\Delta\overline Y$, we have that $(S_0(x_0)(y_0), S_1(x_1)(y_1))\in\Delta\overline Z$, but this is immediate as $\overline T$ has this property.  This argument is easily reversed to show that every $\overline S \in \mc B(\overline X, \overline{\mc B}(\overline Y,\overline Z))$ arises in this way.
+\end{proof}
+
 More is in \cite[Section IV.2]{KP_InterpolationFunctorsDuality}.
+
 
 
 \subsection{Morphisms and inclusions}
@@ -797,7 +811,7 @@ Given $S\in\mc B(\Sigma\overline X, Z)$ define $T_i = S\circ \sigma_i \colon X_i
 Given $S\in\mc B(Z,\Delta\overline X)$ define $T_i\colon Z\to X_i$ by $T_i = \delta_i\circ S$.  For $(z,z)\in \Delta JZ$ we see that $(T_0z, T_1z) = Sz$, and so $\overline T$ is a morphism, and $\Delta\overline T = S$.  Hence we obtain the required isomorphism $\mc B(Z, \Delta\overline X) \cong \mc B(JZ, \overline X)$.
 \end{proof}
 
-We set $\overline I = J\mathbb C$.  Then, for example, $\mc B(\overline X,\overline I) \cong(\Sigma\overline X)^*$ and $\mc B(\overline I, \overline X) \cong \Delta\overline X$.
+We set $\overline I = J\mathbb C$.  Then, for example, $\mc B(\overline X,\overline I) \cong(\Sigma\overline X)^*$ and $\mc B(\overline I, \overline X) \cong \Delta\overline X$.  As a doolittle diagram is uniquely determined by the choice of $\Delta$ space, we also have $\overline{\mc B}(\overline I, \overline X) \cong \overline X$ and $\overline{\mc B}(\overline X,\overline I) \cong \overline X^*$, the latter because $(\Sigma\overline X)^* = \Delta(\overline X^*)$.
 
 \begin{proposition}\label{prop:tensor_unit}
 For any $\overline X$ we have that $\overline I \overline\proten \overline X \cong \overline X \cong \overline X \overline\proten \overline I$.  In particular, $\overline I \proten \overline X \cong \Sigma \overline X \cong \overline X \proten \overline I$.
@@ -812,6 +826,34 @@ We only show one of these, the other following by symmetry.  We first construct 
 \end{tikzcd} \]
 As $\overline I \proten \overline X$ is the pushforward of this, we see that $\overline I \proten \overline X \cong \Sigma\overline X$.  The rest follows.
 \end{proof}
+
+We now $\overline I$ to show a duality result for the tensor product: this could also be argued by more direct methods along the line of the proof of Proposition~\ref{prop:tensor_adjoint_hom}.
+
+\begin{proposition}\label{prop:dual_tensor}
+For any $\overline X$ we have that $\big(\overline X \proten \overline X^*\big)^* = \mc B(\overline X^*)$.  More generally, for any $\overline X,\overline Y$, the isomorphism exists at the level of doolittle diagrams:
+\[ \begin{tikzcd}
+\Delta(\overline X\overline\proten\overline Y) \arrow[r] \arrow[d] & X_0\proten Y_0 \arrow[d] \\
+X_1\proten Y_1 \arrow[r] & \Sigma(\overline X\overline\proten\overline Y) = \overline X\proten\overline Y
+\end{tikzcd}
+\]
+has dual diagram
+\[ \begin{tikzcd}
+(\overline X\proten\overline Y)^* \arrow[r] \arrow[d] & (X_0\proten Y_0)^* \arrow[d] \\
+(X_1\proten Y_1)^* \arrow[r] & \Delta(\overline X\overline\proten\overline Y)^* 
+\end{tikzcd}
+\quad\cong\quad
+\begin{tikzcd}
+\mc B(\overline Y, \overline X^*) \arrow[r] \arrow[d] & \mc B(Y_0, X_0^*) \arrow[d] \\
+\mc B(Y_1, X_1^*) \arrow[r] & \Sigma\overline{\mc B}(\overline Y, \overline X^*)
+\end{tikzcd}
+\]
+Symmetrically, we also have $(\overline X\proten\overline Y)^* \cong \mc B(\overline X, \overline Y^*)$.
+\end{proposition}
+\begin{proof}
+By the symmetric version of Proposition~\ref{prop:tensor_adjoint_hom}, we have that $\mc B(\overline X \overline\proten \overline X^*, \overline Z) \cong \mc B(\overline X^*, \overline{\mc B}(\overline X, \overline Z))$, for any $\overline Z$.  Setting $\overline Z = \overline I$ we obtain $(\overline X \proten \overline X^*)^* = (\Sigma(\overline X \overline\proten \overline X^*))^* \cong \mc B(\overline X \overline\proten \overline X^*, \overline I) \cong \mc B(\overline X^*, \overline{\mc B}(\overline X, \overline I)) \cong \mc B(\overline X^*,\overline X^*)$.  The general case follows similarly.
+\end{proof}
+
+In particular, $\overline 1 \in \mc B(\overline X^*)$ induces the \emph{trace} $\tr \colon \overline X \proten \overline X^* \to \mathbb C$.  Notice that for $T\in\mc B(\overline X^*)$ and $u\in \overline X \proten \overline X^*$, we have $\ip{T}{u} = \tr((\overline 1 \otimes \overline T)u)$.
 
 We recall the notion of a \emph{natural transformation} between functors $F,G\colon \msf{Ban} \to \msf{Ban}$; for other categories the notion is analogously.  We write $\eta \colon F \Rightarrow G$, and require
 \[ \begin{tikzcd}
@@ -900,7 +942,7 @@ the $\mc B(\overline X)$-module maps from $X$ to $\overline X \proten \overline 
 \end{definition}
 
 \begin{proposition}
-We have that $X^\intdual$ is well-defined and is a $\mc B(\overline X^*)$-module.  Given a $\mc B(\overline X)$-module homomorphism $f \colon X \to Y$, there is a dual map $f^\intdual \colon Y^\intdual \to X^\intdual$ such that $f\mapsto f^\intdual$ is a contravariant functor.  When $\overline X$ is non-trivial, $(\Delta\overline X)^\intdual = \Sigma(\overline X^*) = (\Delta\overline X)^*$, this holding isometrically when $\|j\|=1$.
+We have that $X^\intdual$ is well-defined and is a $\mc B(\overline X^*)$-module.  Given a $\mc B(\overline X)$-module homomorphism $f \colon X \to Y$, there is a dual map $f^\intdual \colon Y^\intdual \to X^\intdual$ such that $f\mapsto f^\intdual$ is a contravariant functor.
 \end{proposition}
 \begin{proof}
 From the definition of $\overline X \proten \overline X^*$, recall Section~\ref{sec:mor_tenprod}, given $\overline T \in \mc B(\overline X)$, we can form the tensor product $\overline T \otimes \overline{1}$, as in Proposition~\ref{prop:tenprod_morphisms}.  In this way, $\overline X \proten \overline X^*$ becomes a left $\mc B(\overline X)$-module, and so $X^\intdual$ makes sense.
@@ -910,9 +952,40 @@ The same argument shows that $\overline X \proten \overline X^*$ is a left $\mc 
 Given a $\mc B(\overline X)$-module homomorphism $f \colon X \to Y$, define
 \[ f^\intdual \colon {}_{\mc B(\overline X)}\mc B(Y, \overline X \proten \overline X^*) \to {}_{\mc B(\overline X)}\mc B(X, \overline X \proten \overline X^*); \quad
 f^\intdual(t) = t \circ f. \]
-As $f$ is a module map, $t\circ f$ is also a module map, and hence a member of $X^\intdual$.
+As $f$ is a module map, $t\circ f$ is also a module map, and hence a member of $X^\intdual$.  Also clearly $f^\intdual$ is a $\mc B(\overline X^*)$-module map.
+\end{proof}
 
-We show that $(\Delta\overline X)^\intdual = \Sigma \overline X^*$; this seems tedious, and it is in \cite[Proposition~IV.5.8]{KP_InterpolationFunctorsDuality} as well.  Let $t\in (\Delta\overline X)^\intdual = {}_{\mc B(\overline X)}\mc B(\Delta\overline X, \overline X \proten \overline X^*)$ so $t (\Delta\overline T(x)) = (\overline T \otimes \overline 1)t(x)$ for each $x\in \Delta\overline X, \overline T\in\mc B(\overline X)$.  Choose $x\in\Delta\overline X$.  There are two cases; firstly suppose that $j(x)\not=0$, so there is $x^*\in (\Sigma\overline X)^*$ with $\ip{x^*}{j(x)} = 1$.  Set $\overline T = x\otimes x^*$, so $T_i = x_i \otimes \xi_i^*$ if $(\xi_0^*, \xi_1^*)$ is a representative of $x^*$.  With $\sigma_i \colon X_i \proten X_i^* \to \overline X \proten \overline X^*$ as in \eqref{eq:tenprod_full_dl}, let $t(x) = \sigma_0(u_0) + \sigma_1(u_1)$ for some $u_0, u_1$.  Then $\Delta \overline T(x) = x$ and so
+Recall from Proposition~\ref{prop:dual_tensor} that $(\overline X \proten \overline X^*)^* \cong \mc B(\overline X^*)$ with $\overline 1$ inducing the functional $\tr$.  So given a contractive linear map $t\in\mc B(X, \overline X \proten \overline X^*)$ we obtain a contractive linear map $\tr\circ t \colon X \to \mathbb C$, that is, a member of $X^*$.
+We hence obtain a linear contraction $\tau \colon X^\intdual \to X^*$.  The map $\mc B(\overline X) \to \mc B(\overline X^*); \overline T\mapsto \overline T^*=(T_0^*, T_1^*)$ is an anti-homomorphism.  As $X$ is a left $\mc B(\overline X)$-module, $X^*$ is a right $\mc B(\overline X)$-module for the Banach space adjoint action, and so $X^*$ is a left module for the (closed) subalgebra $\mc B(\overline X)^\ad = \{ \overline T^* : \overline T \in \mc B(\overline X) \} \subseteq \mc B(\overline X^*)$.  %In the following, any $\mc B(\overline X^*)$-module contained in $X^*$ should have action extending the $\mc B(\overline X)^\ad$ action.
+
+\begin{lemma}
+For any $\mc B(\overline X)$-module $X$, the map $\tau \colon X^\intdual \to X^*$ is a $\mc B(\overline X)^\ad$-module homomorphism.  When there is a $\mc B(\overline X)$-module homomorphism $\delta \colon \Delta\overline X \to X$, the adjoint $\delta^* \colon X^* \to \Sigma(\overline X^*)$ is a $\mc B(\overline X)^\ad$-module homomorphism.
+\end{lemma}
+\begin{proof}
+As $X^\intdual$ is a $\mc B(\overline X^*)$-module, by restriction, it is a $\mc B(\overline X)^\ad$-module.  Let $u = \sigma_0(\xi_0\otimes\xi_0^*) + \sigma_1(\xi_1\otimes\xi_1^*)$ so $\tr(u) = \ip{\xi_0^*}{\xi_0} + \ip{\xi_1^*}{\xi_1}$.  So given $\overline S \in\mc B(\overline X^*)$, we see that $\tr((\overline 1\otimes\overline S)u) = \ip{S_0\xi_0^*}{\xi_0} + \ip{S_1\xi_1^*}{\xi_1}$ and if $\overline S = \overline T^*$ for some $\overline T\in\mc B(\overline X)$, this is equal to $\ip{\xi_0^*}{T_0\xi_0} + \ip{\xi_1^*}{T_1\xi_1} = \tr((\overline T\otimes\overline 1)u)$.  Thus, for $x\in X$ and $t\in X^\intdual$, because $t$ is a module-map,
+\[ \ip{\overline S \cdot \tau(t)}{x}
+= \ip{\tau(t)}{\overline T\cdot x}
+= \tr( t(\overline T\cdot x) )
+= \tr((\overline T\otimes\overline 1)t(x))
+= \tr((\overline 1\otimes\overline T^*)t(x))
+= \ip{\tau(\overline S \cdot t)}{x}, \]
+in the final step using the definition of the $\mc B(\overline X^*)$-module action on $X^\intdual$.  As this holds for all $x\in X$, we conclude that $\tau$ is a $\mc B(\overline X)^\ad$-module homomorphism.
+
+When there is a map $\delta$, by definition of the module actions, $\delta^*$ is a right $\mc B(\overline X)$-module homomorphism, and so a $\mc B(\overline X)^\ad$-module homomorphism.  It remains to check that that the $\mc B(\overline X)^\ad$-module action of $\Sigma(\overline X^*)$ is the restriction of the natural $\mc B(\overline X^*)$-action.  Given $\xi=(\xi_0,\xi_1)\in\Delta\overline X$ and $\xi^* = (\xi_0^*, \xi_1^*) + (\Delta\overline X)^\perp \in \Sigma(\overline X^*)$, for $\overline T\in\mc B(\overline X)$,
+\[ \ip{\xi^* \cdot \overline T}{\xi} = \ip{\xi^*}{\Delta\overline T(\xi)}
+= \ip{\xi_0^*}{T_0\xi_0} + \ip{\xi_1^*}{T_1\xi_1}
+= \ip{T_0^*\xi_0^*}{\xi_0} + \ip{T_1^*\xi_1^*}{\xi_1}
+= \ip{\Sigma\overline T^*(\xi^*)}{\xi}, \]
+and so $\xi^* \cdot \overline T = \Sigma\overline T^*(\xi^*)$ as required.
+\end{proof}
+
+We next identify $(\Delta\overline X)^\intdual$, at least when $j\not=0$.
+
+\begin{proposition}\label{prop:Delta_interp_dual}
+When $\overline X$ is non-trivial, $(\Delta\overline X)^\intdual = \Sigma(\overline X^*) = (\Delta\overline X)^*$, this holding isometrically when $\|j\|=1$.  The isomorphism is given by $(\Delta\overline X)^\intdual \ni t \mapsto \tr\circ t \in (\Delta\overline X)^*$.
+\end{proposition}
+\begin{proof}
+This proof is a little tedious, and it is in \cite[Proposition~IV.5.8]{KP_InterpolationFunctorsDuality} as well.  Let $t\in (\Delta\overline X)^\intdual = {}_{\mc B(\overline X)}\mc B(\Delta\overline X, \overline X \proten \overline X^*)$ so $t (\Delta\overline T(x)) = (\overline T \otimes \overline 1)t(x)$ for each $x\in \Delta\overline X, \overline T\in\mc B(\overline X)$.  Choose $x\in\Delta\overline X$.  There are two cases; firstly suppose that $j(x)\not=0$, so there is $x^*\in (\Sigma\overline X)^*$ with $\ip{x^*}{j(x)} = 1$.  Set $\overline T = x\otimes x^*$, so $T_i = x_i \otimes \xi_i^*$ if $(\xi_0^*, \xi_1^*)$ is a representative of $x^*$.  With $\sigma_i \colon X_i \proten X_i^* \to \overline X \proten \overline X^*$ as in \eqref{eq:tenprod_full_dl}, let $t(x) = \sigma_0(u_0) + \sigma_1(u_1)$ for some $u_0, u_1$.  Then $\Delta \overline T(x) = x$ and so
 \[ t(x) = (\overline T\otimes\overline 1)t(x)
 = \sigma_0(T_0\otimes 1)(u_0) + \sigma_1(T_1\otimes 1)(u_1)
 = \sigma_0(x_0 \otimes (\xi_0^*\otimes\id)u_0) + \sigma_1(x_1\otimes (\xi_1^*\otimes\id)u_1), \]
@@ -924,8 +997,6 @@ and hence $t(x)$ has the same form.
 
 Conversely, given any $\eta_i^*\in X_i^*$, the map $t\colon \Delta\overline X \to \overline X\proten \overline X^*; x \mapsto \sigma_0(x_0\otimes\eta_0^*) + \sigma_1(x_1\otimes\eta_1^*)$ is linear, bounded, and obviously a module map, again see Proposition~\ref{prop:tenprod_morphisms}.
 
-%So there is a linear surjection $X_0^* \oplus X_1^* \to (\Delta\overline X)^\intdual$.  Given $\eta^* = (\eta_0^*,\eta_1^*) \in \Delta(\overline X^*) = (\Delta\overline X)'^\perp$, see Proposition~\ref{prop:dual}, we have that $\ip{\eta_0^*}{x_0} = \ip{\eta_1^*}{x_1}$ for all $x=(x_0,x_1) \in \Delta\overline X$, and hence 
-
 So there is a linear surjection $X_0^* \oplus X_1^* \to (\Delta\overline X)^\intdual$.  Given $\eta^* = (\eta_0^*,\eta_1^*) \in \Delta(\overline X^*)$ we have that $p_i(x\otimes\eta^*) = x_i \otimes \eta_i^*$ and so $(x_0\otimes\eta_0^*, -x_1\otimes\eta_1^*) = 0$ in $\overline X \proten \overline X^*$, see \eqref{eq:dl_tenprod}.  That is, $\sigma_0(x_0\otimes\eta_0^*) - \sigma_1(x_1\otimes\eta_1^*) = 0$, and so the map $t$ induced by $(\eta_0^*, -\eta_1^*)$ is zero.  As 
 $\Delta(\overline X^*) = (\Delta\overline X)'^\perp$, equivalently, we have shown that $\eta^* \in (\Delta\overline X)^\perp$ induces $t=0$.
 
@@ -936,7 +1007,10 @@ As $j\not=0$, there is some choice of $x$ with $jx\not=0$.  Now choose $x^*$ as 
 \[ \eta_0^* = \lim_n (\xi_0^*\otimes\id)p_i(u_n) = \lim_n \delta_0\big( (x^*\circ j\otimes\id)u_n \big), \]
 and $\eta_1^* = \lim_n -\delta_1( (x^*\circ j\otimes\id)u_n )$, where here $\delta_i \colon \Delta(\overline X^*) \to X_i^*$.  Hence $(\eta_0^*, -\eta_1^*) \in \Delta(\overline X^*)$, equivalently, $\eta^* \in (\Delta\overline X)^\perp$.
 
-We conclude that we obtain a bijection $\Sigma(\overline X^*) = (\Delta\overline X)^* = (X_0^* \oplus_1 X_1^*) / (\Delta\overline X)^\perp \to (\Delta\overline X)^\intdual$.  We now compute norms: given $(\eta_0^*, \eta_1^*)$ let $t$ be the associated map, so
+We conclude that we obtain a bijection $\Sigma(\overline X^*) = (\Delta\overline X)^* = (X_0^* \oplus_1 X_1^*) / (\Delta\overline X)^\perp \to (\Delta\overline X)^\intdual$.  Let $\eta^*\in (\Delta\overline X)^*$ induce $t\in(\Delta\overline X)^\intdual$.  Then $\tr(t(x)) = \ip{\eta_0^*}{x_0} + \ip{\eta_1^*}{x_1} = \ip{\eta^*}{x}$ for each $x=(x_0,x_1)\in\Delta\overline X$, and so $\tr\circ t = \eta^*$ in $(\Delta\overline X)^*$.
+
+
+We now compute norms: given $(\eta_0^*, \eta_1^*)$ let $t$ be the associated map, so
 \begin{align*}
 \|t(x)\| &= \| \sigma_0(x_0\otimes\eta_0^*) + \sigma_1(x_1\otimes\eta_1^*) \|
 \leq \|x_0\otimes\eta_0^*\| + \|x_1\otimes\eta_1^*\|
@@ -944,14 +1018,15 @@ We conclude that we obtain a bijection $\Sigma(\overline X^*) = (\Delta\overline
 &\leq \max(\|x_0\|, \|x_1\|) \big( \|\eta_0^*\| + \|\eta_1^*\| \big)
 = \|x\| \| (\eta_0^*, \eta_1^*) \|_1.
 \end{align*}
-Taking the infimum over all choices of $\eta^*$, we conclude that the map $\Sigma(\overline X^*) \to (\Delta\overline X)^\intdual$ is contractive.  Suppose now that $\|j\|=1$, so there is a sequence $(u_n)$ of unit vectors in $\Delta\overline X$ with $\|j(u_n)\| \to 1$.  We can hence find a sequence $\xi_n^* = (\xi_{0,n}^*, \xi_{1,n}^*)$ of unit vectors in $(\Sigma\overline X)^*$ with $\ip{\xi_{0,n}^*}{u_{0,n}} + \ip{\xi_{1,n}^*}{u_{1,n}} \to 1$.  Recall that $\mc B(\overline X,\overline I) \cong (\Sigma\overline X)^*$, and so using Proposition~\ref{prop:tensor_unit}, we have maps
+Taking the infimum over all choices of $\eta^*$, we conclude that the map $\Sigma(\overline X^*) \to (\Delta\overline X)^\intdual$ is contractive.  Suppose now that $\|j\|=1$, so there is a sequence $(u_n)$ of unit vectors in $\Delta\overline X$ with $\|j(u_n)\| \to 1$.
+We can hence find a sequence $\xi_n^* = (\xi_{0,n}^*, \xi_{1,n}^*)$ of unit vectors in $(\Sigma\overline X)^*$ with $\ip{\xi_n^*}{j(u_n)} = \ip{\xi_{0,n}^*}{u_{0,n}} = \ip{\xi_{1,n}^*}{u_{1,n}} \to 1$.  Recall that $\mc B(\overline X,\overline I) \cong (\Sigma\overline X)^*$, and so using Proposition~\ref{prop:tensor_unit}, we have maps
 \[ \xi_n^* \otimes \overline 1 \colon \overline X \proten \overline X^*
 \to \overline I \proten \overline X^* \cong \Sigma(\overline X^*), \]
 each of which is a contraction.  Using Proposition~\ref{prop:tenprod_morphisms}, we see that
 \[ (\xi_n^* \otimes \overline 1) t (u_n)
 = \sigma_0\big( (\xi_{0,n}^*\otimes 1)(u_{0,n}\otimes \eta_0^*) \big) + 
 \sigma_1\big( (\xi_{1,n}^*\otimes 1)(u_{1,n}\otimes \eta_1^*) \big)
-= \sigma_0(\eta_0^*) + \sigma_1(\eta_1^*). \]
+\to \sigma_0(\eta_0^*) + \sigma_1(\eta_1^*). \]
 This establishes that $\|t\| \geq \|(\eta_0^*, \eta_1^*)\|_{\Sigma(\overline X^*)}$, and so we have equality.
 \end{proof}
 
@@ -966,21 +1041,43 @@ As the projective tensor product respects quotients, we conclude that
 Now let $t\colon\Delta\overline X \to \overline X \proten \overline X^*$ be a module map.  Let $x=(x_0,x_1)\in\Delta\overline X$, and choose $\xi_i^*\in X_i^*$ with $\ip{\xi_i^*}{x_i} = 1$.  Then $\overline T=(T_0,T_1) = (x_0\otimes\xi_0^*, x_1\otimes\xi_1^*)$ is a morphism, as $T_i$ restricts to $K_i\overline X$, and $\Delta\overline T(x) = x$.  However, as $T_i(X_i) \subseteq K_i$ here, we see that the induced map on $X_i / K_i\overline X$ is zero, and so $\overline T \otimes \overline 1 = 0$ on $\overline X \proten \overline X^*$.  Thus $t(x) = t \Delta\overline T(x) = (\overline T\otimes\overline 1)t(x) = 0$.  So $t=0$, and we conclude that $(\Delta\overline X)^\intdual = \{0\}$.
 \end{remark}
 
-
-Recall the notion of a $\Delta$-interpolation space, Definition~\ref{defn:int_space}.
-
 \begin{proposition}
-Let $X$ be a $\Delta$-interpolation space, so $X$ is a $\mc B(\overline X)$-module, and there is a dense range module map $\delta \colon \Delta\overline X \to X$, and a module map $\sigma\colon X \to \Sigma\overline X$, with $\sigma\circ\delta = j$.  Then we have inclusions
-\[ X^\intdual \to X^* \to \Sigma\overline X^* \]
-and $X^\intdual$ can be identified as the maximal $\mc B(\overline X^*)$-module contained in $X^*$.
+Let $\overline X$ be non-trivial.
+Let $X$ be a $\Delta$-interpolation space, so $X$ is a $\mc B(\overline X)$-module, and there is a dense range module map $\delta \colon \Delta\overline X \to X$, and a module map $\sigma\colon X \to \Sigma\overline X$, with $\sigma\circ\delta = j$.  We have the commutative diagram consisting of injective maps.
+\[\begin{tikzcd}
+  X^\intdual \arrow[r, "\tau"] \arrow[rd, "\delta^\intdual"'] & X^* \arrow[d, "\delta^*"] \\
+  & (\Delta\overline X)^* = \Sigma(\overline X^*)
+\end{tikzcd}\]
+Let $Y\subseteq X^*$ be such that $\delta^*(Y)$ is a $\mc B(\overline X^*)$-submodule of $\Sigma(\overline X^*)$.  As $\delta^*$ is injective, $Y$ becomes an algebraic $\mc B(\overline X^*)$-module.  Suppose that this action is bounded: there is $C_Y = C>0$ such that
+\[ \|\overline T\cdot x^*\| \leq C \|\overline T\| \|x^*\| \qquad (\overline T\in\mc B(\overline X^*), x^*\in X^*). \]
+Then $Y\subseteq \tau(X^\intdual)$.  When $\|j\|=1$, both $\tau$ and $\delta^\intdual$ are isometries, and so we can regard $X^\intdual$ as a $\mc B(\overline X)^\ad$-submodule of $X^*$, and indeed think of it as the largest $\mc B(\overline X^*)$-submodule of $X^*$, in the above precise sense.
 \end{proposition}
 \begin{proof}
-We have that $\delta^* \colon X^* \to (\Delta\overline X)^*$ is injective.  Further,
-\[ \delta^\intdual \colon X^\intdual = \colon {}_{\mc B(\overline X)}\mc B(X, \overline X \proten \overline X^*) \to \colon {}_{\mc B(\overline X)}\mc B(\Delta\overline X, \overline X \proten \overline X^*) = (\Delta\overline X)^\intdual = \Sigma\overline X^*, \]
+We have that $\delta^* \colon X^* \to (\Delta\overline X)^* = \Sigma(\overline X^*)$ is injective, because $\delta$ has dense range.  Further,
+\[ \delta^\intdual \colon
+X^\intdual = {}_{\mc B(\overline X)}\mc B(X, \overline X \proten \overline X^*)
+\to
+{}_{\mc B(\overline X)}\mc B(\Delta\overline X, \overline X \proten \overline X^*) = (\Delta\overline X)^\intdual = \Sigma(\overline X^*), \]
 being the map $t\mapsto t\circ \delta$, is injective, as $\delta$ has dense range.
+The isomorphism $(\Delta\overline X)^\intdual \cong (\Delta\overline X)^*$ from Proposition~\ref{prop:Delta_interp_dual} is $t \mapsto \tr\circ t$.  So we can regard $\delta^\intdual \colon X^\intdual \to (\Delta\overline X)^*$ as the map $t \mapsto \tr\circ(t\circ \delta) = \tau (t) \circ \delta = \delta^*(\tau(t))$.  That is, $\delta^\intdual = \delta^* \circ \tau$.  We hence have our inclusions: $\tau$ must in injective as $\delta^*$ and $\delta^\intdual$ are.
 
-TODO, if we now care.
+Let $x^*\in X^*$ so that $\delta^*(x^*)\in (\Delta\overline X)^* \cong (\Delta\overline X)^\intdual$, say $\delta^*(x^*)$ induces $s\in (\Delta\overline X)^\intdual$.  Let $\delta^*(x^*) = (\xi_0^*, \xi_1^*) + (\Delta\overline X)^\perp \in (\Delta\overline X)^*$.  Then for $\xi=(\xi_0,\xi_1)\in\Delta\overline X$,
+\[ s(\xi) = \sigma_0(\xi_0\otimes\xi_0^*) + \sigma_1(\xi_1\otimes\xi_1^*)
+\quad\implies\quad
+\tr(s(\xi)) = \ip{\xi_0^*}{\xi_0} + \ip{\xi_1^*}{\xi_1} = \ip{\delta^*(x^*)}{\xi}
+= \ip{x^*}{\delta(\xi)}. \]
+Now let $Y$ be given, so for $x^*\in Y$ we can make sense of $\overline T\cdot x^*$ for $\overline T\in\mc B(\overline X^*)$.  We see that for $\xi\in\Delta\overline X$, and $\overline T\in\mc B(\overline X^*)$ we have
+\[ \ip{\overline T}{s(\xi)}
+= \tr((\overline 1\otimes\overline T)s(\xi))
+= \tr( (\overline T \cdot s)(\xi) )
+= \tr( \delta^*(\overline T\cdot x^*)(\xi) )
+= \ip{\overline T\cdot x^*}{\delta(\xi)}. \]
+Taking the supremum over $\|\overline T\| = 1$ gives $\|s(\xi)\| \leq C \|x^*\| \|\delta(\xi)\|$ where $C=C_Y$ is as in the hypothesis.  As $\delta$ has dense range, by continuity, we may define $t \colon X \to \overline X\proten\overline X^*$ with $t\circ\delta = s$ and $\|t\| \leq C\|x^*\|$.  Again, as $\delta$ has dense range is a module map, $t\in X^\intdual$, and $\delta^\intdual(t) = s = \delta^*(x^*)$.  As all the maps are injective, we must have $\tau(t) = x^*$.  It follows that $Y \subseteq \tau(X^\intdual)$, as claimed.
+
+Now suppose that $\|j\|=1$.  We proceed as in the final step of the proof of Proposition~\ref{prop:Delta_interp_dual}.  Again let $(u_n)$ be a sequence of unit vectors in $\Delta\overline X$ with $\|j(u_n)\|\to 1$, and let $(\xi_n^*)$ be a sequence of unit vectors in $(\Sigma\overline X)^*$ with $\ip{\xi_n^*}{j(u_n)} \to 1$.  As $\sigma\circ\delta = j$ and $\sigma, \delta$ are contractions, also $\|\delta(u_n)\|\to 1$.  Let $s = \delta^\intdual(t) = t\circ \delta \in (\Delta\overline X)^\intdual$ be associated to $\eta^* \in (\Delta\overline X)^*$, that is, $\eta^* = \delta^*(\tau(t))$.  As in the proof of Proposition~\ref{prop:Delta_interp_dual}, we have $(\xi_n^*\otimes\overline 1) s(u_n) \to \eta^*$.
+Hence $(\xi_n^*\otimes\overline 1) t(\delta(u_n)) \to \delta^*(\tau(t))$.  As $\xi_n^*$ are unit vectors and $\|\delta(u_n)\|\to 1$, this shows that $\|t\| \geq \|\delta^*(\tau(t))\| = \|\delta^\intdual(t)\|$.  So $\delta^\intdual$ is an isometry, and hence so too is $\tau$, as claimed.
 \end{proof}
+
 
 
 \bibliographystyle{plain}
