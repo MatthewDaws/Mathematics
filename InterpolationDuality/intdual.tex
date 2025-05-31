@@ -79,16 +79,20 @@
 
 \title{Interpolation spaces and duality}
 \author{Matt Daws}
-\date{April 2025}
+\date{May 2025}
 \maketitle
 
 \begin{abstract}
 Some notes on the monograph by Kaijser and Pelletier.
 \end{abstract}
 
+\tableofcontents
+
+\bigskip
+
 We give some notes about the book \cite{KP_InterpolationFunctorsDuality}, written as the author was reading this book.  Part~I of the book makes a quick introduction to doolittle diagrams of Banach spaces, thought of as generalisations of Banach couples, and then shows how the ``real'' ($J$ and $K$ methods) and complex interpolation schemes can be introduced in this generalised setting.
 
-The notes here currently give a detailed account of doolittle diagrams, but little else.  I found the learning curve involved in thinking about doolittle diagrams to be steep, but once overcome, other parts of the book were not so hard to read.
+The notes here currently give a detailed account of doolittle diagrams, but after that only cover selected topics.  I found the learning curve involved in thinking about doolittle diagrams to be steep, but once overcome, other parts of the book were not so hard to read.
 
 
 
@@ -258,10 +262,11 @@ To close this section, we discuss dual spaces.  By Hahn--Banach, we identify $(\
 
 \begin{proposition}\label{prop:dual}
 Given a doolittle diagram $\overline X$, also the following is doolittle
-\[ \begin{tikzcd}
+\begin{equation} \begin{tikzcd}
 (\Sigma\overline X)^* = (\Delta')^\perp  \arrow[r, "\sigma_0^*"] \arrow[d, "\sigma_1^*"'] & X_0^* \arrow[d, "\delta_0^*"]\\
 X_1^* \arrow[r, "\delta_1^*"'] & (\Delta\overline X)^* = X_0^* \oplus_1 X_1^* / \Delta^\perp
-\end{tikzcd} \]
+\end{tikzcd} \label{eq:dual_doolittle_diagram}
+\end{equation}
 \end{proposition}
 \begin{proof}
 The only thing to check is that $X_0^* \oplus_1 X_1^* / \Delta^\perp = P(\sigma_0^*, \sigma_1^*)$.  This will follow if we show that $\Delta^\perp = ((\Delta')^\perp)'$.  However, $(\xi_0^*, \xi_1^*) \in ((\Delta')^\perp)'$ exactly when $\ip{(\xi_0^*, -\xi_1^*)}{(\xi_0,\xi_1)}=0$ for all $(\xi_0,\xi_1) \in \Delta'$, equivalently, $\ip{(\xi_0^*, -\xi_1^*)}{(\xi_0,-\xi_1)}=0$ for each $(\xi_0,\xi_1)\in \Delta$, that is, $(\xi_0^*, \xi_1^*) \in \Delta^\perp$, as the minus signs cancel.
@@ -935,7 +940,7 @@ To motivate the following, we first consider functors.  Let $\overline A \in \ms
 
 However, it seems that rarely $X^*$ will be a $\mc B(\overline X^*)$-module.  We can repair this problem as follows.
 
-\begin{definition}
+\begin{definition}[{\cite[Definition~IV.5.7]{KP_InterpolationFunctorsDuality}}]
 Let $X$ be a $\mc B(\overline X)$-module.  The \emph{interpolation dual} $X^\intdual$ is the $\mc B(\overline X^*)$ module
 \[ X^\intdual = {}_{\mc B(\overline X)}\mc B(X, \overline X \proten \overline X^*), \]
 the $\mc B(\overline X)$-module maps from $X$ to $\overline X \proten \overline X^*$.
@@ -978,6 +983,35 @@ When there is a map $\delta$, by definition of the module actions, $\delta^*$ is
 = \ip{\Sigma\overline T^*(\xi^*)}{\xi}, \]
 and so $\xi^* \cdot \overline T = \Sigma\overline T^*(\xi^*)$ as required.
 \end{proof}
+
+We now take a detour and trying to give justification for the definition of $X^\intdual$.  We will consider possible candidates for a ``dual space''.  This should be a Banach space $Z$ such that:
+\begin{enumerate}
+  \item $Z$ is a $\mc B(\overline X^*)$-module;
+  \item there is a dual pairing between $Z$ and $X$, say $Z\times X\to\mathbb C$, giving rise to a contractive map $Z\to X^*$.  We don't assume that this map is injective or an embedding;
+  \item the $\mc B(\overline X^*)$ action on $Z$ extends the $\mc B(\overline X)^\ad$ action, in the sense that $Z\to X^*$ is a $\mc B(\overline X)^\ad$-module map;
+  \item $Z$ is a \emph{normal} (see \cite{Runde_ConnesAmen_1}) module, meaning that for each $z\in Z$ the map $\mc B(\overline X^*) \to Z; S\mapsto S\cdot z$ is weak$^*$-weak$^*$-continuous, where $\mc B(\overline X^*) = (\overline X \proten \overline X^*)^*$ and $Z$ has the weak$^*$-topology induced to $Z\to X^*$.
+\end{enumerate}
+
+\begin{proposition}
+The interpolation dual $X^\intdual$ has all these properties.  If $Z$ is such a space, then there is a contractive module map $\psi \colon Z \to \intdual$ such that $\tau\circ\psi \colon Z \to X^*$ is the natural embedding.
+\end{proposition}
+\begin{proof}
+We check that the $\mc B(\overline X^*)$ action on $X^\intdual$ extends to $\mc B(\overline X)^\ad$ action.  For $\overline T\in\mc B(\overline X)$, one can check that $\tr((\overline 1\otimes\overline T^*)v) = \tr((\overline T\otimes \overline 1)v)$ for each $v \in \overline X\proten\overline X^*$.  From this the claim follows.  The $X^\intdual$ is a normal module follows from the fact that $\ip{\overline S}{v} = \tr((\overline 1\otimes \overline S)v)$ for $\overline S\in\mc B(\overline X^*), v \in \overline X\proten\overline X^*$.
+
+Now let $Z$ be a ``dual space'' with the assumed properties.  For $z\in Z$ we define a map $X\to \mc B(\overline X^*)^*$ by $x \mapsto (\overline S \mapsto \ip{\overline S\cdot z}{x})$.  As $Z$ is normal, we actually map $X$ to the predual $\overline X\proten\overline X^*$ and so we have a map $\psi \colon Z \to \mc B(X, \overline X\proten\overline X^*)$ which is contractive and linear.  For $\overline S\in\mc B(\overline X^*)$ and $\overline T\in\mc B(\overline X)$ we have
+\begin{align*}
+\ip{\overline S}{\psi(z)(\overline T\cdot x)}
+&= \ip{\overline S \cdot z}{\overline T\cdot x}
+= \ip{\overline T^*\overline S \cdot z}{x}
+= \ip{\overline T^*\overline S}{\psi(z)(x)}
+= \tau\big( (\overline 1\otimes\overline T^*\overline S) \psi(z)(x) \big) \\
+&= \tau\big( (\overline T\otimes\overline S) \psi(z)(x) \big)
+= \ip{\overline S}{\overline T \cdot \psi(z)(x)}.
+\end{align*}
+This shows that $\psi(z)$ is a $\mc B(\overline X)$ module map, that is, $\psi(z) \in X^\intdual$.  By construction, $\tau \circ \psi \colon Z \to X^*$ is the given pairing between $Z$ and $X$.
+\end{proof}
+
+It would seem natural to want $Z$ to be a closed subspace of $X^*$, but I don't see a nice way to handle this.  The next few results could perhaps been seen as thoughts in this direction; here we return to following \cite{KP_InterpolationFunctorsDuality}, but with often differing proofs.
 
 We next identify $(\Delta\overline X)^\intdual$, at least when $j\not=0$.
 
@@ -1041,7 +1075,7 @@ As the projective tensor product respects quotients, we conclude that
 Now let $t\colon\Delta\overline X \to \overline X \proten \overline X^*$ be a module map.  Let $x=(x_0,x_1)\in\Delta\overline X$, and choose $\xi_i^*\in X_i^*$ with $\ip{\xi_i^*}{x_i} = 1$.  Then $\overline T=(T_0,T_1) = (x_0\otimes\xi_0^*, x_1\otimes\xi_1^*)$ is a morphism, as $T_i$ restricts to $K_i\overline X$, and $\Delta\overline T(x) = x$.  However, as $T_i(X_i) \subseteq K_i$ here, we see that the induced map on $X_i / K_i\overline X$ is zero, and so $\overline T \otimes \overline 1 = 0$ on $\overline X \proten \overline X^*$.  Thus $t(x) = t \Delta\overline T(x) = (\overline T\otimes\overline 1)t(x) = 0$.  So $t=0$, and we conclude that $(\Delta\overline X)^\intdual = \{0\}$.
 \end{remark}
 
-\begin{proposition}
+\begin{proposition}\label{prop:intdual_biggest_submod}
 Let $\overline X$ be non-trivial.
 Let $X$ be a $\Delta$-interpolation space, so $X$ is a $\mc B(\overline X)$-module, and there is a dense range module map $\delta \colon \Delta\overline X \to X$, and a module map $\sigma\colon X \to \Sigma\overline X$, with $\sigma\circ\delta = j$.  We have the commutative diagram consisting of injective maps.
 \[\begin{tikzcd}
@@ -1077,6 +1111,33 @@ Taking the supremum over $\|\overline T\| = 1$ gives $\|s(\xi)\| \leq C \|x^*\| 
 Now suppose that $\|j\|=1$.  We proceed as in the final step of the proof of Proposition~\ref{prop:Delta_interp_dual}.  Again let $(u_n)$ be a sequence of unit vectors in $\Delta\overline X$ with $\|j(u_n)\|\to 1$, and let $(\xi_n^*)$ be a sequence of unit vectors in $(\Sigma\overline X)^*$ with $\ip{\xi_n^*}{j(u_n)} \to 1$.  As $\sigma\circ\delta = j$ and $\sigma, \delta$ are contractions, also $\|\delta(u_n)\|\to 1$.  Let $s = \delta^\intdual(t) = t\circ \delta \in (\Delta\overline X)^\intdual$ be associated to $\eta^* \in (\Delta\overline X)^*$, that is, $\eta^* = \delta^*(\tau(t))$.  As in the proof of Proposition~\ref{prop:Delta_interp_dual}, we have $(\xi_n^*\otimes\overline 1) s(u_n) \to \eta^*$.
 Hence $(\xi_n^*\otimes\overline 1) t(\delta(u_n)) \to \delta^*(\tau(t))$.  As $\xi_n^*$ are unit vectors and $\|\delta(u_n)\|\to 1$, this shows that $\|t\| \geq \|\delta^*(\tau(t))\| = \|\delta^\intdual(t)\|$.  So $\delta^\intdual$ is an isometry, and hence so too is $\tau$, as claimed.
 \end{proof}
+
+\begin{corollary}
+When $\Delta\overline X$ is dense in $\Sigma\overline X$, we have that $(\Sigma\overline X)^\intdual = \Delta(\overline X^*)$.
+\end{corollary}
+\begin{proof}
+We apply the proposition with $X = \Sigma\overline X$, so by assumption we can take $\delta = j$, and then set $\sigma=\id$.  TODO: I don't see what to do next, but apparently we don't need this, see the following.
+\end{proof}
+
+\begin{proposition}
+Assume that $\overline X$ is non-trivial and that $\|j\|=1$.  For $i=0,1$ we have that $X_i^\intdual = X_i^*$ isometrically.  We have that $(\Sigma\overline X)^\intdual = \Delta(\overline X^*) = (\Sigma\overline X)^*$ TODO
+\end{proposition}
+\begin{proof}
+Suppose first that $\delta_i \colon \Delta\overline X \to X_i$ has dense range.  Then we can apply Proposition~\ref{prop:intdual_biggest_submod}, which tells us first that $\delta_i^\intdual \colon X_i^\intdual \to X_i^*$ as an isometric embedding, and second that the image is the largest $\mc B(\overline X^*)$-submodule of $X_i^*$.  We claim that $X_i^*$ is itself a $\mc B(\overline X^*)$-module, and so $X_i^\intdual = X_i^*$ follows.  That $X_i^*$ is a $\mc B(\overline X^*)$-module means by definition that $\delta_i^*(X_i^*) \subseteq \Sigma(\overline X^*)$ is a submodule.  However, by definition of the dual doolittle diagram \eqref{eq:dual_doolittle_diagram}, this follows immediately (think of Proposition~\ref{prop:morphisms_of_diagrams}, which tells us that $\delta_i^*$ is a module map).
+
+We consider the case when $\delta_0$ does not have dense range -- the $\delta_1$ case following by symmetry, and follow \cite[Proposition~IV.5.11]{KP_InterpolationFunctorsDuality}.  There is a unit vector $x_0^*\in X_0^*$ which annihilates $\im\delta_0$.  For each $\epsilon>0$ pick $x_0\in X_i$ with $\ip{x_0^*}{x_0}=1$ and $\|x_0\|<1+\epsilon$.  Given $x\in X_i$ consider the rank-one operator $x\otimes x_0^*$, which maps $x_0$ to $x$.  As $x_0^*\in (\im\delta_0)^\perp$ we have that $\overline T_x = (x\otimes x_0, 0) \in\mc B(\overline X)$.  For $t\in X_0^\intdual$ let $t(x_0) = \sigma_0(u_0) + \sigma_1(u_1)$ for some $u_i\in X_i\proten X_i^*$.  Then
+\[ t(x) = t(\overline T_x \cdot x_0) = (\overline T_x\otimes\overline 1)t(x_0)
+= \sigma_0\big( x \otimes (x_0^*\otimes\id)u_0 \big) + \sigma_1(0). \]
+We have hence shown that there exists $x^*\in X_0^*$ with $t(x) = \sigma_0(x\otimes x^*)$ for each $x\in X_0$.  As $x^* = (x_0^*\otimes\id)u_0$ we have that $\|x^*\| \leq \|x_0\| < 1+\epsilon$.  As then $\tau(t) = x^*$, we see that $\tau \colon X^\intdual \to X^*$ is an isomorphism, and as $\epsilon>0$ was arbitrary, $\tau$ is even an isometry.
+
+Let $Y$ be a Banach space, and consider $t\colon \Sigma\overline X \to Y$.  By the definition of $\Sigma\overline X$, as a pushout, if we set $t_i = t\circ\sigma_i \colon X_i \to Y$ then we have $(x_0,x_1)\in\Delta\overline X \implies t_0(x_0) = t_1(x_1)$.  Conversely, any pair satisfying this gives rise to a $t$, with $\|t\| \leq \max(\|t_0\|, \|t_1\|)$.  So $t\in (\Sigma\overline X)^\intdual$ arises from such a pair $t_i \colon X_i \to \overline X \proten \overline X^*$ with $t_i T_i = (\overline T\otimes\overline 1)t_i$ for each $\overline T\in\mc B(\overline X)$.  That is, $t_i \in X_i^\intdual$, so by the just shown result, there are $x_i^*\in X_i^*$ with
+\[ t(\sigma_0(x_0) + \sigma_1(x_1)) = t_0(x_0) + t_1(x_1)
+= \sigma_0(x_0\otimes x_0^*) + \sigma_1(x_1\otimes x_1^*)
+\qquad (x_i\in X_i), \]
+and with $(x_0,x_1) \in \Delta\overline X$ implying that $\sigma_0(x_0\otimes x_0^*) = \sigma_1(x_1\otimes x_1^*)$, that is, there is a sequence $(u_n)$ in $\Delta\overline X \proten \Delta(\overline X^*)$ with $(p_0(u_n), -p_1(u_n)) \to (x_0\otimes x_0^*, -x_1\otimes x_1^*)$.  This obviously holds if $(x_0^*, x_1^*) \in \Delta(\overline X^*)$; the converse can be shown by, again, using the argument in the proof of Proposition~\ref{prop:Delta_interp_dual}, under the assumption that $j\not=0$.  We have established a linear isomorphism $(\Sigma\overline X)^\intdual \cong \Delta(\overline X^*)$.  Repeating previous arguments, and using that $\|j\|=1$, this isomorphism can be shown to be isometric.
+\end{proof}
+
+
 
 
 
