@@ -219,10 +219,12 @@ Obviously, if $(\xi_0,0) \in \ker\delta_1$ then $\delta_0((\xi_0,0)) = \xi_0$ an
 \end{proof}
 
 \begin{proposition}\label{prop:when_couple}
-A doolittle diagram arises from a Banach couple if and only if $\sigma_0,\sigma_1$ are both injective.
+A doolittle diagram arises from a Banach couple if and only if $\sigma_0,\sigma_1$ are both injective, if and only if $\delta_0, \delta_1$ are both injective, if and only if $j$ is injective.
 \end{proposition}
 \begin{proof}
-As observed, Banach couples give rise to doolittle diagrams with $\sigma_0,\sigma_1$ injective.  Conversely, if $\sigma_0,\sigma_1$ are injective, then by the lemma, also $\delta_0,\delta_1$ are injective.  As $\sigma_0,\sigma_1$ are injective, we may use $\Sigma\overline X$ as our ambient space to form $X_0\cap X_1$ and $X_0 + X_1$.  Then $\xi_0 = \xi_1$ exactly when $(\xi_0,0) = (0,\xi_1)$ in $\Sigma\overline X$, that is, $(\xi_0,\xi_1) \in D\sigma$, see Remark~\ref{rem:when_equal_in_sigma}.  Hence $X_0 \cap X_1 = D\sigma$, isometrically.  The norm on $\Sigma\overline X = P\delta$ is then, for $\xi = \xi_0+\xi_1$,
+By the lemma, $\sigma_0$ is injective if and only if $\delta_1$ is injective, and similarly $\sigma_1$ is injective if and only if $\delta_0$ is injective.  If both $\sigma_0, \delta_0$ are injective, then so is $j = \sigma_0\delta_0$.  If $j$ is injective, then $j = \sigma_0 \delta_0 = \sigma_1 \delta_1$ is injective, so both $\delta_0, \delta_1$ are injective.
+
+As observed, Banach couples give rise to doolittle diagrams with $\sigma_0,\sigma_1$ injective.  Conversely, if $\sigma_0,\sigma_1$ are injective, then so also are $\delta_0,\delta_1$ are injective.  As $\sigma_0,\sigma_1$ are injective, we may use $\Sigma\overline X$ as our ambient space to form $X_0\cap X_1$ and $X_0 + X_1$.  Then $\xi_0 = \xi_1$ exactly when $(\xi_0,0) = (0,\xi_1)$ in $\Sigma\overline X$, that is, $(\xi_0,\xi_1) \in D\sigma$, see Remark~\ref{rem:when_equal_in_sigma}.  Hence $X_0 \cap X_1 = D\sigma$, isometrically.  The norm on $\Sigma\overline X = P\delta$ is then, for $\xi = \xi_0+\xi_1$,
 \begin{align*}
 \|\xi\| &= \inf\{ \|\eta_0\|_{X_0} + \|\eta_1\|_{X_1} : (\xi_0-\eta_0, \xi_1-\eta_1) \in (D\sigma)' \} \\
 &= \inf\{ \|\eta_0\|_{X_0} + \|\eta_1\|_{X_1} : \xi_0-\eta_0 = \eta_1-\xi_1 \} \\
@@ -548,7 +550,7 @@ A case when we do have equality is in the construction of $\overline X^\circ$, f
 In \cite[Section~I.2]{KP_InterpolationFunctorsDuality}, the notion of a \emph{short exact sequence} of couples is defined, by requiring that all the four maps (Proposition~\ref{prop:morphisms_of_diagrams}) are exact at each point of the diagram.  While the constructions $\overline X\mapsto K\overline X$ and $\overline X \mapsto \overline X^\circ$ give examples, it seems hard to think of other cases, given the discussion just made.
 
 
-\subsection{Interpolation}
+\subsection{Interpolation}\label{sec:interpolation_intro}
 
 Classically, given a Banach couple $(X_0, X_1)$, an interpolation space is simply a Banach space $X$ with $X_0\cap X_1 \subseteq X \subseteq X_0+X_1$ (continuous inclusions) such that for every morphism $T$, there is a bounded operator $X\to X$ extending the map on $X_0\cap X_1$.
 
@@ -567,6 +569,7 @@ Notice that $X = \Delta\overline X$ gives a $\Delta$-interpolation space (which 
 If $X$ is a $\Delta$-interpolation space, then $\delta$ being a dense-range module maps shows that the $\mc B(\overline X)$-module action on $X$ is uniquely defined.  Similarly for a $\Sigma$-interpolation space.
 
 \cite{KP_InterpolationFunctorsDuality} observes that most $\Delta$-interpolation spaces are also $\Sigma$-interpolation spaces, but \cite[Example~I.3.2]{KP_InterpolationFunctorsDuality} shows that this isn't always so (an example different from $X = \Delta\overline X$).
+
 
 
 
@@ -822,7 +825,7 @@ Given $S\in\mc B(Z,\Delta\overline X)$ define $T_i\colon Z\to X_i$ by $T_i = \de
 
 We set $\overline I = J\mathbb C$.  Then, for example, $\mc B(\overline X,\overline I) \cong(\Sigma\overline X)^*$ and $\mc B(\overline I, \overline X) \cong \Delta\overline X$.  As a doolittle diagram is uniquely determined by the choice of $\Delta$ space, we also have $\overline{\mc B}(\overline I, \overline X) \cong \overline X$ and $\overline{\mc B}(\overline X,\overline I) \cong \overline X^*$, the latter because $(\Sigma\overline X)^* = \Delta(\overline X^*)$.
 
-\begin{remark}
+\begin{remark}\label{rem:factor_through_I}
 Possibly this seems strange, for the following reason: given $\overline T\in\mc B(\overline X,\overline I)$ and $\overline S\in\mc B(\overline I,\overline X)$, we have that $\overline T \circ \overline S \in \mc B(\overline I) \cong \mathbb C$, and hence we have a pairing between $(\Sigma\overline X)^*$ and $\Delta\overline X$.  We might have expected here one space and its dual.  Infact, the pairing is given by the map $j\colon \Delta\overline X\to\Sigma\overline X^*$.
 
 More generally, for any $Z$, given $S\in\mc B(Z, \Delta\overline X)$ we get $\overline S = (\delta_0S, \delta_1S) \in\mc B(JZ, \overline X)$ and $T\in\mc B(\Sigma\overline X, Z)$ gives $\overline T = (T\sigma_0, T\sigma_1) \in \mc B(\overline X, JZ)$.  Then $\overline T\circ\overline S \in \mc B(JZ)$ has $T_0S_0 = T\sigma_0 \delta_0 S = T j S = T_1S_1$, and so $j$ appears naturally.
@@ -1324,9 +1327,65 @@ There is some analogy with nuclear operators here.  Given $\overline T\otimes x 
 \[ R \colon \mc B(\overline X,\overline A) \to A; \quad \overline S \mapsto \overline S\circ\overline T \cdot x = F(\overline S)F(\overline T) x, \]
 noticing that $\overline S\circ\overline T \in \mc B(\overline A)$.  Then $R$ is seen to be a module map, so $R\in\ran_A\overline X$.  Furthermore, the map $\overline T\otimes x \mapsto R$ is balanced, and so we obtain a contractive map $\lan_A \overline X \to \ran_A \overline X$.  For $\overline R\in\mc B(\overline X, \overline Y)$ we have $\lan_A \overline R \colon \overline T\otimes x \mapsto \overline R\overline T\otimes x$ which induces the map $R' \colon \overline S \mapsto F(\overline S\overline R\overline T)x = R(\overline S\overline R) = \ran_A\overline R (R)$.  So we have a natural transformation $\lan_A \Rightarrow \ran_A$.
 
+Take $\overline A = I = J\mathbb C$, so $A$ is just a Banach space, as $\mc B(\overline A) = \mathbb C$.  As before Remark~\ref{rem:factor_through_I}, we hence see that
+\[ \lan_A\overline X = \Delta\overline X \proten A, \qquad
+\ran_A\overline X = \mc B((\Sigma\overline X)^*, A). \]
+If we further specialise to the case when $A=\mathbb C$, we see that $\lan_A\overline X = \Delta\overline X$ and $\ran_A\overline X = (\Sigma\overline X)^{**}$.  Hence, as remarked in \cite{KP_InterpolationFunctorsDuality}, the right Kan extension is often ``too large''.
 
 
+\subsection{Going forward}
 
+I intend to stop here for the moment, so some comments on where this idea goes.  Let $\mc A_0$ be a (full) subcategory of $\msf{BanDL}$, and let $F \colon \mc A_0 \to \msf{Ban}$ be a functor.  Then $F(\overline A)$ is an $F(\overline A)$-module for each $\overline A\in\mc A_0$, that is, a candidate to be an interpolation space.  Furthermore, that $F$ is a functor implies certain compatibility conditions between the different spaces.
+
+As in Section~\ref{sec:interpolation_intro}, a classical interpolation space for a Banach couple $\overline X = (X_0, X_1)$ is a Banach space $X$ with $X_0\cap X_1 \subseteq X \subseteq X_0+X_1$, such that every $\overline T\in\mc B(\overline X)$ gives rise to a map $T\colon X\to X$.  We recast this by saying that $X$ should be a (contractive) $\mc B(\overline X)$-module.  Furthermore, an ``interpolation method'' is, loosely, a way of assigning such a space to any Banach couple (or perhaps some subset thereof), usually with morphisms $\overline X \to \overline Y$ giving rise to maps from $X$ to $Y$.  This obviously ``looks like'' a functor, and motivates the following (terminology our own).
+
+\begin{definition}
+A (classical) \emph{interpolation scheme} is a functor $F \colon \mc A \to \msf{Ban}$ where $\mc A$ is a (full) subcategory of $\msf{BanCp}$.
+\end{definition}
+
+Recall the embedding $J \colon \msf{Ban} \to \msf{BanCp}, X \mapsto (X,X)$.  It is reasonable to suppose that when we interpolate between $X$ and itself, we simply get $X$ back.  In the language of functors, we might ask that $F\circ J = \id$.  This is perhaps too strong: we only require an (isometric) isomorphism, as we ask for in the next proposition.  Recall Definition~\ref{defn:int_space} for the notion of a quasi-interpolation space.
+
+\begin{proposition}
+Let $\mc A_0 \subseteq \msf{BanDL}$ be a full subcategory containing the image of $J$, and let $F \colon \mc A_0 \to \msf{Ban}$ be a functor such that $FJ$ is naturally isomorphic to $\id$.  Then $F(\overline X)$ is a quasi-interpolation space for $\overline X$, for each $\overline X\in\mc A_0$.
+\end{proposition}
+\begin{proof}
+With reference to Proposition~\ref{prop:J_hom_space_adjoints}, for a doolittle diagram $\overline X$, we have that $1 \in \mc B(\Delta\overline X) \cong \mc B(J\Delta\overline X, \overline X)$ induces a map $\overline\delta = \overline\delta_{\overline X}$, and $1\in\mc B(\Sigma\overline X) \cong \mc B(\overline X, J\Sigma\overline X)$ induces a map $\overline\Sigma = \overline\Sigma_{\overline X}$.  To be more explicit, $\overline\delta \colon J\Delta\overline X \to \overline X$ is $\overline\delta = (\delta_0, \delta_1)$, and this has the property that for $\overline T\in\mc B(\overline X, \overline Y)$ and $x=(x_0,x_1)\in \Delta\overline X$, we have for $i=0,1$,
+\[ (\overline T\circ\overline\delta_{\overline X})_i(x) = T_i \delta_i(x) = T_i(x_i) = \delta_i (\Delta\overline T)(x) = (\overline\delta_{\overline Y} \circ J(\Delta\overline T))_i(x). \]
+Hence $\overline T\circ\overline\delta_{\overline X} = \overline\delta_{\overline Y} \circ J(\Delta\overline T)$.  Similarly, $\overline\Sigma \colon \overline X \to J\Sigma\overline X$ is $\overline\Sigma = (\sigma_0, \sigma_1)$, and with $\overline T$ as before, for $x_i\in X_i$,
+\[ (\overline\Sigma_{\overline Y} \circ \overline T)_i(x_i)
+= \sigma_i T_i(x_i)
+= (\Sigma\overline T) \sigma_i(x_i)
+= (J(\Sigma\overline T) \circ \overline\Sigma_{\overline X})_i(x_i), \]
+so $\overline\Sigma_{\overline Y} \circ \overline T = J(\Sigma\overline T) \circ \overline\Sigma_{\overline X}$.
+
+Let $\eta \colon FJ \Rightarrow \id$ be a natural isomorphism.  So we have components $\eta_X \colon FJ(X) \to X$ which are (isometric) isomorphisms, such that given $T\in\mc B(X,Y)$ we have that $T \eta_X = \eta_Y FJ(T)$.
+
+We apply our functor to obtain a Banach space $X = F(\overline X)$ which is a $\mc B(\overline X)$-module.  Of course, $\Delta\overline X$ is always a $\mc B(\overline X)$-module, for the action $\overline T\mapsto\Delta\overline T$, and similarly $\Sigma\overline T$.  We define a map $\delta \colon \Delta\overline X \to X$ to be the composition
+\[\begin{tikzcd}
+\Delta\overline X \arrow[r, "\eta_{\Delta\overline X}^{-1}"]
+& FJ(\Delta\overline X) \arrow[r, "F(\overline\delta)"] & F(\overline X) = X.
+\end{tikzcd}\]
+We show that $\delta$ is a module map.  For $\overline T\in\mc B(\overline X)$, as above, $\overline T \overline \delta = \overline\delta J(\Delta\overline T)$ and so $F(\overline T) F(\overline\delta) = F(\overline \delta) FJ(\Delta\overline T)$.  Hence $F(\overline T) \delta = F(\overline \delta) FJ(\Delta\overline T) \eta_{\Delta\overline X}^{-1} = F(\overline \delta) \eta_{\Delta\overline X}^{-1} \Delta\overline T = \delta \Delta\overline T$, which exactly says that $\delta$ is a module map.
+
+Similarly, we define a map $\Sigma \colon X \to \Sigma\overline X$ to be the composition
+\[ \begin{tikzcd}
+X = F(\overline X) \arrow[r, "F(\overline\Sigma)"] & FJ(\Sigma\overline X)
+\arrow[r, "\eta_{\Sigma \overline X}"] & \Sigma \overline X.
+\end{tikzcd} \]
+For $\overline T\in\mc B(\overline X)$ we have $\overline\Sigma \overline T = J(\Sigma\overline T) \overline\Sigma$, and so applying $F$ shows that
+\[ (\Sigma\overline T) \Sigma
+= (\Sigma\overline T) \eta_{\Sigma\overline X} F(\overline\Sigma)
+= \eta_{\Sigma\overline X} FJ(\Sigma\overline T) F(\overline\Sigma)
+= \eta_{\Sigma\overline X} F(\overline\Sigma \overline T)
+= \Sigma F(\overline T). \]
+We conclude that $\Sigma$ is a module map.  The maps $\delta$ and $\Sigma$ show that $X$ is a quasi-interpolation for $\overline X$.
+\end{proof}
+
+We hence naturally have the following situation.  We might have a classical interpolation scheme, expressed as a functor $F:\msf{BanCp} \to \msf{Ban}$ say.  We wish to extend this to a functor $\msf{BanDL} \to \msf{Ban}$.  This is exactly the situation of a Kan extension!
+
+\begin{remark}
+If we have that $FJ=\id$ or at least naturally isomorphic, does the Kan extension also have this property?  Surely yes, but worth writing down the details.
+\end{remark}
 
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
