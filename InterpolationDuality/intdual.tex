@@ -822,6 +822,12 @@ Given $S\in\mc B(Z,\Delta\overline X)$ define $T_i\colon Z\to X_i$ by $T_i = \de
 
 We set $\overline I = J\mathbb C$.  Then, for example, $\mc B(\overline X,\overline I) \cong(\Sigma\overline X)^*$ and $\mc B(\overline I, \overline X) \cong \Delta\overline X$.  As a doolittle diagram is uniquely determined by the choice of $\Delta$ space, we also have $\overline{\mc B}(\overline I, \overline X) \cong \overline X$ and $\overline{\mc B}(\overline X,\overline I) \cong \overline X^*$, the latter because $(\Sigma\overline X)^* = \Delta(\overline X^*)$.
 
+\begin{remark}
+Possibly this seems strange, for the following reason: given $\overline T\in\mc B(\overline X,\overline I)$ and $\overline S\in\mc B(\overline I,\overline X)$, we have that $\overline T \circ \overline S \in \mc B(\overline I) \cong \mathbb C$, and hence we have a pairing between $(\Sigma\overline X)^*$ and $\Delta\overline X$.  We might have expected here one space and its dual.  Infact, the pairing is given by the map $j\colon \Delta\overline X\to\Sigma\overline X^*$.
+
+More generally, for any $Z$, given $S\in\mc B(Z, \Delta\overline X)$ we get $\overline S = (\delta_0S, \delta_1S) \in\mc B(JZ, \overline X)$ and $T\in\mc B(\Sigma\overline X, Z)$ gives $\overline T = (T\sigma_0, T\sigma_1) \in \mc B(\overline X, JZ)$.  Then $\overline T\circ\overline S \in \mc B(JZ)$ has $T_0S_0 = T\sigma_0 \delta_0 S = T j S = T_1S_1$, and so $j$ appears naturally.
+\end{remark}
+
 \begin{proposition}\label{prop:tensor_unit}
 For any $\overline X$ we have that $\overline I \overline\proten \overline X \cong \overline X \cong \overline X \overline\proten \overline I$.  In particular, $\overline I \proten \overline X \cong \Sigma \overline X \cong \overline X \proten \overline I$.
 \end{proposition}
