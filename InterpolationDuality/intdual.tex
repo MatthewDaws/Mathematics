@@ -25,6 +25,8 @@
 \usepackage{url}
 \usepackage[shortlabels]{enumitem}
 %\usepackage{amscd}
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows}
 \usepackage{tikz-cd}
 
 \theoremstyle{plain}
@@ -74,6 +76,8 @@
 \newcommand{\intdual}{\circledast}
 \newcommand{\tr}{\operatorname{Tr}}
 \newcommand{\ad}{{\operatorname{ad}}}
+\newcommand{\lan}{\operatorname{Lan}}
+\newcommand{\ran}{\operatorname{Ran}}
 
 \begin{document}
 
@@ -798,7 +802,7 @@ Obviously if \ref{prop:rank_one_morphisms:four} holds then we have a morphism.  
 \end{proof}
 
 
-\subsection{Functors and adjoints}
+\subsection{Functors and adjoints}\label{sec:functors_adjoints}
 
 We make some further category theory remarks.  We define a functor $J\colon \msf{Ban} \to \msf{BanDL}$ by, for a Banach space $X$, setting $JX$ to be the doolittle diagram
 \[ JX = \begin{tikzcd}
@@ -861,13 +865,14 @@ By the symmetric version of Proposition~\ref{prop:tensor_adjoint_hom}, we have t
 In particular, $\overline 1 \in \mc B(\overline X^*)$ induces the \emph{trace} $\tr \colon \overline X \proten \overline X^* \to \mathbb C$.  Notice that for $T\in\mc B(\overline X^*)$ and $u\in \overline X \proten \overline X^*$, we have $\ip{T}{u} = \tr((\overline 1 \otimes \overline T)u)$.
 
 We recall the notion of a \emph{natural transformation} between functors $F,G\colon \msf{Ban} \to \msf{Ban}$; for other categories the notion is analogously.  We write $\eta \colon F \Rightarrow G$, and require
-\[ \begin{tikzcd}
+\begin{equation}\label{eq:nat_trans}
+\begin{tikzcd}
 X \arrow[d, "T"]    &
 F(X) \arrow[r, "\eta_X"] \arrow[d, "F(T)"'] & G(X) \arrow[d, "G(T)"]
 \\
 Y    &
 F(Y) \arrow[r, "\eta_Y"']  & G(Y)  
-\end{tikzcd} \]
+\end{tikzcd} \end{equation}
 Here $T\in\mc B(X,Y)$, and as usual, we require the \emph{components} $\eta_X$ to be linear and contractive.  If each component is an isomorphism, then $\eta$ is a \emph{natural isomorphism}.
 
 Recall that an \emph{adjunction} between two categories $\mc C, \mc D$ consists of the following (over-specified) data:
@@ -934,7 +939,7 @@ $\eta_Z = 1_Z$ for all $Z$, while $\epsilon_{\overline X} = (\delta_0, \delta_1)
 
 
 
-\subsection{Duality}
+\subsection{Duality}\label{sec:duality}
 
 To motivate the following, we first consider functors.  Let $\overline A \in \msf{BanDL}$ and let $\mc A \subseteq \msf{BanDL}$ be the full subcategory with the single object $\overline A$.  A functor $F \colon \mc A \to \msf{Ban}$ is hence determined by a Banach space $X = F(\overline A)$ and a (contractive) homomorphism $\mc B(\overline A) \to \mc B(X); \overline T \mapsto F(\overline T)$.  That is, $X$ is a $\mc B(\overline A)$-module, the starting point for the definition of an interpolation space.
 
@@ -1136,6 +1141,182 @@ Let $Y$ be a Banach space, and consider $t\colon \Sigma\overline X \to Y$.  By t
 \qquad (x_i\in X_i), \]
 and with $(x_0,x_1) \in \Delta\overline X$ implying that $\sigma_0(x_0\otimes x_0^*) = \sigma_1(x_1\otimes x_1^*)$, that is, there is a sequence $(u_n)$ in $\Delta\overline X \proten \Delta(\overline X^*)$ with $(p_0(u_n), -p_1(u_n)) \to (x_0\otimes x_0^*, -x_1\otimes x_1^*)$.  This obviously holds if $(x_0^*, x_1^*) \in \Delta(\overline X^*)$; the converse can be shown by, again, using the argument in the proof of Proposition~\ref{prop:Delta_interp_dual}, under the assumption that $j\not=0$.  We have established a linear isomorphism $(\Sigma\overline X)^\intdual \cong \Delta(\overline X^*)$.  Repeating previous arguments, and using that $\|j\|=1$, this isomorphism can be shown to be isometric.
 \end{proof}
+
+
+\section{Kan extensions}
+
+We explain this category theory notion in a slightly restricted situation, that which is of most relevance to us.  Let $\iota\colon\mc A_0 \to \mc A$ be an inclusion of categories, and let $F \colon \mc A_0 \to \mc B$ be a functor to some other category.  We are interested in extending $F$ to $\mc A$, for which we consider two approaches (if they exist).  The \emph{left Kan extension of $F$ along $\iota$} written $L = \lan_\iota F$ is a functor $L \colon \mc A \to \mc B$ and a natural transformation $\eta \colon F \Rightarrow L\circ \iota$ which is universal.  This means that whenever $M \colon \mc A \to \mc B$ is a functor and $\alpha \colon F \Rightarrow M\circ \iota$ is a natural transformation, there is a unique natural transformation $\sigma \colon L \Rightarrow M$ with the diagram on the right commuting:
+\[
+\begin{tikzpicture}[commutative diagrams/every diagram]
+\matrix[matrix of math nodes, name=m]
+{ & \mc A \\
+\mc A_0 && \mc B \\
+};
+\path[commutative diagrams/.cd, every arrow, every label]
+  (m-1-2) edge node {$L$} (m-2-3)
+  (m-2-1) edge node {$\iota$} (m-1-2)
+  (m-2-1) edge node[swap, name=D] {$F$} (m-2-3);
+\draw[double,double equal sign distance,-implies,shorten >=4pt,shorten <=4pt] 
+  (D) -- node[label={[label distance=-3pt]0:$\scriptstyle\eta$}] {} (m-1-2);
+\end{tikzpicture}
+\qquad\qquad
+\begin{tikzcd}
+& L\circ \iota \arrow[rd, dashed, "\sigma_\iota"] \\
+F \arrow[ru, "\eta" ] \arrow[rr, "\alpha"'] && M\circ \iota
+\end{tikzcd}
+\]
+Here $\sigma_F \colon L\iota \Rightarrow M\iota$ is the natural transformation with components $\sigma_\iota(a) = \sigma(\iota a) \colon L\iota(a) \to M\iota(a)$ for each $a\in \mc A_0$.   
+Natural transformations were considered about, \eqref{eq:nat_trans}, and remember that they are (``vertically'') composed by composing their components, and so the condition becomes that for each $a\in\mc A_0$ we have $\alpha(a) = \sigma(\iota a) \circ \eta(a)$ or $\alpha_a = \sigma_{\iota a} \eta_a$ depending on notation.
+
+(We note that the left diagram should be interpretted as a diagram in a 2-category: it says that $\eta$ is a natural transformation from $F$ to $L\iota$, and is \emph{not} meant to imply that the triangle commutes: if $L\iota=F$ then things are trivial.)
+
+There is also the notion of a \emph{right Kan extension of $F$ along $\iota$}, written $R = \ran_\iota F$, which is a functor $R\colon \mc A \to \mc B$ and a natural transformation $\epsilon \colon R\iota \Rightarrow F$, universal in the sense that if $M\colon \mc A \to \mc B$ is any functor and $\mu \colon M\iota \Rightarrow F$ any natural transformation, there is a unique natural transformation $\delta \colon M \Rightarrow R$ with the right diagram commuting:
+\[
+\begin{tikzpicture}[commutative diagrams/every diagram]
+\matrix[matrix of math nodes, name=m]
+{ & \mc A \\
+\mc A_0 && \mc B \\
+};
+\path[commutative diagrams/.cd, every arrow, every label]
+  (m-1-2) edge node {$R$} (m-2-3)
+  (m-2-1) edge node {$\iota$} (m-1-2)
+  (m-2-1) edge node[swap, name=D] {$F$} (m-2-3);
+\draw[double,double equal sign distance,-implies,shorten >=4pt,shorten <=4pt] 
+  (m-1-2) -- node[label={[label distance=-3pt]0:$\scriptstyle\epsilon$}] {} (D);
+\end{tikzpicture}
+\qquad\qquad
+\begin{tikzcd}
+& R\circ \iota \arrow[ld, "\epsilon"'] \\
+F && M\circ \iota \arrow[ll, "\mu"] \arrow[dashed, lu, "\delta_\iota"']
+\end{tikzcd}
+\]
+Again, here $\delta_\iota \colon M\iota \Rightarrow R\iota$ has components $\delta_\iota(a) = \delta(\iota a) \colon M\iota(a) \to R\iota(a)$ for each object $a\in\mc A_0$.
+
+\begin{remark}
+For our interests, our categories will be categories of Banach spaces or doolittle diagrams of Banach spaces.  So we are really working with ``enriched categories'' which for our purposes means that all functors and linear and contractive on morphism spaces, and the components of natural transformations are linear and contractive.
+\end{remark}
+
+We now give some examples, follow \cite[Section~II.VI.2]{KP_InterpolationFunctorsDuality}.
+
+\subsection{Single doolittle diagram inclusion}
+
+Let $\overline A \in \msf{BanDL}$ be a chosen doolittle diagram, and let $\mc A_0$ be the full subcategory of $\msf{BanDL}$ generated by this single object.  We consider a functor $F\colon \mc A_0 \to \mc B = \msf{Ban}$.  As explained in Section~\ref{sec:duality}, such a functor is equivalent to the data of a Banach space $A = F(\overline A)$ and a homomorphism $\mc B(\overline A) \to \mc B(A); \overline T \mapsto F(\overline T)$, that is, $A$ is a $\mc B(\overline A$)-module.
+
+\subsubsection{Left Kan extension}
+
+We show how to construct $\lan_\iota F = \lan_A$.
+\[
+\begin{tikzpicture}[commutative diagrams/every diagram]
+\matrix[matrix of math nodes, name=m]
+{ & \msf{BanDL} \\
+\mc A_0 && \msf{Ban} \\
+};
+\path[commutative diagrams/.cd, every arrow, every label]
+  (m-1-2) edge node {$\lan_A$} (m-2-3)
+  (m-2-1) edge node {$\iota$} (m-1-2)
+  (m-2-1) edge node[swap, name=D] {$F$} (m-2-3);
+\draw[double,double equal sign distance,-implies,shorten >=4pt,shorten <=4pt] 
+  (D) -- node[label={[label distance=-3pt]0:$\scriptstyle\eta$}] {} (m-1-2);
+\end{tikzpicture}
+\qquad\qquad
+\begin{tikzcd}
+& L\circ \iota \arrow[rd, dashed, "\sigma_\iota"] \\
+F \arrow[ru, "\eta" ] \arrow[rr, "\alpha"'] && M\circ \iota
+\end{tikzcd}
+\]
+We claim that $\lan_A \overline X = \mc B(\overline A,\overline X) \proten_{\mc B(\overline A)} A$, the balanced tensor product.  Notice that $\mc B(\overline A,\overline X)$ is a right $\mc B(\overline A)$ module, with the action given by composition, and of course $A$ is a left module, so this makes sense.  The action of morphisms is given as follows.  For $\overline S \in\mc B(\overline X, \overline Y)$ we set $\lan_A \overline S \colon \mc B(\overline A,\overline X) \proten_{\mc B(\overline A)} A \to \mc B(\overline A,\overline Y) \proten_{\mc B(\overline A)} A$ to be $\overline R \otimes x \mapsto \overline S\overline R\otimes x$ on elementary tensors.  This is contractive for the projective tensor product, and the left composition by $\overline S$ commutes with the right module action, and so this maps drops to the balanced tensor product.
+
+We now define $\eta \colon F \Rightarrow \lan_A \iota$.  As $\mc A_0$ has one object, we only need to consider the following situation:
+\[ \begin{tikzcd}
+\overline A \ar[d, "\overline T"] && F(\overline A)=A \ar[d, "F(\overline T)"] \ar[r, "\eta"] & \lan_A(\overline A) = \mc B(\overline A)\otimes_{\mc B(\overline A)} A = A 
+\ar[d, "\lan_A(\overline T)"]
+\\
+\overline A && F(\overline A)=A \ar[r, "\eta"] & \lan_A(\overline A) = A
+\end{tikzcd} \]
+Here we confuse $\eta$ with the (single) component $\eta_{\overline A}$.  The isomorphism $\mc B(\overline A)\otimes_{\mc B(\overline A)} A = A$ is given by the module action, $\overline T \otimes x \mapsto \overline T\cdot x$, and hence $\lan_A(\overline T) = F(\overline T)$, namely the left module action.  Hence we can set $\eta=\id_A$.
+
+Let us see that $\lan_A, \eta$ is universal.  Let $M\colon \msf{BanDL} \to \msf{Ban}$ be a functor and $\alpha \colon F \Rightarrow M\iota$ be a natural transformation.
+That $\alpha$ is a natural transformation means that we have the commutative diagram
+\begin{equation}\label{eq:alpha_nattrans}
+\begin{tikzcd}
+\overline A \ar[d, "\overline T"] && F(\overline A)=A \ar[d, "F(\overline T)"] \ar[r, "\alpha_{\overline A}"] & M(\overline A)
+\ar[d, "M(\overline T)"]
+\\
+\overline A && F(\overline A)=A \ar[r, "\alpha_{\overline A}"] & M(\overline A)
+\end{tikzcd} \end{equation}
+We wish to define $\sigma \colon \lan_A \Rightarrow M$ to obtain $\alpha = \sigma_\iota \eta$.  Again, as $\mc A_0$ has a single object, we need only check that $\alpha_{\overline A} = \sigma_{\overline A} \circ \eta$, supressing the inclusion $\iota$ from our notation.  As $\eta = \eta_{\overline A}$ is the identity, we must have $\sigma_{\overline A} = \alpha_{\overline A}$.
+
+For general $\overline X\in\msf{BanDL}$ we define the component
+\[ \sigma_{\overline X} \colon \lan_A(\overline X) = \mc B(\overline A, \overline X) \otimes_{\mc B(\overline A)} A \to M(\overline X); \quad
+\overline R \otimes x \mapsto M(\overline R) \alpha_{\overline A} (x). \]
+This is well-defined, as $M(\overline R) \in \mc B(M(\overline A), M(\overline X))$, and for $\overline S\in\mc B(\overline A)$ we have that
+\[ \overline R \overline S \otimes x - \overline R \otimes F(\overline S)x \mapsto M(\overline R) M(\overline S) \alpha_{\overline A}x - M(\overline R) \alpha_{\overline A} F(\overline S)x = 0, \]
+as $\alpha$ is natural, \eqref{eq:alpha_nattrans}.  For $\overline T\in\mc B(\overline A)$, again by naturality, we have $\sigma_{\overline X}(\overline T\otimes x) \mapsto \alpha_{\overline A} F(\overline T)x$ and so $\sigma_{\overline A} = \alpha_{\overline A}$, as $\overline T\otimes x \cong F(\overline T)x$ under the isomorphism $\lan_A(\overline A) \cong A$.  We check that $\sigma$ is a natural transformation.  Consider the diagram
+\[ \begin{tikzcd}
+\overline X \ar[d, "\overline T"] && \lan_A(\overline X) \ar[r, "\sigma_{\overline X}"] \ar[d, "\lan_A(\overline T)"'] & M(\overline X) \ar[d, "M(\overline T)"]
+\\
+\overline Y && \lan_A(\overline X) \ar[r, "\sigma_{\overline Y}"'] & M(\overline Y)
+\end{tikzcd} \]
+For $\overline R\otimes x \in \lan_A(\overline X)$ we have that $M(\overline T) \sigma_{\overline X}(\overline R\otimes x) = M(\overline T) M(\overline R) \alpha_{\overline A}(x)$ while $\sigma_{\overline Y} \lan_A(\overline T)(\overline R\otimes x) = \sigma_{\overline Y}(\overline T\overline R\otimes x) = M(\overline T\overline R) \alpha_{\overline A}(x)$.  These agree, and so $\sigma$ is a natural transformation.
+
+We show that $\sigma$ is unique.  For $\overline R\in\mc B(\overline A, \overline Y)$ and $x\in A$, for $F(\overline T)x \cong \overline T\otimes x \in \lan_A(\overline A)\cong A$ we have that $\lan_A(\overline R) F(\overline T)x = \overline R\overline T\otimes x = \overline R\otimes F(\overline T)x$ in the balanced tensor product.  That is, $\lan_A(\overline R) y = \overline R\otimes y$ for $y\in A$.  In the above diagram, take $\overline X = \overline A$, so that $M(\overline R)\alpha_{\overline A}y = M(\overline R)\sigma_{\overline A}y = \sigma_{\overline Y}\lan_A(\overline R)y = \sigma_{\overline Y}(\overline R\otimes y)$, and hence uniqueness of the definition of $\sigma$ follows.
+
+
+\subsubsection{Right Kan extension}
+
+We now consider $\ran_\iota F = \ran_A$.
+
+\[
+\begin{tikzpicture}[commutative diagrams/every diagram]
+\matrix[matrix of math nodes, name=m]
+{ & \msf{BanDL} \\
+\mc A_0 && \msf{Ban} \\
+};
+\path[commutative diagrams/.cd, every arrow, every label]
+  (m-1-2) edge node {$\ran_A$} (m-2-3)
+  (m-2-1) edge node {$\iota$} (m-1-2)
+  (m-2-1) edge node[swap, name=D] {$F$} (m-2-3);
+\draw[double,double equal sign distance,-implies,shorten >=4pt,shorten <=4pt] 
+  (m-1-2) -- node[label={[label distance=-3pt]0:$\scriptstyle\epsilon$}] {} (D);
+\end{tikzpicture}
+\qquad\qquad
+\begin{tikzcd}
+& \ran_A\iota \arrow[ld, "\epsilon"'] \\
+F && M \iota \arrow[ll, "\mu"] \arrow[dashed, lu, "\delta_\iota"']
+\end{tikzcd} \]
+
+We claim that $\ran_A(\overline X) = {}_{\mc B(\overline A)}\mc B(\mc B(\overline X,\overline A), A)$ the space of left module maps; we have that $\mc B(\overline X,\overline A)$ is a $\mc B(\overline A)$-$\mc B(\overline X)$-bimodule by composition.  On morphisms, we have
+\[ \ran_A(\overline T)(R) \colon \mc B(\overline Y,\overline A) \to A; \overline S \mapsto R(\overline S\circ\overline T)
+\qquad (\overline T\in\mc B(\overline X, \overline Y), R\in{}_{\mc B(\overline A)}\mc B(\mc B(\overline X,\overline A), A)). \]
+One checks that $\ran_A(\overline T)(R)$ is a module map.
+
+As $\mc A_0$ has a single object, to define $\epsilon$ we need only specify $\epsilon_{\overline A} \colon \ran_A(\overline A) = {}_{\mc B(\overline A)}\mc B(\mc B(\overline A), A) \to A = F(\overline A)$.  Now, ${}_{\mc B(\overline A)}\mc B(\mc B(\overline A), A) \cong A$ as $R\in {}_{\mc B(\overline A)}\mc B(\mc B(\overline A), A)$ is determined by $R(\overline 1)$.  Again, we choose $\epsilon_{\overline A}$ to be the identity on $A$, once these identifications are made.
+
+Consider now a functor $M \colon \msf{BanDL} \to \msf{Ban}$ along with a natural transformation $\mu \colon M\iota \Rightarrow F$.  So $\mu$ has a single component $\mu_{\overline A} \colon M(\overline A) \to A$ satisfying $F(\overline T) \mu_{\overline A} = \mu_{\overline A} M(\overline T)$ for each $\overline T \in \mc B(\overline A)$.  We seek to define $\delta \colon M \Rightarrow \ran_A$ with $\delta_{\overline A} = \epsilon_{\overline A} \delta_{\overline A} = \mu_{\overline A}$.
+
+Let us proceed differently to the left case, and show why $\delta$ has to have a certain form.  For any $\overline X$ we need to have
+\[ \begin{tikzcd}
+\overline X \arrow[d, "\overline T"] && M(\overline X) \arrow[r, "\delta_{\overline X}"] \arrow[d, "M(\overline T)"'] & {}_{\mc B(\overline A)}\mc B(\mc B(\overline X,\overline A), A) \arrow[d, "\ran_A(\overline T)"]  \\
+\overline A && M(\overline A) \arrow[r, "\delta_{\overline A}"] & \ran_A(\overline A) \cong A
+\end{tikzcd} \]
+Given the identifications we made above, $\ran_A(\overline T)$ is the map $R \mapsto R(\overline 1\circ \overline T) = R(\overline T)$.  Thus
+\[ \delta_{\overline X}(\alpha)(\overline T) = \delta_{\overline A} M(\overline T)\alpha
+= \mu_{\overline A} M(\overline T)\alpha
+\qquad (\alpha\in M(\overline X), \overline T\in\mc B(\overline X,\overline A)). \]
+Thus, if $\delta_{\overline X}$ exists, this uniquely defines it.  We have define $\delta_{\overline X}(\alpha) \in \mc B(\mc B(\overline X, \overline A), A)$; let us check that it is a module map.  For $\overline S\in\mc B(\overline A)$ we have that $\delta_{\overline X}(\alpha)(\overline S\overline T) = \mu_{\overline A} M(\overline S) M(\overline T) \alpha = F(\overline S) \mu_{\overline A} M(\overline T) \alpha = \overline S \cdot \delta_{\overline X}(\alpha)(\overline T)$, as required.
+
+Given a general $\overline T \colon \overline X \to \overline Y$, for $\alpha\in M(\overline X)$ we have that
+\begin{gather*}
+\ran_A(\overline T) \delta_{\overline X}(\alpha) \colon \overline R \mapsto \delta_{\overline X}(\alpha)(\overline R\overline T) = \mu_{\overline A} M(\overline R) M(\overline T)(\alpha) \\
+\delta_{\overline Y} M(\overline T)(\alpha) \colon \overline R \mapsto \mu_{\overline A} M(\overline R)\big( M(\overline T)\alpha \big),
+\end{gather*}
+which agree, showing that $\delta$ is natural.  Finally, for $\overline T\in\mc B(\overline A)$, we have $\delta_{\overline A}(\alpha)(\overline T) = \mu_{\overline A} M(\overline T)\alpha$ and so taking $\overline T=\overline 1$ gives $\delta_{\overline A}(\alpha) = \mu_{overline A} M(\overline 1)\alpha = \mu_{\overline A}\alpha$, whence $\delta_{\overline A} = \mu_{\overline A}$ as needed.
+
+\subsubsection{Remarks}
+
+There is some analogy with nuclear operators here.  Given $\overline T\otimes x \in \mc B(\overline A, \overline X) \proten_{\mc B(\overline A)} A \in \lan_A \overline X$ we can define
+\[ R \colon \mc B(\overline X,\overline A) \to A; \quad \overline S \mapsto \overline S\circ\overline T \cdot x = F(\overline S)F(\overline T) x, \]
+noticing that $\overline S\circ\overline T \in \mc B(\overline A)$.  Then $R$ is seen to be a module map, so $R\in\ran_A\overline X$.  Furthermore, the map $\overline T\otimes x \mapsto R$ is balanced, and so we obtain a contractive map $\lan_A \overline X \to \ran_A \overline X$.  For $\overline R\in\mc B(\overline X, \overline Y)$ we have $\lan_A \overline R \colon \overline T\otimes x \mapsto \overline R\overline T\otimes x$ which induces the map $R' \colon \overline S \mapsto F(\overline S\overline R\overline T)x = R(\overline S\overline R) = \ran_A\overline R (R)$.  So we have a natural transformation $\lan_A \Rightarrow \ran_A$.
 
 
 
