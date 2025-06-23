@@ -596,6 +596,29 @@ Hence $|x| = (x^*x)^{1/2} \in A$.  All of the continuous functions we apply to w
 \end{remark}
 
 
+\subsection{Application to positive maps}
+
+Let $A$ be a C$^*$-algebra (often a von Neumann algebra) and let $\varphi \colon A \to A$ be a (completely) positive map.  We say that $\varphi$ is \emph{irreducible} if there is not a non-trivial projection $p$ (so $p\not=0, p\not=1$) with $\varphi(p) \leq M p$ for some $M>0$.  See \cite[Proposition~1]{F} for example, and references therein, for further details and motivation.
+
+\begin{lemma}
+Let $v\in A$ be positive and invertible, and let $e\in A$ be a non-trivial projection.  Then $x = vev$ is a well-supported element of $A$.  The projection $p$ associated to $x$, from Lemma~\ref{lem:ws_projs}, is non-trivial.
+\end{lemma}
+\begin{proof}
+There are a number of ways to show this: for example, it follows almost immediately from Proposition~\ref{prop:ws_closedrange}, as $Avev = Aev$ is closed if and only if $Ae$ is closed, because $v$ is invertible, and $Ae$ is always closed as $e$ is idempotent.
+
+Let $p$ be given by Lemma~\ref{lem:ws_projs} applied to $x=vev$.  Then $xp=x$ and $xy=0 \implies py=0$.  As $x\not=0$ clearly $p\not=0$.  If $p=1$ then $xy=0\implies y=0$, but let $y=v^{-1}(1-e)\not=0$, as $e\not=1$, so see that $xy = vev v^{-1}(1-e) = ve(1-e) = 0$, contradiction.  So $p$ is non-trivial.
+\end{proof}
+
+\begin{proposition}\label{prop:twisting_irred}
+Let $v\in A$ be positive and invertible, let $\varphi\colon A\to A$ be positive, and set $\tilde A \colon A\to A; x \mapsto v^{-1} A(vxv) v^{-1}$, which is positive.  Then $A$ is irreducible if and only if $\tilde A$ is irreducible.
+\end{proposition}
+\begin{proof}
+Let $\tilde A$ be reducible, say $\tilde A(e) \leq M e$ for some non-trivial projection $e$ and $M>0$.  By the lemma, $x=vev$ is positive and well-supported.  Let $p\in A$ be the projection associated to $x$ so $p$ is non-trivial.  As $x$ is well-supported, $\sigma(x^2) \subseteq \{0\} \cup [c^2,C^2]$ for some $0<c<C$, and so $\sigma(x) \subseteq \{0\} \cup [c,C]$.  Let $f(0)=0, f(t)=1$ for $t>0$, so by construction, $p = f(x)$.  As $cf(t) \leq t \leq Cf(t)$ for $t\in\sigma(x)$, we see that $c p \leq x \leq Cp$.  Then $\tilde A(e) \leq Me$ means $A(vev) \leq M vev$, so $A(p) \leq c^{-1} A(x) \leq c^{-1} M x \leq c^{-1}CM p$, in the first step using that $A$ is positive.  Thus $A$ is reducible.  Swapping the roles of $v$ and $v^{-1}$ shows that $A$ reducible implies $\tilde A$ reducible.
+\end{proof}
+
+This gives justification to the claim at the start of the proof of \cite[Proposition~4.3]{cgw}.  There we work with a finite-dimensional $C^*$-algebra, for which it is obvious that all elements are well-supported.  I thank Mateusz Wasilewski for correspondance which suggested the approach to proving Proposition~\ref{prop:twisting_irred} in the finite-dimensional case.
+
+
 
 \begin{thebibliography}{aa}
 
@@ -604,8 +627,12 @@ Hence $|x| = (x^*x)^{1/2} \in A$.  All of the continuous functions we apply to w
 \bibitem{conway} J.~B. Conway, {\it A course in functional analysis}, second edition, 
 Graduate Texts in Mathematics, 96, Springer, New York, 1990; MR1070713
 
+\bibitem{cgw} K. Courtney, P. Ganesan, M. Wasilewski, Connectivity for quantum graphs via quantum adjacency operators, arXiv:2505.22519v1 [math.OA]
+
 \bibitem{q1} Matthew Daws, Empty interior of union of cosets?, 
    \url{https://mathoverflow.net/q/351764}
+
+\bibitem{F} D.~R. Farenick, Irreducible positive linear maps on operator algebras, Proc. Amer. Math. Soc. {\bf 124} (1996), no.~11, 3381--3390; MR1340385
 
 \bibitem{hm} R.~E. Harte and M. Mbekhta, On generalized inverses in $C^*$-algebras, Studia Math. {\bf 103} (1992), no.~1, 71--77; MR1184103
 
