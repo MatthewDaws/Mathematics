@@ -1,11 +1,25 @@
 \documentclass[twoside,a4paper,12pt]{article}
-
 \usepackage[margin=2cm]{geometry}
 
-\usepackage{amsmath,amssymb,latexsym,amsthm,url}
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+%\usepackage{showkeys}
+\usepackage{hyperref}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage{amsmath,amssymb,latexsym,amsthm}
 %\usepackage{showkeys}
 %\usepackage[active]{srcltx}
+\usepackage{xurl}
 \usepackage[all]{xy}
+\usepackage[shortlabels]{enumitem}
 
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[section]
@@ -33,6 +47,7 @@
 \newcommand{\aff}{\operatorname{Aff}}
 \newcommand{\id}{\operatorname{id}}
 \newcommand{\aut}{\operatorname{Aut}}
+\newcommand{\im}{\operatorname{Im}}
 
 \begin{document}
 
@@ -150,6 +165,10 @@ now answered our original question, as both $H$ and its coset have empty interio
 union is all of $G$.
 
 
+
+
+
+\clearpage
 
 \section{Semi-direct products}
 
@@ -299,6 +318,10 @@ The modular function is
 
 
 
+
+
+\clearpage
+
 \section{Modules over algebras of operators}
 
 The following is surely folklore: people will know the construction, but I'm not aware of a reference.
@@ -343,10 +366,248 @@ If $S\in\mc B(X)$ commutes with each $\pi(T)$, for $T\in\mc A(E)$, then $y\in Y_
 
 
 
+
+\clearpage
+
+\section{Polar decompositions}
+
+This material can be found in a variety of sources, but I wanted something in my own presentation to reference.  Fix Hilbert spaces $H,K$.
+
+Let $T\in\mc B(H,K)$ and use the continuous functional calculus to define $|T| = (T^*T)^{1/2} \in \mc B(H)$.  This is the unique positive operator $S$ with $S^2 = T^*T$.
+We start with some elementary facts about operators on Hilbert spaces.
+
+\begin{lemma}\label{lem:hilb_basic}
+Let $S\in\mc B(H,K)$.  Then:
+\begin{enumerate}[(1)]
+   \item\label{lem:hilb_basic:1}
+   $\im(S)^\perp = \ker S^*$ and so $\overline{\im}(S) = (\ker S^*)^\perp$.
+   \item\label{lem:hilb_basic:2}
+   $\ker S = \ker S^*S = \ker |S|$.
+   \item\label{lem:hilb_basic:3}
+   $S$ is an isometry if and only if $S^*S=1$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+We see that $\xi\in\im(S)^\perp$ if and only if $(\xi|S\eta)=0$ for all $\eta$, if and only if $S^*\xi=0$, so \ref{lem:hilb_basic:1} follows.  For \ref{lem:hilb_basic:2} we note that
+\[ S\xi=0 \implies
+S^*S\xi=0 \implies
+(\xi|S^*S\xi)=0 \implies
+\|S\xi\|^2=0 \implies
+S\xi=0, \]
+and so we have equivalence throughout.  As $|S|^*|S| = S^*S$ also $\ker |S| = \ker S^*S$.
+
+For \ref{lem:hilb_basic:3}, if $S^*S=1$ then $\|S\xi\|^2 = (\xi|S^*S\xi) = \|\xi\|^2$ for each $\xi\in H$ and so $S$ is an isometry.  For the converse, we use the polarisation identity, so for $\xi, \eta\in H$,
+\[ (S\xi|S\eta) = \frac14 \sum_{k=0}^3 i^k \|S\xi + (-i)^k S\eta\|^2 
+= \frac14 \sum_{k=0}^3 i^k \|\xi + (-i)^k \eta\|^2 
+= (\xi|\eta), \]
+in the middle step using that $S$ is an isometry.  It follows that $S^*S=1$.
+\end{proof}
+
+Next we look at partial isomeries in the abstract.
+
+\begin{lemma}\label{lem:pi}
+Let $A$ be a $C^*$-algebra and let $u\in A$.  The following are equivalent:
+\begin{enumerate}[(1)]
+   \item\label{lem:pi:1} $u^*u$ is a projection;
+   \item\label{lem:pi:2} $uu^*u = u$;
+   \item\label{lem:pi:3} $u^*uu^* = u^*$;
+   \item\label{lem:pi:4} $uu^*$ is a projection.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+If \ref{lem:pi:1} holds, then $u^*u u^*u = u^*u$ and so $(uu^*u-u)^*(uu^*u-u) = u^*uu^*uu^*u - u^*uu^*u - u^*uu^*u + u^*u = 0$, so \ref{lem:pi:2} holds, by the $C^*$-condition (as $a^*a=0 \implies a=0$ for $a\in A$).  If \ref{lem:pi:2} holds then multiply on the left by $u^*$ to see that $u^*u$ is idempotent; clearly $u^*u$ is self-adjoint, and so \ref{lem:pi:1} holds.  Replacing $u$ by $u^*$ shows that \ref{lem:pi:3} and \ref{lem:pi:4} are equivalent.  Finally, \ref{lem:pi:2} and \ref{lem:pi:3} are equivalent by taking adjoints.
+\end{proof}
+
+\begin{definition}
+A \emph{partial isometry} is $u\in A$ satisfying any of the above equivalent conditions.  The projection $u^*u$ is the \emph{initial projection} and $uu^*$ is the \emph{final projection}.
+\end{definition}
+
+\begin{lemma}\label{lem:pi_hilbsp}
+For $U\in\mc B(H,K)$ we have that $U$ is a partial isometry if and only if there is a closed subspace $H_0\subseteq H$ such that $U$ restricted to $H_0$ is an isometry, and $U$ restricted to $H_0^\perp$ is $0$.  In this case, $H_0$ is the image of the initial projection, and $U(H_0)$ is the image of the final projection.
+\end{lemma}
+\begin{proof}
+Let $U$ be a partial isometry, and let $H_0$ be the image of the initial projection $U^*U$.  For $\xi = U^*U\xi \in H_0$, we have $\|U\xi\|^2 = (\xi|U^*U\xi) = (\xi|\xi) = \|\xi\|^2$, so conclude that $U$ is an isometry on $H_0$.  By Lemma~\ref{lem:hilb_basic}\ref{lem:hilb_basic:2}, we have $\ker U = \ker U^*U = H_0^\perp$.
+
+Conversely, the restriction of $U$ to $H_0$ is an isometry, and so $(U\xi|U\eta) = (\xi|\eta)$ for all $\xi,\eta\in H_0$, see Lemma~\ref{lem:hilb_basic}\ref{lem:hilb_basic:3}.  Let $\xi\in H$ and write $\xi = \xi_0 + \xi_1 \in H_0 \oplus H_0^\perp$, and similarly for $\eta$, so that $(\eta|U^*U\xi) = (U\eta|U\xi) = (U\eta_0|U\xi_0) = (\eta_0|\xi_0) = (\eta|\xi_0)$.  Thus $U^*U\xi = \xi_0$, and so $U^*U$ is the projection onto $H_0$.  Hence $U$ is a partial isometry with initial space $H_0$.  Obviously $\im(UU^*) \subseteq \im(U)$, but $UU^*U = U$ so $UU^*\xi=\xi$ for any $\xi\in U(H_0)$, and we conclude that $\im(UU^*) = U(H_0)$.
+\end{proof}
+
+For a partial isometry $U$ on a Hilbert space, the \emph{initial space} is the range of the projection $U^*U$ and the \emph{final space} is the range of $UU^*$.
+
+We can now construct the polar decomposition.  Given $T\in\mc B(H,K)$ form $|T|=(T^*T)^{1/2}$, and define
+\[ U \colon |T|(H) = \{ |T|\xi : \xi\in H\} \to K; \quad
+U |T|\xi = T\xi. \]
+For $\xi\in H$ we have that $\|T\xi\|^2 = (\xi|T^*T\xi) = \| |T|\xi\|^2$ and so $U$ is an isometry, and hence extends by continuity to the closure of $|T|(H)$.  Set $U$ to be $0$ on the orthogonal complement of $|T|(H)$, so $U$ is now defined on all of $H$.  By construction, $U|T|= T$, and by Lemma~\ref{lem:pi_hilbsp}, $U$ is a partial isometry with initial space $\overline{\im}|T|$ and final space $\overline{\im}T$.  By Lemma~\ref{lem:hilb_basic}, $\overline{\im}|T| = (\ker |T|)^\perp = (\ker T)^\perp = \overline{\im}(T^*)$ and $\overline{\im}T = (\ker T^*)^\perp$.  Also notice that $\ker U = (\im |T|)^\perp = \ker T$.
+
+\begin{proposition}\label{prop:polar_unique}
+The polar decomposition is unique in the sense that if $T = VS$ with $S$ positive and $V$ a partial isometry with initial space $\overline{\im} S$ then $U=V$ and $S = |T|$.  We have that $|T|$ belongs to the $C^*$-algebra generated by $T^*T$, and when $H=K$, $U$ belongs to the von Neumann algebra generated by $T$.
+\end{proposition}
+\begin{proof}
+We have $T^*T = S V^*V S = S^2$ as $V^*V$ is the projection onto $\overline{\im} S$, and so by uniqueness of positive square-roots, $|T| = S$.  Then $U|T| = V|T|$ so $U$ and $V$ agree on $\overline{\im} |T|$ which is the initial space of both partial isomeries, and hence $U=V$.
+
+By the continuous functional calculus, $|T| \in C^*(T^*T)$.  When $H=K$, the von Neumann algebra generated by $T$ is the bicommutant $\{ T, T^* \}''$.  Let $S$ commute with $T$ and $T^*$; we need to show that $SU=US$.  Let $\eta \in \ker U = \ker T$ so $TS\eta = ST\eta = 0$ so $S\eta\in \ker T$ so $US\eta=0$.  As $S$ and $|T|$ commute, for $\xi\in H, \eta\in \ker U$, we have
+\[ SU(|T|\xi+\eta) = ST\xi = TS\xi = U|T|S\xi = US(|T|\xi+\eta). \]
+As $|T|(H) + \ker U$ is dense in $H$, we conclude that $SU=US$, as required.
+\end{proof}
+
+Suppose now that $T\in\mc B(H)$ is self-adjoint, so we can write $T = T_+ - T_-$ for some $T_+,T_-$ positive with $T_+ T_- = 0 = T_- T_+$.  Let $H_\pm = \overline{\im}T_\pm$ so $H_+$ and $H_-$ are mutually orthogonal as $(T_+\xi|T_-\eta) = (\xi|T_+T_-\eta) = 0$ for all $\xi,\eta\in H$.  Let $U$ be the operator which is $1$ on $H_+$, $-1$ on $H_-$ and $0$ on $(H_+ \oplus H_-)^\perp$.  Then $U = U^*$ and $U^*U$ is the projection onto $H_+ \oplus H_-$, so $U$ is a partial isometry.  As $\overline{\im}T = (\ker T)^\perp = (H_+ \oplus H_-)^{\perp\perp}$ we see that $U^*U$ is the projection onto $\overline{\im}T$.  As $|T| = T_+ + T_-$ (by uniqueness, or functional calculus) we see that $U|T| = UT_+ + UT_- = T_+ - T_- = T$ and so by uniqueness, we have constructed the polar decomposition.
+
+
+
+
+
+\clearpage
+
+\section{von Neumann regular elements}
+
+Again, we present some surely well-known results, with proofs, for applications to follow in the next section.
+
+\begin{definition}
+Let $A$ be an algebra (or even just a ring).  An element $x\in A$ is \emph{von Neumann regular} if there is $y\in A$ with $xyx = x$.
+\end{definition}
+
+\begin{proposition}
+Let $E$ be a Banach space and let $x\in \mc B(E)$.  The following are equivalent:
+\begin{enumerate}
+   \item
+   $x$ is von Neumann regular in $\mc B(E)$;
+   \item 
+   $x$ has closed image and both $\ker(x)$ and $\im(x)$ are complemented subspaces of $E$.
+\end{enumerate}
+In this case, when $xyx=x$, we have that $xy = e$ is a projection onto $\im(x)$ and $1-yx = f$ is a projection onto $\ker(x)$.  Conversely, given $e$ and $f$ projections onto $\im(x)$, which is closed, and $\ker(x)$, respectively, we can choose $y$ with $xyx=x, xy=e$ and with $yx=1-f$.
+\end{proposition}
+\begin{proof}
+Suppose there is $y\in\mc B(E)$ with $xyx=x$.  Then $(xy)^2 = xyxy = xy$ and $(yx)^2 = yxyx = yx$ so $e=xy$ and $f=1-yx$ are projections.  We have $e(E) \subseteq x(E)$, but as $ex = xyx = x$ also $e(H) \supseteq x(E)$, so $x(E)=e(E)$ and in particular, $x$ has closed, complemented image.  As $xf = x - xyx = 0$ we have $f(E) \subseteq \ker(x)$, but if $x\xi=0$ then $f\xi = \xi - yx\xi = \xi$ so we conclude that $f$ is a projection onto $\ker(x)$.
+
+Conversely, let $x$ have closed image, with $e$ a projection onto $x(E)$ and $f$ a projection onto $\ker(x)$.  Let $x_0$ be the restriction of $x$ to a map $\im(1-f) \to \im(e) = \im(x)$.  If $x_0\xi=0$ then $(1-f)\xi=\xi$ so $f\xi=0$, but also $x\xi=0$, so $f\xi=\xi$, so $\xi=0$ and we conclude that $x_0$ is injective.  Given any $\xi\in E$ we have that $xf\xi=0$ so $x\xi = x(1-f)\xi$ and hence $x_0(1-f)\xi = x\xi$ and we conclude that $x_0$ is surjective.  By the Open Mapping Theorem, $x_0$ is invertible.  Set $y = x_0^{-1} e \colon E \to \im(1-f) \subseteq E$.  Then $xy = x x_0^{-1} e = x_0 x_0^{-1} e = e$.  Given $\xi\in E$ set $\eta = (1-f)\xi$ so as before, $x\xi = x\eta = x_0\eta$ as $\eta\in\im(1-f)$.  Hence $yx\xi = x_0^{-1} ex\xi = x_0^{-1} x\xi = x_0^{-1} x_0 \eta = \eta = (1-f)\xi$.  So $yx = 1-f$.  Finally, we have $xyx = ex = x$, as desired.
+\end{proof}
+
+For the following, compare also Proposition~\ref{prop:ws_vnreg} below.
+
+\begin{proposition}\label{prop:vnreg_hilb}
+Let $H$ be a Hilbert space, and let $x\in \mc B(H)$.  Then $x$ is von Neumann regular if and only if $x$ has closed image.  When $x$ is von Neumann regular and self-adjoint, we can choose a self-adjoint $y$ with $xyx=x$ and with $xy = yx$ a (self-adjoint) projection.  Further, when $x$ is positive, we can choose $y$ positive.
+\end{proposition}
+\begin{proof}
+In a Hilbert space, all closed subspaces are complemented, so $x$ is von Neumann regular if and only if $x$ has closed image.  Now let $x$ be self-adjoint with closed image.  As $\im(x) = (\ker x)^\perp$, Lemma~\ref{lem:hilb_basic}, we can choose $e$ to be the orthogonal projection onto $\im(x)$, and then $f=1-e$ will be the orthogonal projection onto $\ker(x)$.  Following the previous proof, let $x_0$ be the restriction of $x$ to $\im(1-f) = \im(e) = \im(x)$, so $x_0 \colon \im(x) \to \im(x)$ is invertible, and set $y = x_0^{-1} e$.  Then $xy=e, yx=1-f = e$.  As $x$ is self-adjoint, also $x_0$ is self-adjoint, and so $x_0^{-1}$ is self-adjoint.  As $y = ey = ex_0^{-1}e$, we conclude that $y$ is self-adjoint.  The same argument shows that when $x$ is positive, also $y$ is positive.
+\end{proof}
+
+
+
+
+
+\clearpage
+
+\section{Well-supported elements}
+
+This definition is given in \cite[Definition~II.3.2.8]{blackadar_enc}.  An element $x$ in a $C^*$-algebra $A$ is \emph{well-supported} if $\sigma(x^*x) \setminus\{0\}$ is closed, that is, $\sigma(x^*x) \subseteq \{0\} \cup [\epsilon,\infty)$ for some $\epsilon>0$.  I haven't found an reference for elementary properties of such elements, so here give some elementary proofs, following Blackadar for the results.
+
+As $\sigma(x^*x) \cup\{0\} = \sigma(xx^*)\cup\{0\}$, we see that $x$ is well-supported if and only if $x^*$ is.  Let $x$ be well-supported.  Define $f\colon [0,\infty) \to [0,1]$ by $f(0)=0$ and $f(t)=1$ for $t>0$.  Then $f$ is continuous on $\sigma(x^*x)$ and so by the continuous functional calculus, $p = f(x^*x)$ exists, and $p$ is a projection with $px^*x = x^*x = x^*xp$.
+
+\begin{lemma}\label{lem:ws_projs}
+Let $x$ be well-supported, and $f$ be as above, and set $p = f(x^*x)$ and $q = f(xx^*)$.  Then $p$ is a projection, $xp=x$ and $xy=0 \implies py=0$.  Also $q$ is a projection, $qx=x$ and $yx=0 \implies yq=0$.
+\end{lemma}
+\begin{proof}
+As observed above, $px^*x = x^*x = x^*xp$ and so $(px^*-x^*)(xp-x) = px^*xp - x^*xp - px^*x + x^*x = 0$ hence $xp = x$.  If $xy = 0$ then $x^*x yy^* = 0$ and $yy^* x^*x = y (xy)^* x = 0$ so working in the commutative $C^*$-algebra generated by $x^*x, yy^*$ and $1$, we see that $p yy^* = 0 = yy^*p$.  Thus $pyy^*p =0$ so $py=0$.
+
+As $x^*$ is also well-supported, $q$ is defined.  We argue similarly: $(qx-x)(qx-x)^* = qxx^*q - xx^*q - qxx^* + xx^* = 0$ so $qx=x$.  If $yx=0$ then $y^*y$ commutes with $xx^*$ so $y^*yq = 0$ so $yq=0$.
+\end{proof}
+
+The next lemma says that for a well-supported element, its polar decomposition exists in the $C^*$-algebra.
+
+\begin{lemma}\label{lem:ws_pd}
+Let $x\in A$ be well-supported, let $\pi \colon A \to \mc B(H)$ be a $*$-homomorphism, and let $\pi(x) = u\pi(|x|)$ be the polar decomposition.  Then $u\in\pi(A)$.
+\end{lemma}
+\begin{proof}
+Define $g \colon [0,\infty) \to [0,\infty)$ by $g(0)=0$ and $g(t) = t^{-1/2}$, so again $g$ is continuous on $\sigma(x^*x)$, and so we can set $v = x g(x^*x) \in A$.  Then $g(x^*x) |x| = p$ by the functional calculus, where $p$ is as above.  So $v|x| = xp = x$.  Also $v^*v = g(x^*x) x^*x g(x^*x) = p$ again by the functional calculus.
+
+Let $q$ be the projection onto $\overline{\im}(\pi(|x|)) = \ker(\pi(|x|))^\perp = \ker(\pi(x))^\perp = \overline{\im}(\pi(x^*))$, and as $xp=x$ also $px^*=x^*$ so $p\geq q$.  As $(1-q)x^*=0$, so $x(1-q)=0$, by Lemma~\ref{lem:ws_projs}, we have $p(1-q)=0$.  So $p = pq = q$, and we conclude that $v^*v$ is the projection onto $\overline{\im}(\pi(|x|))$.  By uniqueness, Proposition~\ref{prop:polar_unique}, $\pi(x) = \pi(v) \pi(|x|)$ is the polar decomposition.
+\end{proof}
+
+We now make links between well-supported elements and von Neumann regular elements, as considered in the previous section.
+
+\begin{proposition}\label{prop:ws_vnreg}
+An element $x\in A$ is well-supported if and only if $x$ is \emph{von Neumann regular} meaning that there is $y\in A$ with $xyx=x$.
+\end{proposition}
+\begin{proof}
+Let $x$ be well-supported.  Again define $g(0)=0, g(t)=t^{-1/2}$ for $t>0$, so as in the proof of Lemma~\ref{lem:ws_pd}, with $u = xg(x^*x)$ we have that $x = u|x|$ is the polar decomposition.  In particular, $uu^*u = u$.  Set $y = g(x^*x) u^*$ so that $xyx = x g(x^*x) u^* u |x| = u u^* u |x| = u |x| = x$.
+
+Conversely, let $x$ be von Neumann regular.  Represent $A$ faithfully on some Hilbert space $H$, and let $x = u|x|$ be the polar decomposition, in $\mc B(H)$.  Then $u^*x = |x|$ and so if we choose $y$ with $xyx = x$ then $|x| yu |x| = |x|$, showing that $|x|$ is also von Neumann regular, in $\mc B(H)$.  We now apply Proposition~\ref{prop:vnreg_hilb}, which tells us that $|x|$ has closed image, and we can choose $y \geq 0$ in $\mc B(H)$ with $|x| y |x| = |x|$.  Furthermore, $e = y|x| =  |x|y$ is a projection onto $\im(|x|) = \ker(|x|)^\perp$.
+
+Let $0 < \lambda \leq \|y\|^{-1}$.  We show that $|x|-\lambda 1$ is bounded below.  Let $\xi\in H$ so $|x|\xi = |x|e \xi = e|x|e\xi$.  Hence, as $e$ and $1-e$ has orthogonal images,
+\[ \| |x|\xi - \lambda\xi\|^2
+= \| |x|e\xi - \lambda e\xi - \lambda (1-e)\xi \|^2
+= \| |x|e\xi - \lambda e\xi\|^2 + \lambda^2 \| (1-e)\xi \|^2. \]
+We have $\|e\xi\| = \|y|x|\xi\| \leq \|y\| \| |x|\xi\| = \|y\| \| |x| y|x| \xi\| = \|y\| \| |x| e \xi \|$ and so with $\eta=e\xi$ we see that $\| |x|\eta\| \geq \|y\|^{-1} \|\eta\|$.  So $\| |x| \eta - \lambda\eta\| \geq \| |x|\eta\| - \lambda \|\eta\| \geq (\|y\|^{-1} - \lambda) \|\eta\|$, and thus
+\[ \| |x|\xi - \lambda\xi\|^2 \geq (\|y\|^{-1} - \lambda)^2 \|e\xi\|^2 + \lambda^2 \|(1-e)\xi\|^2
+\geq (\|y\|^{-1}-\lambda)^2 \|\xi\|^2. \]
+So $|x|-\lambda$ is bounded below and hence is an isomorphism onto its range.  As we are working on a Hilbert space, there is $z\in\mc B(H)$ with $z(|x|-\lambda) = 1$, hence also $(|x|-\lambda)z^*=1$.  So $z = z^* = (|x|-\lambda)^{-1}$ and we conclude $\lambda\not\in\sigma(|x|)$.
+
+So $\sigma(|x|) \subseteq \{0\} \cup [c,\infty)$ for some $c>0$ (we can take $c = \|y\|^{-1}$).  Hence $\sigma(x^*x) = \sigma(|x|^2) \subseteq \{0\} \cup [c^2,\infty)$, and $x$ is well-supported.\footnote{This argument could also be made, slightly more directly, by using the notion of the ``approximate point spectrum''.}
+\end{proof}
+
+\begin{remark}
+The definition of being von Neumann regular might depend upon the algebra.  However, notice that the proof of Proposition~\ref{prop:ws_vnreg} shows that if $A\subseteq\mc B(H)$ and $x\in A$ is von Neumann regular in $\mc B(H)$, then there is $y\in A$ with $xyx=x$.  Hence, for $C^*$-algebras, there is no dependence on the algebra.
+\end{remark}
+
+According to Blackadar, sometimes well-supported elements are called \emph{elements with closed range}, which is supported by the following, and the arguments in the previous proposition.  First a lemma.
+
+\begin{lemma}\label{lem:power_factorisation}
+Let $A$ be a $C^*$-algebra and let $x\in A$ be positive.  Denote by $C^*(x) \subseteq A$ the $C^*$-algebra generated by $x$.  For any $r>0$ we have that $x^{1/2}$ is in the closure of $x^r C^*(x) \subseteq x^r A$.
+\end{lemma}
+\begin{proof}
+We use a functional calculus argument.  Let $\epsilon>0$ and define $f\colon [0,\infty) \to [0,\infty)$ by $f(t) = t \epsilon^{-1/2-r}$ for $t<\epsilon$, and $f(t) = t^{1/2-r}$ for $t\geq\epsilon$.   Then $f$ is continuous, and for $t\geq\epsilon$ we have $t^r f(t) = t^{1/2}$, while for $t<\epsilon$ we have $t^{1/2} - t^r f(t) = t^{1/2} - t^{1+r} \epsilon^{-1/2-r} = t^{1/2}(1 - (t/\epsilon)^{1/2+r}) \leq t^{1/2} \leq \epsilon^{1/2}$.  Hence $\| x^r f(x) - x^{1/2} \| \leq \epsilon^{1/2}$.  It follows that $x^{1/2}$ is in the closure of $x^r C^*(x)$.
+\end{proof}
+
+\begin{proposition}\label{prop:ws_closedrange}
+Let $x\in A$.  The following are equivalent:
+\begin{enumerate}[(1)]
+   \item\label{prop:ws_closedrange:1}
+   $Ax$ is closed;
+   \item\label{prop:ws_closedrange:2}
+   $xA$ is closed;
+   \item\label{prop:ws_closedrange:3}
+   $x^*Ax$ is closed;
+   \item\label{prop:ws_closedrange:4}
+   $x$ is well-supported.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+Let $x$ be well-supported, so von Neumann regular, so there is $y$ with $xyx=x$.  Let $(a_n)$ be a sequence in $A$ with $a_n x\to a\in A$.  Then $ayx = \lim_n a_n x yx = \lim_n a_n x =a$ and so $a = ayx \in Ax$.  So \ref{prop:ws_closedrange:4} implies \ref{prop:ws_closedrange:1}, and similarly \ref{prop:ws_closedrange:2}.  Similarly, if $x^*a_nx \to a\in A$ then $x^*y^* a yx = \lim_n x^*y^* x^* a_n x yx = \lim_n x^* a_n x = a$ so $a\in x^*Ax$, and so \ref{prop:ws_closedrange:4} implies \ref{prop:ws_closedrange:3}.
+
+Represent $A$ faithfully on a Hilbert space $H$.  Then $Ax$ is closed in $A$ if and only if $Ax$ is closed in $\mc B(H)$.  Let $x^* = v|x^*|$ be the polar decomposition, so $v^*x^* = |x^*|$.  If $Ax$ is closed in $\mc B(H)$ then for a sequence $(a_n)$ in $A$ with $a_n |x^*| \to a\in\mc B(H)$, we have $a_nx = a_n |x^*|v^* \to av^*$ so $av^*\in Ax$, say $av^*=bx$.  Then $b|x^*| = bxv = av^*v = \lim_n a_n |x^*| v^*v = \lim_n a_n |x^*| = a$ and so $a \in A|x^*|$ and we conclude that $A|x^*|$ is closed.  Conversely, suppose $A|x^*|$ is closed, let $a_nx \to a$, so $a_n|x^*| = a_n xv \to av \in A|x^*|$, say $av = b|x^*|$, so $bx = b|x^*|v^* = avv^* = \lim_n a_n xvv^* = \lim_n a_n |x^*| v^*vv^* = \lim_n a_n |x^*| v^* = \lim_n a_n x = a$ so $a\in Ax$ and we conclude $Ax$ is closed.  So we've shown that $Ax$ is closed if and only if $A|x^*|$ is closed.  Using the polar decomposition of $x$, one similarly shows that $xA$ is closed if and only if $|x|A$ is closed.  Finally, the same argument shows that $x^*Ax$ is closed if and only if $|x^*| A |x^*|$ is closed.
+
+Suppose that $x$ is positive and $xA$ is closed.  Apply the lemma with $r=1$ to conclude that $x^{1/2} \in \overline{xA} = xA$.
+% Let $\epsilon>0$ and define $f\colon [0,\infty) \to [0,\infty)$ by $f(t) = \epsilon^{-1/2}$ for $t<\epsilon$, and $f(t) = t^{-1/2}$ for $t\geq\epsilon$.  Then $f(t)t = t^{1/2}$ for $t\geq\epsilon$, while $t^{1/2} - f(t)t = t^{1/2} ( 1- (t/\epsilon)^{1/2}) \leq t^{1/2}$ for $t<\epsilon$.  By the functional calculus, $\| x f(x) - x^{1/2} \| \leq \epsilon^{1/2}$ and so $x^{1/2} \in \overline{xA} = xA$.
+Hence there is $a\in A$ with $xa = x^{1/2}$, and so $xaa^*x = x$ showing that $x$ is von Neumann regular, and so well-supported.  The same argument shows that if $Ax$ is closed then $x$ is well-supported.
+Thus if \ref{prop:ws_closedrange:1} holds, then $A|x^*|$ is closed, so $|x^*|$ is well-supported, but by definition, this means $x^*$ is well-supported, so $x$ is well-supported.  So \ref{prop:ws_closedrange:4} holds.  Similarly \ref{prop:ws_closedrange:2} implies \ref{prop:ws_closedrange:4}.
+
+Finally, suppose \ref{prop:ws_closedrange:3} holds, so $|x^*|A|x^*|$ is closed.
+%Set $y=|x^*|$ and choose $\epsilon>0$.  Define $f(t) = \epsilon^{-3/2}$ for $t<\epsilon$ and $f(t) = t^{-3/2}$ for $t\geq\epsilon$.  Then $f(t)t^2 = t^{1/2}$ for $t\geq\epsilon$, and for $t<\epsilon$ we have $t^{1/2} - f(t)t^2 = t^{1/2} (1 - (t/\epsilon)^{3/2})$
+Apply the lemma with $r=2$ to conclude that $|x^*|^{1/2} \in \overline{|x^*|^2 C^*(|x^*|)} = \overline{|x^*| C^*(|x^*|) |x^*|} \subseteq \overline{|x^*|A|x^*|} = |x^*|A|x^*|$.  So there is $a\in A$ with $|x^*|^{1/2} = |x^*| a |x^*|$ and so $|x^*| (a |x^*|^2 a^*) |x^*| = |x^*|$ showing that $|x^*|$ is von Neumann regular, hence well-supported.  Again, this implies \ref{prop:ws_closedrange:4}.
+\end{proof}
+
+The above argument was inspired by \cite[Theorem~8]{hm}.  This paper \cite{hm} contains a little more about von Neumann regular elements, and following the citations will find similar papers.
+
+\begin{remark}
+We have tacitly worked with unital $C^*$-algebras, so we can smoothly apply the functional calculus.  The continuous functional calculus is constructed by using Gelfand theory applied to a normal element $x\in A$.  Then $C^*(1,x)$ is commutative and we find that it is isomorphic to $C(\sigma(x))$.  Then the map sending $x$ to the ``coordinate function'' $t \in C(\sigma(x))$ extends to polynomials, and by density, then to $C^*(1,x) \cong C(\sigma(x))$.  The inverse map is the continuous functional calculus.
+
+When $A$ is non-unital, we embed $A$ into $A^+$ the unitisation.  By construction, if $f \in C(\sigma(x))$ can be approximated by polynomials with zero constant term, then $f(x) \in A$ not $A^+$.  By the locally compact space version of the Stone--Weierstrass theorem, \cite[Corollary~V.8.3]{conway}, the collection of such $f$ is exactly $C_0(\sigma(x)\setminus\{0\})$.
+
+Hence $|x| = (x^*x)^{1/2} \in A$.  All of the continuous functions we apply to well-supported elements vanish at $0$ by construction, and so work in the non-unital case.  The same applies to the function we used in the proof of Lemma~\ref{lem:power_factorisation}.
+\end{remark}
+
+
+
 \begin{thebibliography}{aa}
+
+\bibitem{blackadar_enc} B.~E. Blackadar, {\it Operator algebras}, Encyclopaedia of Mathematical Sciences Operator Algebras and Non-commutative Geometry, 122 III, Springer, Berlin, 2006; MR2188261
+
+\bibitem{conway} J.~B. Conway, {\it A course in functional analysis}, second edition, 
+Graduate Texts in Mathematics, 96, Springer, New York, 1990; MR1070713
 
 \bibitem{q1} Matthew Daws, Empty interior of union of cosets?, 
    \url{https://mathoverflow.net/q/351764}
+
+\bibitem{hm} R.~E. Harte and M. Mbekhta, On generalized inverses in $C^*$-algebras, Studia Math. {\bf 103} (1992), no.~1, 71--77; MR1184103
 
 \bibitem{kt} E. Kaniuth\ and\ K. F. Taylor, {\it Induced representations of locally compact groups}, Cambridge Tracts in Mathematics, 197, Cambridge University Press, Cambridge, 2013. MR3012851
 
