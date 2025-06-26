@@ -233,6 +233,67 @@ We now wish to show that for any $\eta\in H$ we have
 \[ \pi_l(\xi_n)\eta = \frac{n}{\sqrt\pi} \int_{\mathbb R} e^{-n^2(t-z)^2} \sigma_t(\pi_l(\xi))\eta \ dt \to \pi_l(\xi)\eta. \]
 This is clear, as $t\mapsto \sigma_t(\pi_l(\xi))\eta$ is continuous, so in the limit the integral converges to $\sigma_0(\pi_l(\xi))\eta$.  The ingredients of this argument are in \cite[Proof of Theorem~VI.2.2]{TakesakiII}, but I think it's useful to be explicit.
 
+
+\section{Weights on opposite algebras}
+
+Let $M$ be a von Neumann algebra and $M^\op$ its opposite algebra, say $M^\op = \{ x^\op : x\in M \}$ with product $x^\op y^\op = (yx)^\op$.  For a subset $X\subseteq M$ write $X^\op = \{ x^\op : x\in X \} \subseteq M^\op$.
+
+Given an nsf weight $\varphi$ on $M$ we define $\varphi^\op$ on $M^\op$ by $\varphi(x^\op) = \varphi(x)$ for $x\in M^{\op +} = (M^+)^\op$.  Then $x^\op\in\mf n_{\varphi^\op}$ if and only if $\varphi^\op(x^{\op *} x^\op) = \varphi(xx^*) < \infty$ if and only if $x^*\in\mf n_\varphi$.  Thus $\mf p_{\varphi^\op} = \mf p_\varphi^\op$ and
+\[ \mf m_{\varphi^\op} = \lin \{ x^{\op *} y^\op : x^\op, y^\op \in \mf n_{\varphi^\op} \}
+= \lin\{ (yx^*)^\op : x^*, y^* \in \mf n_\varphi \} = \mf m_\varphi^\op. \]
+Alternatively, $m_{\varphi^\op} = \lin \mf p_{\varphi^\op} = \lin \mf p_\varphi^\op = \mf m_\varphi^\op$.  By linearity, $\varphi^\op(x^\op) = \varphi(x)$ for each $x\in\mf m_\varphi$.
+
+We have the GNS construction $(L^2(\varphi^\op), \pi^\op, \Lambda^\op)$.  For $x,y\in \mf n_\varphi^*$ we have 
+\[ ( \Lambda^\op(x^\op) | \Lambda^\op(y^\op) )
+= \varphi^\op(x^{\op *} y^\op)
+= \varphi(yx^*)
+= (\Lambda(y^*)|\Lambda(x^*))
+= (J\Lambda(x^*) | J\Lambda(y^*)). \]
+Hence by density there is a unitary $U\colon L^2(\varphi^\op) \to L^2(\varphi)$ with $U\Lambda^\op(x^\op) = J\Lambda(x^*)$ for each $x\in\mf n_\varphi^*$.  For $x\in\mf n_\varphi^*$ and $a\in M$ we have
+\[ U \pi^\op(a^\op) U^* J\Lambda(x^*) = U \Lambda^\op(a^\op x^\op)
+= J\Lambda((xa)^*) = J \pi(a^*) JJ \Lambda(x^*), \]
+and so $U \pi^\op(a^\op) U^* = J \pi(a^*) J$.
+
+We next investigate how $U$ intertwines the maps $S, F, \nabla, J$; see \cite[Lemma~VI.1.5]{TakesakiII} for example.  Recall that $S$ is the closure of the map $\Lambda(x) \mapsto \Lambda(x^*)$ for $x\in\mf n_\varphi\cap\mf n_\varphi^*$, and that
+\[ D(F) = \{ \eta\in L^2(\varphi) : \Lambda(x) \mapsto (S\Lambda(x)|\eta) \text{ is bounded} \}; \quad (\eta|S\xi) = (\xi|F\eta) \qquad (\xi\in D(S), \eta\in D(F)). \]
+As $F = F^{-1}$ we have that $\eta\in D(F) \Leftrightarrow F(\eta)\in D(F)$ and $F^2(\eta) = \eta$ for $\eta\in D(F)$.  Similarly for $S$.  In particular, for $\xi\in D(S), \eta\in D(F)$ also $\eta'=F(\eta)\in D(F)$ with $F\eta'=\eta$, and so $(S\xi|F\eta) = (S\xi|\eta') = (F\eta'|\xi) = (\eta|\xi)$.
+
+\begin{lemma}
+We have that $US^\op = FU$ (so $U$ restricts to bijection $D(S^\op) \to D(F)$) and that $UF^\op = SU$.
+\end{lemma}
+\begin{proof}
+That $US^\op = FU$ means that $D(US^\op) = D(FU)$, equivalently, $D(S^\op) = U^*D(F)$, equivalently, $U D(S^\op) = D(F)$, using that $U$ is unitary, with $US^\op(\xi^\op) = FU(\xi^\op)$ for $\xi^\op \in D(S^\op)$.
+
+Let $\xi^\op\in D(S^\op)$ so there is a sequence $(x_n^\op) \subseteq \mf n_{\varphi^\op}$ with $\Lambda(x_n^\op) \to \xi^\op, \Lambda(x_n^{\op *}) \to S^\op(\xi^\op)$.  For $x\in\mf n_\varphi \cap\mf n_\varphi^*$ we have
+\begin{align*}
+(S\Lambda(x)|U(\xi^\op))
+&= \lim_n (S\Lambda(x)|J\Lambda(x_n^*))
+= \lim_n (\Lambda(x_n^*)|JS\Lambda(x))
+= \lim_n (S\Lambda(x_n)|FJ\Lambda(x)) \\
+&= \lim_n (J\Lambda(x)|\Lambda(x_n))
+= \lim_n (J\Lambda(x_n)|\Lambda(x))
+= \lim_n (U\Lambda^\op(x_n^{\op *}) | \Lambda(x) ) \\
+&= (US^\op(\xi^\op)|\Lambda(x)).
+\end{align*}
+So $U(\xi^\op) \in D(F)$ with $FU(\xi^\op) = US^\op(\xi^\op)$.
+
+Conversely, and for variety using a different proof strategy, let $\xi\in D(F) = D(\nabla^{-1/2})$ so $J\xi \in D(\nabla^{1/2}) = D(S)$ and hence there is a sequence $(x_n)$ in $\mf n_\varphi \cap\mf n_\varphi^*$ with $\Lambda(x_n) \to J\xi, \Lambda(x_n^*) \to SJ(\xi) = JF(\xi)$.  So $U\Lambda(x_n^\op) = J\Lambda(x_n^*) \to F(\xi)$ and $U\Lambda(x_n^{\op *}) = J\Lambda(x_n) \to \xi$ showing that $U^*F(\xi) \in D(S^\op)$ with $S^\op U^*F(\xi) = U^*(\xi)$.  Set $\xi^\op = U^*F(\xi)$ so $\xi^\op \in S^\op$ with $US^\op(\xi^\op) = \xi$ hence showing that $U$ maps $D(S^\op)$ onto $D(F)$.
+
+That $UF^\op = SU$ follows similarly.
+\end{proof}
+
+So $\nabla^\op = F^\op S^\op = U^*S U U^*FU = U^* SF U = U^* \nabla^{-1} U$.  Hence $S^\op = U^* F U = U^* J \nabla^{-1/2} U = U^* J U \nabla^{\op 1/2}$ and $S^\op = U^*FU = U^* \nabla^{1/2} J U = \nabla^{\op\, -1/2} U^*JU$, so by uniqueness, $J^\op = U^*JU$.
+
+
+\subsection{Commutant acting on standard form}
+
+We suppress $\pi\colon M \to\mc B(L^2(\varphi))$ and regard $M$ as a subalgebra of $\mc B(L^2(\varphi))$.  Then $M' = JMJ$ is isomorphic to $M^\op$ via the map $\theta \colon M^\op \to M'; x^\op \mapsto Jx^*J$.  Let $\varphi^\op$ induce $\varphi'$.  Then $n_{\varphi'} = \theta(n_{\varphi^\op}) = \{ Jx^*J : x^*\in\mf n_\varphi\} = J\mf n_\varphi J$, and similarly $\mf p_{\varphi'} = J\mf p_\varphi J$ and $\mf m_{\varphi'} = J\mf m_\varphi J$.  So $\varphi'(JxJ) = \varphi(x^*)$ for $x\in\mf m_\varphi$.  Then $\theta$ induces a unitary $u \colon L^2(\varphi') \to L^2(\varphi); \Lambda(Jx^*J) \mapsto \Lambda^\op(x^\op)$.
+
+Then $Uu \colon L^2(\varphi') \to L^2(\varphi)$ is $\Lambda'(JxJ) \mapsto J\Lambda(x)$ and $Uu\pi'(Ja^*J)u^*U^* = U \pi^\op(a^\op) U^* = J\pi(a^*)J = Ja^*J$.  By definition, $u \nabla' u^* = \nabla^\op = U^*\nabla^{-1}U$ and so $Uu \nabla' u^*U^* = \nabla^{-1}$, and similarly $Uu J' u^*U^* = J$.  Also $Uu S' u^*U^* = US^\op U^* = F$ and $Uu F' u^*U^* = S$.
+
+In summary, if we identify $L^2(\varphi')$ with $L^2(\varphi)$ via $\Lambda'(JxJ) = J\Lambda(x)$ for $x\in\mf n_\varphi$, then $\pi'$ is the identity representation, and the modular operators are $\nabla' = \nabla^{-1}, J' = J, S' = F, F' = S$.
+
+
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
 
