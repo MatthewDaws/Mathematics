@@ -284,6 +284,25 @@ That $UF^\op = SU$ follows similarly.
 
 So $\nabla^\op = F^\op S^\op = U^*S U U^*FU = U^* SF U = U^* \nabla^{-1} U$.  Hence $S^\op = U^* F U = U^* J \nabla^{-1/2} U = U^* J U \nabla^{\op 1/2}$ and $S^\op = U^*FU = U^* \nabla^{1/2} J U = \nabla^{\op\, -1/2} U^*JU$, so by uniqueness, $J^\op = U^*JU$.
 
+Consider now the modular automorphism group $(\sigma_t^\op)$; we use \cite[Section~VIII.1]{TakesakiII} for a reference.  We claim that $\sigma_t^\op(x^\op) = \sigma_{-t}(x)^\op$ for each $x\in M$.    This would leave $\varphi^\op$ invariant, and given $x^\op,y^\op\in\mf n_{\varphi^\op} \cap \mf n_{\varphi^\op}^* = (\mf n_\varphi \cap \mf n_\varphi^*)^\op$ there is a bounded continuous $F$ on $\overline{\mathbb D}$, holomorphic on $\mathbb D$, with
+\[ F(t) = \varphi(\sigma_t(x)y), \qquad F(t+i) = \varphi(y\sigma_t(x)) \qquad (t\in\mathbb R). \]
+Define $F'(z) = F(i-z)$, so if $z = x+iy$ for $y\in [0,1]$ then $i-z = -x + i(1-y)$ and so $F'$ is also bounded and continuous on $\overline{\mathbb D}$ and holomorphic on $\mathbb D$.  We have
+\begin{align*}
+F'(t) &= F(i-t) = \varphi(y\sigma_{-t}(x)) = \varphi^\op(\sigma_{-t}(x)^\op y^\op),  \\
+F'(t+i) &= F(i-(t+i)) = F(-t) = \varphi(\sigma_{-t}(x) y) = \varphi^\op(y^\op \sigma_{-t}(x)^\op).
+\end{align*}
+So $F'$ satisfies the requirements for the pair $x^\op, y^\op$.  By uniqueness, our claim follows.  We show this is consistent with $\nabla^\op$.  We have that $J\nabla = \nabla^{-1}J$, but $J$ is also anti-linear, and so $J\nabla^{it} = \nabla^{it}J$ for all $t$.  Hence
+\begin{align*}
+\pi^\op\big( \sigma^\op_t(x^\op) \big)
+&= \nabla^{\op\, it} \pi^\op(x^\op) \nabla^{\op\, -it}
+= U^* \nabla^{-it} U U^* J\pi(x^*)J U U^* \nabla^{it} U
+= U^* J \nabla^{-it} \pi(x^*) \nabla^{it} J U \\
+&= U^* J \pi\big(\sigma_{-t}(x^*)\big) J U
+= \pi^\op(\sigma_{-t}(x)^\op)
+\end{align*}
+showing again that $\sigma_t^\op(x^\op) = \sigma_{-t}(x)^\op$.
+
+
 
 \subsection{Commutant acting on standard form}
 
@@ -293,6 +312,14 @@ Then $Uu \colon L^2(\varphi') \to L^2(\varphi)$ is $\Lambda'(JxJ) \mapsto J\Lamb
 
 In summary, if we identify $L^2(\varphi')$ with $L^2(\varphi)$ via $\Lambda'(JxJ) = J\Lambda(x)$ for $x\in\mf n_\varphi$, then $\pi'$ is the identity representation, and the modular operators are $\nabla' = \nabla^{-1}, J' = J, S' = F, F' = S$.
 
+We can check various things for consistency.  For example, with $x' = Jx^*J  = \theta(x^\op) \in M'$, then we would expect $\sigma'_t(x') = \theta(\sigma^\op_t(x^\op)) = \theta(\sigma_{-t}(x)^\op) = J \sigma_{-t}(x)^* J$.  We also have
+\[ \sigma'_t(x')
+= \nabla'^{it} x' \nabla'^{-it}
+= \nabla^{-it} Jx^*J \nabla^{it}
+= J \nabla^{-it} x^* \nabla^{it} J
+= J \sigma_{-t}(x^*) J
+= J \sigma_{-t}(x)^* J, \]
+as expected.
 
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
