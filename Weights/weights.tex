@@ -157,7 +157,7 @@ As the $\liminf$ is infinite implies the limit is, clearly (\ref{prop:semifinite
 
 
 
-\section{Hilbert algebras to von Neumann algebras}
+\section{Hilbert algebras to von Neumann algebras}\label{sec:HilbAlg}
 
 I find the links between the Hilbert algebra and weights to be a bit obscure in \cite{TakesakiII}: it would perhaps benefit from a nice summary somewhere.  Similarly in \cite{StratilaZsido}.
 
@@ -320,6 +320,47 @@ We can check various things for consistency.  For example, with $x' = Jx^*J  = \
 = J \sigma_{-t}(x^*) J
 = J \sigma_{-t}(x)^* J, \]
 as expected.
+
+
+\subsection{Alternative construction}
+
+An alternative construction of $\varphi'$ is given in \cite[Theorem~VII.1.17]{TakesakiII}.  We show here that these definitions do agree.  We recall the definition from \cite{TakesakiII}.  Let $\Phi_{\varphi} = \{ \omega \in M_*^+ : \omega\leq\varphi \}$ and $E_\varphi = \bigcup_{\lambda\geq 0} \lambda\Phi_{\varphi}$.  For each $\omega\in E_\varphi$ there is $h_\omega \in M'_+$ with $(\Lambda(x)|h_\omega\Lambda(y)) = \omega(x^*y)$ for $x,y\in\mf n_\varphi$.  Then set $\mf p_{\varphi'_0} = \{ h_\omega : \omega\in E_\varphi \}$ and define
+\[ \varphi'_0(x) = \begin{cases} \|\omega\| &: x = h_\omega \in \mf p_{\varphi'_0}, \\
+  \infty &: \text{otherwise.} \end{cases} \qquad (x\in M'_+). \]
+Then $\varphi'_0$ is a nsf weight on $M'$.
+
+We use the bijection between left Hilbert algebras and nsf weights, in particular Theorems~2.5 and~2.6 from \cite[Section~VII]{TakesakiII}; see also Section~\ref{sec:HilbAlg} above.
+Starting with $\varphi$ on $M$ we form the full left Hilbert algebra $\mf A_\varphi = \Lambda(\mf n_\varphi \cap \mf n_\varphi^*)$.  This gives rise to a weight $\varphi_l$ on $\mc R_l(\mf A_\varphi) \cong M$ and $\varphi_l = \varphi$.  We also obtain $\varphi_r$ on $\mc R_r(\mf A_\varphi) = \mc R_l(\mf A_\varphi)'$ which agrees with $\varphi'_0$.  %By \cite[Theorem~VI.1.19]{TakesakiII} we have that $J \mc R_r(\mf A_\varphi) J = \mc R_l(\mf A_\varphi)$, that is, $JMJ = M'$.
+
+Let $\mf B$ be the algebra of left bounded vectors, and similarly $\mf B'$.  As in Section~\ref{sec:HilbAlg} above, $J \pi_l(\xi) J = \pi_r(J\xi)$ for each $\xi\in\mf A \Leftrightarrow J\xi\in\mf A'$.  Then $\xi\in\mf B$ exactly when there is a bounded operator $\pi_l(\xi)$ satisfying $\pi_l(\xi)\eta = \pi_r(\eta)\xi$ for each $\eta\in\mf A'$, equivalently,
+\[ \pi_l(\xi)J\eta = J\pi_l(\eta)J\xi \qquad (\eta\in\mf A). \]
+Then $\pi_l(\eta) J\xi = J\pi_l(\xi)J\eta$ for each $\eta\in\mf A$ shows that $J\xi\in\mf B'$ with $\pi_r(J\xi) = J\pi_l(\xi)J$.  We can reverse this argument, and so we conclude that $J\mf B = \mf B'$.
+
+We recall the construction of $\varphi_r$: we have
+\[ \varphi_r(x) = \sup\{ \omega(x): \omega\in \Phi_{r,0} \}
+\quad\text{where}\quad
+\Phi_{r,0} = \{ \omega_\xi|_{M'} : \xi\in\mf B, \|\pi_l(\xi)\|\leq 1 \}. \]
+However, we now see that
+\[ \Phi_{r,0} = \{ \omega_{J\xi}|_{M'} : \xi\in\mf B', \|\pi_r(\xi)\|\leq 1 \}, \]
+which should be compared with $\Phi_{l,0}$ is Section~\ref{sec:HilbAlg}.
+Given $x\in M'$ we have $JxJ\in M$ and $\omega_{J\xi}(x) = (J\xi|xJ\xi) = (\xi|JxJ\xi) = \omega_\xi(JxJ)$, so
+\[ \varphi_l(JxJ) = \sup\big\{ \omega_{\xi}(JxJ) : \xi\in \mf B', \|\pi_r(\xi)\|< 1 \big\}
+= \varphi_r(x). \]
+Hence $\varphi_l$ and $\varphi_r$ are related in the way we expect, and as $\varphi_r = \varphi'_0$, we conclude that $\varphi' = \varphi'_0$ as claimed.
+
+
+% Let $a\in D(\sigma_{-i/2})$ which by \cite[Lemma~VIII.3.18]{TakesakiII} is equivalent to $\varphi(axa^*) \leq \varphi(x)$ for each $x\in M_+$, and implies that $\Lambda(xa^*) = J\sigma_{-i/2}(a)J\Lambda(x)$ for each $x\in\mf n_\varphi$.  Suppose also $a^*\in\mf n_\varphi$, so $\omega = \omega_{\Lambda(a^*)} \in \Phi_\varphi$ and so $\varphi'_0(h_\omega) = \|\Lambda(a^*)\|^2 = \varphi(aa^*)$.  Given $x,y\in\mf n_\varphi$ we have
+% \begin{align*}
+% \omega(x^*y)
+% &= (x\Lambda(a^*)|y\Lambda(a^*))
+% = ( J\sigma_{-i/2}(a)J\Lambda(x) | J\sigma_{-i/2}(a)J\Lambda(y) )
+% = ( \Lambda(x) | J\sigma_{-i/2}(a)^*\sigma_{-i/2}(a)J\Lambda(y) )
+% \end{align*}
+% and so $Jh_\omega J = \sigma_{-i/2}(a)^*\sigma_{-i/2}(a)$.  Suppose finally that $\sigma_{-i/2}(a)\in\mf n_\varphi$.  By \cite[Proposition~2.17]{Stratila_ModTheoryBook}, as $a\in \mf n_\varphi^* \cap D(\sigma_{-i/2})$ and $\sigma_{-i/2}(a) \in \mf n_\varphi$, we have $\varphi(aa^*) = \varphi(\sigma_{i/2}(a^*)\sigma_{-i/2}(a))$.  Thus $\varphi'(h_\omega) = \varphi'_0(h_\omega)$.
+
+% In particular, this is all true for $a \in \mf t_\varphi$ the Tomita algebra (that is, $\Lambda(a)$ is in the Tomita algebra associated to the Hilbert algebra $\Lambda(\mf n_\varphi \cap \mf n_\varphi^*)$).  
+
+
 
 \bibliographystyle{plain}
 \bibliography{thebib.bib}
