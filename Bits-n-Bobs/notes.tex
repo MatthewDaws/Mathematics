@@ -630,6 +630,10 @@ This gives justification to the claim at the start of the proof of \cite[Proposi
 
 
 
+
+
+\clearpage
+
 \section{Inductive limits of Hilbert spaces}
 
 We use \cite[Chapter~XIV]{tak3} as a reference, though this is standard material (and I suspect the main result of this section is in the literature, if I knew where to look).  Let $(H_n)$ be a seqeuence of Hilbert spaces with $\iota_n\colon H_n \to H_{n+1}$ isometries.  Then $(H_n,\iota_n)$ is an \emph{inductive sequence of Hilbert spaces}.
@@ -725,8 +729,8 @@ and so
 = \lim_m \| \iota_{m,n}(\xi_n) - \xi_m \|, \]
 which as observed before is small, if $n$ is large.  So $U \iota_{\infty,n}(\xi_n) \to U\xi$ and hence $\iota_{\infty,n}(\xi_n) \to \xi$.
 
-For the second claim, we again work in $\underleftarrow{\lim} (H_n,\iota_n)$.  Given $\epsilon>0$ select $N$ as in the statement, and for $n\geq N$ define $\eta^{(n)} = q_{\infty,n}^*(\xi_n) \in \underleftarrow{\lim} (H_n,\iota_n)$.
-By definition, $\eta^{(n)}_k = \iota_{k,n}(\xi_n)$ for $k\geq n$.  Thus for $m\geq n\geq N$ and $k\leq m$ we have that
+For the second claim, we again work in $\underleftarrow{\lim} (H_n,\iota_n)$.  For each $n$ define $\eta^{(n)} = q_{\infty,n}^*(\xi_n) \in \underleftarrow{\lim} (H_n,\iota_n)$, so by definition, $\eta^{(n)}_k = \iota_{k,n}(\xi_n)$ for $k\geq n$.
+Given $\epsilon>0$ select $N$ as in the statement, so for $m\geq n\geq N$ and $k\geq m$ we have that
 \begin{align*}
 \| \eta^{(m)}_k - \eta^{(n)}_k \|
 &= \| \iota_{k,m}(\xi_m) - \iota_{k,n}(\xi_n) \|
@@ -850,6 +854,14 @@ and so for $m \geq n$,
 = \Big| \prod_{i=1}^n a_i \Big| \Big| 1 - \prod_{i=n+1}^m a_i \Big|.
 \end{align*}
 As $\lim_n \prod_{i\leq n} a_i$ converges, this is arbitrarily small if $n$ is large enough.  So the sequence $(\xi_1\otimes\cdots\otimes\xi_n)$ converges in the infinite tensor product.  However, $\sum_n |1-(\xi_n|\xi_0)| = \sum_n |1-a_n|$ diverges, contrary to \cite[Lemma~XIV.1.7]{tak3}.
+
+\medskip
+
+Finally, we remark that we can use the relationsation of $(H,\xi_0)^{\otimes\infty}$ as the inverse limit to write down infinite tensors directly.  We have that
+\[ \iota_n^*(\xi_1\otimes\cdots\otimes\xi_{n+1}) = (\xi_0|\xi_{n+1}) \xi_1\otimes\cdots\otimes\xi_{n}. \]
+Hence $(u_n) = (\xi_1\otimes\cdots\otimes\xi_{n})$ is in the inverse limit, we might write $\xi_1\otimes\xi_2\otimes\cdots \in (H,\xi_0)^{\otimes\infty}$, if and only if $(\xi_0|\xi_i)=1$ for all $i > 1$, and $\lim_n \prod_{i\leq n} \|\xi_i\| < \infty$.
+
+The boundedness condition implies that $\|\xi_i\| \to 1$, and so $\xi_i = \xi_0 + \eta_i$ say, where $\eta_i \in \{ \xi_0 \}^\perp$ and $\|\eta_i\|\to 0$.  Then $\|\xi_i\|^2 = 1 + \|\eta_i\|^2$, and so $\lim_n \prod_{i\leq n} \|\xi_i\| < \infty$ if and only if $\lim_n \prod_{i\leq n} (1+\|\eta_i\|^2) < \infty$, which by Proposition~\ref{prop:one_plus_inf_prod} is equivalent to $\sum_i \|\eta_i\|^2 < \infty$.
 
 
 
