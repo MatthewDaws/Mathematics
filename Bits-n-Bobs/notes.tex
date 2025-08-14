@@ -18,7 +18,8 @@
 %\usepackage{showkeys}
 %\usepackage[active]{srcltx}
 \usepackage{xurl}
-\usepackage[all]{xy}
+%\usepackage[all]{xy}
+\usepackage{tikz-cd}
 \usepackage[shortlabels]{enumitem}
 
 \theoremstyle{plain}
@@ -210,10 +211,15 @@ $h_1N = \pi(h) = hN$, so $h_1=h$ by uniqueness.  Hence (\ref{sdp:5}) holds.
 
 For (\ref{sdp:6}) we have
 \begin{equation}
-\xymatrix{ 1 \ar[r] & N \ar@{^{(}->}[r]^{\iota} & G
-\ar@{->>}@<0.6ex>[r]^{\pi} & H \ar[r] \ar@{..>}@<0.6ex>[l]^{\theta} & 1 }
+\begin{tikzcd}
+1 \arrow[r] &
+N \arrow[r, hook, "\iota"] &
+G \arrow[r, twoheadrightarrow, shift left=0.6ex, "\pi"] &
+H \arrow[r] \arrow[l, dotted, shift left=0.6ex, "\theta"] & 1
+\end{tikzcd}
 \label{eq:sdp:1}
 \end{equation}
+
 where $\iota$ is an inclusion, $\pi$ a surjection with $\ker(\pi) = \iota(H)$, and we have
 $\pi\circ\theta = \id_H$.  We identify $N$ with its image in $G$ which is certainly normal, and then
 $\pi$ gives an isomorphism between $G/N$ and $H$.  That $\pi\circ\theta=\id_H$ means $\theta$ is injective,
@@ -253,8 +259,12 @@ Thus inner and outer semidirect products are canonically isomorphic.
 
 Finally, we claim that $G$ is isomorphic to $N \rtimes H$ if and only if there is a split short exact
 sequence
-\[ \xymatrix{ 1 \ar[r] & N \ar@{^{(}->}[r]^{\beta} & G
-\ar@{->>}@<0.6ex>[r]^{\alpha} & H \ar[r] \ar@{..>}@<0.6ex>[l]^{\gamma} & 1 } \]
+\[ \begin{tikzcd}
+1 \arrow[r] &
+N \arrow[r, hook, "\beta"] &
+G \arrow[r, twoheadrightarrow, shift left=0.6ex, "\alpha"] &
+H \arrow[r] \arrow[l, dotted, shift left=0.6ex, "\gamma"] & 1
+\end{tikzcd} \]
 This is just condition (\ref{sdp:6}).  Notice 
 \[ \varphi(h)(n) = hnh^{-1} = \beta^{-1}\big( \gamma(h) \beta(n) \gamma(h^{-1}) \big) \]
 gives the action of $H$ on $N$.
@@ -620,6 +630,229 @@ This gives justification to the claim at the start of the proof of \cite[Proposi
 
 
 
+\section{Inductive limits of Hilbert spaces}
+
+We use \cite[Chapter~XIV]{tak3} as a reference, though this is standard material (and I suspect the main result of this section is in the literature, if I knew where to look).  Let $(H_n)$ be a seqeuence of Hilbert spaces with $\iota_n\colon H_n \to H_{n+1}$ isometries.  Then $(H_n,\iota_n)$ is an \emph{inductive sequence of Hilbert spaces}.
+
+For $m\geq n$ define $\iota_{m,n} = \iota_{m-1} \circ \iota_{m-2} \circ\cdots\circ \iota_n$ an isometry $H_n \to H_m$, and set $\iota_{n,n} = 1_{H_n}$.  As it is easy to forget the convention, we note this:
+\[ \iota_{m,n} \colon H_n \hookrightarrow H_m \qquad (n\leq m). \]
+Let $H_\infty$ be the family of sequences $\xi=(\xi_n)$ where $\xi_n\in H_n$ for each $n$, and such that there is some $m$ with $\xi_{n+1} = \iota_n(\xi_n)$ for $n\geq m$.  That is, $\xi_n = \iota_{n,m}(\xi_m)$ for $n\geq m$.  Notice that $H_\infty$ is a vector space for the pointwise operations, and we may define a pre-inner-product by
+\[ (\xi|\eta) = \lim_n (\xi_n|\eta_n). \]
+This is well-defined, as given $\xi,\eta$ there is some $m$ so that for $n\geq m$ we have $\xi_n = \iota_{n,m}(\xi_m)$ and $\eta_n = \iota_{n,m}(\eta_m)$, and so $(\xi_n|\eta_n) = (\iota_{n,m}(\xi_m)|\iota_{n,m}(\eta_m)) = (\xi_m|\eta_m)$ as $\iota_{n,m}$ is an isometry.  Hence the sequence $(\xi_n|\eta_n)$ is eventually constant, and so the limit certainly exists.  Notice that $(\xi|\xi)=0$ if and only if $(\xi_n|\xi_n)=0$ for sufficiently large $n$, and so we do not have an inner-product, and must quotient by the null space $\{ \xi : (\xi|\xi)=0 \}$.  The completion of the resulting space is $H = \underrightarrow{\lim} (H_n,\iota_n)$ a Hilbert space.
+
+For each $n$ we define
+\[ \iota_{\infty, n} \colon H_n \to H_\infty; \quad \xi \mapsto (0,0,\cdots,0,\xi,\iota_{n+1,n}(\xi),\iota_{n+2,n}(\xi),\cdots), \]
+where the $\xi$ occurs in the $n$th position.  This is an isometry, and so we can regard $\iota_{\infty,n}$ as a map to $H$.  We have that $\iota_{\infty,n+1} \circ \iota_n (\xi) = (0,\cdots,0,0,\iota_{n+1,n}(\xi), \iota_{n+2,n}(\xi), \cdots)$ which equals $\iota_{\infty,n}(\xi)$ in $H$ (once we have quotiented $H_\infty$ by the null space).  Thus we have the commutative diagram:
+\[ \begin{tikzcd}
+   H_1 \arrow[r, "\iota_1", hook] \arrow[rrd, "\iota_{\infty,1}"', hook] &
+   H_2 \arrow[r, "\iota_2", hook] \arrow[rd, hook] &
+   H_3 \arrow[r, "\iota_3", hook] \arrow[d, "\iota_{\infty,3}", hook] &
+   \cdots & \arrow[dll, phantom, "\cdots"] \\
+   && H
+\end{tikzcd} \]
+
+The space $H$ has the following universal property.  Suppose $K$ is a Hilbert space and for each $n$ we have an isometry $u_n \colon H_n \to K$ with $u_{n+1} \circ \iota_n = u_n$, and such that the images of the $u_n$ are dense in $K$.  As $u_{n+1}(H_{n+1}) \supseteq u_n(H_n)$, we see that $K$ is the closure of this increasing family of subspaces.  For $\xi\in H_n$ define $U \colon u_n(\xi) \mapsto \iota_{\infty,n}(\xi) \in H$.  As $u_n(\xi) = u_{n+1}\iota_n(\xi)$ and $\iota_{\infty,n+1}\iota_n(\xi) = \iota_{\infty,n}(\xi)$, we see that $U$ is well-defined on the union of the subspaces $u_n(H_n)$.  As all the maps are isometries, also $U$ is an isometry, and so $U$ extends to an isometry $U \colon K\to H$.  The image of $U$ contains each subspace $\iota_{\infty,n}(H_n)$, and as $H$ is the union of all these subspaces, $U$ is unitary.
+
+
+\subsection{Relation to the algebraic inductive limit}
+
+We recall the usual construction of the algebraic inductive limit.  We consider the disjoint union of each space $H_n$ and quotient by the equivalence relation that $\xi_i\in H_i$ is related to $\xi_j\in H_j$ if $\iota_{m,i}(\xi_i) = \iota_{m,j}(\xi_j)$ for some $m\geq i,j$.  The relation is transitive as $\iota_{n,m}\circ\iota_{m,i} = \iota_{n,i}$ whenever $n \geq m \geq i$.
+
+The vector space operations on each $H_n$ drop to the equivalence classes.  Given two classes $[\xi_i]$ and $[\xi_j]$ given $m\geq i,j$ we define $([\xi_i]|[\xi_j]) = (\iota_{m,i}(\xi_i)|\iota_{m,j}(\xi_j))_{H_m}$.  As $\iota_{n,m}$ is an isometry for $n\geq m$, we again see that this definition does not depend upon the choice of $m$.  Furthermore, it's seen to be independent of the choice of vector giving the equivalence class.
+
+The maps $\iota_{\infty,n} \colon H_n \to H_\infty$ respect the equivalence relation and give a bijection between the algebraic inductive limit and $H_\infty$, which is unitary for the inner-products we have defined.  Thus we obtain the same construction.
+
+
+\subsection{As an inverse limit}
+
+The sequence $(H_n, \iota_n^*)$ is an inverse sequence, where a general inverse sequence is $(H_n, q_n)$ where $q_n\colon H_{n+1} \to H_n$ is a coisometry for each $n$.  Of course, every inverse sequence arises from an inductive sequence, and conversely, due to our requirement that each $q_n$ be a coisometry.
+
+We may define
+\[ q_{m,n} = q_n \circ q_{n+1} \circ\cdots\circ q_{m-1} \colon H_m \to H_n \qquad (n\leq m). \]
+The \emph{algebraic inverse limit} is defined as all sequences $\xi = (\xi_n)$ where $\xi_n\in H_n$ for each $n$, and $q_{m,n}(\xi_m) = \xi_n$ for each $n\leq m$; equivalently, $\xi_n = q_n(\xi_{n+1})$ for each $n$.  This space is a vector space for the pointwise operations.
+We define $\underleftarrow{\lim} (H_n, q_n)$ to be the subspace of the algebraic inverse limit consisting of all bounded sequences.
+For each $n$ we define $q_{\infty,n} \colon \underleftarrow{\lim} (H_n, q_n) \to H_n$ to be the map $\xi \mapsto \xi_n$, that is, the projection onto the $n$th coordinate, which is a linear map.
+
+Let $\xi=(\xi_n)$ with $\|\xi_n\|\leq K$ for each $n$.  As each $q_n$ is, in particular, a contraction, $\|\xi_n\| = \|q_n(\xi_{n+1})\| \leq \|\xi_{n+1}\|$ and so the sequence of norms $(\|\xi_n\|)$ is increasing, and bounded above, and so converges.
+For $n\leq m$, as $\iota_{m,n} = q_{m,n}^* \colon H_n \to H_m$ is an isometry, $q_{m,n}^* \circ q_{m,n}$ is an orthogonal projection of $H_m$ onto the image of $q_{m,n}^*$, which is isometric with $H_n$.  For a bounded sequence $(\xi_n)$ we hence have
+\[ \|\xi_m\|^2 = \| q_{m,n}^* \circ q_{m,n}(\xi_m) \|^2 + \| \xi_m - q_{m,n}^* \circ q_{m,n}(\xi_m) \|^2 = \|\xi_n\|^2 + \| \xi_m - \iota_{m,n}(\xi_n) \|^2. \]
+Thus $\| \xi_m - \iota_{m,n}(\xi_n) \|$ is small when $n\leq m$ and $n$ is large.  Given another bounded sequence $\eta$ in the inverse limit, we have
+\begin{align*}
+(\xi_m|\eta_m)
+&= ( \iota_{m,n}(\xi_n) + \xi_m - \iota_{m,n}(\xi_n) | \iota_{m,n}(\eta_n) + \eta_m - \iota_{m,n}(\eta_n)  ) \\
+&= ( \iota_{m,n}(\xi_n) | \iota_{m,n}(\eta_n) ) 
+   + ( \xi_m - \iota_{m,n}(\xi_n) | \iota_{m,n}(\eta_n) )
+   + ( \iota_{m,n}(\xi_n) | \eta_m - \iota_{m,n}(\eta_n) ) \\
+   &\qquad + ( \xi_m - \iota_{m,n}(\xi_n) | \eta_m - \iota_{m,n}(\eta_n) ) \\
+&= ( \xi_n | \eta_n ) 
+   + ( q_{m,n}(\xi_m) - \xi_n | \eta_n )
+   + ( \xi_n | q_{m,n}(\eta_m) - \eta_n )
+   + ( \xi_m - \iota_{m,n}(\xi_n) | \eta_m - \iota_{m,n}(\eta_n) ) \\
+&= ( \xi_n | \eta_n ) 
+   + ( \xi_m - \iota_{m,n}(\xi_n) | \eta_m - \iota_{m,n}(\eta_n) ),
+\end{align*}
+using that $\iota_{m,n}$ is an isometry, and that $q_{m,n}(\xi_m) = \xi_n$, and similarly for $\eta$.  As the 2nd term is small, we see that the sequence $((\xi_n|\eta_n))$ is Cauchy and so converges.  We may hence define an inner-product on the subspace of bounded sequences by $(\xi|\eta) = \lim_n (\xi_n|\eta_n)$.  This is an inner-product, as $(\xi|\xi) = \lim_n \|\xi_n\|$ which in an increasing limit, and so equals $0$ only when $\xi_n=0$ for all $n$.  So  $\underleftarrow{\lim} (H_n, q_n)$ is an inner-product space.
+
+Given $\xi = (\xi_n)$ in $\underleftarrow{\lim} (H_n, q_n)$, for large $N$, define $\eta = (\eta_n)$ by setting $\eta_n=\xi_n$ for $n\leq N$ and $\eta_n = \iota_{n,N}(\xi_N)$ for $n>N$.  Then $q_n(\eta_{n+1}) = \eta_n$ for $n<N$, while for $n\geq N$ we have $q_n(\eta_{n+1}) = q_n q_{n+1,N}^*(\xi_N) = q_n q_n^* q_{n-1}^* \cdots q_N^*(\xi_N) = q_{n,N}^*(\xi_N) = \eta_n$.  Thus $\eta$ is in the inverse limit, is bounded, and for $n\geq N$ we have $\|\xi_n - \eta_n\| = \|\xi_n - \iota_{n,N}(\xi_N)\|$ is small.  We conclude that the collection of such $\eta$ is dense in $\underleftarrow{\lim} (H_n, q_n)$; notice also that $\eta\in H_\infty$.
+
+Let $\xi=(\xi_n) \in H_\infty$, say $\xi_{n+1} = \iota_n(\xi_n)$ for $n\geq N$.  Adjust $\xi$ by setting $\xi_n = q_{N,n}(\xi_N)$ for $n\leq N$, and notice that this does not change the equivalence class that $\xi$ defines in $\underrightarrow{\lim} (H_n, \iota_n)$.  For $n<N$ we have $q_n(\xi_{n+1}) = q_n q_{N,n+1}(\xi_N) = q_{N,n}(\xi_N) = \xi_n$, while for $n\geq N$ we have $q_n(\xi_{n+1}) = \iota_n^* \iota_n(\xi_n) = \xi_n$.  Hence $\xi \in \underleftarrow{\lim} (H_n, q_n)$ as of course $(\xi_n)$ is bounded, and notice that the norms of $\xi$ in both spaces is the same.  If $\xi'=(\xi'_n)\in H_\infty$ agrees with $\xi$ in $\underrightarrow{\lim} (H_n, \iota_n)$ then $\xi_n = \xi'_n$ for sufficiently large $n$, and so we obtain the same sequence in $\underleftarrow{\lim} (H_n, q_n)$.  We hence have an isometry $U \colon \underrightarrow{\lim} (H_n, q_n) \to \underleftarrow{\lim} (H_n, q_n)$.  The previous paragraph shows that $U$ has dense range, and so $U$ is a unitary.
+
+Thus the inverse and inductive limits agree; in particular, $\underleftarrow{\lim} (H_n, q_n)$ is a Hilbert space.  Consider $q_{\infty,n}^* \colon H_N \to \underleftarrow{\lim} (H_n, q_n)$ which satisfies, for $\xi\in \underleftarrow{\lim} (H_n, q_n), \eta_n\in H_n$,
+\begin{align*}
+(\xi|q_{\infty,n}^*(\eta_n))
+&= (\xi_n|\eta_n)
+= \lim_n (q_{m,n}(\xi_m)|\eta_n)
+= \lim_m (\xi_m | \iota_{m,n}(\eta_n)) \\
+&= (\xi|(q_{n,1}(\eta_n),\cdots,q_{n-1}(\eta_n),\eta_n, \iota_n(\eta_n), \iota_{n+1,n}(\eta_n), \cdots))
+\end{align*}
+This shows that $q_{\infty,n}^*(\eta_n) = (q_{n,1}(\eta_n),\cdots,q_{n-1}(\eta_n),\eta_n, \iota_n(\eta_n), \iota_{n+1,n}(\eta_n), \cdots)$, where we can again check that this sequence is in $\underleftarrow{\lim} (H_n, q_n)$.  As adjusting a finite number of elements doesn't change a sequence in $\underrightarrow{\lim} (H_n, q_n)$, we have shown that $U \iota_{\infty, n} = q_{\infty, n} U$.  The inverse limit has the advantage that we obtain a concrete description of the entire Hilbert space, while the inductive limit only constructs a dense subspace.  In particular, we have the following.
+
+\begin{proposition}
+Let $(H_n, \iota_n)$ be an inductive sequence of Hilbert spaces.  For each $\xi \in \underrightarrow{\lim} (H_n,\iota_n)$ there is a unique bounded sequence $(\xi_n)$ with $\xi_n\in H_n$ for each $n$, with $\iota_n^*(\xi_{n+1}) = \xi_n$ for each $n$, and such that $\iota_{\infty,n}(\xi_n) \to \xi$.
+
+Conversely, if $(\xi_n)$ is a sequence with $\xi_n\in H_n$ for each $n$, and ``Cauchy'' in the sense that for $\epsilon>0$ there is $N$ such that $\| \iota_{m,n}(\xi_n) - \xi_m \|<\epsilon$ for $m \geq n\geq N$, then there is $\xi \in \underrightarrow{\lim} (H_n,\iota_n)$ with $\iota_{\infty,n}(\xi_n) \to \xi$.
+\end{proposition}
+\begin{proof}
+Given $\xi \in \underrightarrow{\lim} (H_n,\iota_n)$, let $(\xi_n) = U(\xi) \in \underleftarrow{\lim} (H_n,\iota_n)$.  Then
+\begin{align*}
+U \iota_{\infty,n}(\xi_n)
+&= q_{\infty,n}^* U(\xi)
+= U(q_{n,1}(\xi_n),\cdots,q_{n,n-1}(\xi_n),\xi_n, \cdots, \iota_{m,n}(\xi_n), \cdots) \\
+&= (q_{n,1}(\xi_n),\cdots,q_{n,n-1}(\xi_n),\xi_n, \cdots, \iota_{m,n}(\xi_n), \cdots),
+\end{align*}
+and so
+\[ \| U \iota_{\infty,n}(\xi_n) - U\xi\|
+= \lim_m \| \iota_{m,n}(\xi_n) - \xi_m \|, \]
+which as observed before is small, if $n$ is large.  So $U \iota_{\infty,n}(\xi_n) \to U\xi$ and hence $\iota_{\infty,n}(\xi_n) \to \xi$.
+
+For the second claim, we again work in $\underleftarrow{\lim} (H_n,\iota_n)$.  Given $\epsilon>0$ select $N$ as in the statement, and for $n\geq N$ define $\eta^{(n)} = q_{\infty,n}^*(\xi_n) \in \underleftarrow{\lim} (H_n,\iota_n)$.
+By definition, $\eta^{(n)}_k = \iota_{k,n}(\xi_n)$ for $k\geq n$.  Thus for $m\geq n\geq N$ and $k\leq m$ we have that
+\begin{align*}
+\| \eta^{(m)}_k - \eta^{(n)}_k \|
+&= \| \iota_{k,m}(\xi_m) - \iota_{k,n}(\xi_n) \|
+\leq \| \iota_{k,m}(\xi_m) - \xi_k \| + \| \xi_k - \iota_{k,n}(\xi_n) \| < 2\epsilon.
+\end{align*}
+Hence $\| \eta^{(m)} - \eta^{(n)}\| \leq 2\epsilon$ and so $(\eta^{(n)})$ is Cauchy, so convergent, in $\underleftarrow{\lim} (H_n,\iota_n)$.  Thus $\iota_{\infty,n}(\xi_n)$ converges in $\underrightarrow{\lim} (H_n,\iota_n)$.
+\end{proof}
+
+
+\subsection{Application to infinite tensor products}
+
+Let $H$ be a Hilbert space with unit vector $\xi_0\in H$.  Define $H_n = H^{\otimes n}$ and define connecting maps $\iota_n \colon H_n \to H_{n+1}; u \mapsto u\otimes\xi_0$.  By definition, the infinite tensor product is $(H,\xi_0)^{\otimes\infty} = \underrightarrow{\lim} (H_n,\iota_n)$.  The above proposition shows that we can regard this space as the limit points of sequences $u_n \in H^{\otimes n}$ which are Cauchy in the sense that $u_n \otimes \xi_0^{\otimes (m-n)} - u_m$ is small for $m\geq n$ large.
+
+Suppose that $u_n = \xi_1 \otimes \cdots \otimes \xi_n$ for each $n$.  If $\lim_n \prod_{i\leq n} \|\xi_i\| = 0$ then $\|u_n\|\to 0$ and so $\| u_n \otimes \xi_0^{\otimes(m-n)} - u_m\| \leq \|u_n\| + \|u_m\|$ is small when $n,m$ are large.  Then of course the limit in $(H,\xi_0)^{\otimes\infty}$ is $0$.  Similarly, if $\lim_n \prod_{i\leq n} \|\xi_i\| = \infty$ then $\iota_{\infty,n}(u_n)$ is unbounded, and so cannot converge.
+
+So we assume that $0 < \lim_n \prod_{i\leq n} \|\xi_i\| < \infty$.
+%The Cauchy condition becomes that for $\epsilon>0$ there is $N$ such that when $m\geq n\geq N$ we have
+%\[ \| \xi_1\otimes\cdots\otimes\xi_n\otimes\xi_0\otimes\cdots\otimes\xi_0 - \xi_1\otimes\cdots\otimes\xi_m \| < \epsilon. \]
+For $m\geq n$ we have
+\begin{align*}
+& \| \xi_1\otimes\cdots\otimes\xi_n\otimes\xi_0\otimes\cdots\otimes\xi_0 - \xi_1\otimes\cdots\otimes\xi_m \|^2 \\
+&= \| \xi_1\otimes\cdots\otimes\xi_n\otimes(\xi_0\otimes\cdots\otimes\xi_0 - \xi_{n+1}\otimes\cdots\otimes\xi_m) \|^2 \\
+&= \prod_{i=1}^n \|\xi_i\|^2 \Big( 1 + \prod_{i={n+1}}^m \|\xi_i\|^2 - 2\Re \prod_{i={n+1}}^m (\xi_0|\xi_i) \Big).
+\end{align*}
+The first term is bounded away from $0$ and $\infty$, so we look at the term in brackets, which must be small for large $n$.
+
+We now make some remarks about \cite[Lemma~XIV.1.7]{tak3}, in particular giving a counter-example to one direction of this claim.  We start by looking at some elementary analysis results about infinite products, for which we follow the lecture notes \cite{leonard}, although we allow an infinite product to converge to $0$.
+
+\begin{lemma}\label{lem:cauchy_criterion}
+Let $(z_n)$ be a sequence in $\mathbb C$.  The following are equivalent:
+\begin{enumerate}
+   \item $\lim_n \prod_{i\leq n}z_i$ exists and is non-zero;
+   \item no $z_n$ is zero, and for each $\epsilon>0$ there is $N$ such that for each $m\geq n\geq N$ we have $| 1 - \prod_{i=n}^m z_i | < \epsilon$.
+\end{enumerate}
+
+\end{lemma}
+\begin{proof}
+Suppose $\lim_n \prod_{i\leq n}z_i\not=0$, so no $z_i$ is $0$, and setting $p_n = \prod_{i\leq n} z_i$, there is $\delta>0$ so that $|p_n| > \delta$ for all $n$.  There is $N$ so that $|p_n-p_m| < \epsilon\delta$ for each $m \geq n \geq N$.  Then $|1 - \prod_{i=n+1}^m z_i| = |1 - p_m/p_n| =|p_n|^{-1} |p_n-p_m| < \epsilon$.
+
+For the converse, given $\epsilon>0$ select $N$.  Then $|1-z_n|<\epsilon$ for each $n\geq N$ so $1-\epsilon < |z_n| < 1+\epsilon$.  Set $q_m = z_N z_{N+1} \cdots z_m$ for $m\geq N$, so we also have $|1 - q_m| < \epsilon$.  In particular, we may suppose that $\epsilon < 1/2$ so that $1/2 < |q_m| < 3/2$ for all $m\geq N$.  Increasing $N$ if necessary, we may suppose that for $m > n \geq N$,
+\[ \Big| \frac{q_m}{q_n} - 1 \Big| = \Big| \prod_{i=n+1}^m z_i - 1 \Big| < \tfrac{2}{3}\epsilon. \]
+Then $|q_m - q_n| = |q_n| |q_m/q_n-1| < \frac23 \epsilon|q_n| < \frac32 \frac23 \epsilon = \epsilon$.  Hence $(q_n)_{n\geq N}$ is Cauchy and so converges.  As $\prod_{i=1}^n z_i = q_n \prod_{i=1}^{N-1}z_i$, also the infinite product converges.  As $z_i\not=0$ for each $i$, and as $|q_n| > 1/2$, we also see that the limit is non-zero.
+\end{proof}
+
+\begin{proposition}\label{prop:one_plus_inf_prod}
+Let $(a_n)$ be a sequence of positive reals.  Then $\lim_n \prod_{i\leq n} (1+a_i)$ converges if and only if $\sum_n a_n$ converges.
+\end{proposition}
+\begin{proof}
+By hypothesis, both series are increasing, and so converge if and only if they are bounded above.  As $x>0$ implies $1+x < e^x$ we see that $\sum_{i\leq n} a_i \leq \prod_{i\leq n} (1+a_i) \leq \exp(\sum_{i\leq n} a_i)$ and the result follows.
+\end{proof}
+
+Note of course that if $\lim_n \prod_{i\leq n} (1+a_i)$ converges then its limit is $>1$.  We next come to a notion of ``absolute convergence''.
+
+\begin{corollary}\label{corr:necc_inf_prod_condition}
+Let $(a_n)$ be a sequence in $\mathbb C$ such that $\sum_n |a_n|$ converges.  Then $\lim_n \prod_{i\leq n} (1 + a_i)$ converges (and is non-zero if $a_i\not=-1$ for all $i$).
+\end{corollary}
+\begin{proof}
+Note that
+\begin{align*}
+& \big| (1+a_n)(1+a_{n+1})\cdots(1+a_m) - 1\big|
+= \big| a_n+\cdots+a_m + \sum_{n\leq i<j\leq m} a_ia_j + \cdots \big| \\
+\leq & |a_n| + \cdots + |a_m| + \sum_{n\leq i<j\leq m} |a_ia_j| + \cdots
+= (1+|a_n|)(1+|a_{n+1}|)(1+|a_m|) - 1,
+\end{align*}
+and so Lemma~\ref{lem:cauchy_criterion} shows that $\lim_n \prod_{i\leq n} (1+|a_n|)$ converges implies that $\lim_n \prod_{i\leq n} (1+a_n)$ converges (and is non-zero if $a_i\not=-1$ for all $i$).  If $\sum_n |a_n|$ converges, then by Proposition~\ref{prop:one_plus_inf_prod}, $\lim_n \prod_{i\leq n} (1+|a_i|)$ converges, and the result follows.
+\end{proof}
+
+We now come to one direction of \cite[Lemma~XIV.1.7]{tak3}.
+
+\begin{proposition}
+Let $(\xi_n)$ be a sequence in $H$, and set $u_n = \xi_1 \otimes\cdots\otimes \xi_n$ for each $n$.  If $\lim_n \|u_n\| = \lim_n \prod_{i\leq n} \|\xi_i\|$ converges and is non-zero, and $\sum_n |1-(\xi_n|\xi_0)| < \infty$, then $(u_n)$ converges in the infinite tensor product.
+\end{proposition}
+\begin{proof}
+From the discussion above, given $\epsilon>0$ we seek $N$ so that if $m\geq n\geq N$ we have
+\[ 1 + \prod_{i={n+1}}^m \|\xi_i\|^2 - 2\Re \prod_{i={n+1}}^m (\xi_0|\xi_i) < \epsilon. \]
+Set $a_n = 1-(\xi_0|\xi_n)$ so by hypothesis, $\sum_n |a_n|<\infty$ and so Corollary~\ref{corr:necc_inf_prod_condition} tells us that $\lim_n \prod_{i\leq n} (1+a_n) = \lim_n \prod_{i\leq n} (\xi_0|\xi_i)$ converges and is non-zero.  By Lemma~\ref{lem:cauchy_criterion} there is $N$ so that for $m\geq n\geq N$ we have both
+\[ \Big| 1 - \sum_{i=n+1}^m (\xi_0|\xi_i) \Big| < \epsilon, \qquad
+\Big| 1 - \sum_{i=n+1}^m \|\xi_i\|^2 \Big| < \epsilon. \]
+For $z\in\mathbb C$, as $|2-2\Re z| = |2-z-\overline{z}| \leq |1-z| + |1-\overline{z}|$, we see that $| 2 - 2\Re \sum_{i=n+1}^m (\xi_0|\xi_i)| < 2\epsilon$, and so
+\[ \Big|1 + \prod_{i={n+1}}^m \|\xi_i\|^2 - 2\Re \prod_{i={n+1}}^m (\xi_0|\xi_i) \Big|
+= \Big| \sum_{i=n+1}^m \|\xi_i\|^2 -1 + 2 - 2\Re \prod_{i={n+1}}^m (\xi_0|\xi_i) \Big|
+< 3\epsilon, \]
+as we want.
+\end{proof}
+
+The converse does not seem to hold, as we now show.  We continue to follow \cite{leonard}.
+
+\begin{proposition}\label{prop:ab_conv}
+Let $a_n\geq 0$ for each $n$.  If $\sum_n a_n$ converges then $\lim_n \prod_{i\leq n} (1-a_i)$ converges.  If $\lim_n \prod_{i\leq n} (1-a_i)$ converges then either the limit is $0$ or $\sum_n a_n$ converges.
+\end{proposition}
+\begin{proof}
+If $\sum_n a_n$ converges then Corollary~\ref{corr:necc_inf_prod_condition} tells us that $\lim_n \prod_{i\leq n} (1-a_i)$ converges.
+
+Conversely, suppose $\lim_n \prod_{i\leq n} (1-a_i)$ converges and is non-zero, so by Lemma~\ref{lem:cauchy_criterion}, in particular, $1-(1-a_i) = a_i \to 0$, so there is $N$ such that $a_n<1$ for $n\geq N$.  Towards a contraction, suppose that $\sum_n a_n$ diverges, so also $\lim_n \prod_{i\leq n} (1+a_i)$ diverges.  As $(1-a_i)(1+a_i) = 1-a_i^2 \leq 1$ for $i\geq N$, for $m \geq n \geq N$ we have
+\[ \prod_{i=n}^m (1-a_i) \prod_{i=n}^m (1+a_i) = \prod_{i=n}^m (1-a_i^2) \leq 1
+\quad\implies\quad
+\prod_{i=n}^m (1-a_i) \leq \Big( \prod_{i=n}^m (1+a_i) \Big)^{-1}. \]
+Thus $\prod_{i=n}^m (1-a_i)$ is arbitrarily small, but by Lemma~\ref{lem:cauchy_criterion}, is also arbitrarily close to $1$, giving the claimed contraction.
+\end{proof}
+
+We now come to our counter-example.  Let
+\[ (a_n) = \Big( 1-\tfrac{1}{\sqrt 2}, 1+\tfrac12+\tfrac{1}{\sqrt 2}, 
+1-\tfrac{1}{\sqrt 3}, 1+\tfrac13+\tfrac{1}{\sqrt 3}, \cdots \Big). \]
+Then $\sum_n |1-a_n| \geq \sum_n n^{-1/2} = \infty$.  However, we claim that $\lim_n \prod_{i\leq n} a_i$ converges, and is non-zero.  We have
+\[ \big( 1 - \tfrac{1}{\sqrt{k}} \big) \big( 1 + \tfrac1k + \tfrac{1}{\sqrt{k}} \big)
+= \tfrac{1}{k}\big( 1 - \tfrac{1}{\sqrt{k}} \big) + 1 - \tfrac1k
+= 1 - \tfrac{1}{k\sqrt k}. \]
+By Proposition~\ref{prop:ab_conv}, $\lim_n \prod_{i\leq n} (1-\frac{1}{i\sqrt i})$ converges and is non-zero, and so by Lemma~\ref{lem:cauchy_criterion}, for $\epsilon>0$ there is $N$ so that if $m \geq n \geq N$ we have
+\[ \Big| 1 - \prod_{i=2n-1}^{2m} a_i \Big| < \epsilon. \]
+Then
+\[ \sum_{i=2n}^{2m} a_i = \big(1-\tfrac{1}{\sqrt{n+1}}\big)^{-1}\prod_{i=2n-1}^{2m} a_i, \qquad
+\sum_{i=2n-1}^{2m+1} = \big(1+\tfrac{1}{\sqrt{m}}+\tfrac{1}{\sqrt{m+1}}\big)\prod_{i=2n-1}^{2m} a_i, \]
+which are then both within $2\epsilon$ of $1$, if $N$ is large enough, and similarly for the final case of $\sum_{i=2n}^{2m+1} a_i$.  By Lemma~\ref{lem:cauchy_criterion} applied in the other direction, we conclude that $\lim_n \prod_{i\leq n} a_i$ converges and is non-zero.
+
+With our Hilbert space example from the previous section, set $\xi_n = a_n \xi_0$ for each $n$.  Then 
+\[ \xi_1 \otimes\cdots \otimes \xi_n = a_1a_2\cdots a_n \xi_0\otimes\cdots\otimes\xi_0, \]
+and so for $m \geq n$,
+\begin{align*}
+& \| \xi_1\otimes\cdots\otimes\xi_n\otimes\xi_0\otimes\cdots\otimes\xi_0 - \xi_1\otimes\cdots\otimes\xi_m \| \\
+&= \Big| \prod_{i=1}^n a_i - \prod_{i=1}^m a_i \Big|
+= \Big| \prod_{i=1}^n a_i \Big| \Big| 1 - \prod_{i=n+1}^m a_i \Big|.
+\end{align*}
+As $\lim_n \prod_{i\leq n} a_i$ converges, this is arbitrarily small if $n$ is large enough.  So the sequence $(\xi_1\otimes\cdots\otimes\xi_n)$ converges in the infinite tensor product.  However, $\sum_n |1-(\xi_n|\xi_0)| = \sum_n |1-a_n|$ diverges, contrary to \cite[Lemma~XIV.1.7]{tak3}.
+
+
+
 \begin{thebibliography}{aa}
 
 \bibitem{blackadar_enc} B.~E. Blackadar, {\it Operator algebras}, Encyclopaedia of Mathematical Sciences Operator Algebras and Non-commutative Geometry, 122 III, Springer, Berlin, 2006; MR2188261
@@ -638,7 +871,11 @@ Graduate Texts in Mathematics, 96, Springer, New York, 1990; MR1070713
 
 \bibitem{kt} E. Kaniuth\ and\ K. F. Taylor, {\it Induced representations of locally compact groups}, Cambridge Tracts in Mathematics, 197, Cambridge University Press, Cambridge, 2013. MR3012851
 
+\bibitem{leonard} I. Leonard, ``MATH 324 Summer 2012'' lecture notes, available at \url{https://www.math.ualberta.ca/~isaac/math324/s12/zeta.pdf}
+
 \bibitem{a2} Brian M. Scott (\url{https://math.stackexchange.com/users/12042/brian-m-scott}), The set of ultrafilters on an infinite set is uncountable, \url{https://math.stackexchange.com/q/83540}
+
+\bibitem{tak3} M. Takesaki, {\it Theory of operator algebras. III}, Encyclopaedia of Mathematical Sciences Operator Algebras and Non-commutative Geometry, 127 8, Springer, Berlin, 2003; MR1943007
 
 \bibitem{a1} YCor (\url{https://mathoverflow.net/users/14094/ycor}), Empty interior of union of cosets?,
    \url{https://mathoverflow.net/q/351846}
