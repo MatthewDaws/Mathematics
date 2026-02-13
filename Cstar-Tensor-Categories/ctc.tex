@@ -1,0 +1,151 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+\usepackage{hyperref}
+%\usepackage{showkeys}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage[T1]{fontenc}
+% \usepackage[euler-digits, euler-hat-accent]{eulervm}
+% \DeclareFontSeriesDefault[rm]{bf}{sbc} 
+%\usepackage{beton}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{newpxtext}
+\usepackage{eulerpx}
+
+%\usepackage[all]{xy}
+\usepackage{url}
+\usepackage[shortlabels]{enumitem}
+
+\usepackage{tikz-cd}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{question}[proposition]{Question}
+
+\theoremstyle{remark}
+\newtheorem{example}[proposition]{Example}
+\newtheorem{remarkx}[proposition]{Remark}
+\newtheorem{remarksx}[proposition]{Remarks}
+\newtheorem{workingx}[proposition]{Working}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+\newenvironment{working}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\workingx}
+  {\popQED\endworkingx}
+
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+
+\newcommand{\vnten}{\bar\otimes}
+
+\newcommand{\hh}{\widehat}
+\newcommand{\G}{\mathbb{G}}
+\renewcommand{\H}{\mathbb{H}}
+\newcommand{\op}{{\operatorname{op}}}
+\newcommand{\Tr}{{\operatorname{Tr}}}
+\newcommand{\im}{{\operatorname{Im}}}
+\newcommand{\catVect}{\textsf{Vect}}
+\newcommand{\catHilb}{\textsf{Hilb}}
+
+
+
+\begin{document}
+
+\title{$C^*$-Tensor Categories}
+\author{Matthew Daws}
+\date{February 2026}
+\maketitle
+
+\begin{abstract}
+Some notes about $C^*$-Categories, Tensor Categories, and so forth.
+
+Written somewhat just for myself, as I make a slightly more serious (than in the past) reading around this subject.
+\end{abstract}
+
+\section{\texorpdfstring{$C^*$}{CStar}-Categories}
+
+There are lots of nice sources, so I won't make detailed notes here.  The original paper seems to be Ghez, Lima, and Roberts, \cite{GR_Wstar_categories}.  Mitchener's paper \cite{mitchener_cstar_cats} is also very readable.
+
+As categories always have unit morphisms, this means all $C^*$-algebras have units, which is not very natural.  There are no major complications with just looking at ``categories'' where we don't suppose identity morphisms, and functors which don't need to preserve units.  The details are worked out in Ferrier's thesis \cite{ferrier_thesis}.
+
+We follow the axioms in \cite{GR_Wstar_categories}.  A $C^*$-Category is a category $\mc A$ such that:
+\begin{enumerate}[(1)]
+  \item\label{cstar-cat-axioms:1} each morphism space $\mc A(A,B) = \hom(A,B)$ is a complex vector space where composition of morphisms is bilinear;
+  \item\label{cstar-cat-axioms:2} there is an involutive antilinear contravariant endofunctor $*$ of $\mc A$; denote the image of $x\in\mc A(A,B)$ by $x^*\in\mc A(B,A)$;
+  \item\label{cstar-cat-axioms:3} for each $x\in\mc A(A,B)$ there is $a\in\mc A(A,A)$ with $x^*x = a^*a$, that is, $x^*x$ is positive; and $x^*x=0\implies x=0$;
+  \item\label{cstar-cat-axioms:4} each $\mc A(A,B)$ is a Banach space, and composition of morphisms is contractive: $\|xy\| \leq \|x\| \|y\|$;
+  \item\label{cstar-cat-axioms:5} for each $x\in\mc A(A,B)$ we have $\|x^*x\| = \|x\|^2$;
+\end{enumerate}
+
+\ref{cstar-cat-axioms:1} means that $\mc A(A,A) = \hom(A)$ is an algebra.
+In \ref{cstar-cat-axioms:2}, an ``endofunctor'' just means a functor from $\mc A$ to itself; contravariant means we reverse the directions of arrows, as expected.
+So $\hom(A)$ is a $*$-algebra, and by \ref{cstar-cat-axioms:4} and \ref{cstar-cat-axioms:5} is a $C^*$-algebra.  (Note then that the final part of \ref{cstar-cat-axioms:3} is automatic: if $x^*x=0$ then $\|x\|=0$ so $x=0$.)
+
+The axioms corresponding to the $C^*$-condition are more complicated in \cite[Definition 1.2.10]{ferrier_thesis}, but I think this is because Ferrier wishes to consider real-$C^*$-algebras, whereas we work only with the complex numbers; compare \cite[Definition~2.8]{mitchener_cstar_cats}.
+Axiom \ref{cstar-cat-axioms:3} appears surprising, but is necessary, see \cite[Example~2.10]{mitchener_cstar_cats}.
+The concept of a (possibly non-unital) \emph{algebraoid} is revelant here, \cite{ferrier_thesis,mitchener_cstar_cats}.
+
+A functor between $C^*$-categories is linear and $*$-preserving on morphism spaces.  As for $C^*$-algebras, a functor is automatically contractive, \cite[Proposition~2.14]{mitchener_cstar_cats}.
+
+\begin{itemize}
+  \item Hilbert $C^*$-module links
+  \item Examples, including $\catHilb$.
+  \item Natural transformations: Definition~\ref{defn:natural_transformation}
+\end{itemize}
+
+
+
+
+\appendix
+\section{Basic category theory}
+
+We follow for example \cite{Leinster_BasicCatTheory}.
+
+\begin{definition}\label{defn:natural_transformation}
+A \emph{natural transformation} between two functors $F,G \colon \mc A \to \mc B$, written $\alpha \colon F \Rightarrow G$, is a collection of morphisms $\alpha_A$, for each $A\in\mc A$, such that the following diagrams all commute:
+\[ \begin{tikzcd}
+  A \arrow[d, "x"] &&  F(A) \arrow[r, "\alpha_A"] \arrow[d, "F(x)"'] & G(A) \arrow[d, "G(x)"] \\
+  B &&  F(B) \arrow[r, "\alpha_B"'] & G(B)
+\end{tikzcd} \]
+\end{definition}
+
+\begin{example}
+Let $A$ be an algebra, and consider this as a one-object category.  Then $\hom(A)$ satisfies axiom \ref{cstar-cat-axioms:1}, as $\hom(A)$ is just the algebra $A$.  Let $\catVect$ be the category of vector spaces and linear maps, again this satisfies \ref{cstar-cat-axioms:1}.  A functor $F\colon A \to \catVect$ (assumed linear, of course) is given by a choice of vector space $E = F(A)$ and then an algebra homomorphism $A \to L(E); x \mapsto F(x)$.  This is the same as $E$ begin a left $A$-module.
+
+Consider another functor $G$, say $F = G(A)$.  A natural transformation $\alpha \colon F \Rightarrow G$ is then a morphism $\alpha \colon E \to F$, i.e.\@ a linear map, such that $G(x)\alpha = \alpha F(x)$ for each $x\in A$.  This is the same as saying that $\alpha$ is a module homomorphism.
+\end{example}
+
+
+\bibliographystyle{plain}
+\bibliography{ctc.bib}
+
+\end{document}
+

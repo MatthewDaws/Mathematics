@@ -5,6 +5,7 @@ An experiment: some longer pieces of Mathematics which don't quite belong on the
 - [Bits and Bobs](https://github.com/MatthewDaws/Mathematics/tree/master/Bits-n-Bobs) : Much shorter notes collected together.
 - [Cohen-Hewitt Factorisation](https://github.com/MatthewDaws/Mathematics/tree/master/Cohen-Hewitt) : Quick literature review around this theorem.
 - [Conditional Expectations](https://github.com/MatthewDaws/Mathematics/tree/master/Conditional-Expectations) : Self-contained proof of existence of trace-preserving conditional expectations.
+- [C*-Tensor Categories](https://github.com/MatthewDaws/Mathematics/tree/master/Cstar-Tensor-Categories) : Some notes about C*-Categories, Rigid Tensor categories, and all that.
 - [Fell Topology](https://github.com/MatthewDaws/Mathematics/tree/master/Fell-Topology) : Some notes on various meanings of the "Fell Topology".
 - [Finite index](https://github.com/MatthewDaws/Mathematics/tree/master/Finite-Index) : Some brief notes about finite-index Hilbert bimodules.
 - [Inductive Limits](https://github.com/MatthewDaws/Mathematics/tree/master/Inductive-Limits) : Some notes on inductive limits of Banach spaces.
