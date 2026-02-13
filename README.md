@@ -19,4 +19,6 @@ An experiment: some longer pieces of Mathematics which don't quite belong on the
 - [Tensor products of weights](https://github.com/MatthewDaws/Mathematics/tree/master/Tensor-Weights) : Some notes about tensoring nfs weights.
 - [Weights](https://github.com/MatthewDaws/Mathematics/tree/master/Weights) : Some notes about weights on von Neumann algebras.
 
+Currently, [LaTeX Online](https://latexonline.cc/) is broken, so I can experimenting with storing PDF files in a [separate reposity](https://github.com/MatthewDaws/MathematicsPDF).  A little cumbersome, but it seems to work.
+
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

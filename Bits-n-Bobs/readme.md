@@ -8,3 +8,5 @@ Some shorter notes.
 - Remarks on "well-supported" elements in operator algebras, with some supporting material about polar decompositions and von Neumann regular elements.
 
 [Compile to PDF online](https://texlive2020.latexonline.cc/compile?git=https%3A%2F%2Fgithub.com%2FMatthewDaws%2FMathematics&target=Bits-n-Bobs%2Fnotes.tex&command=pdflatex)
+
+Link to [PDF File](https://github.com/MatthewDaws/MathematicsPDF/blob/main/Bits-n-Bobs/notes.pdf)
