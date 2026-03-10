@@ -72,8 +72,11 @@
 \newcommand{\op}{{\operatorname{op}}}
 \newcommand{\Tr}{{\operatorname{Tr}}}
 \newcommand{\im}{{\operatorname{Im}}}
+\newcommand{\catSet}{\textsf{Set}}
 \newcommand{\catVect}{\textsf{Vect}}
 \newcommand{\catHilb}{\textsf{Hilb}}
+\newcommand{\catHCStar}[1]{\textsf{C$^*$Mod}_{#1}}
+\newcommand{\Rep}{\operatorname{Rep}}
 
 
 
@@ -92,9 +95,12 @@ Written somewhat just for myself, as I make a slightly more serious (than in the
 
 \section{\texorpdfstring{$C^*$}{CStar}-Categories}
 
-There are lots of nice sources, so I won't make detailed notes here.  The original paper seems to be Ghez, Lima, and Roberts, \cite{GR_Wstar_categories}.  Mitchener's paper \cite{mitchener_cstar_cats} is also very readable.
+There are lots of nice sources, so I won't make detailed notes here.  The original paper seems to be Ghez, Lima, and Roberts, \cite{GR_Wstar_categories}.  Mitchener's paper \cite{mitchener_cstar_cats} is also very readable.  A much more category-theory treatment is given in \cite{Bunke_NonUnitalCstarCats}; a more readable category-theory take is \cite{DellAmbrogio_unitary_monoidal}.
 
-As categories always have unit morphisms, this means all $C^*$-algebras have units, which is not very natural.  There are no major complications with just looking at ``categories'' where we don't suppose identity morphisms, and functors which don't need to preserve units.  The details are worked out in Ferrier's thesis \cite{ferrier_thesis}.
+
+\subsection{Definitions}
+
+As categories always have unit morphisms, this means all $C^*$-algebras have units, which is not very natural.  There are no major complications with just looking at ``categories'' where we don't suppose identity morphisms, and functors which don't need to preserve units.  See Ferrier's thesis \cite{ferrier_thesis} and Mitchener's paper \cite{mitchener_cstar_cats}.  TODO: Multipliers.
 
 We follow the axioms in \cite{GR_Wstar_categories}.  A $C^*$-Category is a category $\mc A$ such that:
 \begin{enumerate}[(1)]
@@ -113,14 +119,140 @@ The axioms corresponding to the $C^*$-condition are more complicated in \cite[De
 Axiom \ref{cstar-cat-axioms:3} appears surprising, but is necessary, see \cite[Example~2.10]{mitchener_cstar_cats}.
 The concept of a (possibly non-unital) \emph{algebraoid} is revelant here, \cite{ferrier_thesis,mitchener_cstar_cats}.
 
+\begin{example}
+Let $\catHilb$ be the category where objects are Hilbert spaces, and $\mc A(H,K)$ is the space of all bounded linear maps from $H$ to $K$, equipped with the usual involution.  This is readily seen to be a $C^*$-Category.  More generally, we can consider any sub-category.  A natural (from the point of view of functional analysis) subcategory is where we restrict to compact operators: this is then a non-unital $C^*$-Category.
+\end{example}
+
+\begin{example}
+Every morphism space $\mc A(A,B)$ is a Hilbert $C^*$-module over the $C^*$-algebra $\mc A(A)$.  See \cite{Lance_HilbModsBook} or \cite{RaeburnWilliams_MoritaEquivBook} for good textbooks on Hilbert $C^*$-modules (the later has an unlikely title, but the initial chapters form a very nice introduction to aspects of the theory which Lance's book does not much touch upon).
+
+However, here we have more symmetry, and so naturally also $\mc A(A,B)$ is a \emph{left} Hilbert $C^*$-module over $\mc A(B)$.  Indeed, we end up with a structure reminiscent of an \emph{imprimitivity bimodule}, \cite[Definition~3.1]{RaeburnWilliams_MoritaEquivBook}, excepting that $\mc A(A,B)$ need not be a \emph{full} Hilbert module (it could easily be $\{0\}$ for example!)
+\end{example}
+
+\begin{example}
+Hilbert $C^*$-modules yield another example.  Fixing a $C^*$-algebra $A$, we can consider $\catHCStar{A}$ the category of all right Hilbert $C^*$-modules over $A$, with morphisms as adjointable maps.  Again, there is a non-unital subcategory formed by consider just the compact operators.
+\end{example}
+
+\begin{example}\label{eg:RepA}
+Let $A$ be a $C^*$-algebra, and let $\Rep(A)$ be the representation category of $A$.  So objects of $\Rep(A)$ and pairs $(\pi,H)$ where $H$ is a Hilbert space, and $\pi\colon A\to\mc B(H)$ is a $*$-homomorphism.  It is natural to require that $\pi$ is non-degenerate, $\lin\{ \pi(a)\xi : a\in A, \xi\in H \}$ is dense in $H$.  Morphisms $x \colon (\pi_1,H_1) \to (\pi_2,H_2)$ are intertwiners, bounded linear maps $x\colon H_1\to H_2$ with $x \pi_1(a) = \pi_2(a) x$ for each $a\in A$.  So $\hom(\pi,H) = \pi(A)'$ the commutant.  Then $\Rep(A)$ is a subcategory of $\catHilb$, and it is easy to check that $\Rep(A)$ is a $C^*$-Category.
+
+The same remarks apply to unitary representations of a group $G$; or use $A = C^*(G)$.
+\end{example}
+
+One can define ideals and quotients, see \cite[Definition~1.6]{GR_Wstar_categories}, \cite[Section~4]{mitchener_cstar_cats}.  There is a sensible notion of unitisation, \cite[Section~3]{mitchener_cstar_cats}.  
+
+
+\subsection{Functors}
+
 A functor between $C^*$-categories is linear and $*$-preserving on morphism spaces.  As for $C^*$-algebras, a functor is automatically contractive, \cite[Proposition~2.14]{mitchener_cstar_cats}.
 
-\begin{itemize}
-  \item Hilbert $C^*$-module links
-  \item Examples, including $\catHilb$.
-  \item Natural transformations: Definition~\ref{defn:natural_transformation}
-\end{itemize}
+A \emph{representation} of a $C^*$-Category $\mc A$ is a functor $F\colon\mc A \to \catHilb$.
 
+\begin{lemma}
+Let $F\colon\mc A \to \catHilb$ be a representation.  For each object $A$ let $H_A$ be the closed linear span of $\{ F(a)\xi : a\in\mc A(A,A), \xi\in F(A) \}$ inside the Hilbert space $F(A)$.  For every $A,B$ and $x\in\mc A(A,B)$ we have that $F(x)$ restricts to a map $H_A \to H_B$, and so replacing $F(A)$ by $H_A$ for all $A$, we may suppose that $F$ is non-degenerate.
+\end{lemma}
+\begin{proof}
+Let $x\in\mc A(A,B)$ and consider $\xi_1 = F(a)\xi \in H_A$.  We wish to show that $F(x)\xi_1 \in H_B$, or equivalently, if $\eta\in H_B^\perp \subseteq F(B)$, then $0 = (\eta|F(x)\xi_1) = (F(x^*)\eta | F(a)\xi)$.  There is $b\in \mc A(B,B)$ with $b^*b = xx^*$, and then as $H_B^\perp = \{ \eta : F(c)\eta=0 \ (c\in B)\}$, we see that $F(b^*b)\eta=0$ so $F(xx^*)\eta=0$ so $F(x^*)\eta=0$ because $\ker F(x^*) = \ker F(x)^* = \ker F(x) F(x)^* = \ker F(xx^*)$.  This shows the claim.
+\end{proof}
+
+\begin{theorem}\label{thm:exists_faithful_rep}
+For any $\mc A$ there is a faithful (and hence isometric) representation.
+\end{theorem}
+\begin{proof}
+See \cite[Propositions~1.9, 1.14]{GR_Wstar_categories} or \cite[Section~6]{mitchener_cstar_cats}.  The idea is to mirror the GNS construction: for any state $\mu$ on $A$, where $A$ is for now a fixed object in $\mc A$, we find a cyclic representation which recovers $\mu$.  Then take a direct sum over all $\mu$, and then over all $A$.  This assumes that $\mc A$ is small, in the category theory sense.
+
+We sketch an alternative argument using the interior tensor product, \cite{Lance_HilbModsBook}.  Let $\pi\colon\mc A(A,A) \to \mc B(H)$ be a faithful (non-degenerate) representation, so for any $B$ we can form $\mc A(A,B) \otimes H$, a Hilbert space, this being the seperation--completion of the algebraic tensor product for the pre-inner-product
+\[ (x_1\otimes\xi_1|x_2\otimes\xi_2) = (\xi_1|\pi(x_1^*x_2)\xi_2), \]
+which makes sense as $x_1^*x_2\in\mc A(A,A)$.  We need to show that this is positive.  Given $(x_i)_{i=1}^n \subseteq \mc A(A,B)$ we claim that the matrix $(x_i^*x_j)\in M_n(\mc A(A,A))$ is positive.  By \cite[Lemma~IV.3.2]{TakesakiI} this is if and only if $\sum_{i,j} a_i^* x_i^* x_j a_j \in \mc A(A,A)$ is positive, for any $(a_i)_{i=1}^n \subseteq \mc A(A,A)$.  However, setting $y = \sum_j x_j a_j \in \mc A(A,B)$, we see that this sum is $y^*y$ which by the axiom is positive in $\mc A(A,A)$.  Then $(\pi(x_i^*x_j)) \in M_n(\mc B(H)) \cong \mc B(H^n)$ is positive, and it now follows that
+\[ \sum_{i,j} ( x_i\otimes\xi_i | x_j\otimes\xi_j ) = \sum_{i,j} ( \xi_i | \pi(x_i^*x_j) \xi_j ) \geq 0, \]
+as needed.
+
+There is a natural left action of $\mc A(B,B)$ given by $b\cdot (x\otimes\xi) = bx\otimes\xi$; more generally $x\in\mc A(B,C)$ acts from $\mc A(A,B) \otimes H$ to $\mc A(A,C) \otimes H$ as $y\otimes\xi \mapsto xy\otimes\xi$.  So we have a functor $F\colon\mc A \to \catHilb$ given by $F(B) = \mc A(A,B) \otimes H$.  As $\mc A(A,A)\otimes H \cong H$, we see that $F$ is isometric on $\mc A(A,A)$.  We now take a direct sum over all $A$.
+\end{proof}
+
+Recall if needed the notion of a natural transformation from Definition~\ref{defn:natural_transformation}.  Notice that if $\alpha\colon F\Rightarrow G$ then $\alpha^*$, which has components $(\alpha^*)_A = (\alpha_A)^*$, is a natural transformation $G\Rightarrow F$.  We often suppose that $\alpha \colon F \Rightarrow G$ is \emph{bounded}, meaning that $\sup_A \|\alpha_A\| < \infty$.  Define $\alpha$ to be \emph{unitary} if each component $\alpha_A$ is a unitary.
+
+\begin{proposition}
+Let $\mc A, \mc B$ be $C^*$-categories, and let $(\mc A, \mc B)$ be the functor category: objects are functors $F\colon \mc A \to \mc B$ and morphisms are bounded natural transformations.  Then $(\mc A, \mc B)$ is a $C^*$-category.
+\end{proposition}
+\begin{proof}
+For $\alpha \colon F \Rightarrow G$, we of course define $\|\alpha\| = \sup_A \|\alpha_A\|$; then composition is contractive.  Consider $\alpha^*\alpha$ which has components $(\alpha^*\alpha)_A = \alpha_A^* \alpha_A \colon F(A) \to F(A)$.  Then $\|\alpha\|^2 = \sup_A \|\alpha_A\|^2 = \sup_A \| (\alpha^*\alpha)_A \| = \|\alpha^*\alpha\|$.  All of the axioms are now clear, except to show that $\alpha^*\alpha$ is positive: this entails finding $\beta \colon F \Rightarrow F$ with $\beta_A^*\beta_A = \alpha_A^*\alpha_A$ for each $A$.
+
+I don't see that this is immediate, and I have not found a reference which considers this.  Here is one argument, which works if $\mc A$ is small.  Consider the $C^*$-algebra
+\[ A_0 = \ell^\infty - \bigoplus_A \mc B(F(A), F(A)). \]
+The map sending $\beta\colon F \Rightarrow F$ to $(\beta_A)_{A\in\mc A} \in A_0$ is an injective $*$-homomorphism.  By the positivity axiom for $\mc B$, we see that $\alpha^*\alpha$ is positive in $A_0$; that is, for each $A$ we can find $\gamma_A \in \mc B(F(A), F(A))$ with $\gamma_A^*\gamma_A = \alpha_A^*\alpha_A$.  As positivity passes to subalgebras, we conclude that $\alpha^*\alpha$ is positive in the smaller algebra formed by natural transformations $F\Rightarrow F$, as required.
+\end{proof}
+
+\begin{example}
+Let $A$ be a $C^*$-algebra, identified with a one-object $C^*$-category.  Then $(A, \catHilb)$ is isomorphic to $\Rep(A)$, Example~\ref{eg:RepA}.  Indeed, a functor $F\colon A\to\catHilb$ is just a $*$-homomorphism $\pi\colon A\to\mc B(H)$ for some Hilbert space $H$, and we see that $\alpha\colon F\Rightarrow G$ is just an intertwiner between the associated representations.
+\end{example}
+
+\begin{example}
+Let $A$ be a $C^*$-algebra and let $H\colon \Rep(A) \to \catHilb$ be the evaluation functor: so $H$ sends a representation $\pi\colon A\to\mc B(H_\pi)$ to the Hilbert space $H_\pi$, and is the identity on morphisms.  Consider $\hom(H,H)$ the algebra of bounded natural transformations $\alpha \colon H \to H$.  The components of such an $\alpha$ satisfy that $x \alpha_{\pi_1} = \alpha_{\pi_2} x$ for each intertwiner $x\in\hom(\pi_1,\pi_2)$, where of course $\alpha_{\pi} \colon H_\pi \to H_\pi$ is a bounded linear map.
+
+For $x\in\hom(\pi) = \pi(A)'$ we hence have $x \alpha_\pi = \alpha_\pi x$, that is, $\alpha_\pi \in \pi(A)''$.  By the universal property of the enveloping von Neumann algebra $A^{**}$, \cite[Lemma~III.2.2]{TakesakiI} for example, there is a unique normal $*$-homomorphism $\lambda_\pi \colon A^{**} \to \pi(A)''$, for each $\pi\in\Rep(A)$.  Indeed, $\lambda_\pi$ is the normal extension of $\pi$, so $\lambda_\pi(a) = \pi(a)$ for each $a\in A$.  As any member of $A^{**}$ can be weak$^*$-approximated by a bounded net in $A$, it follows that if $x\in\hom(\pi_1,\pi_2)$ then also $x \in \hom(\lambda_{\pi_1}, \lambda_{\pi_2})$.
+
+Let $\pi_0\in\Rep(A)$ be a representation with $\lambda_{\pi_0}$ faithful: that is, $\pi_0$ is a universal representation, which exists by \cite[Theorem~III.2.4]{TakesakiI} for example.  We may suppose that $H_{\pi_0}$ is sufficiently large that every normal state on $A^{**}$ arises from a vector functional.  There is a unique $a_0 \in A^{**}$ with $\lambda_{\pi_0}(a_0) = \alpha_{\pi_0}$.  Now let $\pi\in\Rep(A)$, and let $\xi\in H_\pi$ be a unit vector, so as $\pi$ is non-degenerate, $A \to \mathbb C; a \mapsto (\xi|\pi(a)\xi)$ is a state on $A$, hence a normal state on $A^{**}$, and so there is $\xi_0 \in H_{\pi_0}$ with $(\xi|\pi(a)\xi) = (\xi_0 | \pi_0(a)\xi_0)$ for every $a\in A$.  Thus the map $u \colon \pi_0(a) \xi_0 \mapsto \pi(a)\xi$ extends to a partial isometry with initial space $\overline{\pi_0(A)\xi_0}$ and final space $\overline{\pi(A)\xi_0}$.  Then $u \in \hom(\pi_0, \pi)$, and so $\alpha_\pi u = u \alpha_{\pi_0} = u \pi_0(a_0)$.  Approximating $a_0$ be a bounded net in $A$, for example, we may check that $u \pi_0(a_0) = \lambda_\pi(a_0) u$.  In particular, $\alpha_\pi \xi = \lambda_\pi(a_0) \xi$.  As $\xi$ was arbitrary, this shows that $\alpha_\pi = \lambda_\pi(a_0)$, for any $\pi$.
+
+Conversely, given any $a\in A^{**}$, we have already argued that the family $(\lambda_\pi(a))$ defines a natural transformation.  So $\hom(H,H) \cong A^{**}$.
+\end{example}
+
+
+\subsection{The \texorpdfstring{$C^*$}{CStar}-algebra of a catgeory}
+
+Consider two objects $A,B$ in $\mc A$.  We can turn the space
+\[ M(A,B) = \begin{pmatrix} \mc A(A,A) & \mc A(B,A) \\ \mc A(A,B) & \mc A(B,B) \end{pmatrix}
+= \Big\{ \begin{pmatrix} a & x \\ y & b \end{pmatrix} : \begin{matrix} a\in\mc A(A,A), x\in\mc A(B,A) \\
+  y \in\mc A(A, B), b\in\mc A(B,B) \end{matrix} 
+  \Big\} \]  
+into a $*$-algebra for the obvious matrix adjoint and multiplication.  Any functor $F\colon\mc A\to\catHilb$ induces a $*$-representation $M(A,B) \to \mc B(F(A)\oplus F(B))$.  Suppose this functor is faithful, hence isometric, on $\mc A(A,A)$ and $\mc A(B,B)$ (such a functor exists by Theorem~\ref{thm:exists_faithful_rep}).  For $x\in\mc A(B,A)$ we see that
+\[ \left\| \left(\begin{smallmatrix} 0 & x \\ 0 & 0 \end{smallmatrix}\right) \right\|^2
+= \left\| \left(\begin{smallmatrix} 0 & 0 \\ x^* & 0 \end{smallmatrix}\right) \left(\begin{smallmatrix} 0 & x \\ 0 & 0 \end{smallmatrix}\right) \right\|
+= \left\| \left(\begin{smallmatrix} 0 & 0 \\ 0 & x^*x \end{smallmatrix}\right) \right\|
+= \| x^*x \|_{\mc A(B,B)} = \|x\|_{\mc A(B,A)}^2, \]
+and similarly for $\mc A(A,B)$.  Thus we obtain a $C^*$-norm on $M(A,B)$ which restricts to the given norms on each component.  We remark that we only need the proof of Theorem~\ref{thm:exists_faithful_rep} here: in particular, if $\mc A$ is only locally small, we can still carry out this construction.
+
+More generally, given any set $I$ of objects of $\mc A$, we can form $M_0(I)$ as ``matrices'' $(x_{i,j})$ where $x_{i,j} \in \mc A(i,j)$ for $i,j\in I$, and all but finitely many of the $x_{i,j}$ are zero.  Again, we can find a faithful representation of this $*$-algebra, and so form a $C^*$-completion $M(I)$ where the inclusion $\mc A(i,j) \to M(I)$ is isometric for each $i,j\in I$.  In particular, when $I$ is finite, $M_0(I) = M(I)$ has a unique $C^*$-norm.
+
+When $\mc A$ is small, we turn the finite subsets of the objects of $\mc A$ into a direct set, ordered by inclusion.  When $I\subseteq J$ there is an obvious isometric inclusion $M(I) \to M(J)$, and so we obtain an inductive system (the inclusions are coherent in the required way).  We can hence form the inductive limit $C^*$-algebra $M(\mc A) = \underrightarrow{\lim}\, M(I)$.  For each $I$ there is an isometric inclusion $M(I) \to M(\mc A)$, respecting the inclusions $M(I)\to M(J)$, and such that the union of these images is dense in $M(\mc A)$.  Given $x\in \mc A(A,B)$, given any $I \supseteq \{A,B\}$, we consider $x\in M(I) \subseteq M(\mc A)$, and coherence ensures this isometric map $\mc A(A,B) \to M(\mc A)$ is well-defined.  We then obtain a functor $\mc A \to M(\mc A)$ (the latter considered as a one-object $C^*$-Category).  Passing if necessary to the unitisation, for each $A$ we find a projection $1_A \in M(\mc A)$.  Obviously $x\in\mc A(A,B)$ implies that $1_B x 1_A = x$ in $M(\mc A)$.
+
+\begin{lemma}
+The image of $\mc A(A,B)$ in $M(\mc A)$ is the set $\{ x\in M(\mc A) : 1_B x 1_A = x \}$.
+\end{lemma}
+\begin{proof}
+We need to show that if $1_B x 1_A = x$ then $x$ arises from some $y\in \mc A(A,B)$.  Given some finite $I$ and $z\in M(I)$, clearly $1_B z 1_A = z$ if and only if $z\in\mc A(A,B)$.  By density, we can find a sequence of such $(z_n)$ (where $I$ varies with $n$) with $z_n \to x$ in $M(\mc A)$.  Then $x = 1_B x 1_A = \lim_n 1_B z_n 1_A$ and for each $n$ we have that $1_B z_n 1_A$ is identified with some $y_n \in \mc A(A,B)$.  So $(y_n)$ is Cauchy in $\mc A(A,B)$ and so converges, say to $y$.  Then clearly $x = \lim_n y_n = y$, as required.
+\end{proof}
+
+Let $F\colon \mc A \to \mc B$ be a functor.  Given a (finite) set of objects $I$ in $\mc A$, let $F(I) = \{ F(A) : A\in I \}$ a set of objects in $B$.  One may check that $F$ induces a $*$-homomorphism $F_I \colon M(I) \to M(F(I))$, and when $I\subseteq J$ we have that $F_J \colon M(J) \to M(F(J))$ and $F_I$ and intertwined by the inclusions.  By coherence, we obtain a $*$-homomorphism $M(I) \to M(\mc B)$, and as $I$ varies, these are coherent, so we obtain a $*$-homomorphism $F \colon M(\mc A) \to M(\mc B)$.  Conversely, suppose we have a $*$-homomorphism $\phi \colon M(\mc A) \to M(\mc B)$ along with a map $\phi_0$ from objects of $\mc A$ to objects of $\mc B$, such that $1_{\phi_0(B)} \phi(1_B x 1_A) 1_{\phi_0(A)} = \phi(1_B x 1_A)$ for all $A,B$ and all $x\in\mc M(\mc A)$.  Then $\phi$ arises from a functor $F$ which on objects is the map $\phi_0$.
+
+
+\subsection{Equivalence and adjoints}
+
+The following is shown carefully by Dell'Ambrogio.
+
+\begin{proposition}[{\cite[Proposition~2.6]{DellAmbrogio_unitary_monoidal}}]\label{prop:always_unitary_IM}
+Let $A,B\in\mc A$ be isomorphic.  There is a unitary $u\in\mc A(A,B)$.
+\end{proposition}
+\begin{proof}
+Let $a\in\mc A(A,B)$ is invertible.  Then $u = a (a^*a)^{-1/2}$ is the required unitary.
+\end{proof}
+
+\begin{proposition}
+Let $\mc A,\mc B$ be $C^*$-tensor categories.  A $*$-functor $F\colon \mc A\to\mc B$ is an equivalence of categories if and only if there is a $*$-functor $G \colon \mc B \to \mc A$ and unitary $\epsilon \colon FG \Rightarrow 1_{\mc B}$ and $\eta \colon 1_{\mc A} \Rightarrow GF$.
+\end{proposition}
+\begin{proof}
+The ``if'' case is a triviality; the ``only if'' case follows by examining the proof of Proposition~\ref{thm:cat_equiv_FFES}, for example, because using Proposition~\ref{prop:always_unitary_IM}, we may choose the components $\epsilon_B$ to be unitaries, and then the constructed $G$ will be a $*$-functor, and $\eta$ will be unitary.  See also \cite[Lemma~4.6]{DellAmbrogio_unitary_monoidal}.
+\end{proof}
+
+Mitchener \emph{defines} an equivalence of $C^*$-Categories by requiring unitary natural transformations, \cite[Definition~2.13]{mitchener_cstar_cats}.
+
+I haven't seen much in my reading of the literature which touches upon adjoints.  I wondered if it is sensible to ask that (co)units be unitary, but nothing immediately came to mind of interest.
+
+
+
+\section{\texorpdfstring{$W^*$}{WStar}-Categories}
+
+Ghez.
 
 
 
@@ -133,7 +265,7 @@ We follow for example \cite{Leinster_BasicCatTheory}.
 A \emph{natural transformation} between two functors $F,G \colon \mc A \to \mc B$, written $\alpha \colon F \Rightarrow G$, is a collection of morphisms $\alpha_A$, for each $A\in\mc A$, such that the following diagrams all commute:
 \[ \begin{tikzcd}
   A \arrow[d, "x"] &&  F(A) \arrow[r, "\alpha_A"] \arrow[d, "F(x)"'] & G(A) \arrow[d, "G(x)"] \\
-  B &&  F(B) \arrow[r, "\alpha_B"'] & G(B)
+  B &&  F(B) \arrow[r, "\alpha_B"'] & G(B).
 \end{tikzcd} \]
 \end{definition}
 
@@ -143,6 +275,161 @@ Let $A$ be an algebra, and consider this as a one-object category.  Then $\hom(A
 Consider another functor $G$, say $F = G(A)$.  A natural transformation $\alpha \colon F \Rightarrow G$ is then a morphism $\alpha \colon E \to F$, i.e.\@ a linear map, such that $G(x)\alpha = \alpha F(x)$ for each $x\in A$.  This is the same as saying that $\alpha$ is a module homomorphism.
 \end{example}
 
+We now consider equivalences of categories, and more generally, adjoints.  An equivalence of categories is a pair of functors $F\colon\mc A\to\mc B, G \colon \mc B \to \mc A$ with natural isomorphisms $\epsilon \colon FG \Rightarrow 1_{\mc B}$ and $\eta \colon 1_{\mc A} \Rightarrow GF$.  For any given $F$ there can be many choices for $G,\epsilon,\eta$ but we do have the following.
+
+\begin{theorem}\label{thm:cat_equiv_FFES}
+Given a functor $F\colon\mc A\to\mc B$, we have that $F$ forms part of an equivalence if and only if $F$ is full and faithful (so for each $A,B\in\mc A$ the map $\mc A(A,B) \to \mc B(F(A),F(B))$ is a bijection) and essentially surjective on objects (for each $B\in\mc B$ there is $A\in\mc A$ with $F(A)$ isomorphic to $B$).
+\end{theorem}
+\begin{proof}
+This is \cite[Proposition~1.3.18, Exercise~1.3.32]{Leinster_BasicCatTheory} for example; we give the details.  If $F$ forms part of an equivalence, then $\eta$ satisfies
+\[ \begin{tikzcd}
+  A \arrow[d, "x"] &&  A \arrow[r, "\eta_A"] \arrow[d, "x"'] & GF(A) \arrow[d, "GF(x)"] \\
+  B &&  B \arrow[r, "\eta_B"'] & GF(B).
+\end{tikzcd} \]
+Let $x_1,x_2\in\mc A(A,B)$ with $F(x_1) = F(x_2)$.  Then $GF(x_1) = GF(x_2)$ and so $\eta_B \circ x_1 = GF(x_1) \circ \eta_B = GF(x_2) \circ \eta_B = \eta_B \circ x_2$.  As $\eta$ is an isomorpsm, $x_1=x_2$ and so $F$ is faithful.  By symmetry (that is, using $\epsilon$) also $G$ is faithful.
+
+Let $y \in \mc B(F(A), F(B))$ so $G(y) \in \mc A(GF(A), GF(B))$ and so $x = \eta_B^{-1} \circ G(y) \circ \eta_A \in \mc A(A,B)$.  By naturality, $GF(x) = \eta_B \circ x \circ \eta_A^{-1} = G(y)$ and as $G$ is faithful, we conclude that $F(x) = y$.  So $F$ is full, similarly, $G$ is full.
+As $FG(B) \cong B$ (using $\epsilon$) for any $B$, we see that $F$ is essentially surjective.
+
+Conversely, we start with $F$ and construct $G,\epsilon,\eta$.  As $F$ is essentially surjective, for each $B\in B$ there is $G(B)\in\mc A$ and an isomorphism $\epsilon_B \colon FG(B) \to B$.  Given $y \in \mc B(B_1,B_2)$, consider $\epsilon_{B_2}^{-1} \circ y \circ \epsilon_{B_1} \colon FG(B_1) \to FG(B_2)$ which equals $F(x)$ for some unique $x\in\mc A(G(B_1), G(B_2))$ as $F$ is full and faithful.  Define $G(y)$ to be this $x$, so by definition, $FG(y) = \epsilon_{B_2}^{-1} \circ y \circ \epsilon_{B_1}$, and from this it follows readily that $G$ is a functor.  Furthermore, we have constructed $\epsilon$ and $G$ so that $\epsilon \colon FG \Rightarrow 1$.
+
+For each $A\in\mc A$, consider $\epsilon_{F(A)}^{-1} \colon F(A) \to FGF(A)$ so as $F$ is full and faithful, there is a unique $\eta_A \colon A \to GF(A)$ with $F(\eta_A) = \epsilon_{F(A)}^{-1}$.  Then $\eta_A$ must an isomorphism: the same argument shows that there is $f\colon GF(A) \to A$ with $F(f) = \epsilon_{F(A)}$, and then $1 = F(\eta_A \circ f)$ so $\eta_A\circ f=1$, and similarly $f\circ\eta_A=1$.
+
+As $F$ is full and faithful, to show that $\eta \colon 1 \Rightarrow GF$ it suffices to show that for any $x\in\mc A(A,B)$ the left-hand diagram commutes, but by definition,
+\[ \begin{tikzcd}
+  F(A) \arrow[r, "F(\eta_A)"] \arrow[d, "F(x)"'] & FGF(A) \arrow[d, "FGF(x)"] \\
+  F(B) \arrow[r, "F(\eta_B)"'] & FGF(B)
+\end{tikzcd} 
+\quad\iff\quad
+\begin{tikzcd}
+  F(A) \arrow[r, "\epsilon_{F(A)^{-1}}"] \arrow[d, "F(x)"'] & FGF(A) \arrow[d, "FGF(x)"] \\
+  F(B) \arrow[r, "\epsilon_{F(B)^{-1}}"'] & FGF(B)
+\end{tikzcd} 
+\]
+and the right-hand diagram holds because $\epsilon$ is a natural transformation.
+\end{proof}
+
+We now consider adjunctions, following \cite[Chapter~2]{Leinster_BasicCatTheory}.  An \emph{adjunction} is a pair of functors $F\colon\mc A\to\mc B, G\colon\mc B\to\mc A$ satisfying
+\[ \mc A(A,G(B)) \cong \mc B(F(A),B), \]
+naturally, for each $A,B$.  We write $F \dashv G$ and say $F$ is a left adjoint to $G$, and $G$ is a right adjoint to $F$.  (The left/right terminology may be remembered by looking at which side of the hom space the functor appears: $G$ is on the right of $\mc A(A,G(B))$ and $F$ on the left of $\mc B(F(A),B)$.)
+
+By ``naturally'' we mean, by definition, the following.  For given $A,B$, denote the bijection $\mc A(A,G(B)) \to \mc B(G(A),B)$ by $x \mapsto x^\natural$, and similarly for $\mc B(G(A),B) \to \mc A(A,G(B)), y\mapsto y^\natural$.  These are mutual inverses, so $x^{\natural\natural} = x$ and so forth.  We then require that
+\begin{equation} \big( F(A) \xrightarrow{x} B_1 \xrightarrow{y} B_2  \big)^\natural
+\quad = \quad
+A \xrightarrow{x^\natural} G(B_1) \xrightarrow{G(y)} G(B_2),
+\label{eq:nat_im_adj1}
+\end{equation}
+and similarly
+\begin{equation} \big( A_1 \xrightarrow{x} A_2 \xrightarrow{y} G(B) \big)^\natural
+\quad = \quad
+F(A_1) \xrightarrow{F(x)} F(A_2) \xrightarrow{y^\natural} B.
+\label{eq:nat_im_adj2}
+\end{equation}
+Equivalently, for fixed $A$, we have two functors $\mc B \to \catSet$ given by $B \mapsto \mc A(A,G(B))$ and $B\mapsto \mc B(F(A),B)$, and we require these to be naturally isomorphic in the usual sense; and for fixed $B$ we have two functors $\mc A\to\catSet^\op$ given by $A\mapsto \mc A(A,G(B))$ and $A\mapsto \mc B(F(A),B)$, and we require also these to be naturally isomorphic.
+
+From an adjunction $F \dashv G$ we construct natural isomorphisms $\eta \colon 1_{\mc A} \Rightarrow GF$ and $\epsilon \colon FG \Rightarrow 1_{\mc B}$, by $\eta_A = (1_{F(A)})^\natural$ and $\epsilon_B = (1_{G(B)})^\natural$.  These satisfy the \emph{triangle identities}
+\begin{equation} \begin{tikzcd}
+  F(A) \arrow[r, "F(\eta_A)"] \arrow[rd, "1_{F(A)}"']  &  FGF(A) \arrow[d, "\epsilon_{F(A)}"] \\
+  &  F(A),
+\end{tikzcd} 
+\qquad\qquad
+\begin{tikzcd}
+  G(B) \arrow[r, "\eta_{G(B)}"] \arrow[rd, "1_{G(B)}"']  &  GFG(B) \arrow[d, "G(\epsilon_B)"] \\
+  &  G(B).
+\end{tikzcd} 
+\label{eq:triangle_iden} \end{equation}
+These follow from the definitions using \eqref{eq:nat_im_adj1} and \eqref{eq:nat_im_adj2}.
+Furthermore, the isomorphisms between hom spaces are determined by
+\begin{equation} y^\natural = G(y)\circ \eta_A \quad (y \colon F(A)\to B),
+\qquad
+x^\natural = \epsilon_B \circ F(x) \quad (x\colon A\to G(B)).
+\label{eq:nat_from_ep_eta}
+\end{equation}
+Conversely, given two functors and natural transformations, we have an adjunction exactly when the triangle identities hold, the bijections being defined by \eqref{eq:nat_from_ep_eta}.
+
+\begin{proposition}\label{prop:reflection_ff}
+An adjoint $F \dashv G$ is a \emph{reflection} (meaning $G$ is full and faithful) if and only if $\epsilon$ is an isomorphism.
+\end{proposition}
+\begin{proof}
+Let $F\dashv G$ be any adjunction.  By \eqref{eq:nat_im_adj1}, with $A=G(B)$, for $y\colon B_1\to B_2$ we have $(y\circ\epsilon_{B_1})^\natural = (y \circ (1_{G(B_1)})^\natural)^\natural = (1_{G(B_1)})^{\natural\natural} \circ G(y) = 1_{G(B_1)} \circ G(y) = G(y)$ and so
+\[ G(y)^\natural = y \circ \epsilon_{B_1} \qquad (y\colon B_1 \to B_2). \]
+Hence $G$ is full and faithful if and only if $y \mapsto G(y)^\natural$ is a bijection, if and only if $\mc 
+B(B_1,B_2) \ni y \mapsto y \circ \epsilon_B \in \mc B(FG(B_1), B_2)$ is a bijection.
+
+Suppose $G$ is full and faithful.  Given $B\in\mc B$, set $B_1=B, B_2=FG(B)$, so by the previous paragraph, there is $y\in\mc B(B_1, B_2)$ with $y\circ\epsilon_B = 1_{B_2} \in \mc B(B_2, B_2) = \mc B(FG(B_1), B_2)$.
+The triangle identities \eqref{eq:triangle_iden} show that $G(\epsilon_B) \circ \eta_{G(B)} = 1_{G(B)}$, so as $G$ is full there is $x$ with $G(x) = \eta_{G(B)}$, and then $G(\epsilon_B \circ x) = G(1_B)$ so $\epsilon_B \circ x=1_B$ as $G$ is faithful.  So $\epsilon_B$ has both a left and a right inverse, and hence is an isomorphism.
+
+Conversely, suppose that $\epsilon$ is a natural isomorphism.  When $G(y_1) = G(y_2)$ also $y_1 \circ \epsilon_B = G(y_1)^\natural = G(y_2)^\natural = y_2 \circ \epsilon_B$, so $y_1=y_2$ as $\epsilon_B$ is a isomorphism.  Given $x\colon G(B_1) \to G(B_2)$ set $y = x^\natural \circ \epsilon_{B_1}^{-1}$, so $G(y)^\natural = y \circ \epsilon_{B_1} = x^\natural$, hence $G(y) = x$.  So $G$ is full and faithful.
+\end{proof}
+
+% \begin{corollary}
+% Let $F\colon\mc A\to\mc B, G \colon \mc B \to \mc A$ be an equivalence of categories.  Then $F \dashv G$ (and $G \dashv F$).  Conversely, if $F \dashv G$ and $F,G$ are both full and faithful, then $F,G$ form an equivalence of categories.
+% \end{corollary}
+\begin{proposition}
+Let $F\colon\mc A\to\mc B, G \colon \mc B \to \mc A$ be functors.  Then:
+\begin{enumerate}
+\item If $F,G$ forms an equivalence of categories, for natural isomorphisms $\epsilon\colon FG \Rightarrow 1, \eta \colon 1 \Rightarrow GF$, then there is a unique $\eta'$ such that $F \dashv G$ for $\epsilon,\eta'$, and there is a unique $\epsilon'$ such that $F \vdash G$ for $\eta,\epsilon'$.
+\item If $F \dashv G$ with both $F,G$ full and faithful, then $F,G$ forms an equivalence of categories, for the given $\epsilon,\eta$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+Suppose that $F \dashv G$ and $F,G$ are both full and faithful.  By Proposition~\ref{prop:reflection_ff}, $\epsilon$ is an isomorphism.  We now use the triangle identities \eqref{eq:triangle_iden} to see that $F(\eta_A) = \epsilon_{F(A)}^{-1}$.  As $F$ is full there is $x$ with $F(x) = \epsilon_{F(A)}$, so $F(x\circ \eta_A) = 1, F(\eta_A\circ x) = 1$, so as $F$ faithful, $\eta_A$ is an isomorphism.  So $\eta$ is a natural isomorphism, and $F,G$ form an equivalence (for these $\epsilon, \eta$).
+
+Conversely, suppose $F, G$ form an equivalence of categories.  By definition, we have natural isomorphisms $\epsilon \colon FG \Rightarrow 1_{\mc B}$ and $\eta \colon 1_{\mc A} \Rightarrow GF$, but these need not satisfy the triangle identities.
+%However, then $\epsilon^{-1} \colon 1_{\mc B} \to FG$ and $\eta^{-1} \colon GF \to 1_{\mc A}$ showing that we have symmetry between $F$ and $G$.  By Theorem~\ref{thm:cat_equiv_FFES}, both $F$ and $G$ are full and faithful.  FINISH!
+Consider the construction given in the proof of Theorem~\ref{thm:cat_equiv_FFES}, but now start with the given $F,G,\epsilon$, and then use these to construct a possibly new $\eta$.  The proof still holds, showing that we obtain $\eta\colon 1 \Rightarrow GF$ a natural isomorphism, which is characterised by $F(\eta_A) = \epsilon_{F(A)}^{-1}$.  We verify the triangle identities for $\epsilon,\eta$; obviously $\epsilon_{F(A)} \circ F(\eta_A) = 1$ by construction of $\eta$.  As $F$ is faithful, for the second identity, it suffices to verify that
+\[ \begin{tikzcd}
+FG(B) \arrow[rr, "F(\eta_{G(B)}) = \epsilon_{FG(B)}^{-1}"] \arrow[rrd, "1_{FG(B)}"'] &&  FGFG(B)  \arrow[d, "FG(\epsilon_B)"]   \\
+&&   FG(B).
+\end{tikzcd} \]
+That is, we want $FG(\epsilon_B) = \epsilon_{FG(B)}$.  However, using the $\epsilon = FG \Rightarrow 1$ is natural, applied to the morphism $x = \epsilon_B \colon FG(B) \to B$ shows that the following commutes,
+\[ \begin{tikzcd}
+  FGFG(B) \arrow[r, "\epsilon_{FG(B)}"] \arrow[d, "FG(\epsilon_B)"'] &  FG(B)  \arrow[d, "\epsilon_B"]  \\
+  FG(B) \arrow[r, "\epsilon_B"']  & B,
+\end{tikzcd} \]
+which gives exactly what we want, as $\epsilon_B$ is an isomorphism.  Notice that the first triangle identity holding means that $F(\eta_A) = \epsilon_{F(A)}$ is the only choice, and so $\eta$ is unique.  Now swap the roles of $F,G$ to obtain the second statement.
+\end{proof}
+
+Given $A\in\mc A$ and a functor $G \colon \mc B \to \mc A$, the category $(A\Rightarrow G)$ has as objects pairs $(h,B)$ where $B\in\mc B$ and $h\colon A\to G(B)$, and a morphism $(h,B) \to (h',B')$ is $y\colon B\to B'$ making the diagram commute:
+\[\begin{tikzcd}
+& A \arrow[ld, "h"'] \arrow[rd,"h'"] \\
+G(B) \arrow[rr, "G(y)"'] && G(B'). \end{tikzcd}\]
+For more, see \cite[Section~2.3]{Leinster_BasicCatTheory}.
+
+\begin{lemma}
+Given an adjunction and $A\in\mc A$, the unit map $\eta_A \colon A \to GF(A)$ is an initial object in $(A\Rightarrow G)$.
+\end{lemma}
+\begin{proof}
+We need to show that for any $(h,B)$ in $(A\Rightarrow G)$ there is a unique morphism $(\eta_A, F(A)) \to (h,B)$, that is, a unique $y \colon F(A) \to B$ with
+\[\begin{tikzcd}
+& A \arrow[ld, "\eta_A"'] \arrow[rd,"h"] \\
+GF(A) \arrow[rr, "G(y)"'] && G(B). \end{tikzcd}\]
+Motivated by \eqref{eq:nat_from_ep_eta}, we set $y = h^\natural$ as then $G(y) \circ \eta_A = y^\natural = h$, as required.
+\end{proof}
+
+\begin{proposition}
+Given functors $F\colon\mc A\to\mc B, G \colon \mc B \to \mc A$, when $\eta \colon 1 \Rightarrow GF$ is such that $(\eta_A, F(A))$ is initial in $(A\Rightarrow G)$ for each $A\in\mc A$, there is a unique $\epsilon \colon FG \Rightarrow 1$ giving an adjunction.
+\end{proposition}
+\begin{proof}
+For all the details, see \cite[Theorem~2.3.6]{Leinster_BasicCatTheory}; we just indicate how to define $\epsilon$.  Motivated by the previous proof, and that we set $\epsilon_B = (1_{G(B)})^\natural$ above, we make the following definition: given $B$, set $A=G(B)$ and apply the hypothesis to find a unique $\epsilon_B \colon F(A) = FG(B) \to B$ with
+\[\begin{tikzcd}
+& A=G(B) \arrow[ld, "\eta_{G(B)}"'] \arrow[rd,"1"] \\
+GFG(B) \arrow[rr, "G(\epsilon_B)"'] && G(B). \end{tikzcd}\]
+This $\epsilon$ is as required.
+\end{proof}
+
+\begin{proposition}
+Let $G\colon \mc B \to \mc A$.  There exists $F$ with $F \dashv G$ if and only if for each $A\in\mc A$, the category $(A\Rightarrow G)$ has an initial object.
+\end{proposition}
+\begin{proof}
+We give the construction; see \cite[Corollary~2.3.7]{Leinster_BasicCatTheory} for details.  For each $A\in\mc A$ let $\eta_A \colon A \to G(F(A))$ be an initial object of $(A\Rightarrow G)$ (that is, we choose some object $F(A)$ and some map $\eta_A$ with the correct properties).  Given $f\colon A_1\to A_2$, as $\eta_{A_1}$ is initial, there is a unique morphism from $\eta_A$ to $\eta_{A_2} \circ f$ in $(A\Rightarrow G)$, call this $F(f) \colon F(A_1) \to F(A_2)$.  This means we have a commutative diagram
+\[ \begin{tikzcd}[column sep=large]
+A_1 \arrow[d, "\eta_{A_1}"']     %\arrow[dr, "\eta_{A_2}\circ f"]   
+    \arrow[r, "f"]  & A_2  \arrow[d, "\eta_{A_2}"]         \\
+G(F(A_1))   \arrow[r, "G(F(f))"] &  G(F(A_2)).
+\end{tikzcd} \]
+Now check that $F$ is a functor and $\eta \colon 1 \Rightarrow GF$, so by the previous proposition, there is $\epsilon$ giving an adjunction.
+\end{proof}
 
 \bibliographystyle{plain}
 \bibliography{ctc.bib}
