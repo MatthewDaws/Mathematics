@@ -19,6 +19,7 @@
 %\usepackage[active]{srcltx}
 \usepackage{xurl}
 %\usepackage[all]{xy}
+\usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage[shortlabels]{enumitem}
 
@@ -865,6 +866,151 @@ The boundedness condition implies that $\|\xi_i\| \to 1$, and so $\xi_i = \xi_0 
 
 
 
+
+\section{Some combinatorics related to Catalan numbers}
+
+See \url{https://en.wikipedia.org/wiki/Catalan_number} for the basics.  Consider the different ways of associating $n$ applications of a binary operation.  For example, when $n=4$ we have
+\[ ((ab)c)d, \quad  (a(bc))d, \quad   (ab)(cd), \quad   a((bc)d), \quad   a(b(cd)). \]
+The number of ways to do this is the Catalan number $C_{n-1}$.
+
+How can we decide if a ``bracketting'' is valid?  After some thought, I can up with the following recursive definition.  A string of variables and brackets $X$ is valid exactly when $X$ is of the form $xy$ or $x(Y)$ or $(Y)x$ or $(Y)(Z)$ where $x,y$ are variables, and $Y,Z$ are valid, non-trivial brackettings.  Here non-trivial means not empty or just a single variable.  For example $X = ((ab)c)d$ is valid, as $X=(Y)d$ where $Y=(ab)c$ is valid, because $Y=(Z)c$ and $Z=ab$ is valid.  To see why this is true, notice that a valid bracketting must give us a way to repeatedly apply the binary operations (here written multiplicatively) in an unambiguous way.  The final step in evaluating $X$ must hence be two operands: either single variables, or bracketted expressions.  Furthermore, any bracketted expressions must have been valid, or else we would not have been able to evaluate them.
+
+\begin{proposition}
+When the binary operation is associative, $a(bc) = (ab)c$, any way of associating $n$ applications of the binary product gives the same answer.
+\end{proposition}
+\begin{proof}
+We follow the proof Dubuque, \cite{bd}.
+% To make the following proof totally correct, we shall first transform our string $X$ by changing any occurrence of two variables, say $a_i a_{i+1}$, by $(a_i)(a_{i+1})$.  This of course is still a valid bracketting, even if it includes redundant brackets.  
+Say that a choice of parentheses is in \emph{(right associated) normal form} when it's of the form $a_1 (a_2 \cdots (a_{n-1}a_n) \cdots)$, for example, $a(b(cd))$.  We will show, only using the associativity assumption, that any bracketing of $n$ operands can be transformed to one that is in normal form.  The proof is by (total) induction on $n = \ell(X)$ where $X$ is the expression which has $n$ operands.
+
+The case $\ell(X)=1$ is the base case, trivially true.  As discussed above, when $\ell(X) > 1$ we must have that $X = YZ$ where $Y$ and $Z$ are either single variables, or expressions which start with ``$($'' and end with ``$)$''.  For example, $X = a((bc)d)$ splits as $Y=a$ and $Z=((bc)d)$.  For a further example, $X = (ab)(cd)$ splits as $Y=(ab)$ and $Z=(cd)$.  There are then two cases:
+\begin{itemize}
+   \item $Y$ is a single variable (namely $a_1$).  As $\ell(Z) < \ell(X)$ by induction $Z$ is equivalent to $(a_2(a_3\cdots))$ normal form (or $Z=a_2$ is a single variable with no brackets), and then $X = a_1(a_2(\cdots))$ (or $X=a_1a_2$) is also in normal form.
+   \item $\ell(Y) > 1$, as we are not allowed to write ``$(a_1)$''.  In particular $Y$ starts and ends with a bracket.  As $\ell(Y) < \ell(X)$ by induction $Y$ is equivalent to $(a_1(a_2\cdots(a_{k-1}a_k)\cdots))$ normal form and so $X = (a_1(a_2\cdots(a_{k-1}a_k)\cdots))Z = (a_1 Y')Z$ say.   By associativity, also $X = a_1(Y'Z)$.  A corner-case is when $X=(a_1a_2)$, but then $X = a_1(a_2Z)$ is valid (either $Z = a_3$ or $Z=(Z')$).  This is now in the form of the first case.
+\end{itemize}
+\end{proof}
+
+Any way to fully bracket $n$ operands can be visualised as a binary tree.  For example:
+\[
+a((bc)d): \quad
+\begin{tikzpicture}[level distance=4ex, every node/.style={inner sep=0pt}]
+  \node {}
+    child {node {$a$}}
+    child {node {}
+      child {node {}
+         child {node {$b$}}
+         child {node {$c$}}
+      }
+      child {node {$d$}}
+    };
+\end{tikzpicture}
+\qquad\qquad
+(ab)(cd): \quad
+\begin{tikzpicture}[level distance=4ex, every node/.style={inner sep=0pt}, level 1/.style={sibling distance=8ex},
+   level 2/.style={sibling distance=4ex}]
+  \node {}
+    child {
+      child {node {$a$}}
+      child {node {$b$}}
+    }
+    child {
+      child {node {$c$}}
+      child {node {$d$}}
+    };
+\end{tikzpicture}\]
+
+Given a binary tree with $n$ leaves, we assume the tree is drawn as above, or at least, that at any non-leaf node, a ``left'' and ``right'' child node are specified.  Thus any tree can be split at the root into the left and right sub-tree, unless the tree consists of just a leaf.  When we just have a left (the base case for the induction / recursion) we obtain the expression ``$a_1$''.  Two expressions $L$ and $R$ are combined as follows: relabel the operands of $R$ to start with $a_{\ell(L)+1}$, and then add parentheses if the expression has length greater then one.  For example, $L=a_1, R=a_1$ becomes $a_1a_2$, while $L=a_1, R=(a_1a_2)a_3$ becomes $a_1((a_2a_3)a_4)$.  This recursive algortihm allows us to associate an expression to a tree.
+
+Starting with a bracketted expression and producing a binary tree is similar: we use the discussion in the proof that $X$ splits as $YZ$ with $Y$ and $Z$ either being single variables (so a leaf child node) or start and end with brackets: recursively finding the tree associated to the expression inside the brackets gives a non-leaf child node.
+
+In this way we obtain a bijection between binary trees with $n$ leaves and valid bracket expressions involving $n$ variables.
+
+A \emph{Dyck word} is a string of $n$ $x$s and $n$ $y$s so that no initial substring ever contains more $y$s than $x$s.  E.g. $xxyy$ or $xyxy$ are the two valid words with $n=2$.  If we think of $x$ as ``('' and $y$ as ``)'' then such words are exactly all the strings of matched pairs of brackets: (()) or ()() in the $n=2$ case.
+There is a (non-obvious) bijection between such words and binary trees with $n+1$ leaves.  We follow \cite{mvl}.
+
+Any Dyck word $X$ of length $2(n+1)$ (thought of as a bracket match) starts with ``('', so find the matching ``)'' and let $Y$ be the length $2i$ string between these two brackets, and $Z$ the remainder, of length $2(n-i)$, so $X = (Y)Z$.  Notice $i=0$ and $i=n$ are allowed.  This gives a recursive formula for the number of Dyck words,
+\[ C_{n+1} = \sum_{i=0}^n C_i C_{n-i}, \]
+which shows that we obtain the Catalan numbers.
+
+We seek a similar decomposition of a binary tree with $n+1$ leaves.  An \emph{internal node} of a binary tree is a non-leaf node: in the bijection above an internal node corresponds to applying the binary operation, and so we see immediately that there are $n$ internal nodes.  (The tree with $1$ leaf is just the tree with a root and nothing else, and the tree with $2$ leaves has a root and two children.)  Given any binary tree with $n$ internal nodes, delete the root to obtain two subtrees, say with $i$ and $n-i$ internal nodes.  Hence we arrive at the same recursion.
+
+This gives the hint as to how to obtain a bijection: the tree with just a root corresponds to the empty Dyck word, and the tree with a root and two children corresponds to the Dyck word ().  Then, recursively:
+\begin{enumerate}
+   \item $a(bc)$ splits as $a$ and $bc$ corresponding to $\emptyset$, () which becomes the word ()();
+   \item $(ab)c$ splits as $ab$ and $c$ corresponding to () and $\emptyset$ which becomes (()).
+\end{enumerate}
+We now consider the $n=3$ case:
+\begin{enumerate}
+   \item $((ab)c)d \to (ab)c, d$ becomes ((()));
+   \item $(a(bc))d \to a(bc), d$ becomes (()());
+   \item $(ab)(cd) \to ab, cd$ becomes (())();
+   \item $a((bc)d) \to a, (bc)d$ becomes ()(());
+   \item $a(b(cd)) \to a, b(cd)$ becomes ()()().
+\end{enumerate}
+Notice the pattern: the first Dyck word is enclosed in further brackets, while the second Dyck word is simply appended.
+
+As described in \cite{mvl} there is another way to see this: start with a bracketting of $n+1$ variables, add a symbol ``$*$'' when we apply the binary product, delete the variables, add outer brackets.  E.g.\@ $((ab)c)d \to ((a*b)*c)*d \to (((*)*)*)$ or $(ab)(cd) \to (a*b)*(c*d) \to ((*)*(*))$.  Now delete the closing brackets, and then replace the ``*''s by a closing bracket.  So $(((*)*)*) \to ((()))$ and $((*)*(*)) \to (())()$.
+
+The operation of adding a ``$*$'' is the same as highlighting the internal nodes of the tree:
+\[
+a*((b*c)*d): \quad
+\begin{tikzpicture}[level distance=4ex, every node/.style={inner sep=0pt}]
+  \node {*}
+    child {node {$a$}}
+    child {node {*}
+      child {node {*}
+         child {node {$b$}}
+         child {node {$c$}}
+      }
+      child {node {$d$}}
+    };
+\end{tikzpicture}
+\qquad\qquad
+(a*b)*(c*d): \quad
+\begin{tikzpicture}[level distance=4ex, every node/.style={inner sep=0pt}, level 1/.style={sibling distance=8ex},
+   level 2/.style={sibling distance=4ex}]
+  \node {*}
+    child {node {*}
+      child {node {$a$}}
+      child {node {$b$}}
+    }
+    child {node {*}
+      child {node {$c$}}
+      child {node {$d$}}
+    };
+\end{tikzpicture}\]
+% Then deleting the variables adding brackets outside and then deleting the closing brackets gives:
+% \[
+% (*((**: \quad
+% \begin{tikzpicture}[level distance=4ex, every node/.style={inner sep=0pt}]
+%   \node {*}
+%     child 
+%     child {node {*}
+%       child {node {*}
+%          child
+%          %child
+%       }
+%       %child
+%     };
+% \end{tikzpicture}
+% \qquad\qquad
+% ((**(*: \quad
+% \begin{tikzpicture}[level distance=4ex, every node/.style={inner sep=0pt}, level 1/.style={sibling distance=8ex},
+%    level 2/.style={sibling distance=4ex}]
+%   \node {*}
+%     child {node {*}
+%       child 
+%       %child 
+%     }
+%     child {node {*}
+%       child 
+%       %child 
+%     };
+% \end{tikzpicture}\]
+Deleting the root node and splitting the tree corresponds to deleting the ``top level'' $*$ to obtain two sub-expressions.  Adding outer brackets, then deleting variables, closing brackets and changing the $*$ to a closing bracket means that the first (left) sub-expression is surrounded by brackets (the added opening bracket, and the top level $*$ which becomes a closing bracket) while the second (right) sub-expression has nothing happen to it.  This is now seen to be the same as the recursive procedure.
+
+
+
 \begin{thebibliography}{aa}
 
 \bibitem{blackadar_enc} B.~E. Blackadar, {\it Operator algebras}, Encyclopaedia of Mathematical Sciences Operator Algebras and Non-commutative Geometry, 122 III, Springer, Berlin, 2006; MR2188261
@@ -877,6 +1023,8 @@ Graduate Texts in Mathematics, 96, Springer, New York, 1990; MR1070713
 \bibitem{q1} Matthew Daws, Empty interior of union of cosets?, 
    \url{https://mathoverflow.net/q/351764}
 
+\bibitem{bd} Bill Dubuque, How does one actually show from associativity that one can drop parentheses?, \url{https://math.stackexchange.com/q/21711} (version: 2022-02-20)
+
 \bibitem{F} D.~R. Farenick, Irreducible positive linear maps on operator algebras, Proc. Amer. Math. Soc. {\bf 124} (1996), no.~11, 3381--3390; MR1340385
 
 \bibitem{hm} R.~E. Harte and M. Mbekhta, On generalized inverses in $C^*$-algebras, Studia Math. {\bf 103} (1992), no.~1, 71--77; MR1184103
@@ -888,6 +1036,8 @@ Graduate Texts in Mathematics, 96, Springer, New York, 1990; MR1070713
 \bibitem{a2} Brian M. Scott (\url{https://math.stackexchange.com/users/12042/brian-m-scott}), The set of ultrafilters on an infinite set is uncountable, \url{https://math.stackexchange.com/q/83540}
 
 \bibitem{tak3} M. Takesaki, {\it Theory of operator algebras. III}, Encyclopaedia of Mathematical Sciences Operator Algebras and Non-commutative Geometry, 127 8, Springer, Berlin, 2003; MR1943007
+
+\bibitem {mvl} Marc van Leeuwen, Catalan numbers: bijection between applications of a binary operator and Dyck words., \url{https://math.stackexchange.com/q/3062489} (version: 2019-02-07)
 
 \bibitem{a1} YCor (\url{https://mathoverflow.net/users/14094/ycor}), Empty interior of union of cosets?,
    \url{https://mathoverflow.net/q/351846}
