@@ -1,0 +1,586 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+\usepackage{hyperref}
+%\usepackage{showkeys}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
+
+\usepackage[T1]{fontenc}
+% \usepackage[euler-digits, euler-hat-accent]{eulervm}
+% \DeclareFontSeriesDefault[rm]{bf}{sbc} 
+%\usepackage{beton}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{newpxtext}
+\usepackage{eulerpx}
+
+%\usepackage[all]{xy}
+\usepackage{url}
+\usepackage[shortlabels]{enumitem}
+
+\usepackage{tikz-cd}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{claim}[proposition]{Claim}
+\newtheorem{definition}[proposition]{Definition}
+\newtheorem{question}[proposition]{Question}
+
+\theoremstyle{remark}
+\newtheorem{examplex}[proposition]{Example}
+\newtheorem{remarkx}[proposition]{Remark}
+\newtheorem{remarksx}[proposition]{Remarks}
+\newtheorem{workingx}[proposition]{Working}
+% Some hacks to get a symbol printed at the end of a remark, as it was very unclear (in my
+% writing style) where a remark ended and the general flow of the paper (re)started.
+\newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx}
+  {\popQED\endremarkx}
+\newenvironment{remarks}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarksx}
+  {\popQED\endremarksx}
+\newenvironment{working}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\workingx}
+  {\popQED\endworkingx}
+\newenvironment{example}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\examplex}
+  {\popQED\endexamplex}
+
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
+\newcommand{\lin}{\operatorname{lin}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\vnten}{\bar\otimes}
+\newcommand{\proten}{\widehat\otimes}
+\newcommand{\image}{\operatorname{Im}}
+
+\begin{document}
+
+\title{Dual spaces, algebras, modules}
+\author{Matthew Daws}
+\date{May 2026}
+\maketitle
+
+\begin{abstract}
+Some careful/pedantic notes about dual spaces.
+\end{abstract}
+
+\section{Introduction}
+
+This is of course related to some of my own work from earlier in life.  I just want to be quite precise about things in a way which I never wrote down carefully before.  Later sections detail some things I find hard to read in the original papers.  I am absolutely \emph{not} trying to give a literature survey here.
+
+
+
+
+\section{Dual spaces and \texorpdfstring{weak$^*$}{weak star}-topologies}
+
+\begin{definition}
+Let $E$ be a Banach space.  By a \emph{predual} for $E$ we mean a Banach space $E_*$ together with a linear isomorphism $\phi \colon E \to (E_*)^* = E_*^*$.  When $\phi$ is isometric we say that $E_*$ is an \emph{isometric predual}.  The \emph{weak$^*$-topology} induced by a predual $(E_*, \phi)$ on $E$ is the $\sigma(E_*^*, E_*)$-topology on $E_*^*$ transported along $\phi$.
+\end{definition}
+
+It is common to supress the map $\phi$, but properly speaking it is important (much the same way that Category Theory perhaps teaching us to be careful about being explicit with isomorphisms).  In these notes, we shall try not to supress $\phi$ except in the case when $E = F^*$ for some Banach space $F$.
+
+For a Banach space $E$ denote by $\kappa_E \colon E \to E^{**}$ the canonical map from $E$ to its bidual.  Given Banach spaces $E,F$ and $T\colon E\to F$ an operator (that is, bounded linear map) we have that $\kappa_F\circ T = T^{**} \circ \kappa_E$.  For any $E$, we have that $\kappa_E^* \colon E^{***} \to E^*$ and a simple calculation shows that $\kappa_E^* \circ \kappa_{E^*} = \id_{E^*}$.
+
+\begin{definition}
+Given a Banach space $E$ and a predual $(E_*, \phi)$, denote by $\phi_* \colon E_* \to E^*$ the map $\phi^* \circ \kappa_{E_*}$.
+\end{definition}
+
+\begin{proposition}\label{prop:predual_iso_map}
+We have that $(\phi_*)^* \circ \kappa_E \colon E \to E_*^*$ is the map $\phi$.  The map $\phi_*$ is bounded below, and is isometric if and only if $\phi$ is isometric.
+\end{proposition}
+\begin{proof}
+We calculate that $(\phi_*)^* \circ \kappa_E = \kappa_{E_*}^* \circ \phi^{**} \circ \kappa_E = \kappa^*_{E_*} \circ \kappa_{E_*^*}\circ\phi = \phi$.  Similarly we have
+\[ \ip{\phi_*(\omega)}{x} = \ip{\phi^*(\kappa_{E_*}(\omega))}{x}
+= \ip{\phi(x)}{\omega}
+\qquad (\omega\in E_*, x\in E). \]
+Hence we find that
+\begin{align*}
+\| \phi_*(\omega) \|
+&= \sup\bigl\{ |\ip{\phi_*(\omega)}{x}| : x\in E, \|x\|\leq 1 \bigr\}  \\
+&= \sup\bigl\{ |\ip{\phi(x)}{\omega}| : x\in E, \|x\|\leq 1 \bigr\}.
+\end{align*}
+If $\phi$ is isometric, then $\{ \phi(x) : x\in E, \|x\|\leq 1 \} = \{ y\in E_*^* : \|y\|\leq 1\}$, and so $\|\phi_*(\omega)\| = \|\omega\|$ so $\phi_*$ is isometric.  When $\phi$ is merely an isomorphism, it is bounded below, and so $\{ \phi(x) : x\in E, \|x\|\leq 1 \}$ contains some ball of $E_*^*$, showing that $\phi_*$ is bounded below.
+\end{proof}
+
+Given a Banach space $E$ and $F\subseteq E$ a closed subspace, recall that Hahn--Banach shows that $F^*$ can be isometrically identified with $E^* / F^\circ$, and $(E/F)^*$ can be isometrically identified with $F^\circ$, where
+\[ F^\circ = \bigl\{ \mu\in E^* : \ip{\mu}{x}=0 \ (x\in F) \bigr\}. \]
+
+\begin{lemma}\label{lem:conc_predual}
+Let $F \subseteq E^*$ be a closed subspace, and let $\iota_F \colon E \to F^* = E^{**} / F^\circ$ be the map $x \mapsto \kappa_E(x) + F^\circ$.  Then $\iota_F$ is an isomorphism if and only if both:
+\begin{enumerate}[(1)]
+  \item\label{prop:conc_predual:one} if $x\in E$ with $\ip{\mu}{x}=0$ for all $\mu\in F$, then $x=0$; and
+  \item\label{prop:conc_predual:two} for every $\Phi\in F^*$ there is $x\in E$ with $\ip{\mu}{x} = \ip{\Phi}{\mu}$ for all $\mu\in F$.
+\end{enumerate}
+When $\iota_F$ is an isomorphism, $(F, \iota_F)$ is a predual for $E$.
+\end{lemma}
+\begin{proof}
+Condition \ref{prop:conc_predual:one} is that $\iota_F$ is injective, while condition \ref{prop:conc_predual:two} is that $\iota_F$ is surjective.  So by the Open Mapping Theorem, $\iota_F$ is an isomorphism if and only if both conditions hold.  By definition, if $\iota_F$ is an isomorphism, $(F, \iota_F)$ is a predual for $E$.
+\end{proof}
+
+\begin{definition}
+When $F \subseteq E^*$ is closed with $\iota_F$ an isomorphism, we call $F$ a \emph{concrete predual} for $E$.
+\end{definition}
+
+Such subspaces go back some way in the literature, compare \cite{palmer_arens_mult_Wstar} for example.  The following is a simple but useful criteria for concrete preduals to be equal.
+
+\begin{lemma}\label{lem:when_conc_preduals_equal}
+Let $F_1, F_2$ be concrete preduals for $E$.  When $F_1 \subseteq F_2$ we have that $F_1 = F_2$.
+\end{lemma}
+\begin{proof}
+Suppose towards a contradiction that $F_1 \not= F_2$, so there is $\mu\in F_2$ with $\mu\not\in F_1$, and so by Hahn--Banach there is $\Phi\in F_1^\circ$ with $\ip{\Phi}{\mu} = 1$.  Let $x = \iota_{F_2}^{-1}(\Phi + F_2^\circ) \in E$, so $\ip{\lambda}{x} = \ip{\Phi}{\lambda}$ for each $\lambda\in F_2$.  In particular, $\ip{\mu}{x}=1$ so $x\not=0$.  However, as $F_1 \subseteq F_2$, we have that $\ip{\lambda}{x} = \ip{\Phi}{\lambda} = 0$ for each $\lambda\in F_1$, and so $\iota_{F_1}(x)=0$, implying that $x=0$, contradiction.
+\end{proof}
+
+It is also useful to know when maps are weak$^*$-continuous.
+
+\begin{lemma}\label{lem:conc_when_wstar_cts}
+Let $E,F$ be Banach spaces with concrete preduals $E_* \subseteq E^*$ and $F_* \subseteq F^*$ respectively.  A bounded linear map $\varphi \colon E \to F$ is weak$^*$-continuous if and only if $\varphi^*(F_*) \subseteq E_*$.
+\end{lemma}
+\begin{proof}
+Suppose that $\varphi^*(F_*) \subseteq E_*$, and let $(x_i)$ be a net in $E$ converging weak$^*$ to $x\in E$, so $\lim_i \ip{\mu}{x_i} = \ip{\mu}{x}$ for $\mu\in E_*$.  Then $\lim_i \ip{\lambda}{\varphi(x_i)} = \lim_i \ip{\varphi^*(\lambda)}{x_i} = \ip{\varphi^*(\lambda)}{x} = \ip{\lambda}{\varphi(x)}$ for each $\lambda \in F_*$, so that $\varphi(x_i) \to \varphi(x)$ weak$^*$ in $F$.  So $\varphi$ is weak$^*$-continuous.
+
+Conversely, let $\varphi$ be weak$^*$-continuous, and towards a contradiction, suppose that $\varphi^*(\lambda) \not \in E_*$ for some $\lambda\in F_*$.  By Hahn--Banach there is $\Phi\in E_*^\circ \subseteq E^{**}$ with $\ip{\Phi}{\varphi^*(\lambda)} = 1$.  As $\kappa_E(E)$ is weak$^*$-dense in $E^{**}$ there is a net $(x_i)$ in $E$ with $\kappa_E(x_i) \to \Phi$ weak$^*$.  Then $\lim_i \ip{\lambda}{\varphi(x_i)} = \lim_i \ip{\varphi^*(\lambda)}{x_i} = \ip{\Phi}{\varphi^*(\lambda)} = 1$ while for $\mu\in E_*$ we have $0 = \ip{\Phi}{\mu} = \lim_i \ip{\mu}{x_i}$.  So $x_i \to 0$ weak$^*$ for $E_*$, but $\varphi(x_i)$ does not tend to $0$ weak$^*$ for $F_*$, contradiction.
+\end{proof}
+
+We now introduce a notion of what it means for two preduals to be isomorphic.  Part of the aim of this section is to motivate that this notion of isomorphism is sensible.  Notice that we could define a category of preduals in a fairly obvious way, but we shall not pursue this idea here.
+
+\begin{definition}
+Let $(E_{*,1}, \phi_1)$ and $(E_{*,2}, \phi_2)$ be preduals for a Banach space $E$.  These preduals are \emph{isomorphic} if there is a linear isomorphism $\varphi \colon E_{*,1} \to E_{*,2}$ with $\phi_1 = \varphi^* \circ \phi_2$.  When $\varphi$ is isometric, we say that the preduals are \emph{isometrically isomorphic}.
+\end{definition}
+
+\begin{proposition}\label{prop:what_im_means_predual}
+The notion of isomorphism forms an equivalence relation on preduals.  Isomorphic preduals induce the same weak$^*$-topology on $E$.
+\end{proposition}
+\begin{proof}
+That we obtain an equivalence relation is routine.  Let $\varphi \colon E_{*,1} \to E_{*,2}$ be an isomorphism.  A net $(x_i)$ in $E$ converges weak$^*$, for $(E_{*,1}, \phi_1)$, to $x\in E$ if and only if $\lim_i \ip{\phi_1(x_i)}{\omega} = \ip{\phi_1(x)}{\omega}$ for each $\omega \in E_{*,1}$.  This is equivalent to $0 = \lim_i \ip{\varphi^*(\phi_2(x_i-x))}{\omega} = \lim_i \ip{\phi_2(x_i-x)}{\varphi(\omega)}$ for each $\omega\in E_{*,2}$.  As $\varphi$ is bijective, this is equivalent to $x_i \to x$ weak$^*$ for $(E_{*,2}, \phi_2)$.
+\end{proof}
+
+\begin{proposition}\label{prop:when_conc_equal}
+Let $F_1, F_2$ be concrete preduals for $E$.  The following are equivalent:
+\begin{enumerate}[(1)]
+  \item\label{prop:when_conc_equal:one} $F_1 = F_2$;
+  \item\label{prop:when_conc_equal:two} the preduals are isometrically isomorphic;
+  \item\label{prop:when_conc_equal:three} the preduals are isomorphic;
+  \item\label{prop:when_conc_equal:four} the weak$^*$-topologies induced by these preduals agree.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+Clearly \ref{prop:when_conc_equal:one} implies \ref{prop:when_conc_equal:two} implies \ref{prop:when_conc_equal:three} implies \ref{prop:when_conc_equal:four}.
+Suppose now \ref{prop:when_conc_equal:four} holds, and apply Lemma~\ref{lem:conc_when_wstar_cts} to the identity map on $E$, which is weak$^*$-continuous by assumption, showing that $F_1 \subseteq F_2$, and also $F_2 \subseteq F_1$, that is, \ref{prop:when_conc_equal:one}.
+% We show that \ref{prop:when_conc_equal:four} implies \ref{prop:when_conc_equal:one}.  Suppose that $F_1 \not= F_2$, so without loss of generality, there is $\mu\in F_1$ with $\mu\not\in F_2$.  By Hahn--Banach there is $\Phi\in F_2^\circ$ with $\ip{\Phi}{\mu} = 1$.  As $\kappa_E(E)$ is $\sigma(E^{**}, E^*)$-dense in $E^{**}$ there is a net $(x_i)$ in $E$ with $\kappa_E(x_i) \to \Phi$ weak$^*$.  This means that
+% \[ \lim_i \ip{\mu}{x_i} = \ip{\Phi}{\mu} = 1, \qquad \lim_i \ip{\lambda}{x_i} = \ip{\Phi}{\lambda} = 0 \quad (\lambda\in F_2). \]
+% So $x_i \to 0$ for the weak$^*$-topology given by $F_2$, but not for that given by $F_1$, so the topologies are different, as claimed.
+\end{proof}
+
+\begin{remark}
+It might seem surprising that isomorphic concrete preduals must be equal, so let us give a direct proof.  Let $\varphi \colon F_1 \to F_2$ be an isomorphism with $\iota_{F_1} = \varphi^*\circ\iota_{F_2}$.  Then for $x\in E, \mu\in F_1$ we have
+\[ \ip{\mu}{x} = \ip{\iota_{F_1}(x)}{\mu} = \ip{\iota_{F_2}(x)}{\varphi(\mu)} = \ip{\varphi(\mu)}{x}. \]
+As this holds for all $x$, we conclude that $\mu = \varphi(\mu)$ in $E^*$, that is, $F_1=F_2$ and $\varphi = \id$.
+\end{remark}
+
+
+
+\begin{proposition}\label{prop:predual_to_conc}
+Let $(E_*, \phi)$ be a predual for a Banach space $E$.  Set $F = \iota_*(E_*)$ a closed subspace of $E^*$.  Then $F$ is a concrete predual for $E$.  This construction has the properties:
+\begin{enumerate}[(1)]
+  \item\label{prop:predual_to_conc:zero} 
+  the preduals $(E_*, \phi)$ and $(F,\iota_F)$ are isomorphic;
+  \item\label{prop:predual_to_conc:one} 
+  when $E_* \subseteq E^*$ was itself a concrete predual, we have $F = E_*$;
+  \item\label{prop:predual_to_conc:two}
+  two preduals give rise to the same $F$ if and only if they are isomorphic;
+  \item\label{prop:predual_to_conc:three}
+  when $(E_*,\phi)$ is an isometric predual, we have that $(E_*, \phi)$ and $(F,\iota_F)$ are isometrically isomorphic.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+As $\phi_*$ is bounded below, $F$ is closed, and $\phi_*$ corestricts to an isomorphism $\psi \colon E_* \to F$, say.  Then
+\begin{align*}
+\ip{\psi^* \circ \iota_F(x)}{\omega}
+&= \ip{\kappa_E(x)+F^\circ}{\psi(\omega)}
+= \ip{\phi_*(\omega)}{x}
+= \ip{\phi(x)}{\omega} \qquad (x\in E, \omega\in E_*),
+\end{align*}
+so $\psi^* \circ \iota_F = \phi$ and hence $\iota_F = (\psi^{-1})^* \circ \phi$ is an isomorphism, so $F$ is a concrete predual.  Notice that $\psi^{-1}$ is an isomorphism showing claim \ref{prop:predual_to_conc:zero}.  If $\phi$ is isometric, so is $\phi_*$ by Proposition~\ref{prop:predual_iso_map}, and so $\psi$ is an isometric isomorphism, showing \ref{prop:predual_to_conc:three}.
+
+We now show \ref{prop:predual_to_conc:one} so $E_* \subseteq E^*$ is concrete, hence $\phi = \iota_{E_*}$.  For $\mu\in E_*$ and $x\in E$ we have $\ip{\phi_*(\mu)}{x} = \ip{\phi(x)}{\mu} = \ip{\iota_{E_*}(x)}{\mu} = \ip{\mu}{x}$, and so $\phi_* \colon E_* \to E^*$ is just the inclusion.
+
+Turning to \ref{prop:predual_to_conc:two}, let $(E_{*,1}, \phi_1)$ and $(E_{*,2}, \phi_2)$ be two preduals for $E$ giving rise to $F_1, F_2$ say.  %For $i=1,2$ let $\psi_i \colon E_{*,i} \to F_i$ be the isomorphism, and $\iota_i = \iota_{F_i} \colon E \to F_i^*$, and from above, we have $\iota_i = (\psi_i^{-1})^* \circ \phi_i$.  When $F_1 = F_2$ we can consider 
+As $(F_1, \iota_{F_1})$ is isomorphic to $(E_{*,1}, \phi_1)$, and $(F_2, \iota_{F_2})$ is isomorphic to $(E_{*,2}, \phi_2)$, when $F_1 = F_2$, we have that $(E_{*,1}, \phi_1)$ is isomorphic to $(E_{*,2}, \phi_2)$.  %To prove the converse, it suffices to show that if concrete preduals are isomorphic, they are equal. TODO: I don't believe this!
+The converse holds as by Proposition~\ref{prop:when_conc_equal}, isomorphic concrete preduals are equal.
+\end{proof}
+
+\begin{corollary}\label{corr:pass_to_conc}
+Let $(E_*, \phi)$ be a predual for a Banach space $E$.  The concrete predual $F = \iota_*(E_*)$ gives the same weak$^*$-topology on $E$ as $(E_*, \phi)$.
+\end{corollary}
+
+From this result, if we are only interested in \emph{isometric} preduals, then there really is little lost by just considering concrete preduals.  Similarly if we are only interested in weak$^*$-topologies.  Of course, when constructing a predual, it might be inconvenient to explcitly work in $E^*$.
+
+We finish by making a few comments about uniqueness of preduals.  Looking just at Banach spaces, the following definitions are results are perhaps rather strong.  However, the ideas can be adapted to other situations, so it seems worthwhile to setup some common language here.
+
+\begin{definition}
+We say that $E$ has a \emph{unique predual} if all possible preduals are isomorphic, and similarly a \emph{unique isometric predual} if all isometric preduals are isomorphic.
+\end{definition}
+
+Notice that in the isometric case, an isometric predual is isometrically isomorphic to a concrete predual, and so by Proposition~\ref{prop:when_conc_equal}, we can require such preduals to be isomorphic, or isometrically isomorphic, and arrive at the same notion.
+
+\begin{proposition}\label{prop:unique_predual_basis}
+Let $E$ be a Banach space with some predual $(E_*, \phi)$.  The following are equivalent:
+\begin{enumerate}[(1)]
+  \item\label{prop:unique_predual_basis:zero}
+  $E$ has a unique predual;
+  \item\label{prop:unique_predual_basis:one}
+  for a Banach space $G$, if $\varphi \colon E \to G^*$ is an isomorphism, it is weak$^*$-continuous;
+  \item\label{prop:unique_predual_basis:two}
+  there is exactly one concrete predual $F \subseteq E^*$.
+\end{enumerate}
+When $(E_*, \phi)$ is an isometric predual, if we require a unique isometric predual in \ref{prop:unique_predual_basis:zero}, and that $\varphi$ is an isometry in \ref{prop:unique_predual_basis:one}, we still have an equivalence.
+\end{proposition}
+\begin{proof}
+By Proposition~\ref{prop:predual_to_conc}, any predual for $E$ is isomorphic to a concrete predual, and by Proposition~\ref{prop:when_conc_equal}, concrete preduals are isomorphic if and only if they are equal.  So \ref{prop:unique_predual_basis:zero} and \ref{prop:unique_predual_basis:two} are equivalent.
+
+We may suppose that $(E_*,\phi)$ is a concrete predual, that is, $E_* \subseteq E^*$ with $\phi = \iota_{E_*}$.  Let $F \subseteq E^*$ be another concrete predual, so $\iota_E \colon E \to F^*$ is an isomorphism.  Thus, if \ref{prop:unique_predual_basis:one} holds, $\iota_E$ is weak$^*$-continuous, for the predual $E_*$.  By Lemma~\ref{lem:conc_when_wstar_cts}, $\iota_E^*(\kappa_F(F)) \subseteq E_*$, but
+\[ \ip{\iota_E^*(\kappa_F(\lambda))}{x} = \ip{\iota_E(x)}{\lambda} = \ip{\lambda}{x} \qquad (\lambda\in F\subseteq E^*, x\in E), \]
+so $\iota_E^* \circ \kappa_F \colon F \to E^*$ is the inclusion, and we conclude that $F \subseteq E_*$.  By Lemma~\ref{lem:when_conc_preduals_equal}, $F = E_*$, and we have shown \ref{prop:unique_predual_basis:two}.
+
+In \ref{prop:unique_predual_basis:one}, that $\varphi$ is isometric is exactly saying that $(G, \varphi)$ is an isometric predual, and so the remark about the isometric case follows, taking account of Proposition~\ref{prop:predual_to_conc}\ref{prop:predual_to_conc:three}.
+\end{proof}
+
+
+
+
+\clearpage
+\section{Dual Banach algebras}
+
+A \emph{Banach algebra} is a Banach space $A$ with a contractive, bilinear, associative product.  Occasionally we shall consider the product to be merely bounded, in which case we speak of a \emph{Banach algebra with bounded product}.
+
+A \emph{left module} for $A$ is a Banach space $E$ with an associative left action which is \emph{bounded}.  (This is in contrast to much of the literature, which assumes a contractive action, but this convention is convenient for us.)  When the action is contractive, we speak of a \emph{contractive left module}.  By transposing the action, when $E$ is a left module over $A$, the dual space $E^*$ is a right module over $A$.  Similarly right modules and bi-modules.
+
+\begin{definition}
+A \emph{dual Banach algebra} is a Banach algebra $A$ which has a predual $(A_*, \phi)$ making the algebra product separately weak$^*$-continuous.
+\end{definition}
+
+This notion must have a long history in the literature, but we first became aware of the definition in Runde's work, \cite{Runde_DBA}.
+
+\begin{proposition}
+Let $A$ be a Banach algebra with a predual $(A_*, \phi)$.  This predual turns $A$ into a dual Banach algebra if and only if the associated concrete predual $F = \phi_*(A_*) \subseteq A^*$ is an $A$-bimodule.
+\end{proposition}
+\begin{proof}
+By Corollary~\ref{corr:pass_to_conc}, $F$ gives the same weak$^*$-topology as $(E_*,\phi)$.  A net $(a_i)$ in $A$ converges weak$^*$ to $a\in A$ if and only if $\lim_i \ip{\mu}{a_i} = \ip{\mu}{a}$ for each $\mu\in F$.  When $F$ is a bimodule, we then see that for $b\in A$ we have $\lim_i \ip{\mu}{b a_i} = \lim_i \ip{\mu\cdot b}{a_i} = \ip{\mu\cdot b}{a} = \ip{\mu}{ba}$ because $\mu\cdot b\in F$, and so $ba_i \to ba$ weak$^*$, and the product is weak$^*$-continuous in the 2nd variable.  Similarly, that $F$ is a left $A$-module implies the product is weak$^*$-continuous in the 1st variable.
+
+Conversely, let the product be weak$^*$-continuous in the 1st variable, and towards a contradiction, suppose there are $b\in A, \mu\in F$ with $b\cdot\mu \not\in F$.  By Hahn--Banach there is $\Phi\in F^\circ$ with $\ip{\Phi}{b\cdot\mu} = 1$, and by weak$^*$-density of $\kappa_A(A)$ in $A^{**}$, there is a net $(a_i)$ in $A$ with $\kappa_A(a_i) \to \Phi$ weak$^*$.  Then $\lim_i \ip{\lambda}{a_i} = \ip{\Phi}{\lambda} = 0$ for $\lambda\in F$ so $a_i \to 0$ weak$^*$, and hence by assumption $a_i b \to 0$ weak$^*$ as well.  In particular, $0 = \lim_i \ip{\mu}{a_i b} = \lim_i \ip{b\cdot\mu}{a_i} = \ip{\Phi}{b\cdot\mu} = 1$ contradiction.  So $F$ is a left $A$-module.  Similarly, the product is weak$^*$-continuous in the 2nd variable implies that $F$ is a right $A$-module.
+\end{proof}
+
+The relevant uniqueness result (compare Proposition~\ref{prop:unique_predual_basis}) is the following result, for which we prepare with a lemma.
+
+\begin{lemma}
+Let $A, B$ be Banach algebras, with $B$ a dual Banach algebra with concrete predual $B_* \subseteq B^*$.  Let $\theta \colon A \to B$ be a bounded algebra homomorphism.  Then $\theta^*(A^*)$ and $\theta^*(B^*)$ 
+\end{lemma}
+
+
+\begin{proposition}\label{prop:unique_predual_dba}
+Let $A$ be a dual Banach algebra.  The following are equivalent:
+\begin{enumerate}[(1)]
+  \item\label{prop:unique_predual_dba:zero}
+  $A$ has a unique predual as a dual Banach algebra;
+  \item\label{prop:unique_predual_dba:one}
+  given any other dual Banach algebra $B$, if $\varphi \colon A \to B$ is an algebra isomorphism, it is weak$^*$-continuous;
+  \item\label{prop:unique_predual_dba:two}
+  there is exactly one concrete predual $F \subseteq A^*$ which is an $A$-bimodule.
+\end{enumerate}
+When $A$ has an isometric predual, if we require a unique isometric predual in \ref{prop:unique_predual_dba:zero}, and that $\varphi$ is an isometry in \ref{prop:unique_predual_dba:one}, we still have an equivalence.
+\end{proposition}
+\begin{proof}
+Again, \ref{prop:unique_predual_dba:zero} and \ref{prop:unique_predual_dba:two} are equivalent.  Consider \ref{prop:unique_predual_dba:one}: let $B$ have concrete predual $B_* \subseteq B^*$, and let $A$ have concrete predual $A_* \subseteq A^*$.  Given an algebra homomorphism $\varphi \colon A \to B$, this is weak$^*$-continuous exactly when $\varphi^*$ restricts to a map $A_* \to B_*$, by Lemma~\ref{lem:conc_when_wstar_cts}.  Hence we can argue exactly as in the proof of Proposition~\ref{prop:unique_predual_basis}.  The isometric case follows similarly.
+\end{proof}
+
+
+
+\subsection{Dual modules}\label{sec:dual_mods}
+
+One could also develop a theory of a dual modules over a Banach algebra $A$.  However, this seems less useful, for the following reason.  When considering dual Banach algebras, we usually priorities the algebra $A$, and so the abstract theory becomes useful, as we want to cast everything in terms of $A$ and its dual spaces, if possible.  By contrast, one often starts with a module $E$, and then explicitly works with $E^*$ as the dual module.
+
+
+
+
+\clearpage
+\section{Hilbert \texorpdfstring{$C^*$}{CStar}-modules}
+
+In this section we give a self-contained account of a result from \cite[Section~8.5.1]{BlecherLeMerdy_Book}, specifically, Lemma~8.5.4 from there (see also \cite[Lemma~2.5]{Schweizer_HilbModsPredual}).
+
+We recall the notion of a \emph{Hilbert $C^*$-module} $E$ over a $C^*$-algebra $A$.  We use Lance's book \cite{Lance_HilbModsBook} as a general reference.\footnote{Is there a nice open source introduction which covers similar material to Lance's book?}
+We denote by $\mc L(E)$ the algebra of \emph{adjointable} maps on $E$.  Recall, from Paschke's work \cite{paschke_inner_prod_mods}, that a module is \emph{self-dual} when any bounded module map $t \colon E \to A$ (so $t(x\cdot a) = t(x)a$ for $x\in E, a\in A$) is of the form $t(x) = (t_0|x)$ for some $t_0\in E$.  It is shown in \cite[Proposition~3.8]{paschke_inner_prod_mods} that when $E$ is a self-dual module over a $W^*$-algebra $A$, we have that $E$ is isometrically a dual space.  Furthermore, then $\mc L(E)$ is a $W^*$-algebra, \cite[Proposition~3.10]{paschke_inner_prod_mods}, and $E$ admits a polar-decomposition theorem, \cite[Proposition~3.11]{paschke_inner_prod_mods}.
+
+Let $A$ be a $W^*$-algebra.  We recall the construction of the predual of a self-dual $E$ (in the category of Banach spaces; for operator space considerations see \cite{BlecherLeMerdy_Book}).  Let $\overline{E}$ be the conjugate Banach space, say $\overline E = \{ \overline x : x\in E \}$ which becomes a right $A$ module by $a \cdot \overline{x} = \overline{x\cdot a^*}$.  Let $A_*$ be the predual of $A$ and consider the Banach space projective tensor product $\overline{E} \proten A_*$, which has dual space isometrically identified with $\mc B(\overline E, A)$.
+
+\begin{proposition}\label{prop:predual_of_selfdual_mod}
+Let $A$ be a $W^*$-algebra and let $E$ be a Hilbert $C^*$-module over $A$.  Define $E_*$ to be the quotient
+\[ \overline{E} \proten A_* / \overline\lin\bigl\{ a\cdot\overline x\otimes\omega - \overline x\otimes \omega\cdot a : x\in E, \omega\in A_*, a\in A \bigr\}. \]
+Then $(E_*)^*$ is identified with $\{ t\in\mc B(\overline E, A) : t(a\cdot\overline x) = at(\overline x) \ (a\in A, x\in E) \}$, and for $y\in E$ the map $t_y \colon \overline E \to A; t_y(\overline x) = (x|y)$ is in $(E_*)^*$ with $y \mapsto t_y$ an isometry.  When $E$ is self-dual, the map $E \to (E_*)^*; y \mapsto t_y$ is an isometric isomorphism.  Hence $E_*$ is an isometric predual for $E$, and the resulting weak$^*$-topology on $E$ makes the $A$-valued inner-product separately weak$^*$-continuous in each variable.
+\end{proposition}
+\begin{proof}
+By Hahn--Banach, $(E_*)^*$ is a subspace of $(\overline E\proten A_*)^* = \mc B(\overline E, A)$.  We see that $t \in (E_*)^* \subseteq \mc B(\overline E,A)$ exactly when
+\[ 0 = \ip{t}{a\cdot\overline x\otimes\omega - \overline x\otimes \omega\cdot a}
+= \ip{ t(a\cdot\overline x) - a t(\overline x) }{\omega}
+\qquad ( x\in E, \omega\in A_*, a\in A ), \]
+which is equivalent to $t(a\cdot\overline x) = a t(\overline x)$ for each $a,x$, as claimed.
+
+Given $y\in E$ the map $t_y$ is linear, and $t_y(a\cdot\overline x) = (x\cdot a^*|y) = a(x|y) = at_y(\overline x)$ for each $a,x$, so $t_y \in (E_*)^*$.  As $\|t_y(\overline x)\| = \|(x|y)\| \leq \|x\| \|y\| = \|\overline x\| \|y\|$, the map $y\mapsto t_y$ is contractive.  However, $\| t_y(\overline y) \| = \| (y|y) \| = \|y\|^2$ and so in fact $\|t_y\| = \|y\|$, so we have an isometry $E \to (E_*)^*$.
+
+Suppose now $E$ is self-dual.  Given $t\in (E_*)^*$ define $s \colon E \to A; x \mapsto t(\overline x)^*$, so $s$ is linear, and $s(x\cdot a) = t(\overline{x\cdot a})^* = t(a^* \cdot \overline x)^* = (a^*t(\overline x))^* = s(x) a$ for $a\in A,x\in E$.  So $s$ is an $A$-module map, is bounded, and hence there is $y\in E$ with $s(x) = (y|x)$ for each $x\in E$.  Equivalently, $t(\overline x) = (y|x)^* = (x|y)$ for each $x$, so $t = t_y$.  So in this case our map $E \to (E_*)^*$ is surjective and hence an isometric isomorphism.
+
+As $E_*$ is a quotient of $\overline E \proten A_*$, the weak$^*$-topology on $E$ is given by the pairing with $\overline E \proten A_*$.  Let $(x_i)$ be a net in $E$ converging weak$^*$ to $x\in E$.  Hence in particular, for $y\in E, \omega\in A_*$,
+\[ \lim_i \ip{ (y|x_i) }{\omega} = \lim_i \ip{t_{x_i}(\overline y)}{\omega}
+= \lim_i \ip{x_i}{\overline y\otimes \omega} = \ip{x}{\overline y\otimes\omega}
+= \ip{t_x(\overline y)}{\omega} = \ip{ (y|x) }{\omega}, \]
+this is, $(y|x_i) \to (y|x)$ weak$^*$ in $A$, for each $y\in E$.  As the adjoint on $A$ is weak$^*$-continuous, also $(x_i|y) = (y|x_i)^* \to (y|x)^* = (x|y)$, and so the inner-product is separately weak$^*$-continuous.
+\end{proof}
+
+\begin{remark}
+The construction in the proof of identifying $t$ with $s$ gives a bijection between $(E_*)^*$ and the collection of all bounded $A$-module maps $E \to A$.  Paschke explores this more fully in \cite[Section~3]{paschke_inner_prod_mods}, in particular showing that $(E_*)^*$ becomes a self-dual Hilbert $C^*$-module containing $E$.
+\end{remark}
+
+\begin{remark}
+As noted at the end of the proof, $E_*$ is a quotient of $\overline E \proten A_*$ and so the weak$^*$-topology on $E$ is explcitly given by the functionals
+\[ E \to \mathbb C; \quad x \mapsto \sum_n \ip{ (y_n|x) }{\omega_n} \]
+where $(y_n) \subseteq E$ and $(\omega_n) \subseteq A_*$ are sequences with $\sum_n \|y_n\| \|\omega_n\| < \infty$.
+\end{remark}
+
+In preparation for the following proof, we make some further comments about Hilbert $C^*$-modules $E$ over $A$.  The space $A_0 = \overline\lin\{ (x|y) : x,y\in E \} \subseteq A$ is an ideal (as $a(x|y)b = (x\cdot a^*|y\cdot b)$) and so a $C^*$-algebra.  For $x\in E, a\in A$,
+\begin{equation}
+(x - x\cdot a | x - x\cdot a) = (x|x) - a^*(x|x) - (x|x)a + a^*(x|x)a, \label{eq:A0_expansion}
+\end{equation}
+and so noting that $(x|x)\in A_0$, letting $a\in A_0$ run through an approximate identity shows that $x \in \overline\lin\{ x\cdot a : a\in A_0 \}$ for each $x\in A$.  Recall also the ideal $\mc K(E) \subseteq \mc L(E)$ of ``compact'' operators.  Given $x,y\in E$ let $\theta_{x,y} \colon E \to E; z\mapsto x \cdot (y|z)$, so $\mc K(E)$ is the closed linear span of such operators.  As in the proof of \cite[Proposition~1.3]{Lance_HilbModsBook}, let $(e_i)$ be an approximate identity for $\mc K(E)$, so for $x,y,z\in E$ we have that $e_i \theta_{x,y} \to \theta_{x,y}$ is norm, and so $e_i(x\cdot (y|z)) = e_i \theta_{x,y}(z) \to \theta_{x,y}(z) = x\cdot(y|z)$.  So $e_i(x\cdot a) \to x\cdot a$ for $x\in E, a\in A_0$, so by the previous remark, $e_i(x) \to x$, for each $x\in E$.
+
+\begin{proposition}[{See \cite[Lemma 8.5.4]{BlecherLeMerdy_Book}}]\label{prop:HilbModPredual}
+Let $A$ be a $W^*$-algebra and let $E$ be a Hilbert $C^*$-module over $A$.  Let $(F, \phi)$ be some predual (not assumed isometric) for $E$ which has the property that for each $y\in E$, the map $E \to A; x\mapsto (y|x)$ is weak$^*$-continuous.  Then $E$ is self-dual, and $(F, \phi)$ is isomorphic to $E_*$.
+\end{proposition}
+\begin{proof}
+Suppose we have such a predual.  Let $t \colon E \to A$ be an $A$-module map.  Let $(e_i)$ be an approximate identity for $\mc K(E)$, and by approximation, we may suppose that each $e_i$ is a linear span of operators of the form $\theta_{x,y}$.  (To be precise, for each $i$ we replace $e_i$ be some approximation of this form: then $e_i$ may no longer be positive, but ($e_i$) will still be a contractive approximate identity in the Banach algebra sense; for a more precise approximation result, which does preserve positivity, see \cite[8.1.23]{BlecherLeMerdy_Book}.)  For a given $i$, let $e_i = \sum_{j=1}^n \theta_{\xi_j, \eta_j}$.  Set $x_i = \sum_{j=1}^n \eta_j \cdot t(\xi_j)^*$, so for $z\in E$ we have $t(e_i(z)) = \sum_{j=1}^n t(\xi_j \cdot (\eta_j|z)) = \sum_{j=1}^n t(\xi_j) (\eta_j|z) = (x_i|z)$.  As remarked before the proof, we have $e_i(z) \to z$ in norm, and so $(x_i|z) \to t(z)$.
+
+We have $\| x_i \|^2 = \|(x_i|x_i)\| = \|t(e_i(x_i))\| \leq \|t\| \|x_i\|$ and so $\|x_i\| \leq \|t\|$, for each $i$.  Hence the net $(x_i)$ is bounded, and we may let $x\in E$ be a weak$^*$-accumulation point.  By weak$^*$-continuity of the inner-product, $(z|x) = \lim_i (z|x_i) = t(z)^*$ for each $z\in E$, and so $t(z) = (x|z)$ for each $x$.  We conclude that $E$ is self-dual.
+
+By Proposition~\ref{prop:predual_to_conc}, we may suppose that $F \subseteq E^*$ is a concrete predual (hence $\phi = \iota_F$).  Identify $E_*$ with its image in $E^*$.  We shall show that $E_* \subseteq F$, which suffices to show that $F$ is isomorphic to $E_*$, by Lemma~\ref{lem:when_conc_preduals_equal} and Proposition~\ref{prop:when_conc_equal}.
+
+Choose $y\in E, \omega\in A_*$ and consider the functional $\mu \in E_* \subseteq E^*$ given by $\ip{\mu}{x} = \ip{(y|x)}{\omega}$ for $x\in E$.  Let $(x_i)$ be a net in $E$ converging weak$^*$ for $F$ to $x\in E$.  By the assumption on $F$, we have
+\[ \lim_i \ip{\mu}{x_i} = \lim_i \ip{(y|x_i)}{\omega} = \ip{(y|x)}{\omega} = \ip{\mu}{x}. \]
+Hence $\mu$ is weak$^*$-continuous for $F$, so $\mu\in F$ (compare Lemma~\ref{lem:conc_when_wstar_cts}).  As $F$ is closed, this shows that $E_* \subseteq F$, as required.
+\end{proof}
+
+
+\subsection{From module actions}
+
+We now present some arguments from \cite[Section~2]{Schweizer_HilbModsPredual}.  We find this paper a little hard to read, so this is our presentation, but the ideas are from the proof of \cite[Theorem~2.6]{Schweizer_HilbModsPredual} with some input from \cite{BlecherLeMerdy_Book}.
+
+\begin{theorem}\label{thm:cmpt_action_selfdual}
+Let $A$ be a $C^*$-algebra and $E$ a Hilbert $C^*$-module over $A$.  Consider the action of $\mc K(E)$ on (the left of) $E$, and suppose $E$ has a predual such that for each $\theta\in\mc K(E)$ the map $E\to E; x\mapsto \theta(x)$ is weak$^*$-continuous.  Then $E$ is self-dual.
+\end{theorem}
+\begin{proof}
+Set $B = \mc K(E)$.  Giving the ``exception that proves the rule'' to the meta-mathematical comment in Section~\ref{sec:dual_mods}, we consider $E$ has a left $B$-module (with here $B$ just a Banach algebra, and $E$ just a Banach module), and so the weak$^*$-continuity assumption is equivalent to $E_*$ being a right $B$-module.  Define
+\[ E_* \proten_B E = E_* \proten E / \overline\lin\{ \mu\otimes\theta \cdot x - \mu\cdot\theta \otimes x : x\in E, \mu\in E_*, \theta\in B \}. \]
+Then $(E_*\proten_B E)^* \cong \{ t\in\mc B(E) : t(\theta\cdot x) = \theta\cdot t(x) \ (x\in E, \theta\in B) \}$ the algebra of $B$-module maps on $E$, denoted $\mc B_B(E)$.  As $E_*$ is not assumed isometric, this identification is also not isometric, only isomorphic, hence explaining why we write ``$\cong$''.
+
+We now proceed much as in the proof of Proposition~\ref{prop:HilbModPredual}, except that for the moment, we suppose that $E$ is \emph{full}, meaning that $\lin\{ (x|y) : x,y\in E \}$ is dense in $A$ (that $A_0=A$ in the previous notation).  Let $T \colon E \to A$ be a bounded $A$-module map.  Again let $(e_i)$ be a contractive approximate identity in $\lin\{ \theta_{x,y} : x,y\in E \} \subseteq \mc K(E)$, and when $e_i = \sum_{j=1}^n \theta_{\xi_j, \eta_j}$, set $x_i = \sum_{j=1}^n \eta_j \cdot T(\xi_j)^*$.  Again $T(e_i\cdot x) = (x_i|x)$ for $x\in E$, and $(x_i)$ is a bounded net in $E$.  By moving to a subnet if necessary, we may suppose that $x_i \to x_0$ weak$^*$ for $E_*$.
+
+Each $a\in A$ gives rise to $t_a \in \mc B_B(E)$ defined by $t_a(x) = x\cdot a$ for $x\in E$; indeed, for $y,z\in E$ we have $t_a(\theta_{y,z}\cdot x) = (y\cdot(z|x))\cdot a = y\cdot (z|x)a = y\cdot (z|x\cdot a) = \theta_{y,z} \cdot t_a(x)$ for each $x$.  Notice that $A \to \mc B_B(X); a \mapsto t_a$ is contractive.  This map is also injective, as if $t_a=0$ then $x \cdot a = 0$ for all $x\in E$, so $0 = (y|x\cdot a) = (y|x) a$ for all $x,y$, so $a=0$, as $E$ is assumed full.
+
+A typical member of $E_* \proten_B E$ is $\mu\otimes x$ for $\mu\in E_*$ and $x\in E$, and then for $y,z\in E$, let $a=(y|z)\in A$, so
+\[ \ip{ t_{(y|z)} }{ \mu\otimes x } = \ip{ t_a }{ \mu\otimes x }
+= \ip{t_a(x)}{\mu} = \ip{x\cdot a}{\mu}
+= \ip{x \cdot (y|z)}{\mu} = \ip{\theta_{x,y}\cdot z}{\mu}
+= \ip{z}{\mu \cdot \theta_{x,y}}, \]
+again using that $E_*$ is a right $B$-module.  It follows that
+\[ \ip{t_{(y|x_0)}}{\mu\otimes x} = \ip{x_0}{\mu\cdot\theta_{x,y}}
+= \lim_i \ip{x_i}{\mu\cdot\theta_{x,y}}
+= \lim_i \ip{t_{(y|x_i)}}{\mu\otimes x}
+= \lim_i \ip{t_{T(e_i\cdot y)^*}}{\mu\otimes x}, \]
+in the last step using that $T(e_i\cdot y)^* = (x_i|y)^* = (y|x_i)$.  As $e_i\cdot y \to y$ is norm, as $T(e_i\cdot y)^* \to T(y)^*$ in norm in $B$, so $t_{T(e_i\cdot y)^*} \to t_{T(y)^*}$ in norm, so also weak$^*$.  As elements $\mu\otimes x$ have dense linear span in $E_* \proten_B E$ we conclude that $t_{(y|x_0)} = t_{T(y)^*}$.  Hence $(y|x_0) = T(y)^*$ so $T(y) = (x_0|y)$.  Hence $E$ is self-dual.
+
+When $E$ is not full, use Lemma~\ref{lem:selfdual_change_alg} below (compare \cite[Lemma~8.5.2]{BlecherLeMerdy_Book}).
+\end{proof}
+
+\begin{lemma}\label{lem:selfdual_change_alg}
+Let $A$ be a $C^*$-algebra and $E$ a Hilbert $C^*$-module over $A$.  Set $A_0 = \overline\lin\{ (x|y) : x,y\in E \}$, so $A_0$ is an ideal in $A$ and the $A$-valued inner-product on $E$ takes values in $A_0$.  Let $C$ be any $C^*$-algebra which contains $A_0$ as an ideal, and for which $E$ is a right $C$-module, so in particular, $C$ could be $A$.  Then $E$ is self-dual over $A_0$ if and only if it is self-dual over $C$.
+\end{lemma}
+\begin{proof}
+Suppose $E$ is self-dual over $C$, and let $T\colon E \to A_0$ be an $A_0$ module map.  Recall the calculation \eqref{eq:A0_expansion}, so for $x\in E$ we have that $x\in\overline\lin\{x\cdot a: a\in A_0 \}$.  For $a\in A_0, c\in C$ we have $T((x\cdot a)\cdot c) = T(x\cdot ac) = T(x) ac = T(x\cdot a)c$ as $ac\in A_0$.  This shows that $T$ is an $C$-module map, so there is $x_0\in E$ with $T(x) = (x_0|x)$ for $x\in E$.  Hence $E$ is self-dual over $A_0$.
+
+Conversely, suppose $E$ is self-dual over $A_0$, and let $T\colon E\to C$ be a $C$-module map, so certainly an $A_0$-module map.  Again, for $x\in E, a\in A_0$ we have $T(x\cdot a) = T(x)a \in A_0 \subseteq C$ and so again by \eqref{eq:A0_expansion}, we conclude that $T(E) \subseteq A_0$.  As $E$ is self-dual over $A_0$ there is $x_0\in E$ with $T(x) = (x_0|x)$ for $x\in E$.  So $E$ is self-dual over $C$.
+\end{proof}
+
+We quickly record a result about self-dual modules for use later.
+
+\begin{lemma}[{\cite[Proposition~3.4]{paschke_inner_prod_mods}}]\label{lem:selfdual_all_adjointable}
+Let $E, F$ be Hilbert $C^*$-modules over a $C^*$-algebra $A$, with $E$ self-dual.  Then any bounded $A$-module map $E\to F$ is adjointable.
+\end{lemma}
+\begin{proof}
+Let $T \colon E\to F$ be an $A$-module map, and bounded.  Given $f\in F$, the map $E \to A; x \mapsto (f|T(x))$ is bounded and an $A$-module map, so as $E$ is self-dual, there is $T^*(f) \in E$ with $(T^*(f)|x) =(f|T(x))$ for each $x\in E$.  We have that $T^*(f)$ is unique, for if $y\in E$ also satisfies $(y|x) = (f|T(x))$ for all $x$, then $(T^*(f)-y|x)=0$ for all $x$, so taking $x=T^*(f)-y$ shows $y = T^*(f)$.  Similarly $T^*$ is linear, and $\|T^*(f)\| = \sup\{ \|(T^*(f)|x)\| : \|x\|\leq 1 \} \leq \|f\| \|T\|$ so $T^*$ is bounded.  By construction, $T^*$ is the adjoint of $T$.
+\end{proof}
+
+We now take an extended detour, mainly to expand upon some results sketched on page~626 in \cite{Schweizer_HilbModsPredual}.
+It will be useful to discuss Hilbert $B$-$A$-bimodules, in the sense of \cite[Definition~1.8]{BMS_quasimults}.  This is a Hilbert $C^*$-module $E$ over $A$ such that $E$ is also a left Hilbert $C^*$-module over $B$, say with inner-product $[\cdot,\cdot]$, such that $[x,y]\cdot z = x \cdot (y|z)$ for all $x,y,z\in E$.  We do not assume that $E$ is full for either structure, but if it is both full over $A$ and over $B$, we have an \emph{equivalence bimodule}.  As in the proof above, if $E$ is a Hilbert $C^*$-module over $A$, then we can take $B = \mc K(E)$ with $[x,y] = \theta_{x,y}$, as then $[x,y]\cdot z = \theta_{x,y}(z) = x\cdot (y|z)$ as required.
+
+We collect some of the remarks from \cite{BMS_quasimults}.  Firstly, given a Hilbert $B$-$A$-bimodule $E$, let $\overline E = \{ \overline x : x\in E \}$ be the conjugate Banach space, made into a $A$-$B$-bimodule for the actions and inner-products
+\[ a \cdot \overline x = \overline{x\cdot a^*}, \ 
+\overline x\cdot b = \overline{b^*\cdot x}, \quad
+[\overline x, \overline y] = (x|y), \ 
+(\overline x|\overline y) = [x,y] \qquad (x,y\in E). \]
+One can check that all the requirements are satisfied; for example $[\overline x, \overline y] \cdot \overline z = \overline{z\cdot(y|x)} = \overline{ [z,y]\cdot x } = \overline x \cdot (\overline y|\overline z)$ as $(x|y)^* = (y|x)$ and so forth.  Thus often one can prove results just about $A$, say, and then use this mechanism to translate to a result about $B$.
+
+\begin{proposition}[{See \cite[Section~1]{BMS_quasimults}}]\label{prop:remarks_bimods}
+Let $E$ be a Hilbert $B$-$A$-bimodule, and let $A_0 = \overline\lin\{(x|y):x,y\in A\}$ and similarly $B_0$.  Then:
+\begin{enumerate}[(1)]
+  \item\label{prop:remarks_bimods:one}
+  $A_0$ is an ideal in $A$ and when $a\in A_0$ and $x\cdot a=0$ for all $x\in E$, we have $a=0$; similarly for $B$;
+  \item\label{prop:remarks_bimods:two}
+  the right action $A \to \mc B(E)$ maps into $\mc L_B(E)$ and is a $*$-homomorphism: this means $[x\cdot a,y] = [x,y\cdot a^*]$ for $x,y\in E, a\in A$; similarly for $B$;
+  \item\label{prop:remarks_bimods:three}
+  we have that $B_0 \cong \mc K_A(E)$ where $[x,y] \in B_0$ is identified with $\theta_{x,y} \in \mc K_A(E)$, 
+  and $A_0$ is anti-$*$-isomorphic to $\mc K_B(E)$ similarly;
+  \item\label{prop:remarks_bimods:four}
+  the norms induced by the two inner-products agree: $\| [x,x] \| = \| (x|x) \|$ for all $x\in E$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+We have already seen \ref{prop:remarks_bimods:one}: recall that if $x\cdot a=0$ for all $x$ then $(y|x)a=0$ for all $(y|x)$ so $a=0$ as $a\in A_0$.  For \ref{prop:remarks_bimods:two}, we see that $[x\cdot a,y]\cdot z = (x\cdot a) \cdot (y|z) = x\cdot (a(y|z)) = x \cdot (y\cdot a^*|z) = [x,y\cdot a^*]\cdot z$ for all $z$, so by \ref{prop:remarks_bimods:one}, we have $[x\cdot a,y] = [x,y\cdot a^*]$ as claimed.
+
+For $b\in B$, let $\lambda_b \colon E \to E; x\mapsto b\cdot x$, so by \ref{prop:remarks_bimods:two}, $\lambda_b \in \mc L_A(E)$ with $\lambda_{b^*} = (\lambda_b)^*$.  When $b = [x,y]$ we have $\lambda_b(z) = [x,y]\cdot z = x\cdot(y|z) = \theta_{x,y}(z)$ for each $z$, that is, $\lambda_{[x,y]} = \theta_{x,y} \in \mc K_A(E)$.  As $B_0$ is the closed span of such $b$, we have by restriction a $*$-homomorphism $\lambda \colon B_0 \to \mc K_A(E)$ which is injective by \ref{prop:remarks_bimods:one}, and has dense range, and so is an isometric isomorphism.  Similarly for $a\in A$ let $\mu_a \colon E\to E; x\mapsto x\cdot a$, so by \ref{prop:remarks_bimods:two}, $a\mapsto\mu_a$ is a anti-$*$-homomorphism $A \to \mc L_B(E)$.  The same argument now shows that $\mu$ restricts to an anti-$*$-isomorphism $A_0 \to \mc K_B(E)$.
+
+For $x\in E$ we now see that $\| [x,x] \| = \| \lambda_{[x,x]} \| = \| \theta_{x,x} \|$ by \ref{prop:remarks_bimods:three}.  Then for $y\in E$ with $\|y\|\leq 1$ we have $\| \theta_{x,x}(y) \| = \| ( x\cdot(x|y) | x\cdot(x|y) ) \|^{1/2} = \| (y|x) (x|x) (x|y) \|^{1/2} \leq \| (x|y) \| \| (x|x) \|^{1/2} \leq \|x\|^{2}$ so $\|\theta_{x,x}\| \leq \|x\|^2$, but also $\| \theta_{x,x}(x)\| = \| (x|x)^3 \|^{1/2} = \| (x|x) \|^{3/2} = \|x\|^3$ so $\|\theta_{x,x} \| \geq \|x\|^2$ and we have equality, $\| \theta_{x,x} \| = \|x\|^2 = \| (x|x) \|$ giving \ref{prop:remarks_bimods:four}.  (See \cite[Proposition~1.7]{BMS_quasimults} for a calculation of $\|\theta_{x,y}\|$.)
+\end{proof}
+
+
+\begin{remark}
+In the proof of Theorem~\ref{thm:cmpt_action_selfdual}, notice that the map $t_a$ is the $\mu_a$ we considered in Proposition~\ref{prop:remarks_bimods}\ref{prop:remarks_bimods:three}.  In particular, $\|t_a\| = \|a\|$ for each $a\in A_0$, that is,
+\begin{equation}\label{eq:norm_A_action}
+\|a\| = \sup\bigl\{ \|x\cdot a\| : x\in E, \|x\|\leq 1 \bigr\} \qquad (a\in A_0).
+\end{equation}
+We remark that this seems hard to prove in a direct way!
+\end{remark}
+
+We now consider multiplier algebras (we don't really use these results, but they seem interesting).  Denote by $RM(A_0)$ the algebra of right multipliers of $A_0$.  There are various ways to construct / represent $RM(A_0)$, but we shall realise it as a space of centraliers (e.g.\@ \cite[Section~3.12]{PedersenBook}) $\{ r \in\mc B(A_0) : r(ab) = ar(b) \ (a,b\in A_0) \}$.  We give this the product of \emph{reversed} composition, $r_1 r_2 = r_2 \circ r_1$, and notice that any $a\in A_0$ defines such a map by $r_a(b) = ba$.  Then $A_0$ is isometrically (by an approximate identity argument) embedded as a right ideal in $RM(A_0)$.  Similarly $LM(A_0)$ is the algebra of left multipliers.  The following was first shown in \cite[Theorem~1.5]{Lin_ModMapsandCP}, but the argument given here is an expanded version of the sketch from \cite{Schweizer_HilbModsPredual}.
+
+\begin{lemma}\label{lem:BBE_is_RMA}
+Let $E$ be a Hilbert $C^*$-module over $A$, and let $B = \mc K_A(E)$.  There is an anti-isomorphism of algebras $\mu \colon RM(A_0) \to \mc B_B(E)$ extending the anti-homomorphism $A \to \mc L_B(E) \subseteq \mc B_B(E)$.  This satisfies that $r((x|y)) = (x|\mu_r(y))$ for $x,y\in E$, and that $x \cdot r(a) = \mu_r(x\cdot a)$ for $x\in E, a\in A_0$.
+\end{lemma}
+\begin{proof}
+
+Firstly, let $t\in\mc B_B(E)$, and we claim there is $r\in RM(A_0)$ with $r((x|y)) = (x|t(y))$ for each $x,y\in E$.  This relation gives a well-defined map $r$, as if $\sum_{i=1}^n (x_i|y_i) = 0$ then for any $z\in E$ we have
+\[ 0 = t\Bigl( z \cdot \sum_{i=1}^n (x_i|y_i) \Bigr)
+= \sum_{i=1}^n t( [z,x_i] \cdot y_i)
+= \sum_{i=1}^n [z,x_i] \cdot t(y_i)
+= z \cdot \sum_{i=1}^n (x_i|t(y_i)), \]
+and so $\sum_{i=1}^n (x_i|t(y_i)) = 0$ in $A_0 \subseteq A$.  For general $x_i, y_i$ let $a = \sum_{i=1}^n (x_i|y_i) \in A_0$, so by the calculation just given, together with \eqref{eq:norm_A_action}, we have
+\begin{align*}
+\| r(a) \|
+&= \sup\Bigl\{ \Bigl\| z \cdot \sum_{i=1}^n (x_i|t(y_i)) \Bigr\| : z\in E, \|z\|\leq 1 \Bigr\} 
+= \sup\bigl\{ \| t(z\cdot a) \| : z\in E, \|z\|\leq 1 \bigr\} \leq \|t\| \|a\|.
+\end{align*}
+So $r$ extends by continuity to a map $A_0\to A_0$ with $\|r\| \leq \|t\|$.  Then $r(a(x|y)) = r((x\cdot a^*|y)) = (x\cdot a^*|t(y)) = a r((x|y))$ for $a\in A, x,y\in E$, and so by density again, $r(ab) =ar(b)$ for all $a\in A, b\in A_0$, that is, certainly $r\in RM(A_0)$.
+
+We now consider the converse: given $r\in RM(A_0)$ we seek $t\colon E\to E$ with $(x|t(y)) = r((x|y))$ for all $x,y\in E$.  On $\lin\{ y\cdot a : y\in E, a\in A_0 \}$ define $t$ by $t(y\cdot a) = y\cdot r(a)$ and linearity.  Then for $x\in E$ we have $(x|t(y\cdot a)) = (x|y\cdot r(a)) = (x|y) r(a) = r((x|y)a) = r((x|y\cdot a))$, as we want.  For $y \in \lin\{ x\cdot a : x\in E, a\in A_0 \}$ we have
+\[ \|t(y)\| = \sup\bigl\{ \| (x|t(y)) \| : x\in E, \|x\|\leq 1 \bigr\}
+= \sup\bigl\{ \| r( (x|y) ) \| : x\in E, \|x\|\leq 1 \bigr\}
+\leq \|r\| \|y\|, \]
+so firstly, $t$ is well-defined, and secondly, $t$ extends by continuity to all of $E$.  Finally, $(x|t(b\cdot y)) = r((x|b\cdot y)) = r((b^*\cdot x|y)) = (b^*\cdot x|t(y)) = (x|b\cdot t(y))$ for all $x,y\in E, b\in B$, showing that $t \in \mc B_B(E)$.
+
+Finally, the bijection $RM(A_0) \to \mc B_B(E)$ is an anti-homomorphism: $r_1r_2((x|y)) = r_2( r_1( (x|y) ) ) = r_2 (x|t_1(y)) = (x|t_2t_1(y))$.  Given $a\in A$, we have $\mu_a \in \mc B_B(E)$ defined by the module action, $\mu_a(x) = x\cdot a$.  Then the associated $r\in RM(A_0)$ satisfies $r((x|y)) = (x|y\cdot a) = (x|y)a$, that is, $r$ is right multiplication by $a$ (remember $A_0$ is an ideal in $A$).  So we have extended the anti-homomorphism $A \to \mc L_B(E)$.  %Given any $t\in\mc B_B(E)$ associated to $r\in RM(A_0)$, given $a_0\in A_0$ we have $r(a_0) \in A_0$ and so $\mu_{r(a_0)}$ exists.  So $r((x|y)a_0) = (x|y) r(a_0) = (x|y\cdot r(a_0))$ also equals $r((x|y\cdot a_0)) = (x|t(y\cdot a_0))$ for any $x,y$, so $y \cdot r(a_0) = t(y\cdot a_0)$ for all $y$.
+\end{proof}
+
+Similarly, we have $\lambda \colon LM(B_0) \to \mc B_A(E)$ extending $\lambda \colon B \to \mc L_A(E)$, and satisfying $l(b)\cdot x = \lambda_l(b\cdot x)$ for $x\in E, b\in B_0, l\in LM(B_0)$.  By saying the $\lambda$ ``extends'' $B\to\mc L_A(E)$ we really mean that we have a commutative diagram:
+\[ \begin{tikzcd}
+  B \ar[r] \ar[d]  & \mc L_A(E) \ar[d] \\
+  LM(B_0) \ar[r, "\cong"] & \mc B_A(E)
+\end{tikzcd} \]
+The bottom arrow is an isomorphism, and the right-hand-side arrow is an inclusion, but the maps $B\to\mc L_A(E)$ and $B\to LM(B_0)$ might fail to be injective.
+
+We can realise $M(A_0)$, the multiplier algebra of $A_0$, as pairs $(l,r)$ with $l\in LM(A_0), r\in RM(A_0)$ satisfying $a l(b) = r(a)b$ for each $a,b\in A_0$.  Note that if $r\in RM(A_0)$ has both $(l_1,r)$ and $(l_2,r)$ multipliers, then $a l_1(b) = r(a)b = a l_2(b)$ for all $a,b$, so $l_1 = l_2$, and in this way we can regard $M(A_0) \subseteq RM(A_0)$; similarly $M(A_0) \subseteq LM(A_0)$.  It is notational convenient to write $\alpha = (l,r) \in M(A_0)$ and $l(a) = \alpha a, r(a) = a\alpha$ for $a\in A_0$.
+
+\begin{lemma}\label{lem:mults_are_adjointables}
+The map $\lambda \colon LM(B_0) \to \mc B_A(E)$ restricts to an isomorphism $M(B_0) \to \mc L_A(E)$, and similarly for $\mu$.
+\end{lemma}
+\begin{proof}
+As $B_0$ is isomorphic to $\mc K_A(E)$, also $M(B_0) \cong M(\mc K_A(E)) \cong \mc L_A(E)$, so we simply have to check that the following diagram commutes:
+\[ \begin{tikzcd}
+  M(B_0) \ar[r, "\cong"] \ar[d] & M(\mc K_A(E)) \ar[r, "\cong"] & \mc L_A(E) \ar[d] \\
+  LM(B_0) \ar[rr, "\lambda"] && \mc B_A(E).
+\end{tikzcd} \]
+Let $\alpha = (l,r) \in M(B_0)$ and let $T\in \mc L_A(E)$ be associated to $\alpha$.  Thus the isomorphisms in the top row give
+\[ [T(x), y] \cong \theta_{T(x), y} = T\theta_{x,y} \cong \alpha [x,y] \qquad (x,y\in E), \]
+that is, $[T(x), y] = l([x,y])$ in $B_0$.  Then $l(b)\cdot x = \lambda_l(b\cdot x)$ for $b\in B_0, x\in E$, so
+\[ [T(b\cdot x), y] = l([b\cdot x, y]) = l(b [x,y]) = l(b) [x,y] = [l(b)\cdot x, y] = [\lambda_l(b\cdot x), y]
+\qquad (x,y\in E, b\in B_0). \]
+This shows that $T = \lambda_l$, as required.
+\end{proof}
+
+In particular, this result shows that any $E$ can be regarded as a Hilbert $C^*$-module over $M(A_0)$, and by Lemma~\ref{lem:selfdual_change_alg}, $E$ is self-dual over $A$ if and only if over $M(A_0)$.
+
+We return now to \cite[Theorem~2.6]{Schweizer_HilbModsPredual}.  In the final part of this proof a predual of the linking algebra is presented, but this is \emph{not} an isometric predual, and so this does not show that the linking algebra is a $W^*$-algebra: this is the same problem identified in \cite{new_paper}.  The same problem affects the proof of \cite[Theorem~2.8]{Schweizer_HilbModsPredual} as the predual of $RM(A)$ (in our notation) is only isometric when the predual of the module $E$ is isometric, and in that case, one can use the arguments of \cite{BM_Duality_OpAlgI} and \cite{EOR_InjectivityNuclearityOS}, see \cite[??]{new_paper}.
+
+We now present a different way to show the final part of \cite[Theorem~2.6]{Schweizer_HilbModsPredual}, following \cite{new_paper}.
+
+\begin{theorem}
+Let $A$ be a $C^*$-algebra and $E$ a Hilbert $C^*$-module over $A$ which is isomorphic (perhaps not isometric) to a dual space.  Suppose the left action of $\mc K(E)$, and the right action of $A$, on $E$ are both weak$^*$-continuous.  Then $E$ is self-dual and $M(A_0)$ is a $W^*$-algebra.  Furthermore, treating the inner-product on $E$ as over $M(A_0)$, the $M(A_0)$-valued inner-product on $E$ is separately weak$^*$-continuous, and so $E_*$ is isomorphic to the canonical predual constructed by Proposition~\ref{prop:predual_of_selfdual_mod}.
+\end{theorem}
+\begin{proof}
+By Theorem~\ref{thm:cmpt_action_selfdual}, $E$ is self-dual over $A$.  Working with left modules instead (or use $E^*$, see before Proposition~\ref{prop:remarks_bimods}), we see that $E$ is self-dual over $B = \mc K_A(E)$ as well, and so by the left version of Lemma~\ref{lem:selfdual_all_adjointable}, $\mc B_B(E) = \mc L_B(E) = M(\mc K_B(E))$ which is anti-isomorphic to $M(A_0)$ by Lemma~\ref{lem:mults_are_adjointables}.
+
+As in the proof of Theorem~\ref{thm:cmpt_action_selfdual}, $\mc B_B(E)$ has predual $E_* \proten_B E$, but unless $E_*$ is an isometric predual, this predual won't be isometric for $\mc B_B(E)$.  Instead, we claim that always $\mc B_B(E)$ is a dual Banach algebra for this predual, that is, $E_* \proten_B E$ is a $\mc B_B(E)$-bimodule in $\mc B_B(E)^*$.  The left action is easy: for $T\in\mc B_B(E)$ and $\mu\otimes x \in E_* \proten E$, define $T\cdot (\mu\otimes x) = \mu\otimes T(x)$.  This turns $E_* \proten E$ into a left $\mc B_B(E)$ module.  Furthermore, for $\theta\in B$, we have $T(\theta\cdot x) = \theta \cdot T(x)$, and so this action leaves invariant the closed subspace we quotient by when forming $E_* \proten_B E$.  Hence also $E_* \proten_B E$ is a left $\mc B_B(E)$ module.  As given 
+$S, T \in\mc B_B(E)$ and $\mu\otimes x \in E_* \proten_B E$ we have $\ip{ST}{\mu\otimes x} = \ip{ST(x)}{\mu} = \ip{S}{\mu\otimes T(x)}$ so $T\cdot (\mu\otimes x) = \mu\otimes T(x)$, this left action is compatible with the algebra product on the dual $\mc B_B(E)$.
+
+% Recall that by assumption, $E_*$ is a right $B$-module.  We claim that $\lin\{ \mu\cdot b : \mu\in E_*, b\in B \}$ is dense in $E_*$.  If not, there is $0\not=x\in E$ with $0 = \ip{x}{\mu\cdot b} = \ip{b\cdot x}{\mu}$ for all $\mu,b$ so $b\cdot x=0$ for all $b \in B$.  However, again by the left version of the  calculation \eqref{eq:A0_expansion}, we have $x \in \overline\lin\{ b\cdot x : b\in B \}$, and so $x=0$, contradiction.
+
+We claim that $\lin\{ a\cdot \omega : \omega\in E_*, a\in A_0 \}$ is norm dense in $E_*$.  To show this, let $x\in E$ with $0 = \ip{x}{a\cdot\omega} = \ip{x\cdot a}{\omega}$ for each $a\in A_0, \omega\in E_*$.  Then $x\cdot a=0$ for all $a\in A_0$, so $x=0$, and the claim follows by Hahn--Banach.  There is then a contractive left action of $M(A_0)$ on $E_*$ satisfying $\alpha\cdot (a\cdot\omega) = \alpha a \cdot \omega$ for $\alpha\in M(A_0), a\in A_0, \omega\in E_*$.  Indeed, for any $\omega' \in \lin\{ a\cdot \omega : \omega\in E_*, a\in A_0 \}$ we have $\alpha \cdot \omega' = \lim_i \alpha e_i \cdot \omega'$ for any approximate identity $(e_i)$ for $A_0$, from which it follows that the action is well-defined, contractive, and so extends by continuity to all of $E_*$.
+
+Consider the anti-$*$-isomorphism $\mu \colon M(A_0) \to \mc L_B(E)$.  Let $S\in\mc B_B(E) = \mc L_B(E)$, so there is $\alpha\in M(A_0)$ with $\mu_\alpha = S$.  For $a\in C, \omega\in E_*$ consider $\omega' = a\cdot \mu \in E_*$ as an element of $E^*$.  As $E$ is a left $\mc B_B(E)$ module, $E^*$ is a right module, and so $\omega'\cdot S$ makes sense.  For $x\in E, b\in C$ let $x' = x\cdot b\in E$, so
+\begin{align*}
+\ip{\omega'\cdot S}{x'} = \ip{S(x')}{\omega'}
+= \ip{\mu_\alpha(x\cdot b)}{a\cdot\omega} = \ip{x\cdot(b \alpha)}{a\cdot\omega}
+= \ip{x\cdot(b\alpha a)}{\omega}
+= \ip{x'}{(\alpha a)\cdot \omega}.
+\end{align*}
+By density of such $x'$, we have that $\omega'\cdot S = (\alpha a)\cdot \mu \in E_*$, and so by density of such $\omega'$, we have shown that $E_*$ is a right $\mc B_B(E)$-module.
+
+% \bigskip
+
+% Let $\alpha\in M(A_0)$, and set $S = \mu_\alpha \in \mc L_B(E)$, so for $a,b\in A_0, x\in E, \omega\in E_*$ we have
+% \[ \ip{(a\cdot\omega)\cdot S}{x\cdot b} = \ip{S(x\cdot b)}{a\cdot\omega} = \ip{\mu_\alpha(x\cdot b)}{a\cdot\omega}
+% = \ip{x \cdot b\alpha a}{\omega} = \ip{x\cdot b}{\alpha a \cdot \omega}. \]
+% By density, this shows that $(a\cdot\omega)\cdot S = \alpha a \cdot \omega \in E_*$.  By density again, this shows that $E_* \cdot S \subseteq E_*$, and indeed, $\omega \cdot S = \alpha \cdot \omega$ for any $\omega\in E_*$, with the action of $\alpha$ as defined above.
+
+This shows that $E_* \proten_B E$ is also a right $\mc B_B(E)$-module, and so $\mc B_B(E) = \mc L_B(E)$ is a dual Banach algebra for the predual $E_* \proten_B E$.  By \cite[???]{new_paper}, $\mc L_B(E)$, so also $M(A_0)$, is a $W^*$-algebra.
+
+As the Dual Banach algebra predual of a $W^*$-algebra is unique, \cite[Theorem~5.2]{DHW_conditions_wstar_top}, $M(A_0)_*$ is isomorphic to $E_* \proten_B E$.  So for $\omega\in M(A_0)_*$ there are $(x_n)\subseteq E, (\nu_n)\subseteq E_*$ with $\sum_n \|\nu_n\| \|x_n\| < \infty$ and $\ip{\alpha}{\omega} = \sum_n \ip{\mu_\alpha(x_n)}{\omega_n}$ for each $\alpha \in M(A_0)$.  Given $y\in E$, we see that
+\[ \omega((y|x))
+= \sum_n \ip{\mu_{(y|x)}(x_n)}{\omega_n} 
+= \sum_n \ip{x_n \cdot (y|x)}{\omega_n} 
+= \sum_n \ip{\theta_{x_n, y} \cdot x}{\omega_n} 
+= \ip{x}{\sum_n \omega_n \cdot \theta_{x_n, y}}, \]
+where the final sum converges absolutely in $E_*$, as $E_*$ is a right $\mc K_A(E)$-module.  It follows that $E \to M(A_0); x \mapsto (y|x)$ is $\sigma(E, E_*)$-$\sigma(M(A_0), M(A_0)_*)$ continuous, as claimed.  Similarly $x\mapsto (x|y)$ is weak$^*$-continuous, as the adjoint on $M(A_0)$ is weak$^*$-continuous.
+
+By Proposition~\ref{prop:HilbModPredual}, $E_*$ is hence isomorphic the canonical predual of the self-dual $E$, namely $\overline E \proten_A A_*$, as in Proposition~\ref{prop:predual_of_selfdual_mod}.
+\end{proof}
+
+
+\clearpage
+\bibliographystyle{plain}
+\bibliography{dbas.bib}
+
+\end{document}
+
