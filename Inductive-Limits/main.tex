@@ -1,8 +1,21 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\definecolor{myblue}{rgb}{0.1 0.1 0.6}
+% ``backref'' for drafting; see manual for further options
+%\usepackage[backref]{hyperref}
+\usepackage{hyperref}
+%\usepackage{showkeys}
+\hypersetup{
+   colorlinks=true,
+   linkcolor=myblue,
+   citecolor=myblue,
+   urlcolor=myblue
+}
 \usepackage{latexsym, amsmath, amsthm, amssymb}
 \usepackage[all]{xy}
+\usepackage{tikz-cd}
 
 % Drafting
 %\usepackage{showkeys, backref}
@@ -18,6 +31,9 @@
 \newcommand{\asy}{{\operatorname{asy}}}
 \newcommand{\indlim}{\varinjlim}
 \newcommand{\ba}{\textsf{BA}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\im}{\operatorname{Im}}
+\newcommand{\ip}[2]{{\langle {#1} , {#2} \rangle}}
 
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{proposition}[lemma]{Proposition}
@@ -26,6 +42,7 @@
 \theoremstyle{definition}
 \newtheorem{definition}[lemma]{Definition}
 \newtheorem{example}[lemma]{Example}
+\newtheorem{remark}[lemma]{Remark}
 
 
 \title{Inductive limits of Banach algebras}
@@ -89,8 +106,7 @@ A very readable introduction, which ultimately focuses on $C^*$-algebras, is \ci
 For $C^*$-algebras, see also \cite[Section~II.8.2]{blenc}.
 
 
-
-\section{Banach algebras}
+\section{Banach algebras}\label{sec:ba}
 
 Having now set the scene using this language of categories, we will now perform a u-turn and present
 the standard construction, which unfortunately does not have a simple interpretation in terms of
@@ -107,11 +123,15 @@ forth.
 
 \begin{definition}\label{defn:1}
 Suppose that for each $i\in I$
-\[ \limsup_{j\geq i} \|\varphi_{j,i}\| = \lim_{j\geq i} \sup_{k\geq j} \|\varphi_{k,i}\|
+\begin{equation}\label{eq:1}
+\limsup_{j\geq i} \|\varphi_{j,i}\| = \lim_{j\geq i} \sup_{k\geq j} \|\varphi_{k,i}\|
 =
-\inf_{j\geq i} \sup_{k\geq j} \|\varphi_{k,i}\| \]
+\inf_{j\geq i} \sup_{k\geq j} \|\varphi_{k,i}\|
+\end{equation}
 is finite.  Then we say that our system is a \emph{normed inductive system} of Banach algebras.
 \end{definition}
+
+See Example~\ref{ex:nontriv} below for an example where this condition holds, but not for the trivial reason that infact the family of maps $(\varphi_{j,i})$ is bounded.
 
 Given a normed inductive system, the classical construction of $\indlim A_i$ is as follows.
 Consider the disjoint union of the $A_i$ with the equivalence relation that, for $a_i\in A_i,
@@ -135,7 +155,7 @@ Given $i\in I$, by assumption, there is $j\geq i$ so that
 $K = \sup_{k\geq j} \|\varphi_{k,i}\| < \infty$.  Then, for $a\in A_i$, we define
 \[ a_k = \begin{cases} \varphi_{k,i}(a) & : k\geq j, \\ 0 & : \text{otherwise}. \end{cases} \]
 Thus $\|a_k\| \leq K\|a\|$ for each $k$, and so $(a_k) \in \mf A$.  Suppose we chose $j'\in I$
-instead, also with $\sup_{k\geq j} \|\varphi_{k,i}\| < \infty$, and form $(a_k')$ using $j'$.
+instead, also with $\sup_{k\geq j'} \|\varphi_{k,i}\| < \infty$, and form $(a_k')$ using $j'$.
 There is $k_0\in I$ with $k_0 \geq j$ and $k_0 \geq j'$, so for $k\geq k_0$ we have that
 $a_k = a_k'$, and so $(a_k) = (a_k')$ in $\mf A$.  It follows that we have a well-defined map
 $\phi_i:A_i\rightarrow\mf A$ which is a homomorphism, and is seen to satisfy that $\|\phi_i\| \leq
@@ -255,6 +275,18 @@ Now set $B=A$ and define $\psi_n = 2^{n-1}$ as a map $A_n\rightarrow B$.  For $n
 $\psi_m \circ \varphi_{m,n} = 2^{m-1} 2^{n-m} = \psi_n$.  So while $(B, (\psi_n))$ is a system,
 there can be no map $\phi:\indlim A_n\rightarrow B$ with $\phi\circ\phi_n = \psi_n$.  Thus, without
 some norm condition on the family $(\psi_n)$, we cannot hope to factor through $\indlim A_n$.
+\end{example}
+
+\begin{example}\label{ex:nontriv}
+Let $I=\mathbb N$ and set $A_n = \ell^2_n$ the $n$-dimensional Hilbert space (with the zero product, if one wants a Banach algebra).  Define $\varphi_{m,n} \colon \ell^2_n \to \ell^2_m$ to be inclusion on the first $n-1$ variables, and $n$ times the identity on the $n$th variable.  So, as matrices, for example
+\[ \varphi_{2,1} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \quad
+\varphi_{4,2} = \begin{pmatrix} 1 & 0 \\ 0 & 2 \\ 0 & 0 \\ 0 & 0 \end{pmatrix}, \quad
+\varphi_{4,3} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 3 \\ 0 & 0 & 0 \end{pmatrix}. \]
+These maps form an inductive system.  In fact, for $n\leq m\leq p$, we see that $\varphi_{p,m}$ restricted to the identity on the image of $\varphi_{m,n}$ is just the inclusion map, an isometry.  So $\|\varphi_{m,n}\| = \|\varphi_{n+1,n}\| = n$ for $n\leq m$.  Hence our condition holds,
+\[ \limsup_{j\geq i} \|\varphi_{j,i}\| = \limsup_{j\geq i} i = i < \infty, \]
+for each $i$.  However, we notice that the family $(\varphi_{j,i})$ is certainly not bounded.
+
+In this case, $\underrightarrow{\lim} A_n \cong \ell^2$ with the connecting maps being $\phi_n \colon \ell^2_n \to \ell^2; \xi \mapsto (\xi_1,\cdots,\xi_{n-1}, n\xi_n, 0,\cdots)$.
 \end{example}
 
 
@@ -721,6 +753,203 @@ the category theoretic inductive limit in $\ba$.
 
 
 
+\section{Projective limits}
+
+The projective limit, or inverse limit, starts with a \emph{projective system} $((A_i),(f_{i,j})$ given by simply ``reversing the arrows'' from the notion of an inductive system.  So for $i\leq j$ we have $f_{i,j} \colon A_j \to A_i$, and when $i\leq j\leq k$ we have $f_{i,k} = f_{i,j}\circ f_{j,k}$.  In this setting, a \emph{coherent system} is $A$ and morphisms $f_i\colon A\to A_i$ for each $i$, with $f_{i,j} \circ f_j = f_i$ for each $i\leq j$:
+\[ \begin{tikzcd}
+A_i && A_j \arrow[ll, "f_{i,j}"'] \\
+& A \arrow[lu, "f_i"] \arrow[ru, "f_j"']
+\end{tikzcd} \]
+A \emph{projective limit} is then a coherent system $(A,(f_i))$ with the universal property that if $(B,(g_i))$ is another coherent system, then there is a unique $f \colon B \to A$ with $g_i = f_i \circ f$.
+
+
+\subsection{A construction which doesn't work}
+
+For the moment, we work with Banach \emph{spaces} and bounded linear maps as morphisms.  For compatibility with Section~\ref{sec:ba}, we assume the analogue of condition \eqref{eq:1}, see Defintion~\ref{defn:1}:
+\[ \limsup_{j\geq i} \| f_{i,j} \| < \infty. \]
+Let $A_0$ be the space of families $(a_i)$ with $a_i\in A_i$ for each $i$, and with $f_{i,j}(a_j) = a_i$ for $i\leq j$.  We give $A_0$ (the initially unlikely looking) seminorm $\|(a_i)\| = \limsup \|a_i\|$, and let $A$ be the completion of the quotient of $A_0$ by the null space of this seminorm.  That $A_0$ consists of ``coherent families'' implies a lot.
+
+\begin{lemma}
+The seminorm on $A_0$ is actually a norm.  For each $i$ there is a well-defined, bounded linear map $f_i \colon A \to A_i$ with $f_i(a) = a_i$ for $a=(a_j)\in A_0$.  Then $(A,(f_i))$ is a coherent system.
+\end{lemma}
+\begin{proof}
+Fix $i$, and let $K_i = \limsup_{j\geq i} \|f_{i,j}\|$ which is finite by hypothesis.  Let $a=(a_i)\in A_0$, and let $b=(b_i)\in A_0$ with $\|a-b\|=0$.  For $\epsilon>0$ there is $k$ so that $\|a_j-b_j\|<\epsilon$ for $j\geq k$.  There is $j\geq k$ with $\|f_{i,j}\| < K_i+\epsilon$.  Then $\|a_i-b_i\| = \|f_{i,j}(a_j-b_j)\| \leq (K_i+\epsilon)\epsilon$.  As $\epsilon>0$ was arbitrary, this shows that $\|a_i-b_i\|=0$ so $a_i=b_i$.  As $i$ was an arbitrary choice, this shows that infact the seminorm is a norm.
+
+There is hence a well-defined map $f_i \colon A_0 \to A_i; a\mapsto a_i$.  Essentially repeating the argument, for $\epsilon>0$ there is $k$ so that $\|a_j\| < \|a\|+\epsilon$ for $j\geq k$.  There is $j\geq k$ with $\|f_{i,j}\| < K_i+\epsilon$.  Then $\|a_i\| = \|f_{i,j}(a_j)\| < (\|a\|+\epsilon)(K_i+\epsilon)$ and as $\epsilon>0$ was arbitrary we conclude that $\|a_i\| \leq K_i \|a\|$.  So $\|f_i\| \leq K_i$ and $f_i$ extends by continuity to $A$.
+
+As $f_i \circ f_{i,j} = f_j$ on $A_0$, by continuity, this also holds on $A$, again for $i\leq j$.  So we have a coherent system.
+\end{proof}
+
+\begin{example}
+This is the ``dual'' of Example~\ref{ex:nontriv}.  Let $A_n = \ell^2_n$ for each $n$, and let
+\[ f_{n,m} \colon (\xi_1,\cdots,\xi_m) \mapsto (\xi_1,\cdots,\xi_{n-1},n\xi_n)
+\qquad\text{for }n\leq m. \]
+This gives a projective system, and for each $i$ we have $\limsup_{j\geq i} \|f_{i,j}\| = i < \infty$, so our norm hypothesis holds.
+
+Let $(\xi^{(n)})$ be any sequence with $\xi^{(n)}\in A_n$ for each $n$, and with $f_{n,m}(\xi^{(m)}) = \xi^{(n)}$ for all $n\leq m$.  Let $\xi^{(n)} = (\xi^{(n)}_i)_{i=1}^n$.  Set $a_i = \xi^{(n)}_i$ for any $n>i$.  This is well-defined, for if $n>i$ and $m>i$, say $n\leq m$, then $\xi^{(n)}_i = f_{n,m}(\xi^{(m)})_i = \xi^{(m)}_i$ as $i<n$.  Notice that then $\xi^{(n)}_n = f_{n,n+1}(\xi^{(n+1)})_n = n \xi^{(n+1)}_n = n a_n$.  So
+\[ \xi^{(n)} = (a_1,\cdots,a_{n-1},na_n) \qquad (n\in\mathbb N). \]
+
+We have that $(\xi^{(n)}) \in A_0$ if and only if $\limsup_n \|\xi^{(n)}\| < \infty$, which is equivalent to
+\[ \limsup_n \sum_{i=1}^{n-1} |a_i|^2 + n^2|a_n|^2 < \infty
+\quad\iff\quad
+\sum_i |a_i|^2<\infty \text{ and } \limsup_n n|a_n|<\infty. \]
+So we can identify $A_0$ with the subspace of $\ell^2$ consisting of those $a=(a_n)$ with $\limsup_n n|a_n|<\infty$, and then
+\[ \|a\|_{A_0}^2 = \|a\|^2_2 + \limsup_n n^2|a_n|^2. \]
+Notice that the inclusion map $\iota \colon A_0 \to \ell^2$ is contractive, and so extends to $\iota \colon A\to\ell^2$.  With this view of $A_0$, we have that $f_n((a_i)) = (a_1,\cdots,a_{n-1},na_n)$, and so there is $\tilde f_n \colon \ell^2 \to \ell^2_n$ with $f_n = \tilde f_n\circ\iota$.
+
+Notice that if $a\in c_{00}$ then $a\in A_0$, and $\|a\|_{A_0} = \|a\|_2$.  So given any $a\in\ell^2$, for each $n$ let $a^{(n)}$ be the truncation $(a_1,a_2,\cdots,a_n,0,\cdots)$.  Hence $a^{(n)} \in A_0$, and furthermore, $\| a^{(n)} - a^{(m)} \|_{A_0} = \| a^{(n)} - a^{(m)} \|_2$ which is small for large $n,m$.  So $(a^{(n)})$ is Cauchy in $A_0$, and so converges to some $x\in A$.  Then also $\iota(x) = \lim_n \iota(a^{(n)}) = \lim_n a^{(n)} = a$.  We conclude that $\iota \colon A \to \ell^2$ is surjective, and so by the Open Mapping Theorem, $\iota$ induces an isomorphism $A/\ker\iota \to \ell^2$.
+
+The injection $\iota \colon A_0 \to \ell^2$ is not onto.   Indeed, let $(\alpha_k)$ be an increasing sequence in $\mathbb N$, and define $(a_i)\in\ell^2$ by setting $a_{\alpha_k} = 2^{-k/2}$ for each $k$, with $a_i=0$ otherwise.  Then $\sum_i |a_i|^2 = \sum_k 2^{-k} = 1$, so $(a_i)\in\ell^2$, but $\limsup_n n|a_n| = \limsup_k \alpha_k 2^{-k/2}$ which can be $\infty$ if $(\alpha_k)$ increases fast enough.  It follows that $A_0$ is not complete.
+
+\medskip
+
+Consider the system $(\ell^2, (\tilde f_n))$. For $n\leq m$ and $b=(b_i)\in\ell^2$, we have
+\[ f_{n,m}(\tilde f_m(b))
+= f_{n,m}((b_1,\cdots,b_{m-1},mb_m))
+= (b_1,\cdots,b_{n-1},nb_n)
+= \tilde f_n(b). \]
+So the system is coherent.  Notice that $\|\tilde f_n\| = n$, but also $\|f_n\|=n$.
+
+So if $(A,(f_n))$ we the projective limit, we'd have a map $\phi \colon \ell^2 \to A$ with $\tilde f_n = f_n \circ \phi$.  As $f_n = \tilde f_n \circ \iota$, this gives $\tilde f_n = \tilde f_n \circ \iota \circ \phi$ for every $n$, and so $\iota\circ\phi = \id_{\ell^2}$.  We now have the familiar argument: $\phi\circ\iota \colon A\to A$ is an idempotent with $f_n \circ \phi\circ\iota = \tilde f_n \circ \iota = f_n$, but also $\id_A$ has this property, so by uniqueness, $\phi\circ\iota = \id_A$, and hence $\phi = \iota^{-1}$.
+
+\medskip
+
+However, $\iota$ is not injective.  Again let $(\alpha_k)$ increase (rapidly) and define $a^{(n)} \in A_0$ by $a^{(n)} = \sum_{i > n} 2^{-i/2} \delta_{\alpha_i}$.  We see that
+\[ \|a^{(n)}\|_{A_0}^2 = \sum_{i>n} 2^{-i} + \limsup_{i>n} \alpha_i^2 2^{-i}, \]
+so if we choose, say, $\alpha_i = 2^{i/2}$, we have $\|a^{(n)}\|_{A_0}^2 \to 1$ as $n\to\infty$.
+Also $\|a^{(n)}\|_2 \to 0$, and so as $a^{(n)}-a^{(m)}$ has finite support, we see that $\|a^{(n)} - a^{(m)}\|_{A_0} = \|a^{(n)}-a^{(m)}\|_2 \to 0$ as $n,m\to\infty$.  So $a = \lim_n a^{(n)} \in A$ exists, and $\|a\|_A^2 = \lim_n \|a^{(n)}\|_{A_0}^2 = 1$.  So $a\not=0$ but $\iota(a) = \lim_n \iota(a^{(n)}) = 0$.
+
+We conclude from all this that we have not managed to build the projective limit (if it exists).
+
+\medskip
+
+Now let $(B,(g_n))$ be some coherent system.  For $b\in B$, set $b_i = g_n(b)_i$ for some $n>i$.  This is again well-defined, for if $i<n\leq m$ then $g_n(b)_i = f_{n,m}(g_m(b))_i = g_m(b)_i$.  Similarly, again $g_n(b)_n = f_{n,n+1}(g_{n+1}(b))_n = n g_{n+1}(b)_n = nb_n$, and so
+\[ g_n(b) = (b_1,\cdots,b_{n-1},nb_n). \]
+A priori there is no norm control here.
+
+We ask if there can be $\phi \colon B \to \ell^2$ with $\tilde f_n \circ \phi = g_n$ for each $n$?  This is the same as $b=(b_i)\in\ell^2$, as we must have $\phi(b) = (b_i)$, given the previous paragraph.  It seems hard to express what this means ``naturally'' in terms of the sequence $(g_n(b))$.
+\end{example}
+
+
+\subsection{For contractive maps}
+
+We admit partial defeat, and now work in the category of Banach spaces and contractive maps.  Again, we consider a projective system $(A,(f_{i,j}))$, now supposing that $\|f_{i,j}\|\leq 1$ for each $i\leq j$.  Let $A$ be the subspace of $\ell^\infty(A_n)$ consisting of ``coherent families'', those bounded families $(a_i)$ with $f_{i,j}(a_j) = a_i$ for $i\leq j$.  Let $f_i \colon A\to A_i$ be the restriction of the natural projection, so by construction, $f_{i,j} \circ f_j = f_i$ for $i \leq j$, and each $f_i$ is a contraction.
+
+\begin{theorem}
+The subspace $A$ is closed, so $A$ is a Banach space.  We have that $(A,(f_i))$ is a projective limit, in the sense that if $(B,(g_i))$ is another conherent system (with each $g_i$ contractive) there is a unique contraction $f \colon B \to A$ with $g_i = f_i\circ f$ for each $i$.
+\end{theorem}
+\begin{proof}
+For $i\leq j$, the map $t_{i,j} \colon \ell^\infty(A_k) \to A_i; (a_k)\mapsto f_{i,j}(a_j) - a_i$ is linear and bounded, and so $\ker t_{i,j}$ is closed.  As $A$ is the intersection of all these kernals, we conclude that $A$ is closed.
+
+Given such a $B$, for $b\in B$ let $a_i = g_i(b)$ for each $i$, so $\|a_i\| \leq \|b\|$ for each $i$, and for $i\leq j$ we have $f_{i,j}(a_j) = (f_{i,j}\circ g_j)(b) = g_i(b) = a_i$, so $a=(a_i)\in A$.  The resulting map $\phi \colon B \to A$ is obviously linear, and contractive, with $f_i(\phi(b)) = f_i(a) = a_i = g_i(b)$ for each $i$.
+
+Let $\phi'\colon B \to A$ be another contraction with this property.  As the $(f_i)$ are the restrictions of the natural projections, for $a\in A$ with $f_i(a)=0$ for all $i$, necessarily $a=0$.  Then $f_i(\phi(b)-\phi'(b)) = g_i(b) - g_i(b) = 0$ for all $i$, so $\phi(b) = \phi'(b)$ so $\phi = \phi'$.
+\end{proof}
+
+We write $\underleftarrow{\lim} A_i$ for $A$, or perhaps $\underleftarrow{\lim} ((A_i), (f_{i,j}))$ when we wish to be precise.
+
+Now go back to the case of an inductive system $((E_i), (\varphi_{j,i}))$, again with all maps being contractions.
+Taking Banach space duals, we obtain a projective system $((E_i^*), (f_{i,j} = \varphi_{j,i}^*))$ and so we can find the projective limit $\hat E$ say, with coherent maps $f_i \colon \hat E \to E_i^*$.  Taking duals again, we obtain the following diagram, for $i\leq j$:
+\[ \begin{tikzcd}
+E_i \arrow[rr, "\varphi_{j,i}"] \arrow[d, "\kappa_{E_i}"'] \arrow[rdd,"\varphi_i"',bend right=100]
+   && E_j \arrow[d, "\kappa_{E_j}"] \arrow[ddl, "\varphi_j", bend left=100] \\
+E_i^{**} \arrow[rr, "f_{i,j}^* = \varphi_{j,i}^{**}"] \arrow[rd, "f_i^*"'] && E_j^{**} \arrow[ld, "f_j^*"]\\
+& \hat E^*
+\end{tikzcd}
+\]
+That is, define $\varphi_i = f_i^*\circ\kappa_{E_i}$.  Let $E$ be the (norm-)closed linear span of the images of the $\varphi_i$, and consider $\varphi_i \colon E_i\to E$.  The maps $(\varphi_i)$ satisfy the required property: $\varphi_j \circ \varphi_{j,i} = \varphi_i$.  Notice that each $\varphi_i$ is a contraction.
+
+Let $(F, (\psi_i))$ also satisfy this property, with each $\psi_i$ a contraction.
+Then $f_{i,j} \circ \psi_j^* = \varphi_{j,i}^* \circ \psi_j^* = \psi_i^*$ and so there is a unique $f \colon F^* \to \hat E$ with $\psi_i^* = f_i \circ f$.  Taking adjoints again shows that $\kappa_F \psi_i = \psi_i^{**} \kappa_{E_i} = f^* f_i^* \kappa_{E_i} = f^* \varphi_i$.  So $f^*$ maps the image of $\varphi_i$ into $\kappa_F(F)$, and hence $f^*$ maps $E$ into $\kappa_F(F)$.  So restricting $f^*$ to $E$ and then corestricting to $\kappa_F(F) \cong F$< we obtain $\phi \colon E \to F$ with $\psi_i = \phi \circ \varphi_i$ for each $i$.  If $\psi$ is another map with this property, then as the $\varphi_i$ have images dense in $E$, we must have $\psi=\phi$.
+
+Thus $(E, (\varphi_i)) \cong \underrightarrow{\lim} E_i$ the inductive limit (for contractive maps).
+
+% \begin{example}
+% Consider again Example~\ref{ex:one}.  Here $A=A_n$ for each $n\in\mathbb N$ with $\varphi_{n+1,n}=\frac12 \id$, so $\varphi_{n,m} = 2^{-(n-m)}$ for $n\geq m$.  The dual system thus has $f_{m,n} = 2^{-(n-m)}$ for $n\geq m$.  If $(x_n)$ is a bounded family in $A^*$ with $f_{m,n}(x_n) = x_m$ for each $n\geq m$, then $x_n = 2^{m-n} x_m$ for $n\geq m$.  Equivalently, $x_n = 2^{1-n} x_1$ for each $n$.  So the projective limit is $E \cong A^*$ for the map $(x_n) \mapsto x_1$.  The map $f_n \colon E \to A_n^*$ is the restriction of the natural projection, and so becomes $A^* \to A_n^*; x \mapsto 2^{1-n} x$.
+
+% The above construction then finds an inductive limit $A_0$ which is the subspace of $E^*$ generated by the images of maps $\varphi_n = f_n^* \circ \kappa_{A_n}$.  Now, $E^{**} \cong A^{**}$, and under this $f_n^* \colon A_n^{**} \to A^{**}$ is $x \mapsto 2^{1-n}x$.  So $A_0 \cong A$ the algebra we started with, with $\varphi_n = 2^{1-n} \id$.
+
+% Let $(B,(\psi_n))$ be a coherent system, with $\sup_n \|\psi_n\| < \infty$.  So $\psi_n \colon A_n\to B$ with $\psi_m = \psi_n\circ \varphi_{n,m}$ for $n\geq m$, i.e.\@ $\psi_m = 2^{-(n-m)} \psi_n$, or $\psi_n = 2^{1-n} \psi_1$.  We conclude that any morphism $\psi_1\colon A_1\cong A \to B$ gives rise to a suitably bounded family $(\psi_n)$.  The map required for the universal property to hold is hence $\psi_1$, interpreted as a morphism $A\to B$.
+% \end{example}
+
+\begin{remark}
+There appears not to be a ``bijection'' here.  That is, consider starting with a projective system.  Taking the Banach space adjoints gives an inductive system, and so we can construct the inductive limit (under suitable hypotheses) as in Section~\ref{sec:ba}.  This gives maps $\phi_i \colon A_i^* \to E$, say.  Taking the adjoint again gives maps $f_i = \phi_i^* \colon E^* \to A_i^{**}$, but notice now that the codomains are wrong: we want maps into $A_i$.  It seems unclear if it's possible to construct a projective limit from the dual inductive system.
+\footnote{Maybe for dual spaces something is possible?}
+\end{remark}
+
+
+\subsection{For dual spaces}\label{sec:dual}
+
+A \emph{dual space} is a Banach space $A$ which is (isometrically isomorphic) to the dual of some Banach space $A_*$.  When $A$ is an algebra, we also insist that the product on $A$ becomes separately weak$^*$-continuous: note that here the assumption of an isometric predual is not restrictive, due to the renorming argument \cite[Proposition~2.1]{daws}.
+
+Consider an inductive system $((A_i), (\varphi_{j,i}))$ with each $A_i$ a dual space, and where we now suppose that each $\varphi_{j,i}$ is weak$^*$-continuous, equivalently, there is a pre-adjoint $f_{i,j} \colon A_{j,*} \to A_{i,*}$ with $f_{i,j}^* = \varphi_{j,i}$.  We continue to only consider contractive maps.  Then $((A_{i,*}), (f_{i,j}))$ is a projective system, and we can again form the projective limit, $A_*$ say, with maps $f_i \colon A_* \to A_{i,*}$.  Arguing as before, we take adjoints to see that we obtain commutative diagrams, for $i\leq j$:
+\[\begin{tikzcd}
+    A_i \arrow[rr, "\varphi_{j,i} = f_{i,j}^*"] \arrow[rd, "\varphi_i = f_i^*"'] &&
+      A_j \arrow[ld, "\varphi_j = f_j^*"] \\
+    & A
+\end{tikzcd}\]
+We also have the expected universal property: let $B$ be some other dual space with weak$^*$-continuous maps $\phi_i \colon A_i \to B$, with $\phi_j \circ \varphi_{j,i} = \phi_i$ for $i\leq j$.  Then $(B_*, (\phi_{i,*}))$ is another solution to the projective problem, and so by the universal property of $A_*$, there is a unique $f \colon B_* \to A_*$ with $\phi_{i,*} = f_i \circ f$ for each $i$.  Taking adjoints gives $\phi = f^* \colon A \to B$ with $\phi_i = \phi \circ \varphi_i$ for each $i$.
+
+This gives a simple construction of the inductive limit for dual spaces.
+
+
+
+\subsection{For dual Banach algebras}
+
+Now suppose each $A_i$ is a dual Banach algebra (as defined above in Section~\ref{sec:dual}).  We suppose that each connecting map $\varphi_{j,i}$ is a homomorphism.  That the product on $A_i$ is separately weak$^*$-continuous is equivalent to $A_{i,*} \subseteq A_i^*$ being a sub-$A_i$-bimodule.  That is, $A_{i,*}$ is an $A_i$-bimodule, with the actions satisfying
+\[ \ip{a}{\omega\cdot b} = \ip{ba}{\omega}, \quad
+\ip{a}{b\cdot\omega} = \ip{ab}{\omega}
+\qquad (a,b\in A_i, \omega\in A_{i,*}). \]
+
+Then $A_*$ is constructed as a subspace of the $\ell^\infty$ sum of the $A_{i,*}$, namely the subspace of bounded families $(\omega_i)$ with $f_{i,j}(\omega_j) = \omega_i$ for $i\leq j$, or equivalently, $\omega_j \circ \varphi_{j,i} = \omega_i$ for $i\leq j$.  Further, $f_i \colon A_* \to A_{i,*}$ is the restriction of the natural projection onto the $i$th coordinate.
+
+
+Let $A_0 \subseteq A$ be the union of the images of the maps $\varphi_i$.  As $\varphi_j \circ \varphi_{j,i} = \varphi_i$, actually $\im\varphi_i \subseteq \im\varphi_j$, for $i\leq j$, and so $A_0$ is a union of increasing subspaces.
+%Our aim is to turn $A$ into a dual Banach algebra in such a way that $A_0$ becomes a subalgebra.  If so, 
+
+\begin{lemma}
+For each $i$ and $c\in A_i$, for $\omega\in A_*$ there is $\omega'\in A_*$ such that $f_j(\omega') = \varphi_{j,i}(c) \cdot f_j(\omega) \in A_{j,*}$ for each $j\geq i$, and with $\|\omega'\| \leq \|\varphi_i(c)\| \|\omega\|$.
+\end{lemma}
+\begin{proof}
+Given any $j$, there is $k$ with $k\geq i,k\geq j$.  Define $\omega'_j = f_{j,k}( \varphi_{k,i}(c) \cdot \omega_k )$.  This is well-defined, for if also $k'\geq i, k'\geq j$, there is a further choice of $l$ greater than both $k,k'$.  Then for $a\in A_j$,
+\begin{align*}
+\ip{a}{\omega'_j}
+&= \ip{\varphi_{k,j}(a)}{\varphi_{k,i}(c) \cdot \omega_k}
+= \ip{\varphi_{k,j}(a)\varphi_{k,i}(c)}{\omega_k}
+= \ip{\varphi_{k,j}(a)\varphi_{k,i}(c)}{\omega_l\circ\varphi_{l,k}} \\
+&= \ip{\varphi_{l,k}(\varphi_{k,j}(a))\varphi_{l,k}(\varphi_{k,i}(c))}{\omega_l}
+= \ip{\varphi_{l,j}(a)\varphi_{l,i}(c)}{\omega_l}.
+\end{align*}
+However, by exactly the same calculation, this also equals $\ip{a}{f_{j,k'}( \varphi_{k',i}(c) \cdot \omega_{k'} )}$, and we conclude that the definition of $\omega'_j$ is independent of the choice of $k$.
+
+Now suppose $i\leq j$, so we can choose $k=j$ to define $\omega'_j$.  For $a\in A_j$ we have
+\begin{align*}
+\ip{\varphi_j(a)}{\omega'}
+&= \ip{a}{\omega'_j}
+= \ip{a}{\varphi_{j,i}(c) \cdot \omega_j}
+= \ip{a}{\varphi_{j,i}(c) \cdot f_j(\omega)},
+\end{align*}
+and so $f_j(\omega') = \varphi_{j,i}(c) \cdot f_j(\omega)$ as desired.
+
+For any $j$, again choose $k\geq i, k\geq j$, so for $a\in A_j$,
+\begin{align*}
+\ip{a}{\omega'_j}
+&= \ip{\varphi_{k,j}(a)\varphi_{k,i}(c)}{\omega_k}
+= \ip{\varphi_{k,j}(a)\varphi_{k,i}(c)}{f_k(\omega)}
+= \ip{\varphi_k(\varphi_{k,j}(a)\varphi_{k,i}(c))}{\omega}.
+\end{align*}
+So
+\begin{align*}
+\|\omega'\|
+&\leq \|\omega\| \sup_i \sup_{a\in A_j, \|a\|\leq 1} \inf_{k\geq i,k\geq j}\|\varphi_{k,j}(a)\varphi_{k,i}(c)\|
+\end{align*}
+\end{proof}
+
+TODO: Maybe compute an example?
+
+
+
+
 \begin{thebibliography}{99}
 
 \bibitem{blackadar} B. Blackadar, {\it $K$-theory for operator algebras}, second edition, Mathematical Sciences Research Institute Publications, 5, Cambridge University Press, Cambridge, 1998. MR1656031
@@ -730,6 +959,8 @@ the category theoretic inductive limit in $\ba$.
 \bibitem{cas} J. M. F. Castillo, The hitchhiker guide to categorical Banach space theory. Part I, Extracta Math. {\bf 25} (2010), no.~2, 103--149. MR2814472
 
 \bibitem{conway} J. B. Conway, {\it A course in functional analysis}, second edition, Graduate Texts in Mathematics, 96, Springer-Verlag, New York, 1990. MR1070713
+
+\bibitem{daws} M. Daws, Dual Banach algebras: representations and injectivity, Studia Math. {\bf 178} (2007), no.~3, 231--275; MR2289356
 
 \bibitem{leinster} T. Leinster, {\it Basic category theory}, Cambridge Studies in Advanced Mathematics, 143, Cambridge University Press, Cambridge, 2014. MR3307165
 
