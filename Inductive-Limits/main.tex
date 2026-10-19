@@ -965,22 +965,26 @@ TODO: Maybe compute an example?
 
 
 
-\section{Catgeory-theory limits}
+\section{Catgeory-theory limits}\label{sec:cat_theory_limits}
 
 Here we follow \cite[Chapter~5]{leinster}, and so it makes sense to consider projective systems first.   We turn our directed set $(I,\leq)$ into a catgeory, also denoted by $I$, which has objects $i\in I$, and a morphism $i\to j$ if and only if $i\leq j$.  The opposite category $I^\op$ has the same objects but now $i\to j$ if and only if $i\geq j$.
 
 Then we see that a functor $F\colon I^\op \to \mc A$, for some category $\mc A$, consists of a family of objects $(A_i)_{i\in I}$ in $\mc A$, and for $i\leq j$ a morphism $f_{i,j} \colon A_j \to A_i$.  That we have a functor means that when $i\leq j\leq k$, we have $f_{i,k} = f_{i,j} \circ f_{j,k}$.  That is, we have a projective system.
 
-Now comparing \cite[Definition~5.1.19]{leinster} with Section~\ref{sec:proj}, we see that a \emph{cone} is what we call a coherent system, and a \emph{limit} is what we call the projective limit.  Then \cite[Proposition~5.1.26]{leinster} tells us that when $\mc A$ has all \emph{products} and all \emph{equalisers}, then $\mc A$ has a limit, and so in particular, all projective limits.
+Now comparing \cite[Definition~5.1.19]{leinster} with Section~\ref{sec:proj}, we see that a \emph{cone} is what we call a coherent system, and a \emph{limit} is what we call the projective limit.  Then \cite[Proposition~5.1.26]{leinster} tells us that when $\mc A$ has all \emph{products} and all \emph{equalisers}, then $\mc A$ has all limit, and so in particular, all projective limits.
 
-For us, equalisers present little difficultly.
+For us, equalisers present little difficulty.
 
 \begin{definition}[{\cite[Definition~5.1.11]{leinster}}]
-Let $\mc A$ be a category, with objects $A,B$ and two morphisms $s,t\colon A \to B$.  An \emph{equaliser} for $s,t$, if it exists, is an object $E$ and morphism $i\colon E \to A$ with $s\circ i = t\circ i$, together with the universal property that if $j\colon F \to A$ also have $s\circ j=t\circ j$, then there is a unique $\overline j \colon F\to E$ with $i\circ\overline j = j$.
+Let $\mc A$ be a category, with objects $A,B$ and two morphisms $s,t\colon A \to B$.  An \emph{equaliser} for $s, t$, if it exists, is an object $E$ and morphism $i\colon E \to A$ with $s\circ i = t\circ i$, together with the universal property that if $j\colon F \to A$ also have $s\circ j=t\circ j$, then there is a unique $\overline j \colon F\to E$ with $i\circ\overline j = j$.  The diagram is:
+\[\begin{tikzcd}
+E \arrow[r, "i"] & A \arrow[r,shift left, "s"] \arrow[r, shift right, "t"'] & B  \\
+F \arrow[ru, "j"'] \arrow[u, dashed, "!\, \overline j"]
+\end{tikzcd}\]
 \end{definition}
 
 \begin{proposition}
-The category of Banach spaces and bounded (or contractive) linear maps has all equalisers.  The same holds for $\ba$ with bounded, or contractive, homomorphisms.
+The category of Banach spaces and bounded (or contractive) linear maps has all equalisers.  The same holds for Banach algebras with bounded, or contractive, homomorphisms.
 \end{proposition}
 \begin{proof}
 Let $A,B$ be Banach spaces with bounded linear maps $s,t\colon A\to B$.  Let $E = \ker(s-t)$, so $E$ is a Banach space, with $i\colon E\to A$ the inclusion map, which is a contraction.  As $(s-t)\circ i=0$ we have $s\circ i=t\circ i$.  Given $j\colon F \to A$ with $s\circ j=t\circ j$, we have $(s-t)\circ j=0$, so $j(F) \subseteq \ker(s-t) = E$, and we can let $\overline j$ by $j$ corestricted, and then $i\circ\overline j=j$.  So if $j$ is a contraction, also $\overline j$ will be.
@@ -991,28 +995,32 @@ Now suppose $A, B$ are Banach algebras and $s,t$ bounded homomorphisms.  Again l
 Products are similarly not so hard, but under a more restrictive hypothesis.
 
 \begin{definition}[{\cite[Definition~5.1.7]{leinster}}]
-Let $\mc A$ be a category, with a family of objects $(A_i)$ (just indexed by a set here).  A \emph{product} is an object $P$ together with morphisms $\pi_i \colon P\to A_i$ for each $i$, with the universal property that if $X$ is an object with morphisms $f_i\colon X\to A_i$ for each $i$, there is a unique $\overline f\colon X\to P$ with $\pi_i\circ\overline f = f_i$ for each $i$.
+Let $\mc A$ be a category, with a family of objects $(A_i)$ (just indexed by a set here).  A \emph{product} is an object $P$ together with morphisms $\pi_i \colon P\to A_i$ for each $i$, with the universal property that if $X$ is an object with morphisms $f_i\colon X\to A_i$ for each $i$, there is a unique $\overline f\colon X\to P$ with $\pi_i\circ\overline f = f_i$ for each $i$.  The diagram is
+\[\begin{tikzcd}
+X \arrow[rd, "f_i"] \arrow[d, dashed, "!\,\overline f"'] \\
+P \arrow[r, "\pi_i"'] & A_i
+\end{tikzcd}\]
 \end{definition}
 
 \begin{proposition}
-The category of Banach spaces and contractive linear maps has all products.  The same holds for $\ba$ with contractive, homomorphisms.
+The category of Banach spaces and contractive linear maps has all products.  The same holds for Banach algebras with contractive homomorphisms.
 \end{proposition}
 \begin{proof}
 Given a family $(A_i)$ of Banach spaces, let $A$ be the $\ell^\infty$-direct-sum, so $A$ is bounded families $(a_i)_{i\in I}$, with pointwise operations, and the sup norm.  Define $\pi_i$ to be the natural projection $A\to A_i$, which is contractive.  When $X$ is some Banach space with contractions $f_i \colon X\to A_i$, each $x\in X$ defines a bounded family $\overline f(x) = (f_i(x)) \in A$.  We see that $\overline f$ is linear and contractive, and that $\pi_i\circ\overline f = f_i$ for each $i$.
 \end{proof}
 
-Notice that this proposition would not be true for bounded maps.
+Notice that this proposition would not be true for bounded maps.  Further thoughts, and references, can be found in Castillo's survey \cite{cas}.
 
 Given products and equalisers, how does the general catgeory theory machinery build $\underleftarrow{\lim} A_i$?  We follows \cite{leinster} again.  Let $I_0 = \{ (i,j)\in I\times I : i\leq j \}$ and consider the product $A_0 = \prod_{i\in I} A_i$.  For each $i\leq j$ (that is, $(i,j)\in I_0$) we define $s_{i,j} \colon A_0 \to A_i; (a_k)\mapsto f_{i,j}(a_j)$ and $t_{i,j} \colon A_0 \to A_i; (a_k) \mapsto a_i$.  Notice that we can write these maps just using the defining maps of the product:
 \[ s_{i,j}(x) = f_{i,j} \pi_j(x), \quad t_{i,j}(x) = \pi_i(x). \]
-Now consider the product $A_1 = \prod_{(i,j)\in I_0} A_j$ indexed over $I_0$, and use the the universal property of the product to find morphisms $s,t\colon A_0 \to A_1$ with $\pi_{i,j}\circ s = s_{i,j}, \pi_{i,j}\circ t = t_{i,j}$.  Finally, let $(E, \iota)$ be the equaliser of the morphisms $s$ and $t$.  In particular, $\iota \colon E \to A_0$, and we may define $f_i = \pi_i \circ \iota$ for each $i\in I$.  That $s\circ\iota = t\circ\iota$ if equivalent to $\pi_{(i,j)} \circ s \circ \iota = \pi_{(i,j)} \circ t \circ \iota$ for $i\leq j$, equivalently,
+Now consider the product $A_1 = \prod_{(i,j)\in I_0} A_j$ indexed over $I_0$, and use the universal property of the product to find morphisms $s,t\colon A_0 \to A_1$ with $\pi_{i,j}\circ s = s_{i,j}, \pi_{i,j}\circ t = t_{i,j}$.  Finally, let $(E, \iota)$ be the equaliser of the morphisms $s$ and $t$.  In particular, $\iota \colon E \to A_0$, and we may define $f_i = \pi_i \circ \iota$ for each $i\in I$.  That $s\circ\iota = t\circ\iota$ is equivalent to $\pi_{i,j} \circ s \circ \iota = \pi_{i,j} \circ t \circ \iota$ for $i\leq j$, equivalently,
 \[ f_{i,j} \circ \pi_j \circ \iota = s_{i,j} \circ \iota
 = t_{i,j} \circ \iota = \pi_i \circ \iota \qquad (i\leq j). \]
 However, this means $f_{i,j} \circ f_j = f_i$, and so we have a coherent system, in our language.
 
 The universal property follows similarly: if $(F,(g_i))$ is also coherent, then there is a morphism $g \colon F \to A_0$ with $\pi_i\circ g = g_i$ for each $i$, and then reversing the previous argument will show that $s \circ g = t\circ g$.  So by the universal property of the equaliser, there is a unique $\overline g \colon F \to E$ with $\iota \circ \overline g = g$.  Then $g_i = \pi_i\circ g = \pi_i\circ\iota \circ \overline g = f_i\circ\overline g$, as required.  To show that $\overline g$ is unique with this property, if $h\colon F\to E$ also satisfies this, then $\pi_i\circ\iota\circ h = f_i \circ h = g_i = \pi_i\circ g$ for each $i$, so $\iota\circ h = g$, and then $h=\overline g$ by uniqueness.
 
-In this case of Banach spaces (or algebras) we unpack the construction.  $E \subseteq A_0$ is the subspace $\ker(s-t)$, namely the subspace of bounded families $(a_i)$ with $f_{i,j}(a_j) = a_i$ for all $i\leq j$.  This is exactly the construction in Theorem~\ref{thm:proj_contractive_case}, which is unsurprising.
+In this case of Banach spaces (or algebras) we unpack the construction.  $E \subseteq A_0$ is the subspace $\ker(s-t)$, namely the subspace of bounded families $(a_i)$ with $f_{i,j}(a_j) = a_i$ for all $i\leq j$.  This is exactly the construction in Theorem~\ref{thm:proj_contractive_case}, as we might expect.
 
 How much can we rescue for bounded, not contractive, maps?  A weaker sort of product exists, where we have to assume that the morphisms $f_i\colon X\to A_i$ are uniformly bounded in $i$.  When applied to construct the projective limit, this means that the maps $(f_{i,j})$ must be uniformly bounded, and in the resulting universal property, that the maps $g_i \colon F \to A_i$ were uniformly bounded.  This doesn't seem to gain much.
 
@@ -1023,7 +1031,7 @@ We briefly remark that the construction of equalisers works in the category of d
 
 \subsection{Colimits}
 
-A \emph{colimit}, see \cite[Section~5.2]{leinster}, comes from simply ``reversing the arrows'' in all the diagrams.  As inductive limits have this ``reversed'' relation to projective limits, one could simply consider using the previous section, applied to the opposite category.  For Banach spaces, this would mean that a morphism $u\colon A\to B$ is a bounded (contractive) linear map $B\to A$, which is rather awkward to work with.  However, we do not see why dual spaces and adjoints of operators appeared in Section~\ref{sec:cont_case}.
+A \emph{colimit}, see \cite[Section~5.2]{leinster}, comes from simply ``reversing the arrows'' in all the diagrams.  As inductive limits have this ``reversed'' relation to projective limits, one could simply consider using the previous section, applied to the opposite category.  For Banach spaces, this would mean that a morphism $u\colon A\to B$ is a bounded (contractive) linear map $B\to A$, which is rather awkward to work with.  However, we do now see why dual spaces and adjoints of operators appeared (somewhat naturally) in Section~\ref{sec:cont_case}.
 
 We again just work with a directed set (and not more general ``diagrams'').  A functor $I\to \mc A$ is determined by a family of objects $(A_i)$ in $\mc A$, together with maps $\varphi_{j,i} \colon A_i \to A_j$, when $i\leq j$, such that when $i\leq j\leq k$ we have $\varphi_{k,j}\circ\varphi_{j,i} = \varphi_{k,i}$.  That is, an inductive system.  A \emph{cocone} is then what we termed a coherent system in Section~\ref{sec:intro}, and a colimit is then an inductive limit.
 
@@ -1076,7 +1084,7 @@ So formally $T((A_i))$ consists of families of vectors, each family $\ell^1$-sum
 \[ \| a_1a_2 + a_3 - a_1 \otimes a_3\| = \|a_1a_2 + a_3\| - \|a_1\otimes a_3\| \qquad (a_1,a_2,a_3\in A_i), \]
 but if $a_3\in A_j$ for $i\not=j$, the norm would be $\|a_1a_2\| + \|a_3\| - \|a_1\otimes a_3\|$.
 
-Notice that really $T((A_i))$ does not use the algebra structure on the $A_i$ at all-- they could just be Banach spaces.  To take account of $A_i$ already being an algebra, we could like the product of two elements in a single $A_i$ to be the product, not $a_1\otimes a_2$.  Notice that is equivalent to the natural inclusions $A_i \to T((A_i))$ each being a homomorphism.  To do this, we consider the ideal generated by elements of the form $a_1\otimes a_2 - a_1a_2$, for $a_1,a_2\in A_i$, for some $i$.  If we are working in the category of unital algebras and unital homomorphisms, we also need to include elements of the form $1_{A_i} - 1_{A_j}$ for $i,j$.  Finally, define the \emph{free-product} $\bigstar_i A_i$ to be the quotient of $T((A_i))$ by this ideal.
+Notice that really $T((A_i))$ does not use the algebra structure on the $A_i$ at all-- they could just be Banach spaces.  To take account of $A_i$ already being an algebra, we would like the product of two elements in a single $A_i$ to be the product in that algebra, not $a_1\otimes a_2$.  Notice that is equivalent to the natural inclusions $A_i \to T((A_i))$ each being a homomorphism.  To do this, we consider the ideal generated by elements of the form $a_1\otimes a_2 - a_1a_2$, for $a_1,a_2\in A_i$, as $i$ vaires.  If we are working in the category of unital algebras and unital homomorphisms, we also need to include elements of the form $1_{A_i} - 1_{A_j}$ for $i,j$.  Finally, define the \emph{free-product} $\bigstar_i A_i$ to be the quotient of $T((A_i))$ by this ideal.
 
 In the non-unital case, we can describe the free-product more directly.  Firstly, whenever we have a tensor product like $A_1 \proten A_2 \proten A_2$, i.e.\@ with a repeated factor, we can use the product in $A_2$ to collapse this to $A_1 \proten A_2$.  Use of the $\ell^1$-norm and the projective tensor product means that there are no convergence issues.  So we could just start with the $\ell^1$-direct-sum of tensor factors of the form 
 $A_{i_1}\proten A_{i_2}\proten\cdots A_{i_n}$ where now $i_1\not=i_2\not=\cdots\not=i_n$ (not all distinct, just each adjacent pair are different).  This is similar to the more common construction of the free-product which the reader might have seen elsewhere.  We now modify the multiplication so that the product on factors of the form
@@ -1084,8 +1092,9 @@ $A_{i_1}\proten A_{i_2}\proten\cdots A_{i_n}$ where now $i_1\not=i_2\not=\cdots\
 with $i_n = j_1$, now maps into $A_{i_1}\proten\cdots\proten A_{i_n} \proten A_{j_2} \proten\cdots\proten A_{j_m}$, where in the middle we use the product in $A_{i_n} = A_{j_1}$.  This is then a Banach algebra isomorphic to the quotient construction we just gave.
 
 In the unital case, it seems harder to give a direct construction instead of a quotient argument.  In the $C^*$-algebra case, we usually pick a state (but we could use any norm-one functional $\mu_i$ on $A_i$ with $\mu_i(1)=1$) which allows us to write $A_i \cong \mathbb C1_{A_i} \oplus A_i^\circ$ where $A_i^\circ = \ker(\mu_i)$.  We then take a single copy of $\mathbb C$ in our $\ell^1$-direct sum (which is identified with the span of every unit $1_{A_i}$) and otherwise form the sum of all tensor products of the subspaces $A_i^\circ$.  However, then writing the product out becomes rather tedious, as we need to ``project out'' the units: for example, given $a_1, a_2 \in A_{j}^\circ$ the product is
-\[ (a_1)(a_2) = f_j(a_1a_2)1 + (a_1a_2 - f_j(a_1a_2)1_{A_j}) \in \mathbb C \oplus A_i^\circ \subseteq \bigstar_i A_i. \]
-[\footnote{I am not 100\% sure this is a ``proof'', in either case, but it seems convincing.}]
+\[ (a_1)(a_2) = f_j(a_1a_2)1 + (a_1a_2 - f_j(a_1a_2)1_{A_j}) \in \mathbb C \oplus A_j^\circ \subseteq \bigstar_i A_i. \]
+
+The reader might notice that both of the arguments just given are a bit sketchy.
 
 \begin{proposition}\label{prop:coprod_alg_freeprod}
 In the category of Banach algebras and contractive homomorphisms, the coproduct is the free product as just described.
@@ -1097,28 +1106,40 @@ f_{i_1}(a_{i_1}) \cdots f_{i_n}(a_{i_n}). \]
 Hence also a contractive linear map $f_0 \colon T((A_i)) \to B$.  But then $f_0(a_1\otimes a_2-a_1a_2) = f_j(a_1)f)_j(a_2) - f_j(a_1a_2) = 0$ for any $j$ and $a_1,a_2\in A_j$, and so $f_0$ drops to the quotient giving $f \colon A \to B$.  By construction, $f\circ\iota_j = f_j$ for each $j$.  As the images of the $\iota_j$ generate $A$ as a Banach algebra, this condition uniquely determines $f$.
 \end{proof}
 
+Let us now recall how existence of coproducts and coequalisers gives colimits.  This is really just ``reversing the arrows'' from the argument in Section~\ref{sec:cat_theory_limits} about limits, but we give the details.  Start with an inductive system $((A_i), (\varphi_{j,i}))$, so a functor $I\to \mc A$.  Again let $I_0 = \{ (i,j)\in I\times I: i\leq j \}$, and set $A_0 = \coprod_{(i,j)\in I_0} A_i$, say with morphisms $\iota^0_{i,j} \colon A_i \to A_0$.  Let $A_1 = \coprod_{i\in I} A_i$ with morphisms $\iota_i \colon A_i \to A_1$.  We define two morphism $s,t \colon A_0 \to A_1$ using the universal property of $\coprod_{(i,j)\in I_0} A_i$, that is, by defining the ``components'' to be
+\[ \begin{split}
+    s_{i,j} &= s \circ \iota^0_{i,j} \colon A_i \to A_1 = \coprod_k A_k, \quad s_{i,j} = \iota_j\circ\varphi_{j,i}, \\
+    t_{i,j} &= t\circ\iota^0_{i,j} \colon A_i \to A_1 = \coprod_k A_k, \quad t_{i,j} = \iota_i
+\end{split}
+\qquad (i\leq j). \]
+Let $q\colon A_1\to Q$ be the coequaliser of $s$ and $t$.  We'll show that $Q = \underrightarrow{\lim} A_i$.
 
-\subsection{For dual spaces}
+Set $\phi_i = q \circ \iota_i \colon A_i \to Q$, for each $i$.  We claim that $\phi_j \circ \varphi_{j,i} = \phi_i$ for $i\leq j$.  As $q\circ s = q\circ t$, we have $q s \iota^0_{i,j} = q t \iota^0_{i,j}$, so $q \iota_j \varphi_{j,i} = q \iota_i$, so $\phi_j\circ \varphi_{j,i} = \phi_i$, as claimed.
 
-\begin{proposition}
-In the category of dual Banach spaces and bounded (contractive) linear maps, coequalisers exist.
-\end{proposition}
-\begin{proof}
-We follow the proof of Proposition~\ref{prop:coeq}.  However, now let $B_0$ be the weak$^*$-closure of the image of $s-t$.  Then $B_0 = ({}^\perp B_0)^\perp$ and so $Q = B/B_0 \cong ({}^\perp B_0)^*$ is a dual space (isometrically).  The quotient map is the adjoint of the inclusion ${}^\perp B_0 \to B_*$, and so is weak$^*$-continuous.  Clearly we still have $q\circ s = q\circ t$.
+Now let $(B,(\psi_i))$ be another coherent system.  As $\psi_i\colon A_i\to B$ for each $i$, there is a unique $\psi \colon B \to A_1$ with $\psi\circ\iota_i = \psi_i$ for each $i$.  By the universal property of $q\colon A_1\to Q$, there is hence a unique $\phi \colon Q \to B$ with $\phi\circ q = \psi$.  Then $\phi\circ\phi_i = \phi\circ q\circ\iota_i = \psi\circ\iota_i = \psi_i$ for each $i$, as desired.  Let $\phi'\colon Q\to B$ be another morphism with $\phi'\circ\phi_i = \psi_i$ for each $i$.  Then $\phi'\circ q\circ\iota_i = \psi_i = \psi\circ\iota_i$ for each $i$, so by the uniqueness property of the coproduct, $\phi'\circ q = \psi$.  Then the uniqueness property of the coequaliser shows that $\phi' = \phi$.
 
-Given a weak$^*$-continuous $q' \colon B\to Q'$ with $q'\circ s = q'\circ t$ we again see that $B_0 \subseteq \ker q'$, as $\ker q' = \{ b\in B : 0 = \ip{q'(b)}{\omega} = \ip{b}{q'_*(\omega)} \ (\omega\in Q'_*) \} = (\im q'_*)^\perp$ is weak$^*$-closed.  Define $u_* \colon Q'_* \to Q_* = {}^\perp(B_0)$ by $u_*(\omega) = q'_*(\omega)$, which makes sense, as $B_0 \subseteq (\im q'_*)^\perp \implies {}^\perp B_0 \supseteq \overline\im q'_*$.  Then $u \circ q = q'$ as $q_*$ is the inclusion, and so $q_* \circ u_* = q'_*$.
-\end{proof}
+A possibly helpful diagram is:
+\[\begin{tikzcd}
+    A_i \arrow[d, "\iota^0_{i,j}"'] \arrow[r, "\varphi_{j,i}"] & A_j \arrow[d, "\iota_j"]
+\\
+    A_0 = \coprod_{(i,j)\in I_0} A_i \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & A_1 = \coprod_{k\in I} A_k \arrow[r, "q"] \arrow[rrd, bend right=50, "\psi"']
+    & Q \arrow[rd, "\phi", bend left]
+\\
+   A_i \arrow[u, "\iota^0_{i,j}"] \arrow[r, "="] & A_i \arrow[u, "\iota_i"]
+   & A_i \arrow[ul, "\iota_i"] \arrow[u, "\phi_i"'] \arrow[r, "\psi_i"]
+   & B
+\end{tikzcd} \]
 
-We might think that the following is easy, once we have the proof of Proposition~\ref{prop:coprod_ban} as the $\ell^1$-direct-sum of the $A_i$ is the dual space of the $c_0$-direct-sum of the preduals $(A_{i,*})$.  However, this predual does not have the required universal property.  So the following construction is a little more involved.  Notice that the catgeory-theoretic product appears.
+Let's apply this abstract construction to an inductive system of Banach algebras $((A_i), (\varphi_{j,i}))$, where each morphism is a contraction.  Then
+\[ A_0 = \bigstar_{i\leq j} A_i, \quad A_1 = \bigstar_i A_i, \]
+with $s$ being the unique homomorphism with $s(a_i) = \varphi_{j,i} \in A_j$ for $a_i\in A_i$, and $t$ being the unique homomorphism sending $A_i \ni a_i \to a_i \in A_i$.  Note that $A_0$ is generated by algebras $A_{i,j}$, where $A_{i,j} = A_i$, for $i\leq j$.
 
-\begin{proposition}\label{prop:coprod_dualban}
-In the category of dual Banach spaces and contractive linear maps, coproducts exist.
-\end{proposition}
-\begin{proof}
-Let $A_*$ be the $\ell^\infty$-direct-sum of the preduals $(A_{i,*})$, and $A = (A_*)^*$.  For each $j$ let $\pi_j \colon A_* \to A_{i,*}$ be the natural projection, and set $\iota_j = \pi_j^*$.  Let $f_j \colon A_j \to B$ be weak$^*$-continous contractions, so $f_{j,*} \colon B_* \to A_{j,*}$ are contractive, and hence there is a (unique) $f_* \colon B_* \to A_*; \omega\mapsto (f_{j,*}(\omega))$.  This satisfies $\pi_j \circ f_* = f_{j,*}$ for each $j$, so $f \circ \iota_j = f_j$ for each $j$.  Any $g = (g_*)^* \colon A \to B$ with this property has $\pi_j\circ g_* = f_{j,*}$, and so $g_* = f_*$ so $g=f$, and we have uniqueness.
-\end{proof}
+Then $Q$ is the quotient of $A_1$ by the closed ideal generated by $\im(s-t)$.  A typical element of $A_0$ is a word $a = a_1a_2\cdots a_n$ where each $a_k$ is some $A_{i_k,j_k}$ say.  Then
+\[ s(a) - t(a) = \prod_k \varphi_{j_k, i_k}(a_k) - \prod_k a_k. \]
+Here $s(a)$ ``lives in the part of the free product'' $A_{j_1}\star\cdots\star A_{j_n}$, while $t(a)$ lives in $A_{i_1}\star\cdots\star A_{i_n}$.
 
-We now wish to adapt Proposition~\ref{prop:coprod_alg_freeprod} to the dual Banach algebra case, which motivates first considering the tensor algebra construction for dual spaces.  TODO.
+
+
 
 
 
