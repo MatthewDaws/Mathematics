@@ -155,6 +155,10 @@ Let $T$ be CP with Kraus decomposition $T(x) = \sum_i K_i^* xK_i$.  Then
 and so $T^\sharp(y) = \sum_i K_i y K_i^*$.  In particular, $T^\sharp$ is CP.  The other claims now follows from Proposition~\ref{prop:kraus}.
 \end{proof}
 
+I have also seen defined a linear version of this (using the Banach space duality between the trace-class and bounded operators, perhaps), defining $T^\flat$ by
+\[ \tr(x T^\flat(y)) = \tr(T(x)y) \qquad (x\in\mc B(H), y\in\mc B(K)). \]
+Taking the complex conjugate of \eqref{eq:sharp} we see that $T^\flat(y^*) = T^\sharp(y)^*$ or $T^\flat(y) = T^\sharp(y^*)^*$.  Finally, we define $T^\dagger \colon \mc B(H)\to\mc B(K)$ by $T^\dagger(x) = T(x^*)^*$ for each $x$.  When $T$ is $*$-preserving, in particular, when $T$ is CP, we have that $T^\dagger = T$, and we have shown that $T^\flat = (T^\sharp)^\dagger$.  Thus the proposition also shows that $T$ is CP if and only if $T^\flat$ is CP, and that in this case, $T^\flat = T^\sharp$.
+
 As a mathematician, I mostly wish to work with UCP maps, which we may do by simply taking adjoints.  Physically, the \emph{Schrödinger picture} is mostly used, and views measurements as fixed, and quantum states as evolving, say through TPCP maps.  The \emph{Heisenberg picture} is the dual, working with UCP maps, where we consider states as fixed, and measurements as evolving.  I think of a UCP channel $T \colon \mc B(H_B) \to \mc B(H_A)$ as describing how an observable on system $B$ evolves to an observable on system $A$, in a manner somewhat like ``pre-composition''.
 
 
