@@ -159,7 +159,7 @@ I have also seen defined a linear version of this (using the Banach space dualit
 \[ \tr(x T^\flat(y)) = \tr(T(x)y) \qquad (x\in\mc B(H), y\in\mc B(K)). \]
 Taking the complex conjugate of \eqref{eq:sharp} we see that $T^\flat(y^*) = T^\sharp(y)^*$ or $T^\flat(y) = T^\sharp(y^*)^*$.  Finally, we define $T^\dagger \colon \mc B(H)\to\mc B(K)$ by $T^\dagger(x) = T(x^*)^*$ for each $x$.  When $T$ is $*$-preserving, in particular, when $T$ is CP, we have that $T^\dagger = T$, and we have shown that $T^\flat = (T^\sharp)^\dagger$.  Thus the proposition also shows that $T$ is CP if and only if $T^\flat$ is CP, and that in this case, $T^\flat = T^\sharp$.
 
-As a mathematician, I mostly wish to work with UCP maps, which we may do by simply taking adjoints.  Physically, the \emph{Schrödinger picture} is mostly used, and views measurements as fixed, and quantum states as evolving, say through TPCP maps.  The \emph{Heisenberg picture} is the dual, working with UCP maps, where we consider states as fixed, and measurements as evolving.  I think of a UCP channel $T \colon \mc B(H_B) \to \mc B(H_A)$ as describing how an observable on system $B$ evolves to an observable on system $A$, in a manner somewhat like ``pre-composition''.
+As a mathematician, I mostly wish to work with UCP maps, which we may do by simply taking adjoints.  Physically, the \emph{Schrödinger picture} is mostly used, and views measurements as fixed, and quantum states as evolving, say through TPCP maps.  The \emph{Heisenberg picture} is the dual, working with UCP maps, where we consider states as fixed, and measurements as evolving.  I think of a UCP channel $T \colon \mc B(H_B) \to \mc B(H_A)$ as describing how an observable on system $B$ evolves to an observable on system $A$, in a manner somewhat like ``pre-composition''.  There is more discussion (motivated by the Physics) in, for example, \cite[Section~II.B]{BFK_QuantumErrorInfDim}.
 
 
 
@@ -254,32 +254,25 @@ In the Schrödinger picture, that is, using TPCP maps, consider what this condit
 Letting $\alpha_{ij} = \omega(e_{ij})$, we see that $\alpha = (\alpha_{ij})$ is a self-adjoint (in fact, positive) matrix, and we exactly recovered the classical condition of \cite[Theorem~10.1]{NC_QCQIT_Book}.
 \end{remark}
 
-This result motivates us to consider the following construction, which we present in generality.  Let $T\colon A \to \mc B(H)$ be a CP map from a $C^*$-algebra $A$, with Strinespring dilation $(\pi,U,K)$, say $\pi\colon A\to\mc B(K)$ and $U\colon H\to K$ with $T(a) = U^*\pi(a)U$.  Define the \emph{dual map} $\hat T_\pi \colon \pi(A)' \to \mc B(H)$ by $\hat T_\pi(x) = U^*xU$ for $x\in\pi(A)' \subseteq\mc B(K)$.
-
+This result motivates us to consider the following construction, which we present in generality.  Let $T\colon A \to \mc B(H)$ be a CP map from a $C^*$-algebra $A$, with Strinespring dilation $(\pi,U,K)$, say $\pi\colon A\to\mc B(K)$ and $U\colon H\to K$ with $T(a) = U^*\pi(a)U$.  Define the \emph{complementary map} $T^c_\pi \colon \pi(A)' \to \mc B(H)$ by $T^c_\pi(x) = U^*xU$ for $x\in\pi(A)' \subseteq\mc B(K)$
 
 Let $(\pi_1,U_1,K_1)$ be another dilation, so as in the discussion before Proposition~\ref{prop:diff_Kraus_reps}, there is a partial isometry $u\colon K \to K_1$ with $uU = U_1$ and $u\pi(a) = \pi_1(a)u$ for $a\in A$.  Then
-\[ \hat T_{\pi_1}(x) = U_1^*xU_1 = U^*u^*xuU = \hat T_\pi(u^*xu) \qquad (x\in\pi_1(A)'). \]
+\[ T^c_{\pi_1}(x) = U_1^*xU_1 = U^*u^*xuU = T^c_\pi(u^*xu) \qquad (x\in\pi_1(A)'). \]
 The domains of the maps are correct, as given $x\in\pi_1(A)'$ we see that
 \begin{equation}
 u^*xu \pi(a) = u^*x\pi_1(a)u = u^*\pi_1(a)xu = (\pi_1(a^*)u)^* xu = (u\pi(a^*))^* xu = \pi(a) u^*xu
 \qquad (a\in A),  \label{eq:u_pi_com}
 \end{equation}
-so $u^*xu\in\pi(A)'$.  Thus $\im \hat T_{\pi_1} \subseteq \im \hat T_\pi$, but by symmetry, we also have the other inclusion, and so we have equality of images.  It hence makes sense to speak about the ``image of the dual map'' without specifying which dilation we use.
+so $u^*xu\in\pi(A)'$.  Thus $\im T^c_{\pi_1} \subseteq \im T^c_\pi$, but by symmetry, we also have the other inclusion, and so we have equality of images.  It hence makes sense to speak about the ``image of the complementary map'' without specifying which dilation we use.
 
 \begin{remark}
-For a CP map $\mc B(H_A) \to \mc B(H_B)$ between matrix algebras (so $H_A, H_B$ are finite-dimensional), the $*$-homomorphism $\pi$ is always of the form $\pi(a) = a\otimes 1 \in \mc B(H_A \otimes H)$ and so $\pi(\mc B(H_A))' = 1\otimes\mc B(H)$.  The resulting map $\hat T_\pi \colon y\mapsto U^*(1\otimes y)U$ occurs in the QIT literature, and this motivates us to define $\hat T_\pi$ as a map from $\pi(A)'$, and not all of $\mc B(K)$.  For example, see \cite[Lemma~1]{DSW_ZeroError} noting that what we call a ``dual map'' is there termed the ``complementary channel''.
+For a CP map $\mc B(H_A) \to \mc B(H_B)$ between matrix algebras (so $H_A, H_B$ are finite-dimensional), the $*$-homomorphism $\pi$ is always of the form $\pi(a) = a\otimes 1 \in \mc B(H_A \otimes H)$ and so $\pi(\mc B(H_A))' = 1\otimes\mc B(H)$.  The resulting map $T^c_\pi \colon y\mapsto U^*(1\otimes y)U$ occurs in the QIT literature, and this motivates us to define $T^c_\pi$ as a map from $\pi(A)'$, and not all of $\mc B(K)$.  For example, see \cite[Lemma~1]{DSW_ZeroError}, the terminology being ``complementary channel'', or \cite[Section~4]{CKLT_private_algs_QIT} which is very close to the discussion here.
+
+We consider the given dilation for $T^c_\pi$, namely $\pi(A)'$ acts by the identity representation on $K$, and $T^c_\pi = U^*(\cdot)U$.  So we can form the complementary map to this, which is $T^{cc}_\pi \colon \pi(A)'' \to \mc B(H); y \mapsto U^*yU$.  Thus $T^{cc}_\pi \circ \pi \colon A \to \mc B(H)$ is just $T$.
 \end{remark}
 
-% \begin{remark}
-% As in \eqref{eq:u_pi_com} above, $u^* \pi_1(A)' u \in \pi(A)'$.  Suppose that $(\pi,U,K)$ is \emph{minimal}, so $\lin\{ \pi(a)U\xi : \xi\in H, a\in A \}$ is dense in $K$.  Then $u^*u=1$ (discussion before Proposition~\ref{prop:diff_Kraus_reps}) and so $u$ is an isometry.  For $x\in\pi(A)'$ we have $y = uxu^* \in \pi_1(A)'$ and $u^*yu = u^*u x u^*u = x$, so $\theta \colon \pi(A)' \ni x \mapsto uxu^* \in \pi_1(A)'$ is injective, and infact a $*$-homomorphism.  
-
-% Given any $y\in\pi_1(A)'$, set $x = u^*yu \in \pi(A)'$, so that $\hat T_{\pi_1}(y) = \hat T_\pi(u^*yu) = \hat T_\pi(x)$, as above.  Then $y \mapsto \theta(x) = uu^* y uu^*$ noting that $uu^*$ is a projection in $\pi_1(A)'$ so this is a $*$-endomorphism of $\pi_1(A)'$.
-
-% Not sure where this going, as it all applies to $\mc B(K)$ as well.
-% \end{remark}
-
 \begin{remark}\label{rem:get_qg}
-There is a $*$-homomorphism $\rho \colon T(A)' \to \pi(A)'$ with $\rho(x') U = U x'$ for $x'\in T(A)'$.  Assuming this, we note that the image $\im \hat T_\pi$ is a $T(A)'$-invariant subspace.  Indeed, for $x'\in T(A)', x\in\pi(A)'$, we have $\hat T_\pi(x) x' = U^*xU x' = U^* x \rho(x') U = \hat T_\pi(x \rho(x'))$ noting that $x \rho(x') \in \pi(A)'$, and similarly $x' \hat T_\pi(x) x' = \hat T_\pi(\rho(x')x)$.
+There is a $*$-homomorphism $\rho \colon T(A)' \to \pi(A)'$ with $\rho(x') U = U x'$ for $x'\in T(A)'$.  Assuming this, we note that the image $\im T^c_\pi$ is a $T(A)'$-invariant subspace.  Indeed, for $x'\in T(A)', x\in\pi(A)'$, we have $T^c_\pi(x) x' = U^*xU x' = U^* x \rho(x') U = T^c_\pi(x \rho(x'))$ noting that $x \rho(x') \in \pi(A)'$, and similarly $x' T^c_\pi(x) x' = T^c_\pi(\rho(x')x)$.
 
 We now construct $\rho$, for completeness.
 Consider a finite sum $\sum_{i=1}^n \pi(a_i)U \xi_i \in K$, by \cite[Lemma~IV.3.1]{TakesakiI} we have that the matrix $(a_i^*a_j)_{i,j}$ is positive in $M_n(A)$, so as $T$ is completely positive, also $(T(a_i^*a_j)) \in M_n(\mc B(H)) = \mc B(H\otimes\mathbb C^n)$ is positive and hence has a square root $x=(x_{ij})$ say.  Then for $x'\in T(A)'$, as $x \in M_n(T(A)'')$ (in fact, in the smallest $C^*$-algebra generated by $M_n(T(A))$) we have that
@@ -306,19 +299,20 @@ so $\rho(x'^*) = \rho(x')^*$ and $\rho \colon T(A)' \to \mc B(K_0)$ is a $*$-hom
 
 \begin{corollary}
 Let $H_A, H_B$ be finite-dimensional Hilbert spaces, and let $C\subseteq H_A$ be the subspace of codes.
-Let $\mc E \colon \mc B(H_B) \to \mc B(H_A)$ be a CP map.  There is a UCP map $\mc R \colon \mc B(H_A) \to \mc B(H_B)$ which corrects $\mc E$ on $C$ if and only if, with $S \subseteq \mc B(H_A)$ the image of any dual map to $\mc E$, we have that $PxP \in \mathbb CP$ for any $x\in S$.
+Let $\mc E \colon \mc B(H_B) \to \mc B(H_A)$ be a CP map.  There is a UCP map $\mc R \colon \mc B(H_A) \to \mc B(H_B)$ which corrects $\mc E$ on $C$ if and only if, with $S \subseteq \mc B(H_A)$ the image of any complementary map to $\mc E$, we have that $PxP \in \mathbb CP$ for any $x\in S$.
 \end{corollary}
 \begin{proof}
-Pick some dilation $\mc E(x) = E^*(x\otimes 1)E$ so a dual map is $\hat{\mc E}(y) = E^*(1\otimes y)E$.  If the condition from Theorem~\ref{thm:error_corr_cond} holds, then there is a functional $\omega$ with $\omega(y)P = P \hat{\mc E}(y)P$ for each $y$.  So for $x\in S$ we have $x=\hat{\mc E}(y)$ for some $y$, so $PxP \in \mathbb CP$.
+Pick some dilation $\mc E(x) = E^*(x\otimes 1)E$ so a complementary map is $\mc E^c(y) = E^*(1\otimes y)E$.  If the condition from Theorem~\ref{thm:error_corr_cond} holds, then there is a functional $\omega$ with $\omega(y)P = P \mc E^c(y)P$ for each $y$.  So for $x\in S$ we have $x = \mc E^c(y)$ for some $y$, so $PxP \in \mathbb CP$.
 
-Conversely, $S\ni x\mapsto PxP$ is linear, so there is a functional $f\colon S\to\mathbb C$ with $PxP = f(x)P$ for $x\in S$.  Then $P\hat{\mc E}(y)P = PE^*(1\otimes y)EP = f(\hat{\mc E}(y)) P$ for each $y$.  Set $\omega = f \circ \hat{\mc E}$ a functional on $\mc B(H)$, so $PE^*(1\otimes y)EP = \omega(y) P$ verifying the condition from Theorem~\ref{thm:error_corr_cond}.
+Conversely, $S\ni x\mapsto PxP$ is linear, so there is a functional $f\colon S\to\mathbb C$ with $PxP = f(x)P$ for $x\in S$.  Then $P\mc E^c(y)P = PE^*(1\otimes y)EP = f(\mc E^c(y)) P$ for each $y$.  Set $\omega = f \circ \mc E^c$ a functional on $\mc B(H)$, so $PE^*(1\otimes y)EP = \omega(y) P$ verifying the condition from Theorem~\ref{thm:error_corr_cond}.
 \end{proof}
 
-What is interesting here is that the condition on $\mc E$ only depends upon the image of some (any) dual map to $\mc E$.  Such objects are the ``noncommutative graphs'' (or ``quantum graphs'') of \cite{DSW_ZeroError}.  Indeed, if $\mc E$ has the Kraus form $\mc E(x) = \sum_i E_i^* x E_i$ then the associated TPCP quantum channel is $\mc E_*(x) = \sum_i E_i x E_i^*$, and the associated non-commutative graph is $S = \lin\{ E_i^*E_j \}$, compare equation (2) in \cite{DSW_ZeroError}; see also \cite[Section~6.2]{daws_quantum_graphs}.  Then
-\[ \hat{\mc E}(e_{ij}) = E^*(1\otimes e_{ij})E = E_i^* E_j \]
-for the matrix units $e_{ij}$ and so $\im \hat{\mc E} = S$.  Given that the interest in quantum graphs in e.g.\@ \cite{DSW_ZeroError} comes from ``zero-error communication'', it is perhaps not surprising that there is a link between quantum graphs and error correction.  Indeed, the corollary above is essentially mentioned on \cite[Page~1167]{DSW_ZeroError}: the largest dimension of a subspace $C$ which can occur is the \emph{quantum
+What is interesting here is that the condition on $\mc E$ only depends upon the image of some (any) complementary map to $\mc E$.  Such objects are the ``noncommutative graphs'' (or ``quantum graphs'') of \cite{DSW_ZeroError}.  Indeed, if $\mc E$ has the Kraus form $\mc E(x) = \sum_i E_i^* x E_i$ then the associated TPCP quantum channel is $\mc E_*(x) = \sum_i E_i x E_i^*$, and the associated non-commutative graph is $S = \lin\{ E_i^*E_j \}$, compare equation (2) in \cite{DSW_ZeroError}; see also \cite[Section~6.2]{daws_quantum_graphs}.  Then
+\[ \mc E^c(e_{ij}) = E^*(1\otimes e_{ij})E = E_i^* E_j \]
+for the matrix units $e_{ij}$ and so $\im \mc E^c = S$.  Given that the interest in quantum graphs in e.g.\@ \cite{DSW_ZeroError} comes from ``zero-error communication'', it is perhaps not surprising that there is a link between quantum graphs and error correction.  Indeed, the corollary above is essentially mentioned on \cite[Page~1167]{DSW_ZeroError}: the largest dimension of a subspace $C$ which can occur is the \emph{quantum
 independence number} of $S$.
 
+Related to this discussion is \cite{BFK_QuantumErrorObs} which shows the same result in a more general setting (of an ``algebra'' of observables, but still in finite dimensions).  The paper \cite{BFK_QuantumErrorInfDim} works with $\mc B(H)$ where $H$ can be infinite dimensional.  There is a useful discussion of different types of ``code'' in \cite[Section~V.B]{BFK_QuantumErrorInfDim}: we have considered only ``subspace codes''.  The notion of a ``private channel'' is discussed in \cite{CKLT_private_algs_QIT} and links with error correction and complementary maps is shown (see e.g.\@ Theorem~4.7 there).
 
 
 \bibliographystyle{plain}
